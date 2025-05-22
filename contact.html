@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <script>
-  (function() {
-    const theme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', theme);
-  })();
-</script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang-key="pageTitleAbout">Marius Jomphe - About</title>
+    <title data-lang-key="pageTitleContact">Marius Jomphe - Contact</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -173,16 +173,16 @@
         }
 
         .control-button {
-    background: none;
-    border: none;
-    font-weight: 500;
+            background: none;
+            border: none;
+            font-weight: 500;
             font-size: clamp(0.9rem, 1.5vw, 1.1rem);
             color: var(--nav-link-color);
-    padding: calc(var(--base-spacing) * 0.5) 0;
-    position: relative;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
 
         .control-button::after {
             content: '';
@@ -210,106 +210,42 @@
             color: var(--nav-link-color);
         }
 
-        /* About Page Specific Styles */
-        .about-section .container {
+        /* Contact Page Specific Styles */
+        .contact-section .container {
             padding-top: calc(var(--base-spacing) * 2);
             padding-bottom: calc(var(--base-spacing) * 0);
             max-width: 1000px;
+            text-align: center; /* Center the content */
         }
 
-        .about-page-title {
+        .contact-page-title {
             text-align: center;
             margin-bottom: calc(var(--base-spacing) * 2.5);
             font-size: clamp(1.8rem, 3vw, 2.5rem);
         }
 
-        .about-content-wrapper {
+        .contact-content {
             display: flex;
             flex-direction: column;
-            gap: calc(var(--base-spacing) * 3);
+            align-items: center;
+            justify-content: center;
+            min-height: 40vh; /* Ensure some vertical spacing */
         }
 
-        .about-main-content {
-            display: flex;
-            flex-direction: column;
-            gap: calc(var(--base-spacing) * 2);
-            align-items: flex-start;
-        }
-
-        @media (min-width: 768px) {
-            .about-main-content {
-                flex-direction: row;
-                gap: calc(var(--base-spacing) * 3);
-            }
-        }
-
-        .artist-image-container {
-            flex-shrink: 0;
-            width: 100%;
-            max-width: 280px;
-            margin: 0 auto calc(var(--base-spacing) * 1.5) auto;
-        }
-
-        @media (min-width: 768px) {
-            .artist-image-container {
-                width: 30%;
-                max-width: 300px;
-                margin: 0;
-                align-self: flex-start;
-            }
-        }
-
-        .artist-photo {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            border: 4px solid var(--header-bg-color);
-        }
-
-        .artist-text-content {
-            flex-grow: 1;
-        }
-
-        .artist-bio, .artist-statement {
-            margin-bottom: calc(var(--base-spacing) * 2);
-        }
-
-        .artist-bio p, .artist-statement p {
+        .contact-text {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
             margin-bottom: var(--base-spacing);
-            line-height: 1.75;
-            text-align: justify;
+            text-align: center;
         }
 
-        .artist-statement blockquote {
-            margin: calc(var(--base-spacing) * 1.5) 0 calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 1.5);
-            padding: var(--base-spacing) calc(var(--base-spacing) * 1.5);
-            border-left: 5px solid var(--button-bg-color);
-            background-color: var(--placeholder-bg-color);
-            font-style: italic;
-            color: var(--nav-link-color);
-            border-radius: 4px;
-        }
-        .artist-statement blockquote p {
-            margin-bottom: calc(var(--base-spacing) * 0.5);
+        .contact-text a {
+            font-weight: bold;
+            color: var(--text-color); /* Ensure link color is visible */
         }
 
-        .artist-statement blockquote footer {
-            font-style: normal;
-            text-align: right;
-            font-size: 0.95em;
-            color: var(--text-color);
-            margin-top: var(--base-spacing);
+        .contact-text a:hover {
+            text-decoration: underline;
         }
-
-        .artist-bio h2, .artist-statement h2 {
-            font-size: clamp(1.5rem, 2.2vw, 2rem);
-            color: var(--text-color);
-            margin-bottom: calc(var(--base-spacing) * 1.2);
-            padding-bottom: calc(var(--base-spacing) * 0.4);
-            border-bottom: 2px solid var(--nav-link-hover-color);
-        }
-        /* End About Page Specific Styles */
 
         /* Footer - Identical to index.html */
         .site-footer {
@@ -416,9 +352,9 @@
             
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html"  data-lang-key="navImages">Images</a></li>
-                    <li><a href="about.html"  class="active" data-lang-key="navAbout">About</a></li>
-                    <li><a href="contact.html" data-lang-key="navContact">Contact</a></li>
+                    <li><a href="index.html" data-lang-key="navImages">Images</a></li>
+                    <li><a href="about.html" data-lang-key="navAbout">About</a></li>
+                    <li><a href="contact.html" class="active" data-lang-key="navContact">Contact</a></li>
                 </ul>
             </nav>
             
@@ -436,35 +372,12 @@
     </header>
 
     <main>
-        <section class="about-section">
+        <section class="contact-section">
             <div class="container">
-                <h1 class="about-page-title" data-lang-key="aboutHeading">About the Artist</h1>
+                <h1 class="contact-page-title" data-lang-key="contactHeading">Contact</h1>
                 
-                <div class="about-content-wrapper">
-                    <div class="about-main-content">
-                        <div class="artist-image-container">
-                            <img src="images/portraitmj.jpg" alt="Marius Jomphe" class="artist-photo">
-                        </div>
-                        <div class="artist-text-content">
-                            <section class="artist-bio">
-                                <h2 data-lang-key="biographyTitle">Biography</h2>
-                                <p data-lang-key="bioParagraph1">Marius Jomphe was born in Havre St-Pierre, on the North Shore.</p>
-                                <p data-lang-key="bioParagraph2">He obtained his Bachelor of Arts from the Université du Québec à Montréal in 1976. He then taught for thirty years at the Cégep de la Gaspésie et des Îles while regularly exhibiting his work.</p>
-                                <p data-lang-key="bioParagraph3">Since 1990, he has dedicated himself exclusively to photography. His interest in science (astrobiology, neurosciences) influences his photographic practice, which includes the territories of the Gaspé Peninsula as well as the Rivière-au-Tonnerre region on the North Shore.</p>
-                                <p data-lang-key="bioParagraph4">He lives and works in Gaspé.</p>
-                            </section>
-                        </div>
-                    </div>
-
-                    <section class="artist-statement">
-                        <h2 data-lang-key="artistStatementTitle">Artist's Statement</h2>
-                        <blockquote>
-                            <p data-lang-key="heisenbergQuote">« We must remember that what we observe is not nature in itself, but nature subjected to our method of questioning. »</p>
-                            <footer>- <span data-lang-key="heisenbergAttribution">Werner Heisenberg</span></footer>
-                        </blockquote>
-                        <p data-lang-key="perceptionText1">Perception, instead of being the passive recording of a supposed objective external reality, appears more as an active process of interpretation, elaborated by the brain, with a view to effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.</p>
-                        <p data-lang-key="perceptionText2">In this sense, photographs must be like open doors where the viewer can enter the world of possibilities. Images are remarkably fleeting objects, loaded with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, deeper than oneself, and thereby offer a glimpse into a little of the mystery of the world.</p>
-                    </section>
+                <div class="contact-content">
+                    <p class="contact-text" data-lang-key="contactText">You can directly contact the artist <a href="mailto:mariusjomphe52@gmail.com" data-lang-key="contactEmailLink">via email</a>.</p>
                 </div>
             </div>
         </section>
@@ -497,47 +410,31 @@
             const translations = {
                 en: {
                     siteTitle: "Marius Jomphe - Photography",
-                    pageTitleAbout: "Marius Jomphe - About",
+                    pageTitleContact: "Marius Jomphe - Contact",
                     navImages: "IMAGES",
                     navAbout: "ABOUT",
+                    navContact: "CONTACT",
                     themeToggleDark: "DARK THEME",
                     themeToggleLight: "LIGHT THEME",
                     languageToggleText: "🌐 FRANÇAIS",
                     footerRights: "All rights reserved.",
-                    // About page specific
-                    aboutHeading: "About the Artist",
-                    biographyTitle: "Biography",
-                    bioParagraph1: "Marius Jomphe was born in Havre St-Pierre, on the North Shore.",
-                    bioParagraph2: "He obtained his Bachelor of Arts from the Université du Québec à Montréal in 1976. He then taught for thirty years at the Cégep de la Gaspésie et des Îles while regularly exhibiting his work.",
-                    bioParagraph3: "Since 1990, he has dedicated himself exclusively to photography. His interest in science (astrobiology, neurosciences) influences his photographic practice, which includes the territories of the Gaspé Peninsula as well as the Rivière-au-Tonnerre region on the North Shore.",
-                    bioParagraph4: "He lives and works in Gaspé.",
-                    artistStatementTitle: "The enigma of reality",
-                    heisenbergQuote: `"We must remember that what we observe is not nature in itself, but nature subjected to our method of questioning."`,
-                    heisenbergAttribution: "Werner Heisenberg",
-                    perceptionText1: "Perception, instead of being the passive recording of a supposed objective external reality, appears more as an active process of interpretation, elaborated by the brain, with a view to effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.",
-                    perceptionText2: "In this sense, photographs must be like open doors where the viewer can enter the world of possibilities. Images are remarkably fleeting objects, loaded with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, deeper than oneself, and thereby offer a glimpse into a little of the mystery of the world."
+                    // Contact page specific
+                    contactHeading: "Contact",
+                    contactText: "You can directly contact the artist <a href='mailto:mariusjomphe52@gmail.com'>via email</a>."
                 },
                 fr: {
                     siteTitle: "Marius Jomphe - Photographie",
-                    pageTitleAbout: "Marius Jomphe - À Propos",
+                    pageTitleContact: "Marius Jomphe - Contact",
                     navImages: "IMAGES",
                     navAbout: "À PROPOS",
+                    navContact: "CONTACT",
                     themeToggleDark: "THÈME SOMBRE",
                     themeToggleLight: "THÈME CLAIR",
                     languageToggleText: "🌐 ENGLISH",
                     footerRights: "Tous droits réservés.",
-                    // About page specific
-                    aboutHeading: "À Propos de l'Artiste",
-                    biographyTitle: "Biographie",
-                    bioParagraph1: "Marius Jomphe est né à Havre St-Pierre, sur la Côte-Nord.",
-                    bioParagraph2: "Il obtient son Baccalauréat ès Arts de l’Université du Québec à Montréal en 1976. Il enseigne ensuite durant trente ans au Cégep de la Gaspésie et des Îles tout en exposant régulièrement son travail.",
-                    bioParagraph3: "Depuis 1990, il se consacre exclusivement à la photographie. Son intérêt pour la science (astrobiologie, neurosciences) marque sa pratique photographique qui comprend les territoires de la Pointe de la Gaspésie de même que la région de Rivière-au-Tonnerre sur la Côte-Nord.",
-                    bioParagraph4: "Il vit et travaille à Gaspé.",
-                    artistStatementTitle: "L'énigme du réel",
-                    heisenbergQuote: `"Nous devons nous souvenir que ce que nous observons n’est pas la nature en elle-même, mais la nature soumise à notre méthode de questionnement."`,
-                    heisenbergAttribution: "Werner Heisenberg",
-                    perceptionText1: "La perception, au lieu d’être l’enregistrement passif d’une supposée réalité extérieure objective, apparaît davantage comme un processus actif d’interprétation, élaboré par le cerveau, en vue d’une interaction adaptative efficace au monde qui nous entoure. Au moyen de la photographie, nous pouvons donc nous interroger sur la nature du visible. En nous obligeant à considérer la profonde complexité de ce qui est vu, celle-ci peut par conséquent nous ouvrir à une toute nouvelle expérience du monde.",
-                    perceptionText2: "En ce sens, les photographies doivent être comme des portes ouvertes où le spectateur peut entrer dans le monde des possibilités. Les images sont des objets remarquablement fuyants, chargées de multiples potentiels significatifs. Mon intention est donc d’interroger et de démontrer cette relativité de la perception afin de pointer vers quelque chose de plus grand, de plus profond que soi, et par là même, laisser entrevoir un peu du mystère du monde."
+                    // Contact page specific
+                    contactHeading: "Contact",
+                    contactText: "Vous pouvez entrer en contact directement l'artiste <a href='mailto:mariusjomphe52@gmail.com'>via courriel</a>."
                 }
             };
 
@@ -582,8 +479,12 @@
                         // For the page title, we need to handle the <title> tag specifically
                         if (el.tagName === 'TITLE') {
                             document.title = translations[lang][key];
-                        } else {
-                            el.textContent = translations[lang][key];
+                        } else if (el.tagName === 'A' && el.getAttribute('href').startsWith('mailto:')) {
+                            // For the mailto link, we update the text content but preserve the href
+                            el.textContent = translations[lang][key].match(/>([^<]+)</)[1];
+                        }
+                        else {
+                            el.innerHTML = translations[lang][key];
                         }
                     }
                 });
