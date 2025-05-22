@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <script>
+        // IMMEDIATE THEME & LANGUAGE APPLICATION
+        // This script runs synchronously and applies the theme and language
+        // before the browser paints the body, preventing FOUC (Flash Of Unstyled Content).
         (function() {
-            const theme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', theme);
+            const isFirstVisit = !localStorage.getItem('hasVisited');
+
+            if (isFirstVisit) {
+                localStorage.setItem('language', 'en'); // Default to English on first visit
+                localStorage.setItem('theme', 'light'); // Default to light theme on first visit
+                localStorage.setItem('hasVisited', 'true');
+            }
+
+            const storedTheme = localStorage.getItem('theme') || 'light';
+            const storedLanguage = localStorage.getItem('language') || 'en';
+
+            document.documentElement.setAttribute('data-theme', storedTheme);
+            document.documentElement.lang = storedLanguage;
         })();
     </script>
 
@@ -42,7 +56,7 @@
             --button-hover-bg-color: #5a5a5a;
         }
 
-        /* ... rest of your CSS ... */
+        /* Base Styles */
         *,
         *::before,
         *::after {
@@ -93,6 +107,7 @@
             padding: var(--base-spacing);
         }
 
+        /* Header Styles */
         .site-header {
             background-color: var(--header-bg-color);
             padding: var(--base-spacing) 0;
@@ -215,7 +230,7 @@
             padding-top: calc(var(--base-spacing) * 2);
             padding-bottom: calc(var(--base-spacing) * 0);
             max-width: 1000px;
-            text-align: center; /* Center the content */
+            text-align: center;
         }
 
         .contact-page-title {
@@ -229,7 +244,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 40vh; /* Ensure some vertical spacing */
+            min-height: 40vh;
         }
 
         .contact-text {
@@ -240,14 +255,14 @@
 
         .contact-text a {
             font-weight: bold;
-            color: var(--text-color); /* Ensure link color is visible */
+            color: var(--text-color);
         }
 
         .contact-text a:hover {
             text-decoration: underline;
         }
 
-        /* Footer - Identical to index.html */
+        /* Footer Styles */
         .site-footer {
             text-align: center;
             padding: calc(var(--base-spacing) * 1) 0;
@@ -273,17 +288,17 @@
             height: auto;
             opacity: 0.4;
             transition: opacity 0.3s ease;
-            display: none;
+            display: none; /* Hide all signatures by default */
         }
 
         /* Show light signature for light theme */
-        body[data-theme="light"] .artist-signature .signature-light {
-            display: block;
+        html[data-theme="light"] .artist-signature .signature-light {
+            display: block; /* Show the light signature */
         }
 
         /* Show dark signature for dark theme */
-        body[data-theme="dark"] .artist-signature .signature-dark {
-            display: block;
+        html[data-theme="dark"] .artist-signature .signature-dark {
+            display: block; /* Show the dark signature */
         }
 
         /* Responsive Adjustments */
@@ -327,23 +342,6 @@
             }
         }
     </style>
-    <script>
-        // IMMEDIATE THEME APPLICATION SCRIPT
-        // This script runs synchronously and applies the theme before the browser paints the body.
-        (function() {
-            const body = document.body;
-            const isFirstVisit = !localStorage.getItem('hasVisited');
-
-            if (isFirstVisit) {
-                localStorage.setItem('language', 'en'); // Default to English on first visit
-                localStorage.setItem('theme', 'light'); // Default to light theme on first visit
-                localStorage.setItem('hasVisited', 'true');
-            }
-
-            const storedTheme = localStorage.getItem('theme') || 'light';
-            body.dataset.theme = storedTheme;
-        })();
-    </script>
 </head>
 <body>
     <header class="site-header">
@@ -377,7 +375,7 @@
                 <h1 class="contact-page-title" data-lang-key="contactHeading">Contact</h1>
                 
                 <div class="contact-content">
-                    <p class="contact-text" data-lang-key="contactText">You can directly contact the artist <a href="mailto:mariusjomphe52@gmail.com" data-lang-key="contactEmailLink">via email</a>.</p>
+                    <p class="contact-text" data-lang-key="contactText">For any questions, collaboration requests, exhibition proposals, or use of the works, do not hesitate to contact the artist <a href='mailto:mariusjomphe52@gmail.com'>directly by email</a>. He will be pleased to discuss with you. Thank you for your interest.</p>
                 </div>
             </div>
         </section>
@@ -386,8 +384,8 @@
     <footer class="site-footer">
         <div class="container">
             <div class="artist-signature">
-                <img src="images/signaturelt.png" alt="Artist Signature" class="signature-light" id="signatureLight">
-                <img src="images/signaturedt.png" alt="Artist Signature" class="signature-dark" id="signatureDark">
+                <img src="images/signaturelt.png" alt="Artist Signature (Light Theme)" class="signature-light" id="signatureLight">
+                <img src="images/signaturedt.png" alt="Artist Signature (Dark Theme)" class="signature-dark" id="signatureDark">
             </div>
             <p>&copy; <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
         </div>
@@ -398,6 +396,7 @@
         document.querySelectorAll('.main-nav a').forEach(link => {
             const currentPath = window.location.pathname;
             const linkPath = link.getAttribute('href');
+            // Check if the current path ends with the link's href, or if it's the root and the link is index.html
             if (currentPath.endsWith(linkPath) || (currentPath === '/' && linkPath === 'index.html')) {
                 link.classList.add('active');
             } else {
@@ -418,9 +417,8 @@
                     themeToggleLight: "LIGHT THEME",
                     languageToggleText: "🌐 FRANÇAIS",
                     footerRights: "All rights reserved.",
-                    // Contact page specific
                     contactHeading: "Contact",
-                    contactText: "You can directly contact the artist <a href='mailto:mariusjomphe52@gmail.com'>via email</a>."
+                    contactText: "For any questions, collaboration requests, exhibition proposals, or use of the works, do not hesitate to contact the artist <a href='mailto:mariusjomphe52@gmail.com'>directly by email</a>. He will be pleased to discuss with you. Thank you for your interest."
                 },
                 fr: {
                     siteTitle: "Marius Jomphe - Photographie",
@@ -432,26 +430,23 @@
                     themeToggleLight: "THÈME CLAIR",
                     languageToggleText: "🌐 ENGLISH",
                     footerRights: "Tous droits réservés.",
-                    // Contact page specific
                     contactHeading: "Contact",
-                    contactText: "Vous pouvez entrer en contact directement l'artiste <a href='mailto:mariusjomphe52@gmail.com'>via courriel</a>."
+                    contactText: "Pour toute question, demande de collaboration, proposition d’exposition ou utilisation des œuvres, n’hésitez pas à contacter l’artiste <a href='mailto:mariusjomphe52@gmail.com'>directement par courriel</a>. Il se fera un plaisir d’échanger avec vous. Merci pour votre intérêt."
                 }
             };
 
             // --- ELEMENTS ---
-            const body = document.body;
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
             const currentYearSpan = document.getElementById('currentYear');
             
             let currentLanguage = localStorage.getItem('language') || 'en';
-            let currentTheme = localStorage.getItem('theme') || 'light'; // This will be set by the immediate script
+            let currentTheme = localStorage.getItem('theme') || 'light';
 
-            // --- INITIALIZATION ---
+            // --- FUNCTIONS ---
 
-            // Theme (This part is now mainly for updating the toggle button text after initial load)
             function applyTheme(theme) {
-                body.dataset.theme = theme;
+                document.documentElement.setAttribute('data-theme', theme); // Apply to html tag
                 localStorage.setItem('theme', theme);
                 if (themeToggleButton) {
                     const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
@@ -468,22 +463,16 @@
                 }
             }
 
-            // Language
             function applyLanguage(lang) {
                 currentLanguage = lang;
                 localStorage.setItem('language', lang);
-                document.documentElement.lang = lang;
+                document.documentElement.lang = lang; // Ensure HTML lang attribute is updated
                 document.querySelectorAll('[data-lang-key]').forEach(el => {
                     const key = el.dataset.langKey;
                     if (translations[lang] && translations[lang][key]) {
-                        // For the page title, we need to handle the <title> tag specifically
                         if (el.tagName === 'TITLE') {
                             document.title = translations[lang][key];
-                        } else if (el.tagName === 'A' && el.getAttribute('href').startsWith('mailto:')) {
-                            // For the mailto link, we update the text content but preserve the href
-                            el.textContent = translations[lang][key].match(/>([^<]+)</)[1];
-                        }
-                        else {
+                        } else {
                             el.innerHTML = translations[lang][key];
                         }
                     }
@@ -491,21 +480,29 @@
                 if (languageToggleButton) {
                     languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
                 }
-                applyTheme(currentTheme); // Re-apply theme to ensure signature visibility updates
+                // Re-apply theme to ensure any language-dependent theme visuals update correctly
+                applyTheme(currentTheme); 
             }
+
+            // --- INITIALIZATION ON DOMContentLoaded ---
 
             // Footer Year
             if (currentYearSpan) {
                 currentYearSpan.textContent = new Date().getFullYear();
             }
 
+            // Apply theme and language based on localStorage after DOM is ready
+            // The very first script in head already sets data-theme and lang on <html> for FOUC prevention.
+            // These calls ensure that buttons and dynamic text are updated correctly.
+            applyTheme(currentTheme); 
+            applyLanguage(currentLanguage);
+
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
                 themeToggleButton.addEventListener('click', () => {
-                    currentTheme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+                    currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                     applyTheme(currentTheme);
-                    const langToReapply = currentLanguage;
-                    applyLanguage(langToReapply);
+                    applyLanguage(currentLanguage); // Re-apply language to update theme-dependent button text
                 });
             }
 
@@ -515,9 +512,6 @@
                     applyLanguage(newLang);
                 });
             }
-            
-            // Initial call to apply language and update UI elements after DOMContentLoaded
-            applyLanguage(currentLanguage);
         });
     </script>
 </body>

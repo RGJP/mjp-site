@@ -149,6 +149,7 @@
             color: var(--nav-link-color);
             padding: calc(var(--base-spacing) * 0.5) 0;
             position: relative;
+            text-transform: uppercase; /* Add this line to make text uppercase */
         }
         .main-nav a.active {
             color: var(--text-color); /* use theme's main text color */
@@ -195,16 +196,17 @@
         }
 
         .control-button {
-    background: none;
-    border: none;
-    font-weight: 500;
+            background: none;
+            border: none;
+            font-weight: 500;
             font-size: clamp(0.9rem, 1.5vw, 1.1rem);
             color: var(--nav-link-color);
-    padding: calc(var(--base-spacing) * 0.5) 0;
-    position: relative;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            text-transform: uppercase; /* Add this line to make text uppercase */
+        }
 
         .control-button::after {
             content: '';
@@ -636,6 +638,7 @@
                     siteTitle: "Marius Jomphe - Photography",
                     navImages: "IMAGES",
                     navAbout: "ABOUT",
+                    navContact: "CONTACT",
                     themeToggleDark: "DARK THEME",
                     themeToggleLight: "LIGHT THEME",
                     languageToggleText: "🌐 FRANÇAIS", 
@@ -648,6 +651,7 @@
                     siteTitle: "Marius Jomphe - Photographie",
                     navImages: "IMAGES",
                     navAbout: "À PROPOS",
+                    navContact: "CONTACT",
                     themeToggleDark: "THÈME SOMBRE",
                     themeToggleLight: "THÈME CLAIR",
                     languageToggleText: "🌐 ENGLISH", 
@@ -705,8 +709,8 @@
                     const namePart = baseFilename.substring(0, baseFilename.lastIndexOf('.'));
                     img.alt = `Photograph by Marius Jomphe - ${namePart.replace(/[\W_]+/g," ")}`;
                     
-                    img.loading = 'lazy';    // Native lazy loading
-                    img.decoding = 'async';  // Decode image off the main thread
+                    img.loading = 'lazy';    // Native lazy loading
+                    img.decoding = 'async';  // Decode image off the main thread
 
                     // Event listener for fade-in effect
                     img.addEventListener('load', () => {
