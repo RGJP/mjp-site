@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+  (function() {
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="pageTitleAbout">Marius Jomphe - About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme (Default) */
+            --bg-color: #f4f7f6;
+            --text-color: #1a1a1a;
+            --header-bg-color: #ffffff;
+            --nav-link-color: #333333;
+            --nav-link-hover-color: #000000;
+            --placeholder-bg-color: #ffffff;
+            --button-bg-color: #e0e0e0;
+            --button-text-color: #1a1a1a;
+            --button-hover-bg-color: #c7c7c7;
+            --base-font-size: 16px;
+            --base-spacing: 1rem;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f4f7f6;
+            --header-bg-color: #2c2c2c;
+            --nav-link-color: #e0e0e0;
+            --nav-link-hover-color: #ffffff;
+            --placeholder-bg-color: #000000;
+            --button-bg-color: #444444;
+            --button-text-color: #f4f7f6;
+            --button-hover-bg-color: #5a5a5a;
+        }
+
+        /* ... rest of your CSS ... */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: var(--base-font-size);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: calc(var(--base-spacing) * 0.75);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: var(--base-spacing);
+        }
+
+        .site-header {
+            background-color: var(--header-bg-color);
+            padding: var(--base-spacing) 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: calc(var(--base-spacing) * 1.5);
+        }
+
+        .main-nav a {
+            font-weight: 500;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+        }
+        .main-nav a.active {
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            left: 0;
+            background: var(--text-color);
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+        }
+        .main-nav a:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+        .main-nav a:hover {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 1.5);
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            font-weight: 500;
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .control-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+        }
+
+        .control-button:hover {
+            color: var(--nav-link-hover-color);
+        }
+
+        .control-button:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+
+        [data-theme="dark"] .control-button {
+            color: var(--nav-link-color);
+        }
+
+        /* About Page Specific Styles */
+        .about-section .container {
+            padding-top: calc(var(--base-spacing) * 2);
+            padding-bottom: calc(var(--base-spacing) * 0);
+            max-width: 1000px;
+        }
+
+        .about-page-title {
+            text-align: center;
+            margin-bottom: calc(var(--base-spacing) * 2.5);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+        }
+
+        .about-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--base-spacing) * 3);
+        }
+
+        .about-main-content {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--base-spacing) * 2);
+            align-items: flex-start;
+        }
+
+        @media (min-width: 768px) {
+            .about-main-content {
+                flex-direction: row;
+                gap: calc(var(--base-spacing) * 3);
+            }
+        }
+
+        .artist-image-container {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto calc(var(--base-spacing) * 1.5) auto;
+        }
+
+        @media (min-width: 768px) {
+            .artist-image-container {
+                width: 30%;
+                max-width: 300px;
+                margin: 0;
+                align-self: flex-start;
+            }
+        }
+
+        .artist-photo {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            border: 4px solid var(--header-bg-color);
+        }
+
+        .artist-text-content {
+            flex-grow: 1;
+        }
+
+        .artist-bio, .artist-statement {
+            margin-bottom: calc(var(--base-spacing) * 2);
+        }
+
+        .artist-bio p, .artist-statement p {
+            margin-bottom: var(--base-spacing);
+            line-height: 1.75;
+            text-align: justify;
+        }
+
+        .artist-statement blockquote {
+            margin: calc(var(--base-spacing) * 1.5) 0 calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 1.5);
+            padding: var(--base-spacing) calc(var(--base-spacing) * 1.5);
+            border-left: 5px solid var(--button-bg-color);
+            background-color: var(--placeholder-bg-color);
+            font-style: italic;
+            color: var(--nav-link-color);
+            border-radius: 4px;
+        }
+        .artist-statement blockquote p {
+            margin-bottom: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-statement blockquote footer {
+            font-style: normal;
+            text-align: right;
+            font-size: 0.95em;
+            color: var(--text-color);
+            margin-top: var(--base-spacing);
+        }
+
+        .artist-bio h2, .artist-statement h2 {
+            font-size: clamp(1.5rem, 2.2vw, 2rem);
+            color: var(--text-color);
+            margin-bottom: calc(var(--base-spacing) * 1.2);
+            padding-bottom: calc(var(--base-spacing) * 0.4);
+            border-bottom: 2px solid var(--nav-link-hover-color);
+        }
+        /* End About Page Specific Styles */
+
+        /* Footer - Identical to index.html */
+        .site-footer {
+            text-align: center;
+            padding: calc(var(--base-spacing) * 1) 0;
+            margin-top: calc(var(--base-spacing) * 2);
+            border-top: 1px solid var(--button-bg-color);
+            font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+        }
+
+        .site-footer .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-signature {
+            margin-top: calc(var(--base-spacing) * 0.5);
+            margin-bottom: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-signature img {
+            max-width: 300px;
+            height: auto;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+            display: none;
+        }
+
+        /* Show light signature for light theme */
+        body[data-theme="light"] .artist-signature .signature-light {
+            display: block;
+        }
+
+        /* Show dark signature for dark theme */
+        body[data-theme="dark"] .artist-signature .signature-dark {
+            display: block;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .site-header .container {
+                flex-direction: column;
+                gap: calc(var(--base-spacing) * 0.5);
+            }
+            .main-nav ul {
+                gap: var(--base-spacing);
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .controls {
+                margin-top: calc(var(--base-spacing) * 0.5);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            :root {
+                --base-font-size: 17px;
+            }
+        }
+
+        @media (min-width: 2000px) {
+            :root {
+                --base-font-size: 20px;
+            }
+            .container {
+                max-width: 2400px;
+            }
+            .logo {
+                font-size: 2.8rem;
+            }
+            .main-nav a {
+                font-size: 1.4rem;
+            }
+            .control-button {
+                padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+    <script>
+        // IMMEDIATE THEME APPLICATION SCRIPT
+        // This script runs synchronously and applies the theme before the browser paints the body.
+        (function() {
+            const body = document.body;
+            const isFirstVisit = !localStorage.getItem('hasVisited');
+
+            if (isFirstVisit) {
+                localStorage.setItem('language', 'en'); // Default to English on first visit
+                localStorage.setItem('theme', 'light'); // Default to light theme on first visit
+                localStorage.setItem('hasVisited', 'true');
+            }
+
+            const storedTheme = localStorage.getItem('theme') || 'light';
+            body.dataset.theme = storedTheme;
+        })();
+    </script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" data-lang-key="navImages">Images</a></li>
+                    <li><a href="about.html" class="active" data-lang-key="navAbout">About</a></li>
+                </ul>
+            </nav>
+            
+            <div class="controls">
+                <button id="themeToggle" class="control-button" aria-label="Toggle theme">
+                    🌓 <span data-lang-key="themeToggleDark">Dark Mode</span>
+                    <span data-lang-key="themeToggleLight" style="display:none;">Light Mode</span>
+                </button>
+                
+                <button id="languageToggle" class="control-button" aria-label="Toggle language">
+                    🌐 English
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="about-section">
+            <div class="container">
+                <h1 class="about-page-title" data-lang-key="aboutHeading">About the Artist</h1>
+                
+                <div class="about-content-wrapper">
+                    <div class="about-main-content">
+                        <div class="artist-image-container">
+                            <img src="images/portrait.png" alt="Marius Jomphe" class="artist-photo">
+                        </div>
+                        <div class="artist-text-content">
+                            <section class="artist-bio">
+                                <h2 data-lang-key="biographyTitle">Biography</h2>
+                                <p data-lang-key="bioParagraph1">Marius Jomphe was born in Havre St-Pierre, on the North Shore.</p>
+                                <p data-lang-key="bioParagraph2">He obtained his Bachelor of Arts from the Université du Québec à Montréal in 1976. He then taught for thirty years at the Cégep de la Gaspésie et des Îles while regularly exhibiting his work.</p>
+                                <p data-lang-key="bioParagraph3">Since 1990, he has dedicated himself exclusively to photography. His interest in science (astrobiology, neurosciences) influences his photographic practice, which includes the territories of the Gaspé Peninsula as well as the Rivière-au-Tonnerre region on the North Shore.</p>
+                                <p data-lang-key="bioParagraph4">He lives and works in Gaspé.</p>
+                            </section>
+                        </div>
+                    </div>
+
+                    <section class="artist-statement">
+                        <h2 data-lang-key="artistStatementTitle">Artist's Statement</h2>
+                        <blockquote>
+                            <p data-lang-key="heisenbergQuote">« We must remember that what we observe is not nature in itself, but nature subjected to our method of questioning. »</p>
+                            <footer>- <span data-lang-key="heisenbergAttribution">Werner Heisenberg</span></footer>
+                        </blockquote>
+                        <p data-lang-key="perceptionText1">Perception, instead of being the passive recording of a supposed objective external reality, appears more as an active process of interpretation, elaborated by the brain, with a view to effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.</p>
+                        <p data-lang-key="perceptionText2">In this sense, photographs must be like open doors where the viewer can enter the world of possibilities. Images are remarkably fleeting objects, loaded with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, deeper than oneself, and thereby offer a glimpse into a little of the mystery of the world.</p>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="artist-signature">
+                <img src="images/signaturelt.png" alt="Artist Signature" class="signature-light" id="signatureLight">
+                <img src="images/signaturedt.png" alt="Artist Signature" class="signature-dark" id="signatureDark">
+            </div>
+            <p>&copy; <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Highlight active nav link based on current URL
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            const currentPath = window.location.pathname;
+            const linkPath = link.getAttribute('href');
+            if (currentPath.endsWith(linkPath) || (currentPath === '/' && linkPath === 'index.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- TRANSLATIONS ---
+            const translations = {
+                en: {
+                    siteTitle: "Marius Jomphe - Photography",
+                    pageTitleAbout: "Marius Jomphe - About",
+                    navImages: "IMAGES",
+                    navAbout: "ABOUT",
+                    themeToggleDark: "DARK THEME",
+                    themeToggleLight: "LIGHT THEME",
+                    languageToggleText: "🌐 FRANÇAIS",
+                    footerRights: "All rights reserved.",
+                    // About page specific
+                    aboutHeading: "About the Artist",
+                    biographyTitle: "Biography",
+                    bioParagraph1: "Marius Jomphe was born in Havre St-Pierre, on the North Shore.",
+                    bioParagraph2: "He obtained his Bachelor of Arts from the Université du Québec à Montréal in 1976. He then taught for thirty years at the Cégep de la Gaspésie et des Îles while regularly exhibiting his work.",
+                    bioParagraph3: "Since 1990, he has dedicated himself exclusively to photography. His interest in science (astrobiology, neurosciences) influences his photographic practice, which includes the territories of the Gaspé Peninsula as well as the Rivière-au-Tonnerre region on the North Shore.",
+                    bioParagraph4: "He lives and works in Gaspé.",
+                    artistStatementTitle: "Artist's Statement",
+                    heisenbergQuote: `"We must remember that what we observe is not nature in itself, but nature subjected to our method of questioning."`,
+                    heisenbergAttribution: "Werner Heisenberg",
+                    perceptionText1: "Perception, instead of being the passive recording of a supposed objective external reality, appears more as an active process of interpretation, elaborated by the brain, with a view to effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.",
+                    perceptionText2: "In this sense, photographs must be like open doors where the viewer can enter the world of possibilities. Images are remarkably fleeting objects, loaded with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, deeper than oneself, and thereby offer a glimpse into a little of the mystery of the world."
+                },
+                fr: {
+                    siteTitle: "Marius Jomphe - Photographie",
+                    pageTitleAbout: "Marius Jomphe - À Propos",
+                    navImages: "IMAGES",
+                    navAbout: "À PROPOS",
+                    themeToggleDark: "THÈME SOMBRE",
+                    themeToggleLight: "THÈME CLAIR",
+                    languageToggleText: "🌐 ENGLISH",
+                    footerRights: "Tous droits réservés.",
+                    // About page specific
+                    aboutHeading: "À Propos de l'Artiste",
+                    biographyTitle: "Biographie",
+                    bioParagraph1: "Marius Jomphe est né à Havre St-Pierre, sur la Côte-Nord.",
+                    bioParagraph2: "Il obtient son Baccalauréat ès Arts de l’Université du Québec à Montréal en 1976. Il enseigne ensuite durant trente ans au Cégep de la Gaspésie et des Îles tout en exposant régulièrement son travail.",
+                    bioParagraph3: "Depuis 1990, il se consacre exclusivement à la photographie. Son intérêt pour la science (astrobiologie, neurosciences) marque sa pratique photographique qui comprend les territoires de la Pointe de la Gaspésie de même que la région de Rivière-au-Tonnerre sur la Côte-Nord.",
+                    bioParagraph4: "Il vit et travaille à Gaspé.",
+                    artistStatementTitle: "Démarche Artistique",
+                    heisenbergQuote: `"Nous devons nous souvenir que ce que nous observons n’est pas la nature en elle-même, mais la nature soumise à notre méthode de questionnement."`,
+                    heisenbergAttribution: "Werner Heisenberg",
+                    perceptionText1: "La perception, au lieu d’être l’enregistrement passif d’une supposée réalité extérieure objective, apparaît davantage comme un processus actif d’interprétation, élaboré par le cerveau, en vue d’une interaction adaptative efficace au monde qui nous entoure. Au moyen de la photographie, nous pouvons donc nous interroger sur la nature du visible. En nous obligeant à considérer la profonde complexité de ce qui est vu, celle-ci peut par conséquent nous ouvrir à une toute nouvelle expérience du monde.",
+                    perceptionText2: "En ce sens, les photographies doivent être comme des portes ouvertes où le spectateur peut entrer dans le monde des possibilités. Les images sont des objets remarquablement fuyants, chargées de multiples potentiels significatifs. Mon intention est donc d’interroger et de démontrer cette relativité de la perception afin de pointer vers quelque chose de plus grand, de plus profond que soi, et par là même, laisser entrevoir un peu du mystère du monde."
+                }
+            };
+
+            // --- ELEMENTS ---
+            const body = document.body;
+            const themeToggleButton = document.getElementById('themeToggle');
+            const languageToggleButton = document.getElementById('languageToggle');
+            const currentYearSpan = document.getElementById('currentYear');
+            
+            let currentLanguage = localStorage.getItem('language') || 'en';
+            let currentTheme = localStorage.getItem('theme') || 'light'; // This will be set by the immediate script
+
+            // --- INITIALIZATION ---
+
+            // Theme (This part is now mainly for updating the toggle button text after initial load)
+            function applyTheme(theme) {
+                body.dataset.theme = theme;
+                localStorage.setItem('theme', theme);
+                if (themeToggleButton) {
+                    const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
+                    const toggleLightText = themeToggleButton.querySelector('[data-lang-key="themeToggleLight"]');
+                    if (toggleDarkText && toggleLightText) {
+                        if (theme === 'dark') {
+                            toggleDarkText.style.display = 'none';
+                            toggleLightText.style.display = 'inline';
+                        } else {
+                            toggleDarkText.style.display = 'inline';
+                            toggleLightText.style.display = 'none';
+                        }
+                    }
+                }
+            }
+
+            // Language
+            function applyLanguage(lang) {
+                currentLanguage = lang;
+                localStorage.setItem('language', lang);
+                document.documentElement.lang = lang;
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.dataset.langKey;
+                    if (translations[lang] && translations[lang][key]) {
+                        // For the page title, we need to handle the <title> tag specifically
+                        if (el.tagName === 'TITLE') {
+                            document.title = translations[lang][key];
+                        } else {
+                            el.textContent = translations[lang][key];
+                        }
+                    }
+                });
+                if (languageToggleButton) {
+                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
+                }
+                applyTheme(currentTheme); // Re-apply theme to ensure signature visibility updates
+            }
+
+            // Footer Year
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            // --- EVENT LISTENERS ---
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', () => {
+                    currentTheme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+                    applyTheme(currentTheme);
+                    const langToReapply = currentLanguage;
+                    applyLanguage(langToReapply);
+                });
+            }
+
+            if (languageToggleButton) {
+                languageToggleButton.addEventListener('click', () => {
+                    const newLang = currentLanguage === 'en' ? 'fr' : 'en';
+                    applyLanguage(newLang);
+                });
+            }
+            
+            // Initial call to apply language and update UI elements after DOMContentLoaded
+            applyLanguage(currentLanguage);
+        });
+    </script>
+</body>
+</html>
