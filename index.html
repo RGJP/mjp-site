@@ -147,7 +147,7 @@
 
         .logo {
             font-size: clamp(1.5rem, 2.5vw, 2.2rem); /* Responsive font size */
-            font-weight: 700;
+            font-weight: 100;
             color: var(--text-color);
         }
 
@@ -291,7 +291,7 @@
             object-fit: cover; 
             opacity: 0; /* Initially hidden for fade-in */
             /* Adjust these values for a smoother fade */
-            transition: opacity 0.2s ease-in-out;
+            transition: opacity 0s ease-in-out;
         }
         .gallery-item img.loaded { /* Class to trigger fade-in */
             opacity: 1;
@@ -930,7 +930,7 @@
                     // 3. Use requestAnimationFrame to ensure opacity:0 is rendered before transition starts.
                     requestAnimationFrame(() => {
                         // 4. Now, apply the desired transition and change opacity to 1 to trigger the fade-in.
-                        fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                        fullscreenImage.style.transition = 'opacity 1s ease-in-out';
                         fullscreenImage.style.opacity = 1;
                     });
                     if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; // Hide spinner
