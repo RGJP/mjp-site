@@ -289,7 +289,7 @@
             object-fit: cover; 
             opacity: 0; /* Initially hidden for fade-in */
             /* Adjust these values for a smoother fade */
-            transition: opacity 2s ease-in-out;
+            transition: opacity 0.2s ease-in-out;
         }
         .gallery-item img.loaded { /* Class to trigger fade-in */
             opacity: 1;
@@ -336,6 +336,8 @@
             object-fit: contain;
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             border-radius: 3px;
+            opacity: 1; /* Default opacity, will be manipulated by JS */
+            transition: opacity 3s ease-in-out;
         }
 
         .viewer-close-button,
@@ -881,36 +883,68 @@
 */
 
             // --- IMAGE VIEWER FUNCTIONS ---
+           function loadAndShowImageInViewer(newIndex, isOpeningViewer = false) {
+    if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
+
+    currentImageIndex = newIndex;
+
+    if (isOpeningViewer) {
+        imageViewerOverlay.classList.add('active');
+        if (document.body) document.body.style.overflow = 'hidden';
+    }
+
+    // Immediately set opacity to 0 and set a tiny transparent GIF
+    fullscreenImage.style.opacity = 0;
+    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Tiny transparent GIF
+
+    const imageUrl = imagePath + imageFilenames[currentImageIndex];
+    const altText = `Enlarged view of ${imageFilenames[currentImageIndex].replace(/[\W_]+/g," ")} - Marius Jomphe`;
+
+    // Preload the actual image
+    const tempImg = new Image();
+    tempImg.onload = () => {
+        fullscreenImage.src = imageUrl; // Set the actual image source
+        fullscreenImage.alt = altText;
+
+        // Use requestAnimationFrame to ensure the browser has painted the 0 opacity state
+        // before starting the transition to 1.
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => { // Double rAF for maximum reliability across browsers
+                fullscreenImage.style.opacity = 1; // Trigger the fade-in transition
+            });
+        });
+        updateNavButtons();
+    };
+    tempImg.onerror = () => {
+        console.error("Error loading image:", imageUrl);
+        if (isOpeningViewer) {
+            closeImageViewer();
+        }
+        updateNavButtons();
+    };
+    tempImg.src = imageUrl; // Start loading the image
+}
+
             function openImageViewer(index) {
-                if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
-                currentImageIndex = index;
-                fullscreenImage.src = imagePath + imageFilenames[currentImageIndex];
-                fullscreenImage.alt = `Enlarged view of ${imageFilenames[currentImageIndex].replace(/[\W_]+/g," ")} - Marius Jomphe`;
-                imageViewerOverlay.classList.add('active'); // Ensure body is defined or remove if not used
-                body.style.overflow = 'hidden'; 
-                updateNavButtons();
+                loadAndShowImageInViewer(index, true);
             }
 
             function closeImageViewer() {
                 if (!imageViewerOverlay) return;
                 imageViewerOverlay.classList.remove('active');
-                body.style.overflow = '';
+                if (document.body) document.body.style.overflow = '';
             }
 
             function showPrevImage() {
                 if (imageFilenames.length === 0) return;
-                currentImageIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
-                fullscreenImage.src = imagePath + imageFilenames[currentImageIndex];
-                fullscreenImage.alt = `Enlarged view of ${imageFilenames[currentImageIndex].replace(/[\W_]+/g," ")} - Marius Jomphe`;
-                updateNavButtons();
+                const newIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
+                loadAndShowImageInViewer(newIndex);
             }
 
             function showNextImage() {
                 if (imageFilenames.length === 0) return;
-                currentImageIndex = (currentImageIndex + 1) % imageFilenames.length;
-                fullscreenImage.src = imagePath + imageFilenames[currentImageIndex];
-                fullscreenImage.alt = `Enlarged view of ${imageFilenames[currentImageIndex].replace(/[\W_]+/g," ")} - Marius Jomphe`;
-                updateNavButtons();
+                const newIndex = (currentImageIndex + 1) % imageFilenames.length;
+                loadAndShowImageInViewer(newIndex);
             }
 
             function updateNavButtons() {
