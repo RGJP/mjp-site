@@ -335,7 +335,6 @@
             animation: spin 1s linear infinite;
             z-index: 2002; /* Ensure it's above the image but below controls if necessary */
             display: none; /* Hidden by default */
-            opacity: 0.0; /* Add this line to reduce the spinner's visibility */
         }
 
         @keyframes spin {
@@ -898,88 +897,75 @@
             */
 
             // --- IMAGE VIEWER FUNCTIONS ---
-            function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
+            function loadAndShowImageInViewer(newIndex, isOpeningViewer = false) {
                 if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block'; // Show spinner
 
-                const proceedToLoadImage = (targetIndex) => {
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block'; // Show spinner before loading
+                currentImageIndex = newIndex;
 
-                    // 1. Instantly make the image element transparent WITHOUT transition before new content
-                    fullscreenImage.style.transition = 'none';
-                    fullscreenImage.style.opacity = 0;
-                    // Use a placeholder to clear the old image content and ensure transparency
-                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                    fullscreenImage.alt = "";
+                if (isOpeningViewer) {
+                    imageViewerOverlay.classList.add('active');
+                    // Always hide body overflow when the image viewer opens
+                    if (document.body) {
+                        document.body.style.overflow = 'hidden';
+                    }
+                }
 
-                    const imageUrl = imagePath + imageFilenames[targetIndex];
-                    const altText = `Enlarged view of ${imageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
+                // 1. Instantly make the current image (or placeholder) transparent WITHOUT transition
+                fullscreenImage.style.transition = 'none'; // Remove any existing transition to set initial state
+                fullscreenImage.style.opacity = 0;
+                fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Tiny transparent GIF placeholder
+                fullscreenImage.alt = ""; // Clear alt for placeholder
 
-                    const tempImg = new Image();
-                    tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl; // Set the actual new image source
-                        fullscreenImage.alt = altText;
+                const imageUrl = imagePath + imageFilenames[currentImageIndex];
+                const altText = `Enlarged view of ${imageFilenames[currentImageIndex].replace(/[\W_]+/g," ")} - Marius Jomphe`;
 
-                        // Use rAF to ensure opacity:0 and new src are processed before starting fade-in
-                        requestAnimationFrame(() => {
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; // 0.5s fade-in
-                            fullscreenImage.style.opacity = 1; // Fade in the new image
-                        });
+                const tempImg = new Image(); // Preload the new image
+                
+                tempImg.onload = () => {
+                    // 2. New image is loaded. Update the src and alt of the fullscreen image.
+                    fullscreenImage.src = imageUrl;
+                    fullscreenImage.alt = altText;
 
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; // Hide spinner
-                        updateNavButtons();
-                    };
-
-                    tempImg.onerror = () => {
-                        console.error("Error loading image:", imageUrl);
-                        fullscreenImage.alt = "Error loading image";
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                        updateNavButtons();
-                        // If this load operation was part of the initial opening of the viewer, and it failed, close.
-                        if (isOpeningCallParam && currentImageIndex === targetIndex) {
-                            setTimeout(closeImageViewer, 1500);
-                        }
-                    };
-                    tempImg.src = imageUrl; // Start loading the new image
+                    // 3. Use requestAnimationFrame to ensure opacity:0 is rendered before transition starts.
+                    requestAnimationFrame(() => {
+                        // 4. Now, apply the desired transition and change opacity to 1 to trigger the fade-in.
+                        fullscreenImage.style.transition = 'opacity 1s ease-in-out';
+                        fullscreenImage.style.opacity = 1;
+                    });
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; // Hide spinner
+                    updateNavButtons();
                 };
 
-                if (isOpeningCallParam) {
-                    // This is the first image being opened in the viewer
-                    currentImageIndex = newIndex; // Set index for the image to be opened
-                    imageViewerOverlay.classList.add('active');
-                    if (document.body) document.body.style.overflow = 'hidden';
-                    proceedToLoadImage(currentImageIndex); // Directly load and fade in
-                } else {
-                    // An image is currently showing. Fade it out first.
-                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; // 0.5s fade-out
-                    fullscreenImage.style.opacity = 0;
-
-                    // After the 1s fade-out, proceed to load the new image
-                    setTimeout(() => {
-                        // Check if viewer is still active (user might have closed it during fade-out)
-                        if (!imageViewerOverlay.classList.contains('active')) {
-                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; // Ensure spinner is hidden if closed early
-                            return;
-                        }
-                        // NOW, update currentImageIndex to the new image we are about to load.
-                        currentImageIndex = newIndex;
-                        proceedToLoadImage(currentImageIndex); // Load and fade in the new image
-                    }, 500); // Wait for fade-out (500ms = 0.5s)
-                }
+                tempImg.onerror = () => {
+                    console.error("Error loading image:", imageUrl);
+                    fullscreenImage.alt = "Error loading image"; 
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; // Hide spinner on error
+                    if (isOpeningViewer) {
+                        setTimeout(closeImageViewer, 1500); // Close viewer if initial image fails
+                    }
+                    updateNavButtons(); 
+                };
+                
+                // Start loading the new image
+                tempImg.src = imageUrl;
             }
 
             function openImageViewer(index) {
-                loadAndShowImageInViewer(index, true); // true indicates it's an opening call
+                loadAndShowImageInViewer(index, true);
             }
 
             function closeImageViewer() {
                 if (!imageViewerOverlay) return;
                 imageViewerOverlay.classList.remove('active');
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; // Hide spinner
                 
+                // Always restore body overflow when the image viewer closes
                 if (document.body) {
                     document.body.style.overflow = ''; 
                 }
-                // Optional: Reset image details if needed, though current logic handles opacity fine
+
+                // Optional: Reset image details to free up memory or prevent FOUC on next open
                 // fullscreenImage.style.transition = 'none'; 
                 // fullscreenImage.style.opacity = 0;
                 // fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -989,13 +975,13 @@
             function showPrevImage() {
                 if (imageFilenames.length === 0) return;
                 const newIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); // isOpeningCallParam will be false by default
+                loadAndShowImageInViewer(newIndex);
             }
 
             function showNextImage() {
                 if (imageFilenames.length === 0) return;
                 const newIndex = (currentImageIndex + 1) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); // isOpeningCallParam will be false by default
+                loadAndShowImageInViewer(newIndex);
             }
 
             function updateNavButtons() {
