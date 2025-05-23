@@ -28,15 +28,16 @@
     <meta name="description" content="Explore the captivating photography portfolio of Marius Jomphe, based in Gaspé, Quebec.">
     <meta name="keywords" content="Marius Jomphe, Photo, Photographie, Gaspé, Gaspe, Québec, Quebec, landscape, photography, artistic, perception, textures, fine art, books, livre, livres, bruine, sonde, passage, nature photography, professional, artist">
     <meta name="author" content="Marius Jomphe">
-    <link rel="canonical" href="https://mariusjomphe.com"> <meta property="og:title" content="Marius Jomphe - Photography">
+    <link rel="canonical" href="https://mariusjomphe.com">
+    <meta property="og:title" content="Marius Jomphe - Photography">
     <meta property="og:description" content="Explore the captivating photography portfolio of Marius Jomphe, based in Gaspé, Quebec.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mariusjomphe.com"> <meta property="og:image" content="https://mariusjomphe.com/images/og-preview.jpg"> <meta property="og:image:alt" content="Marius Jomphe Photography">
+    <meta property="og:url" content="https://mariusjomphe.com">
+    <meta property="og:image" content="https://mariusjomphe.com/images/og-preview.jpg">
+    <meta property="og:image:alt" content="Marius Jomphe Photography">
     <meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="en_CA">
-<meta property="og:locale:alternate" content="fr_CA">
-
-
+    <meta property="og:locale:alternate" content="en_CA">
+    <meta property="og:locale:alternate" content="fr_CA">
 
     <title data-lang-key="pageTitleContact">Marius Jomphe ‧ Contact</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,6 +56,10 @@
             --button-text-color: #1a1a1a;
             --button-hover-bg-color: #c7c7c7;
             --base-font-size: 16px;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
+            --image-viewer-nav-color: #ffffff;
+            --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
+            --loader-color: #007bff;
             --base-spacing: 1rem;
             
             /* Email Button Colors for Light Theme (Dark button on light background) */
@@ -73,6 +78,9 @@
             --button-bg-color: #444444;
             --button-text-color: #f4f7f6;
             --button-hover-bg-color: #5a5a5a;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Consistent with light theme for viewer */
+            --image-viewer-nav-color: #e0e0e0;
+            --loader-color: #58a6ff;
 
             /* Email Button Colors for Dark Theme (Light button on dark background) */
             --email-button-bg: #f4f7f6; /* White */
@@ -167,7 +175,7 @@
             color: var(--nav-link-color);
             padding: calc(var(--base-spacing) * 0.5) 0;
             position: relative;
-            text-transform: uppercase; /* Add this line */
+            text-transform: uppercase;
         }
         .main-nav a.active {
             color: var(--text-color);
@@ -224,8 +232,7 @@
             transition: color 0.2s ease;
 
             /* Additions for stable width and alignment */
-             /* Additions for stable width and alignment */
-             display: inline-block;
+            display: inline-block;
             min-width: auto;
         }
 
@@ -315,6 +322,159 @@
             transform: translateY(0);
         }
 
+        /* Image Gallery Styles (MODIFIED) */
+        .image-gallery {
+            display: grid;
+            /* Center the grid items within the available space */
+            justify-content: center; 
+            /* Remove padding from here; let the container handle overall margins */
+            padding: 0; 
+            /* Limit the max width of the grid itself and center it */
+            max-width: 1800px; /* Adjust this value as desired for overall gallery width */
+            margin: 0 auto; /* Centers the entire grid on the page */
+            gap: var(--base-spacing);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            /* Remove aspect-ratio to prevent forced empty space */
+            /* aspect-ratio: 1 / 1; */ 
+            background-color: transparent; /* Changed to transparent to remove white bars */
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            content-visibility: auto;
+            /* Removed contain-intrinsic-size as images will define size within constraints */
+            /* contain-intrinsic-size: 250px 250px; */ 
+            display: flex; /* Added to help center the image */
+            align-items: center; /* Vertically center image within the grid item */
+            justify-content: center; /* Horizontally center image within the grid item */
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            max-width: 100%; 
+            /* Crucial: Set max-height to control the "smallness" of the image in the grid */
+            max-height: 250px; /* Adjust this value to control the image height in the grid */
+            width: auto; 
+            height: auto; 
+            object-fit: contain; /* Ensures the entire image is scaled down to fit */
+            opacity: 0; /* Initially hidden for fade-in */
+            transition: opacity 0.5s ease-in-out; /* Smoother fade */
+            display: block; /* Ensure it behaves as a block for correct centering */
+        }
+        .gallery-item img.loaded {
+            opacity: 1;
+        }
+
+        /* Fullscreen Image Viewer Styles */
+        .image-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--image-viewer-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+
+        .image-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        .image-viewer-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--image-viewer-nav-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2002;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .image-viewer-content {
+            width: 100vw;
+            height: 100vh;
+            padding: 5vh 5vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-viewer-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border-radius: 3px;
+            opacity: 0; /* Start transparent, JS will handle fade-in */
+        }
+
+        .viewer-close-button,
+        .viewer-nav-button {
+            position: fixed;
+            background: transparent;
+            color: var(--image-viewer-nav-color);
+            border: none;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            cursor: pointer;
+            padding: calc(var(--base-spacing) * 0.5);
+            transition: background-color 0.2s ease, color 0.2s ease;
+            z-index: 2001;
+            border-radius: 50%;
+            width: clamp(40px, 6vw, 60px);
+            height: clamp(40px, 6vw, 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .viewer-close-button:hover,
+        .viewer-nav-button:hover {
+            background-color: var(--image-viewer-nav-hover-bg);
+        }
+
+        .viewer-close-button {
+            top: calc(var(--base-spacing) * 1.5);
+            right: calc(var(--base-spacing) * 1.5);
+        }
+
+        .viewer-nav-button.prev {
+            left: calc(var(--base-spacing) * 1.5);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .viewer-nav-button.next {
+            right: calc(var(--base-spacing) * 1.5);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
         /* Footer Styles */
         .site-footer {
             text-align: center;
@@ -379,9 +539,26 @@
             }
         }
 
+        /* Gallery Responsive Adjustments (MODIFIED) */
+        @media (min-width: 768px) {
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly larger min-width for columns */
+                gap: calc(var(--base-spacing) * 1.5);
+            }
+            .gallery-item img {
+                max-height: 280px; /* Adjust max-height for larger screens */
+            }
+        }
+
         @media (min-width: 1200px) {
             :root {
                 --base-font-size: 17px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Further increase min-width */
+            }
+            .gallery-item img {
+                max-height: 320px; /* Adjust max-height for larger screens */
             }
         }
 
@@ -389,8 +566,21 @@
             :root {
                 --base-font-size: 20px;
             }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); /* Even larger min-width */
+                gap: calc(var(--base-spacing) * 1.8);
+            }
+            .gallery-item img {
+                max-height: 380px; /* Adjust max-height for very large screens */
+            }
+            .viewer-close-button,
+            .viewer-nav-button {
+                font-size: 3rem;
+                width: 70px;
+                height: 70px;
+            }
             .container {
-                max-width: 2400px;
+                max-width: 2200px; /* Adjusted max-width for the main container on 4K displays */
             }
             .logo {
                 font-size: 2.8rem;
@@ -442,7 +632,24 @@
                 </div>
             </div>
         </section>
+
+        <section class="image-gallery-section" style="margin-top: calc(var(--base-spacing) * 3);">
+            <div class="container">
+                <div class="image-gallery" id="imageGallery">
+                    </div>
+            </div>
+        </section>
     </main>
+
+    <div class="image-viewer-overlay" id="imageViewerOverlay">
+        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">&times;</button>
+        <button class="viewer-nav-button prev" id="viewerPrevButton" aria-label="Previous image">&lt;</button>
+        <div class="image-viewer-content">
+            <div class="image-viewer-spinner" id="imageViewerSpinner"></div>
+            <img src="" alt="Enlarged view" id="fullscreenImage">
+        </div>
+        <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">&gt;</button>
+    </div>
 
     <footer class="site-footer">
         <div class="container">
@@ -470,6 +677,16 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
+            // --- CONFIGURATION FOR CONTACT PAGE GALLERY ---
+            const contactPageImageFilenames = [
+                'contact/contact1.jpg', 
+                'contact/contact2.jpg', 
+                'contact/contact3.jpg', 
+                'contact/contact4.jpg'
+            ];
+            const imagePath = 'images/'; // Base path for all images
+
+
             // --- TRANSLATIONS ---
             const translations = {
                 en: {
@@ -506,6 +723,14 @@
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
             const currentYearSpan = document.getElementById('currentYear');
+            // Gallery and Viewer Elements
+            const galleryContainer = document.getElementById('imageGallery');
+            const imageViewerOverlay = document.getElementById('imageViewerOverlay');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            const viewerCloseButton = document.getElementById('viewerCloseButton');
+            const viewerPrevButton = document.getElementById('viewerPrevButton');
+            const viewerNextButton = document.getElementById('viewerNextButton');
+            const imageViewerSpinner = document.getElementById('imageViewerSpinner');
             
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light';
@@ -550,6 +775,149 @@
                 // Re-apply theme to ensure any language-dependent theme visuals update correctly
                 applyTheme(currentTheme); 
             }
+            
+            let currentImageIndex = 0;
+
+            // --- GALLERY & IMAGE FUNCTIONS (Adapted for contact page) ---
+            const createImageOnIntersection = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const galleryItemDiv = entry.target;
+                        const fullResFilename = galleryItemDiv.dataset.fullresFilename;
+                        const currentImagePath = galleryItemDiv.dataset.imagePath; 
+
+                        if (!fullResFilename || galleryItemDiv.querySelector('img')) {
+                            observer.unobserve(galleryItemDiv);
+                            return;
+                        }
+
+                        const img = document.createElement('img');
+                        img.src = currentImagePath + fullResFilename; 
+                        const altNamePart = fullResFilename.substring(0, fullResFilename.lastIndexOf('.'));
+                        img.alt = `Image of ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`; 
+                        img.loading = 'lazy';
+                        img.decoding = 'async';
+                        img.addEventListener('load', () => img.classList.add('loaded'));
+                        if (img.complete) img.classList.add('loaded'); 
+
+                        galleryItemDiv.appendChild(img);
+                        observer.unobserve(galleryItemDiv); 
+                    }
+                });
+            };
+
+            const imageObserver = new IntersectionObserver(createImageOnIntersection, {
+                rootMargin: '0px 0px 200px 0px', 
+                threshold: 0.01 
+            });
+
+            function populateGallery() {
+                if (!galleryContainer) return;
+                galleryContainer.innerHTML = ''; 
+                contactPageImageFilenames.forEach((fullResFilename, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.dataset.index = index; 
+                    item.dataset.fullresFilename = fullResFilename; 
+                    item.dataset.imagePath = imagePath; 
+                    galleryContainer.appendChild(item);
+                    imageObserver.observe(item); 
+                });
+            }
+
+            // --- IMAGE VIEWER FUNCTIONS (Adapted for contact page) ---
+            function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
+                if (!imageViewerOverlay || !fullscreenImage || contactPageImageFilenames.length === 0) return;
+
+                const proceedToLoadImage = (targetIndex) => {
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+
+                    fullscreenImage.style.transition = 'none';
+                    fullscreenImage.style.opacity = 0;
+                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                    fullscreenImage.alt = "";
+
+                    const imageUrl = imagePath + contactPageImageFilenames[targetIndex];
+                    const altText = `Enlarged view of ${contactPageImageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
+
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        fullscreenImage.src = imageUrl;
+                        fullscreenImage.alt = altText;
+
+                        requestAnimationFrame(() => {
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
+                        });
+
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                    };
+
+                    tempImg.onerror = () => {
+                        console.error("Error loading image:", imageUrl);
+                        fullscreenImage.alt = "Error loading image";
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                        if (isOpeningCallParam && currentImageIndex === targetIndex) {
+                            setTimeout(closeImageViewer, 1500);
+                        }
+                    };
+                    tempImg.src = imageUrl;
+                };
+
+                if (isOpeningCallParam) {
+                    currentImageIndex = newIndex;
+                    imageViewerOverlay.classList.add('active');
+                    if (document.body) document.body.style.overflow = 'hidden';
+                    proceedToLoadImage(currentImageIndex);
+                } else {
+                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                    fullscreenImage.style.opacity = 0;
+
+                    setTimeout(() => {
+                        if (!imageViewerOverlay.classList.contains('active')) {
+                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                            return;
+                        }
+                        currentImageIndex = newIndex;
+                        proceedToLoadImage(currentImageIndex);
+                    }, 500);
+                }
+            }
+
+            function openImageViewer(index) {
+                loadAndShowImageInViewer(index, true);
+            }
+
+            function closeImageViewer() {
+                if (!imageViewerOverlay) return;
+                imageViewerOverlay.classList.remove('active');
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                if (document.body) document.body.style.overflow = ''; 
+            }
+
+            function showPrevImage() {
+                if (contactPageImageFilenames.length === 0) return;
+                const newIndex = (currentImageIndex - 1 + contactPageImageFilenames.length) % contactPageImageFilenames.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function showNextImage() {
+                if (contactPageImageFilenames.length === 0) return;
+                const newIndex = (currentImageIndex + 1) % contactPageImageFilenames.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function updateNavButtons() {
+                if (!viewerPrevButton || !viewerNextButton || contactPageImageFilenames.length <= 1) {
+                    if(viewerPrevButton) viewerPrevButton.style.display = 'none';
+                    if(viewerNextButton) viewerNextButton.style.display = 'none';
+                    return;
+                }
+                if(viewerPrevButton) viewerPrevButton.style.display = 'block';
+                if(viewerNextButton) viewerNextButton.style.display = 'block';
+            }
 
             // --- INITIALIZATION ON DOMContentLoaded ---
 
@@ -563,6 +931,10 @@
             // These calls ensure that buttons and dynamic text are updated correctly.
             applyTheme(currentTheme); 
             applyLanguage(currentLanguage);
+            
+            // Initialize gallery for contact page
+            populateGallery();
+            updateNavButtons();
 
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
@@ -579,6 +951,35 @@
                     applyLanguage(newLang);
                 });
             }
+
+            // Gallery Event Listeners
+            if (galleryContainer) {
+                galleryContainer.addEventListener('click', (e) => {
+                    const item = e.target.closest('.gallery-item');
+                    if (item) {
+                        currentImageIndex = parseInt(item.dataset.index);
+                        openImageViewer(currentImageIndex);
+                    }
+                });
+            }
+
+            if (viewerCloseButton) viewerCloseButton.addEventListener('click', closeImageViewer);
+            if (viewerPrevButton) viewerPrevButton.addEventListener('click', showPrevImage);
+            if (viewerNextButton) viewerNextButton.addEventListener('click', showNextImage);
+            
+            if (imageViewerOverlay) {
+                imageViewerOverlay.addEventListener('click', (e) => {
+                    if (e.target === imageViewerOverlay) closeImageViewer();
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                    if (e.key === 'Escape') closeImageViewer();
+                    if (e.key === 'ArrowLeft') showPrevImage();
+                    if (e.key === 'ArrowRight') showNextImage();
+                }
+            });
         });
     </script>
 </body>
