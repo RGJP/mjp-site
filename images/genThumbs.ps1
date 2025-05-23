@@ -1,10 +1,19 @@
 # Requires ImageMagick (magick) to be in PATH
+
+# Create the THUMBS folder if it doesn't exist
+$thumbsDir = Join-Path -Path $PWD -ChildPath "THUMBS"
+if (!(Test-Path $thumbsDir)) {
+    New-Item -Path $thumbsDir -ItemType Directory
+}
+
 Get-ChildItem -Filter *.webp | ForEach-Object {
     $inputFile = $_.FullName
     $baseName = $_.BaseName
-    $outputFile = "$($_.DirectoryName)\$baseName-thumb.webp"
+    $outputFile = Join-Path -Path $thumbsDir -ChildPath "$baseName-thumb.webp"
 
-    magick "$inputFile" -resize 500x500^> -quality 30 -define webp:method=6 -define webp:low-memory=true "$outputFile"
+    # Higher quality setting and tuned compression for better visuals
+    magick "$inputFile" -resize 500x500^> -quality 85 -define webp:method=6 "$outputFile"
+$outputfile
 }
 
 pause
