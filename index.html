@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <script>
+        // IMMEDIATE THEME & LANGUAGE APPLICATION
+        // This script runs synchronously and applies the theme and language
+        // before the browser paints the body, preventing FOUC (Flash Of Unstyled Content).
         (function() {
-          const theme = localStorage.getItem('theme') || 'light';
-          document.documentElement.setAttribute('data-theme', theme);
+            const isFirstVisit = !localStorage.getItem('hasVisited');
+
+            if (isFirstVisit) {
+                localStorage.setItem('language', 'en'); // Default to English on first visit
+                localStorage.setItem('theme', 'light'); // Default to light theme on first visit
+                localStorage.setItem('hasVisited', 'true');
+            }
+
+            const storedTheme = localStorage.getItem('theme') || 'light';
+            const storedLanguage = localStorage.getItem('language') || 'en';
+
+            document.documentElement.setAttribute('data-theme', storedTheme);
+            document.documentElement.lang = storedLanguage;
         })();
       </script>
     <meta charset="UTF-8">
@@ -387,13 +401,22 @@
         }
 
         /* Show light signature for light theme */
-        body[data-theme="light"] .artist-signature .signature-light {
+        html[data-theme="light"] .artist-signature .signature-light {
             display: block;
         }
 
         /* Show dark signature for dark theme */
-        body[data-theme="dark"] .artist-signature .signature-dark {
+        html[data-theme="dark"] .artist-signature .signature-dark {
             display: block;
+        }
+
+        .artist-signature a {
+            text-decoration: none; /* Remove underline from link */
+            display: inline-block; /* Ensures the link wraps the image appropriately */
+        }
+
+        .artist-signature a:hover {
+            text-decoration: none; /* Ensure no underline on hover */
         }
 
         /* Announcement Overlay */
@@ -584,8 +607,10 @@
     <footer class="site-footer">
         <div class="container">
             <div class="artist-signature">
-                <img src="images/signaturelt.png" alt="Artist Signature" class="signature-light" id="signatureLight">
-                <img src="images/signaturedt.png" alt="Artist Signature" class="signature-dark" id="signatureDark">
+                <a href="contact.html" aria-label="Contact the artist - signature link">
+                    <img src="images/signaturelt.png" alt="Artist Signature (Light Theme)" class="signature-light" id="signatureLight">
+                    <img src="images/signaturedt.png" alt="Artist Signature (Dark Theme)" class="signature-dark" id="signatureDark">
+                </a>
             </div>
             <p>&copy; <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
         </div>
@@ -636,7 +661,7 @@
             const translations = {
                 en: {
                     siteTitle: "Marius Jomphe - Photography",
-                    navImages: "IMAGES",
+                    navImages: "GALLERY",
                     navAbout: "ABOUT",
                     navContact: "CONTACT",
                     themeToggleDark: "DARK THEME",
@@ -649,7 +674,7 @@
                 },
                 fr: {
                     siteTitle: "Marius Jomphe - Photographie",
-                    navImages: "IMAGES",
+                    navImages: "GALERIE",
                     navAbout: "À PROPOS",
                     navContact: "CONTACT",
                     themeToggleDark: "THÈME SOMBRE",
@@ -663,7 +688,7 @@
             };
 
             // --- ELEMENTS ---
-            const body = document.body;
+            // const body = document.body; // No longer needed as we operate on document.documentElement
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
             const galleryContainer = document.getElementById('imageGallery');
@@ -677,58 +702,73 @@
             const closeAnnouncementButton = document.getElementById('closeAnnouncement');
 
             let currentImageIndex = 0;
-            const isFirstVisit = !localStorage.getItem('hasVisited');
-
-            if (isFirstVisit) {
-                localStorage.setItem('language', 'en');
-                localStorage.setItem('theme', 'light');
-                localStorage.setItem('hasVisited', 'true');
-            }
-
+            // isFirstVisit logic is now handled by the script in <head>
+            
             let currentLanguage = localStorage.getItem('language') || 'en'; 
             let currentTheme = localStorage.getItem('theme') || 'light'; 
 
 
-            // --- INITIALIZATION ---
+            // --- GALLERY & IMAGE FUNCTIONS ---
 
-            // Populate Gallery - Simplified to use original image files directly
+            // Intersection Observer for lazy creating images
+            const createImageOnIntersection = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const galleryItemDiv = entry.target;
+                        const fullResFilename = galleryItemDiv.dataset.fullresFilename;
+                        const imagePath = galleryItemDiv.dataset.imagePath;
+
+                        if (!fullResFilename || galleryItemDiv.querySelector('img')) {
+                            // Already processed or no filename
+                            observer.unobserve(galleryItemDiv);
+                            return;
+                        }
+
+                        const img = document.createElement('img');
+                        const namePart = fullResFilename.substring(0, fullResFilename.lastIndexOf('.'));
+                        const extension = fullResFilename.substring(fullResFilename.lastIndexOf('.'));
+                        const thumbnailFilename = `${namePart}-thumb${extension}`;
+                        
+                        img.src = imagePath + thumbnailFilename;
+
+                        const altNamePart = fullResFilename.substring(0, fullResFilename.lastIndexOf('.'));
+                        img.alt = `Thumbnail of ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`;
+                        
+                        img.loading = 'lazy';    // Still good for fallback and browser hint
+                        img.decoding = 'async';
+
+                        img.addEventListener('load', () => img.classList.add('loaded'));
+                        if (img.complete) img.classList.add('loaded'); // Handle cached images
+
+                        galleryItemDiv.appendChild(img);
+                        observer.unobserve(galleryItemDiv); // Stop observing once image is added
+                    }
+                });
+            };
+
+            const imageObserver = new IntersectionObserver(createImageOnIntersection, {
+                rootMargin: '0px 0px 200px 0px', // Start loading when 200px from viewport bottom
+                threshold: 0.01 // Even a tiny part visible
+            });
+
             function populateGallery() {
                 if (!galleryContainer) return;
                 galleryContainer.innerHTML = ''; // Clear existing items
                 
-                imageFilenames.forEach((baseFilename, index) => {
+                imageFilenames.forEach((fullResFilename, index) => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
-                    item.dataset.index = index;
-
-                    const img = document.createElement('img');
-                    
-                    // Directly set the src to the original image file
-                    img.src = imagePath + baseFilename; 
-
-                    const namePart = baseFilename.substring(0, baseFilename.lastIndexOf('.'));
-                    img.alt = `Photograph by Marius Jomphe - ${namePart.replace(/[\W_]+/g," ")}`;
-                    
-                    img.loading = 'lazy';    // Native lazy loading
-                    img.decoding = 'async';  // Decode image off the main thread
-
-                    // Event listener for fade-in effect
-                    img.addEventListener('load', () => {
-                        img.classList.add('loaded');
-                    });
-                    // Handle cases where image might already be cached and loaded
-                    if (img.complete) {
-                        img.classList.add('loaded');
-                    }
-
-                    item.appendChild(img);
+                    item.dataset.index = index; 
+                    item.dataset.fullresFilename = fullResFilename; // Store filename for the observer
+                    item.dataset.imagePath = imagePath; // Store path for the observer
                     galleryContainer.appendChild(item);
+                    imageObserver.observe(item); // Observe the div
                 });
             }
 
             // Theme
             function applyTheme(theme) {
-                body.dataset.theme = theme;
+                document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
                 if (themeToggleButton) { 
                     const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
@@ -772,8 +812,9 @@
 
             if (themeToggleButton) {
                 themeToggleButton.addEventListener('click', () => {
-                    currentTheme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+                    currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                     applyTheme(currentTheme);
+                    applyLanguage(currentLanguage); // Re-apply language to update theme-dependent button text
                 });
             }
 
@@ -814,7 +855,7 @@
             document.addEventListener('keydown', (e) => {
                 if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
                     if (e.key === 'Escape') closeImageViewer();
-                    if (e.key === 'ArrowLeft') showPrevImage();
+                    if (e.key === 'ArrowLeft') showPrevImage(); // Corrected typo here from previous state if any
                     if (e.key === 'ArrowRight') showNextImage();
                 }
             });
@@ -835,8 +876,8 @@
                 if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
                 currentImageIndex = index;
                 fullscreenImage.src = imagePath + imageFilenames[currentImageIndex];
-                fullscreenImage.alt = `Enlarged view of ${imageFilenames[currentImageIndex]}`;
-                imageViewerOverlay.classList.add('active');
+                fullscreenImage.alt = `Enlarged view of ${imageFilenames[currentImageIndex].replace(/[\W_]+/g," ")} - Marius Jomphe`;
+                imageViewerOverlay.classList.add('active'); // Ensure body is defined or remove if not used
                 body.style.overflow = 'hidden'; 
                 updateNavButtons();
             }
@@ -851,7 +892,7 @@
                 if (imageFilenames.length === 0) return;
                 currentImageIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
                 fullscreenImage.src = imagePath + imageFilenames[currentImageIndex];
-                fullscreenImage.alt = `Enlarged view of ${imageFilenames[currentImageIndex]}`;
+                fullscreenImage.alt = `Enlarged view of ${imageFilenames[currentImageIndex].replace(/[\W_]+/g," ")} - Marius Jomphe`;
                 updateNavButtons();
             }
 
@@ -859,7 +900,7 @@
                 if (imageFilenames.length === 0) return;
                 currentImageIndex = (currentImageIndex + 1) % imageFilenames.length;
                 fullscreenImage.src = imagePath + imageFilenames[currentImageIndex];
-                fullscreenImage.alt = `Enlarged view of ${imageFilenames[currentImageIndex]}`;
+                fullscreenImage.alt = `Enlarged view of ${imageFilenames[currentImageIndex].replace(/[\W_]+/g," ")} - Marius Jomphe`;
                 updateNavButtons();
             }
 

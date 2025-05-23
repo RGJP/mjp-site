@@ -2,11 +2,25 @@
 <html lang="en">
 <head>
     <script>
-  (function() {
-    const theme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', theme);
-  })();
-</script>
+        // IMMEDIATE THEME & LANGUAGE APPLICATION
+        // This script runs synchronously and applies the theme and language
+        // before the browser paints the body, preventing FOUC (Flash Of Unstyled Content).
+        (function() {
+            const isFirstVisit = !localStorage.getItem('hasVisited');
+
+            if (isFirstVisit) {
+                localStorage.setItem('language', 'en'); // Default to English on first visit
+                localStorage.setItem('theme', 'light'); // Default to light theme on first visit
+                localStorage.setItem('hasVisited', 'true');
+            }
+
+            const storedTheme = localStorage.getItem('theme') || 'light';
+            const storedLanguage = localStorage.getItem('language') || 'en';
+
+            document.documentElement.setAttribute('data-theme', storedTheme);
+            document.documentElement.lang = storedLanguage;
+        })();
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -341,13 +355,22 @@
         }
 
         /* Show light signature for light theme */
-        body[data-theme="light"] .artist-signature .signature-light {
+        html[data-theme="light"] .artist-signature .signature-light {
             display: block;
         }
 
         /* Show dark signature for dark theme */
-        body[data-theme="dark"] .artist-signature .signature-dark {
+        html[data-theme="dark"] .artist-signature .signature-dark {
             display: block;
+        }
+
+        .artist-signature a {
+            text-decoration: none; /* Remove underline from link */
+            display: inline-block; /* Ensures the link wraps the image appropriately */
+        }
+
+        .artist-signature a:hover {
+            text-decoration: none; /* Ensure no underline on hover */
         }
 
         /* Responsive Adjustments */
@@ -391,23 +414,6 @@
             }
         }
     </style>
-    <script>
-        // IMMEDIATE THEME APPLICATION SCRIPT
-        // This script runs synchronously and applies the theme before the browser paints the body.
-        (function() {
-            const body = document.body;
-            const isFirstVisit = !localStorage.getItem('hasVisited');
-
-            if (isFirstVisit) {
-                localStorage.setItem('language', 'en'); // Default to English on first visit
-                localStorage.setItem('theme', 'light'); // Default to light theme on first visit
-                localStorage.setItem('hasVisited', 'true');
-            }
-
-            const storedTheme = localStorage.getItem('theme') || 'light';
-            body.dataset.theme = storedTheme;
-        })();
-    </script>
 </head>
 <body>
     <header class="site-header">
@@ -473,8 +479,10 @@
     <footer class="site-footer">
         <div class="container">
             <div class="artist-signature">
-                <img src="images/signaturelt.png" alt="Artist Signature" class="signature-light" id="signatureLight">
-                <img src="images/signaturedt.png" alt="Artist Signature" class="signature-dark" id="signatureDark">
+                <a href="contact.html" aria-label="Contact the artist - signature link">
+                    <img src="images/signaturelt.png" alt="Artist Signature (Light Theme)" class="signature-light" id="signatureLight">
+                    <img src="images/signaturedt.png" alt="Artist Signature (Dark Theme)" class="signature-dark" id="signatureDark">
+                </a>
             </div>
             <p>&copy; <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
         </div>
@@ -498,7 +506,7 @@
                 en: {
                     siteTitle: "Marius Jomphe - Photography",
                     pageTitleAbout: "Marius Jomphe - About",
-                    navImages: "IMAGES",
+                    navImages: "GALLERY",
                     navAbout: "ABOUT",
                     navContact: "CONTACT",
                     themeToggleDark: "DARK THEME",
@@ -515,13 +523,13 @@
                     artistStatementTitle: "The enigma of reality",
                     heisenbergQuote: `"We must remember that what we observe is not nature in itself, but nature subjected to our method of questioning."`,
                     heisenbergAttribution: "Werner Heisenberg",
-                    perceptionText1: "Perception, instead of being the passive recording of a supposed objective external reality, appears more as an active process of interpretation, elaborated by the brain, with a view to effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.",
-                    perceptionText2: "In this sense, photographs must be like open doors where the viewer can enter the world of possibilities. Images are remarkably fleeting objects, loaded with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, deeper than oneself, and thereby offer a glimpse into a little of the mystery of the world."
+                    perceptionText1: "Perception, rather than being a passive recording of a supposed objective external reality, appears more as an active process of interpretation, developed by the brain for effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.",
+                    perceptionText2: "In this sense, photographs should be like open doors where the viewer can enter a world of possibilities. Images are remarkably elusive objects, charged with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, something deeper than oneself, and thereby offer a glimpse into some of the mystery of the world."
                 },
                 fr: {
                     siteTitle: "Marius Jomphe - Photographie",
                     pageTitleAbout: "Marius Jomphe - À Propos",
-                    navImages: "IMAGES",
+                    navImages: "GALERIE",
                     navAbout: "À PROPOS",
                     navContact: "CONTACT",
                     themeToggleDark: "THÈME SOMBRE",
@@ -544,19 +552,18 @@
             };
 
             // --- ELEMENTS ---
-            const body = document.body;
+            // const body = document.body; // No longer needed as we operate on document.documentElement
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
             const currentYearSpan = document.getElementById('currentYear');
             
             let currentLanguage = localStorage.getItem('language') || 'en';
-            let currentTheme = localStorage.getItem('theme') || 'light'; // This will be set by the immediate script
+            let currentTheme = localStorage.getItem('theme') || 'light'; 
 
             // --- INITIALIZATION ---
-
-            // Theme (This part is now mainly for updating the toggle button text after initial load)
+            // Theme function updates documentElement, localStorage, and button text
             function applyTheme(theme) {
-                body.dataset.theme = theme;
+                document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
                 if (themeToggleButton) {
                     const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
@@ -603,10 +610,9 @@
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
                 themeToggleButton.addEventListener('click', () => {
-                    currentTheme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+                    currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                     applyTheme(currentTheme);
-                    const langToReapply = currentLanguage;
-                    applyLanguage(langToReapply);
+                    applyLanguage(currentLanguage); // Re-apply language to update theme-dependent button text
                 });
             }
 
@@ -617,7 +623,10 @@
                 });
             }
             
-            // Initial call to apply language and update UI elements after DOMContentLoaded
+            // Initial calls to set up UI elements based on stored preferences.
+            // The immediate script has already set the theme and lang on <html>.
+            // These calls ensure button texts and other dynamic content are correct.
+            applyTheme(currentTheme); // Ensures toggle button text is correct for the current theme
             applyLanguage(currentLanguage);
         });
     </script>
