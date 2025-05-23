@@ -225,6 +225,11 @@
             background: var(--nav-link-hover-color);
         }
 
+        .control-button:active::after,
+        .control-button:focus::after {
+            width: 0; /* Ensure no underline on click (active) or focus */
+        }
+
         [data-theme="dark"] .control-button {
             color: var(--nav-link-color);
         }
