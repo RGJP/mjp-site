@@ -153,6 +153,7 @@
             color: var(--nav-link-color);
             padding: calc(var(--base-spacing) * 0.5) 0;
             position: relative;
+            text-transform: uppercase; /* Add this line */
         }
         .main-nav a.active {
             color: var(--text-color);
@@ -207,6 +208,11 @@
             position: relative;
             cursor: pointer;
             transition: color 0.2s ease;
+
+            /* Additions for stable width and alignment */
+             /* Additions for stable width and alignment */
+             display: inline-block;
+            min-width: auto;
         }
 
         .control-button::after {

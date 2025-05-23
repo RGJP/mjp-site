@@ -176,7 +176,8 @@
             width: 100%;
             height: 2px;
             display: block;
-            margin-top: 5px;
+            /* margin-top: 5px;  <-- REMOVE THIS */
+            bottom: 0px; /* Add this to position it at the bottom */
             left: 0;
             background: var(--text-color); /* underline in text color */
         }
@@ -187,12 +188,14 @@
             width: 0;
             height: 2px;
             display: block;
-            margin-top: 5px;
+            /* margin-top: 5px; <-- REMOVE THIS */
+            bottom: 0px; /* Add this to position it at the bottom */
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
             -webkit-transition: width 0.3s ease;
         }
+
         .main-nav a:hover::after {
             width: 100%;
             left: 0;
@@ -219,7 +222,12 @@
             position: relative;
             cursor: pointer;
             transition: color 0.2s ease;
-            text-transform: uppercase; /* Add this line to make text uppercase */
+            text-transform: uppercase;
+            line-height: inherit; /* Ensure consistent line height with nav links */
+
+            /* Additions for stable width and alignment */
+            display: inline-block;
+            min-width: auto;
         }
 
         .control-button::after {
@@ -228,7 +236,8 @@
             width: 0;
             height: 2px;
             display: block;
-            margin-top: 5px;
+            /* margin-top: 5px; <-- REMOVE THIS */
+            bottom: 0px; /* Add this to position it at the bottom */
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -574,7 +583,7 @@
             
             <div class="controls">
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
-                    🌓 <span data-lang-key="themeToggleDark">Dark Mode</span>
+                     <span data-lang-key="themeToggleDark">Dark Mode</span>
                     <span data-lang-key="themeToggleLight" style="display:none;">Light Mode</span>
                 </button>
                 
@@ -664,8 +673,8 @@
                     navImages: "GALLERY",
                     navAbout: "ABOUT",
                     navContact: "CONTACT",
-                    themeToggleDark: "DARK THEME",
-                    themeToggleLight: "LIGHT THEME",
+                    themeToggleDark: "🌓 DARK THEME",
+                    themeToggleLight: "🌓 LIGHT THEME",
                     languageToggleText: "🌐 FRANÇAIS", 
                     footerRights: "All rights reserved.",
                     announcementTitle: "Welcome!",
@@ -677,8 +686,8 @@
                     navImages: "GALERIE",
                     navAbout: "À PROPOS",
                     navContact: "CONTACT",
-                    themeToggleDark: "THÈME SOMBRE",
-                    themeToggleLight: "THÈME CLAIR",
+                    themeToggleDark: "🌓 THÈME SOMBRE",
+                    themeToggleLight: "🌓 THÈME CLAIR",
                     languageToggleText: "🌐 ENGLISH", 
                     footerRights: "Tous droits réservés.",
                     announcementTitle: "Bienvenue !",
