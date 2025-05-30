@@ -1,0 +1,759 @@
+:root {
+            /* Light Theme (Default) */
+            --bg-color: #f4f7f6;
+            --text-color: #1a1a1a;
+            --header-bg-color: #ffffff;
+            --nav-link-color: #333333;
+            --nav-link-hover-color: #000000;
+
+            --placeholder-bg-color: #ffffff; /* White for light theme */
+
+            --button-bg-color: #e0e0e0;
+            --button-text-color: #1a1a1a;
+            --button-hover-bg-color: #c7c7c7;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Increased opacity for darker overlay */
+            --image-viewer-nav-color: #ffffff;
+            --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
+            --loader-color: #007bff;
+            --announcement-bg: rgba(240, 240, 240, 0.95);
+            --announcement-text: #1a1a1a;
+            --announcement-border: #cccccc;
+            --announcement-button-bg: #1a1a1a; /* Dark gray/black for light theme button background */
+            --announcement-button-text: #ffffff; /* White text for light theme button */
+
+            /* Base font size for scaling */
+            --base-font-size: 16px;
+            --base-spacing: 1rem; /* 16px */
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f4f7f6;
+            --header-bg-color: #2c2c2c;
+            --nav-link-color: #e0e0e0;
+            --nav-link-hover-color: #ffffff;
+
+            --placeholder-bg-color: #000000; /* Black for dark theme */
+            --button-bg-color: #444444;
+            --button-text-color: #f4f7f6;
+            --button-hover-bg-color: #5a5a5a;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Increased opacity for darker overlay */
+            --image-viewer-nav-color: #e0e0e0;
+            --loader-color: #58a6ff;
+            --announcement-bg: rgba(40, 40, 40, 0.95);
+            --announcement-text: #f4f7f6;
+            --announcement-border: #555555;
+            --announcement-button-bg: #e0e0e0; /* Light gray/white for dark theme button background */
+            --announcement-button-text: #1a1a1a; /* Black text for dark theme button */
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: var(--base-font-size);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden; /* Prevent horizontal scrollbars from appearing briefly during transitions */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: calc(var(--base-spacing) * 0.75);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1800px; /* Increased max-width for larger screens */
+            margin: 0 auto;
+            padding: var(--base-spacing);
+        }
+
+        /* Header & Navigation */
+        .site-header {
+            background-color: var(--header-bg-color);
+            padding: var(--base-spacing) 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allow wrapping for smaller screens */
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 2.5vw, 2.2rem); /* Responsive font size */
+            font-weight: 100;
+            color: var(--text-color);
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: calc(var(--base-spacing) * 1.5);
+        }
+
+        .main-nav a {
+            font-weight: 500;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            text-transform: uppercase; /* Add this line to make text uppercase */
+        }
+        .main-nav a.active {
+            color: var(--text-color); /* use theme's main text color */
+            font-weight: 700;
+        }
+
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            display: block;
+            bottom: 0px; /* Add this to position it at the bottom */
+            left: 0;
+            background: var(--text-color); /* underline in text color */
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            bottom: 0px; /* Add this to position it at the bottom */
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+            -webkit-transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+        .main-nav a:hover {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 1.5); /* Increase spacing to match nav link gap */
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            font-weight: 500;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            text-transform: uppercase;
+            line-height: inherit; /* Ensure consistent line height with nav links */
+
+            /* Additions for stable width and alignment */
+            display: inline-block;
+            min-width: auto;
+        }
+
+        .control-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            bottom: 0px; /* Add this to position it at the bottom */
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+        }
+
+        .control-button:hover {
+            color: var(--nav-link-hover-color);
+        }
+
+        .control-button:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+
+        .control-button:active::after,
+        .control-button:focus::after {
+            width: 0; /* Ensure no underline on click (active) or focus */
+        }
+
+        [data-theme="dark"] .control-button {
+            color: var(--nav-link-color);
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--base-spacing);
+            padding: calc(var(--base-spacing) * 2) 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            /* Placeholder background for while image loads */
+            background-color: var(--placeholder-bg-color); /* Use a CSS variable */
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Add background-color to transition */
+
+            /* Performance improvements for lazy rendering off-screen items */
+            content-visibility: auto;
+            contain-intrinsic-size: 250px 250px; /* Corresponds to minmax(250px,...) */
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0; /* Initially hidden for fade-in */
+            /* Adjust these values for a smoother fade */
+            transition: opacity 0s ease-in-out;
+        }
+        .gallery-item img.loaded { /* Class to trigger fade-in */
+            opacity: 1;
+        }
+
+
+        /* Fullscreen Image Viewer */
+        .image-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--image-viewer-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+
+        .image-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        /* Spinner Styles */
+        .image-viewer-spinner {
+            position: absolute; /* Position it within the viewer content or overlay */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px; /* Adjust size as needed */
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3); /* Light border */
+            border-top-color: var(--image-viewer-nav-color); /* Spinner color, matches nav buttons */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2002; /* Ensure it's above the image but below controls if necessary */
+            display: none; /* Hidden by default */
+            opacity: 0.3; /* Add this line to reduce the spinner's visibility */
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+
+        .image-viewer-content {
+            width: 100vw;
+            height: 100vh;
+            padding: 5vh 5vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-viewer-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border-radius: 3px;
+            opacity: 0; /* Start transparent, JS will handle fade-in */
+            /* transition: opacity 4s ease-in-out; */ /* JS will manage this dynamically */
+        }
+
+        .viewer-close-button,
+        .viewer-nav-button {
+            position: fixed;
+            background: transparent;
+            color: var(--image-viewer-nav-color);
+            border: none;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            cursor: pointer;
+            padding: calc(var(--base-spacing) * 0.5);
+            transition: background-color 0.2s ease, color 0.2s ease;
+            z-index: 2001;
+            border-radius: 50%;
+            width: clamp(40px, 6vw, 60px);
+            height: clamp(40px, 6vw, 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .viewer-close-button:hover,
+        .viewer-nav-button:hover {
+            background-color: var(--image-viewer-nav-hover-bg);
+        }
+
+        .viewer-close-button {
+            top: calc(var(--base-spacing) * 1.5);
+            right: calc(var(--base-spacing) * 1.5);
+        }
+
+        .viewer-nav-button.prev {
+            left: calc(var(--base-spacing) * 1.5);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .viewer-nav-button.next {
+            right: calc(var(--base-spacing) * 1.5);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Footer */
+        .site-footer {
+            text-align: center; /* Center the text within the footer */
+            padding: calc(var(--base-spacing) * 1) 0;
+            margin-top: calc(var(--base-spacing) * 2);
+            border-top: 1px solid var(--button-bg-color);
+            font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+        }
+
+        .site-footer .container {
+            display: flex;
+            flex-direction: column; /* Stack signature and text */
+            align-items: center; /* Center items horizontally */
+            gap: calc(var(--base-spacing) * 0.5); /* Space between signature and text */
+        }
+
+        .artist-signature {
+            /* No specific alignment needed here as the container centers it */
+            margin-top: calc(var(--base-spacing) * 0.5); /* Smaller space */
+            margin-bottom: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-signature img {
+            max-width: 300px; /* Increased size - adjust as needed */
+            height: auto;
+            opacity: 0.4; /* 40% opacity */
+            transition: opacity 0.3s ease;
+            display: none; /* Hide both by default */
+        }
+
+        /* Show light signature for light theme */
+        html[data-theme="light"] .artist-signature .signature-light {
+            display: block;
+        }
+
+        /* Show dark signature for dark theme */
+        html[data-theme="dark"] .artist-signature .signature-dark {
+            display: block;
+        }
+
+        .artist-signature a {
+            text-decoration: none; /* Remove underline from link */
+            display: inline-block; /* Ensures the link wraps the image appropriately */
+        }
+
+        .artist-signature a:hover {
+            text-decoration: none; /* Ensure no underline on hover */
+        }
+
+        /* Announcement Overlay */
+        #announcementOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none; /* Hidden by default, shown by JS */
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            padding: var(--base-spacing);
+        }
+
+        .announcement-content {
+            background-color: var(--announcement-bg);
+            color: var(--announcement-text);
+            padding: calc(var(--base-spacing) * 2);
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid var(--announcement-border);
+        }
+        .announcement-content h2 {
+            margin-top: 0;
+            color: var(--text-color);
+        }
+        .announcement-content p {
+            margin-bottom: calc(var(--base-spacing) * 1.5);
+            line-height: 1.7;
+        }
+        #closeAnnouncement {
+            /* This rule already uses the CSS variables, so it will adapt automatically */
+            background-color: var(--announcement-button-bg);
+            color: var(--announcement-button-text);
+            border: none;
+            padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.5);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: clamp(0.9rem, 1.3vw, 1rem);
+            transition: background-color 0.3s ease, color 0.3s ease; /* Added color to transition */
+        }
+
+        #closeAnnouncement:hover {
+            /* You might want a subtle hover effect */
+            opacity: 0.85; /* Keep the opacity change */
+        }
+
+
+        /* Responsive Adjustments */
+
+        /* For smaller mobiles - header controls might stack */
+        @media (max-width: 480px) {
+            .site-header .container {
+                flex-direction: column;
+                gap: calc(var(--base-spacing) * 0.5);
+            }
+            .main-nav ul {
+                gap: var(--base-spacing);
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .controls {
+                margin-top: calc(var(--base-spacing) * 0.5);
+            }
+        }
+
+        /* Tablets and small desktops */
+        @media (min-width: 768px) {
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: calc(var(--base-spacing) * 1.5);
+            }
+            .gallery-item {
+                contain-intrinsic-size: 300px 300px;
+            }
+        }
+
+        /* Larger desktops */
+        @media (min-width: 1200px) {
+            :root {
+                --base-font-size: 17px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+            .gallery-item {
+                contain-intrinsic-size: 350px 350px;
+            }
+        }
+
+        /* 4K Displays */
+        @media (min-width: 2000px) {
+            :root {
+                --base-font-size: 20px;
+            }
+            .container {
+                max-width: 2400px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                gap: calc(var(--base-spacing) * 1.8);
+            }
+            .gallery-item {
+                contain-intrinsic-size: 400px 400px;
+            }
+            .logo {
+                font-size: 2.8rem;
+            }
+            .main-nav a {
+                font-size: 1.4rem;
+            }
+            .control-button {
+                padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
+                font-size: 1.2rem;
+            }
+            .viewer-close-button,
+            .viewer-nav-button {
+                font-size: 3rem;
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+/* --- About Page Specific Styles --- */
+.about-section .container {
+            padding-top: calc(var(--base-spacing) * 2);
+            padding-bottom: calc(var(--base-spacing) * 0);
+            max-width: 1000px;
+        }
+
+        .about-page-title {
+            text-align: center;
+            margin-bottom: calc(var(--base-spacing) * 2.5);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+        }
+
+        .about-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--base-spacing) * 3);
+        }
+
+        .about-main-content {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--base-spacing) * 2);
+            align-items: flex-start;
+        }
+
+        @media (min-width: 768px) {
+            .about-main-content {
+                flex-direction: row;
+                gap: calc(var(--base-spacing) * 3);
+            }
+        }
+
+        .artist-image-container {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto calc(var(--base-spacing) * 1.5) auto;
+        }
+
+        @media (min-width: 768px) {
+            .artist-image-container {
+                width: 30%;
+                max-width: 300px;
+                margin: 0;
+                align-self: flex-start;
+            }
+        }
+
+        .artist-photo {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            border: 4px solid var(--header-bg-color);
+        }
+
+        .artist-text-content {
+            flex-grow: 1;
+        }
+
+        .artist-bio, .artist-statement {
+            margin-bottom: calc(var(--base-spacing) * 2);
+        }
+
+        .artist-bio p, .artist-statement p {
+            margin-bottom: var(--base-spacing);
+            line-height: 1.75;
+            text-align: justify;
+            font-size: 1.2rem; /* Adjusted for slightly larger text */
+        }
+
+        .artist-statement blockquote {
+            margin: calc(var(--base-spacing) * 1.5) 0 calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 1.5);
+            padding: var(--base-spacing) calc(var(--base-spacing) * 1.5);
+            border-left: 5px solid var(--button-bg-color);
+            background-color: var(--placeholder-bg-color);
+            font-style:normal;
+            color: var(--nav-link-color);
+            border-radius: 4px;
+        }
+        .artist-statement blockquote p {
+            margin-bottom: calc(var(--base-spacing) * 0.5);
+            font-size: 1em;
+        }
+
+        .artist-statement blockquote footer {
+            font-style: normal;
+            text-align: right;
+            font-size: 0.95em;
+            color: var(--text-color);
+            margin-top: var(--base-spacing);
+        }
+
+        .artist-bio h2, .artist-statement h2 {
+            font-size: clamp(1.5rem, 2.2vw, 2rem);
+            color: var(--text-color);
+            margin-bottom: calc(var(--base-spacing) * 1.2);
+            padding-bottom: calc(var(--base-spacing) * 0.4);
+            border-bottom: 2px solid var(--nav-link-hover-color);
+        }
+
+/* --- Contact Page Specific Styles --- */
+.contact-section .container {
+            padding-top: calc(var(--base-spacing) * 2);
+            padding-bottom: calc(var(--base-spacing) * 0);
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .contact-page-title {
+            text-align: center;
+            margin-bottom: calc(var(--base-spacing) * 2.5);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+        }
+
+        .contact-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 25vh;
+        }
+
+        .contact-text {
+            font-size: clamp(0.9rem, 1.6vw, 1.2rem); /* Scaled down further for smaller text */
+            margin-bottom: calc(var(--base-spacing) * 2);
+            text-align: center;
+        }
+
+        /* New Email Button Styles */
+        .email-button {
+            background-color: var(--email-button-bg);
+            color: var(--email-button-text);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-flex; /* Use flex to align icon and text */
+            align-items: center;
+            gap: 0.5rem; /* Space between icon and text */
+            text-decoration: none; /* Remove underline for anchor tag acting as button */
+        }
+
+        .email-button:hover {
+            background-color: var(--email-button-hover-bg);
+            transform: translateY(-2px);
+            text-decoration: none; /* Keep no underline on hover */
+        }
+
+        .email-button:active {
+            transform: translateY(0);
+        }
+
+/* --- Contact Page Modified Image Gallery Styles --- */
+        .image-gallery {
+            display: grid;
+            /* Center the grid items within the available space */
+            justify-content: center;
+            /* Remove padding from here; let the container handle overall margins */
+            padding: 0;
+            /* Limit the max width of the grid itself and center it */
+            max-width: 1800px; /* Adjust this value as desired for overall gallery width */
+            margin: 0 auto; /* Centers the entire grid on the page */
+            gap: var(--base-spacing);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            /* Remove aspect-ratio to prevent forced empty space */
+            /* aspect-ratio: 1 / 1; */
+            background-color: transparent; /* Changed to transparent to remove white bars */
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            content-visibility: auto;
+            /* Removed contain-intrinsic-size as images will define size within constraints */
+            /* contain-intrinsic-size: 250px 250px; */
+            display: flex; /* Added to help center the image */
+            align-items: center; /* Vertically center image within the grid item */
+            justify-content: center; /* Horizontally center image within the grid item */
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            max-width: 100%;
+            /* Crucial: Set max-height to control the "smallness" of the image in the grid */
+            max-height: 250px; /* Adjust this value to control the image height in the grid */
+            width: auto;
+            height: auto;
+            object-fit: contain; /* Ensures the entire image is scaled down to fit */
+            opacity: 0; /* Initially hidden for fade-in */
+            transition: opacity 0.5s ease-in-out; /* Smoother fade */
+            display: block; /* Ensure it behaves as a block for correct centering */
+        }
+        .gallery-item img.loaded {
+            opacity: 1;
+        }

@@ -32,7 +32,9 @@
     <link rel="canonical" href="https://mariusjomphe.com"> <meta property="og:title" content="Marius Jomphe - Photography">
     <meta property="og:description" content="Explore the captivating photography portfolio of Marius Jomphe, based in Gaspé, Quebec.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mariusjomphe.com"> <meta property="og:image" content="https://mariusjomphe.com/images/og-preview.jpg"> <meta property="og:image:alt" content="Marius Jomphe Photography">
+    <meta property="og:url" content="https://mariusjomphe.com"> <meta property="og:image" content="https://mariusjomphe.com/images/og-preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630"> <meta property="og:image:alt" content="Marius Jomphe Photography">
     <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="en_CA">
 <meta property="og:locale:alternate" content="fr_CA">
@@ -42,404 +44,52 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Light Theme (Default) */
-            --bg-color: #f4f7f6;
-            --text-color: #1a1a1a;
-            --header-bg-color: #ffffff;
-            --nav-link-color: #333333;
-            --nav-link-hover-color: #000000;
-            --placeholder-bg-color: #ffffff;
-            --button-bg-color: #e0e0e0;
-            --button-text-color: #1a1a1a;
-            --button-hover-bg-color: #c7c7c7;
-            --base-font-size: 16px;
-            --base-spacing: 1rem;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #1a1a1a;
-            --text-color: #f4f7f6;
-            --header-bg-color: #2c2c2c;
-            --nav-link-color: #e0e0e0;
-            --nav-link-hover-color: #ffffff;
-            --placeholder-bg-color: #000000;
-            --button-bg-color: #444444;
-            --button-text-color: #f4f7f6;
-            --button-hover-bg-color: #5a5a5a;
-        }
-
-        /* ... rest of your CSS ... */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            font-size: var(--base-font-size);
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: calc(var(--base-spacing) * 0.75);
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        a {
-            color: var(--nav-link-hover-color);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1800px;
-            margin: 0 auto;
-            padding: var(--base-spacing);
-        }
-
-        .site-header {
-            background-color: var(--header-bg-color);
-            padding: var(--base-spacing) 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            transition: background-color 0.3s ease;
-        }
-
-        .site-header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-            font-weight: 100;
-            color: var(--text-color);
-        }
-
-        .main-nav ul {
-            list-style: none;
-            display: flex;
-            gap: calc(var(--base-spacing) * 1.5);
-        }
-
-        .main-nav a {
-            font-weight: 500;
-            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-            color: var(--nav-link-color);
-            padding: calc(var(--base-spacing) * 0.5) 0;
-            position: relative;
-            text-transform: uppercase; /* Add this line */
-        }
-        .main-nav a.active {
-            color: var(--text-color);
-            font-weight: 700;
-        }
-
-        .main-nav a.active::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            display: block;
-            margin-top: 5px;
-            left: 0;
-            background: var(--text-color);
-        }
-
-        .main-nav a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            display: block;
-            margin-top: 5px;
-            right: 0;
-            background: var(--nav-link-hover-color);
-            transition: width 0.3s ease;
-        }
-        .main-nav a:hover::after {
-            width: 100%;
-            left: 0;
-            background: var(--nav-link-hover-color);
-        }
-        .main-nav a:hover {
-            color: var(--nav-link-hover-color);
-            text-decoration: none;
-        }
-
-        .controls {
-            display: flex;
-            align-items: center;
-            gap: calc(var(--base-spacing) * 1.5);
-        }
-
-        .control-button {
-            background: none;
-            border: none;
-            font-weight: 500;
-            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-            color: var(--nav-link-color);
-            padding: calc(var(--base-spacing) * 0.5) 0;
-            position: relative;
-            cursor: pointer;
-            transition: color 0.2s ease;
-            /* Additions for stable width and alignment */
-               /* Additions for stable width and alignment */
-               display: inline-block;
-            min-width: auto;
-        }
-
-        .control-button::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            display: block;
-            margin-top: 5px;
-            right: 0;
-            background: var(--nav-link-hover-color);
-            transition: width 0.3s ease;
-        }
-
-        .control-button:hover {
-            color: var(--nav-link-hover-color);
-        }
-
-        .control-button:hover::after {
-            width: 100%;
-            left: 0;
-            background: var(--nav-link-hover-color);
-        }
-
-        .control-button:active::after,
-        .control-button:focus::after {
-            width: 0; /* Ensure no underline on click (active) or focus */
-        }
-
-        [data-theme="dark"] .control-button {
-            color: var(--nav-link-color);
-        }
-
-        /* About Page Specific Styles */
-        .about-section .container {
-            padding-top: calc(var(--base-spacing) * 2);
-            padding-bottom: calc(var(--base-spacing) * 0);
-            max-width: 1000px;
-        }
-
-        .about-page-title {
-            text-align: center;
-            margin-bottom: calc(var(--base-spacing) * 2.5);
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
-        }
-
-        .about-content-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: calc(var(--base-spacing) * 3);
-        }
-
-        .about-main-content {
-            display: flex;
-            flex-direction: column;
-            gap: calc(var(--base-spacing) * 2);
-            align-items: flex-start;
-        }
-
-        @media (min-width: 768px) {
-            .about-main-content {
-                flex-direction: row;
-                gap: calc(var(--base-spacing) * 3);
-            }
-        }
-
-        .artist-image-container {
-            flex-shrink: 0;
-            width: 100%;
-            max-width: 280px;
-            margin: 0 auto calc(var(--base-spacing) * 1.5) auto;
-        }
-
-        @media (min-width: 768px) {
-            .artist-image-container {
-                width: 30%;
-                max-width: 300px;
-                margin: 0;
-                align-self: flex-start;
-            }
-        }
-
-        .artist-photo {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            border: 4px solid var(--header-bg-color);
-        }
-
-        .artist-text-content {
-            flex-grow: 1;
-        }
-
-        .artist-bio, .artist-statement {
-            margin-bottom: calc(var(--base-spacing) * 2);
-        }
-
-        .artist-bio p, .artist-statement p {
-            margin-bottom: var(--base-spacing);
-            line-height: 1.75;
-            text-align: justify;
-            font-size: 1.2rem; /* Adjusted for slightly larger text */
-        }
-
-        .artist-statement blockquote {
-            margin: calc(var(--base-spacing) * 1.5) 0 calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 1.5);
-            padding: var(--base-spacing) calc(var(--base-spacing) * 1.5);
-            border-left: 5px solid var(--button-bg-color);
-            background-color: var(--placeholder-bg-color);
-            font-style:normal;
-            color: var(--nav-link-color);
-            border-radius: 4px;
-        }
-        .artist-statement blockquote p {
-            margin-bottom: calc(var(--base-spacing) * 0.5);
-            font-size: 1em;
-        }
-
-        .artist-statement blockquote footer {
-            font-style: normal;
-            text-align: right;
-            font-size: 0.95em;
-            color: var(--text-color);
-            margin-top: var(--base-spacing);
-        }
-
-        .artist-bio h2, .artist-statement h2 {
-            font-size: clamp(1.5rem, 2.2vw, 2rem);
-            color: var(--text-color);
-            margin-bottom: calc(var(--base-spacing) * 1.2);
-            padding-bottom: calc(var(--base-spacing) * 0.4);
-            border-bottom: 2px solid var(--nav-link-hover-color);
-        }
-        /* End About Page Specific Styles */
-
-        /* Footer - Identical to index.html */
-        .site-footer {
-            text-align: center;
-            padding: calc(var(--base-spacing) * 1) 0;
-            margin-top: calc(var(--base-spacing) * 2);
-            border-top: 1px solid var(--button-bg-color);
-            font-size: clamp(0.8rem, 1.2vw, 0.9rem);
-        }
-
-        .site-footer .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: calc(var(--base-spacing) * 0.5);
-        }
-
-        .artist-signature {
-            margin-top: calc(var(--base-spacing) * 0.5);
-            margin-bottom: calc(var(--base-spacing) * 0.5);
-        }
-
-        .artist-signature img {
-            max-width: 300px;
-            height: auto;
-            opacity: 0.4;
-            transition: opacity 0.3s ease;
-            display: none;
-        }
-
-        /* Show light signature for light theme */
-        html[data-theme="light"] .artist-signature .signature-light {
-            display: block;
-        }
-
-        /* Show dark signature for dark theme */
-        html[data-theme="dark"] .artist-signature .signature-dark {
-            display: block;
-        }
-
-        .artist-signature a {
-            text-decoration: none; /* Remove underline from link */
-            display: inline-block; /* Ensures the link wraps the image appropriately */
-        }
-
-        .artist-signature a:hover {
-            text-decoration: none; /* Ensure no underline on hover */
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 480px) {
-            .site-header .container {
-                flex-direction: column;
-                gap: calc(var(--base-spacing) * 0.5);
-            }
-            .main-nav ul {
-                gap: var(--base-spacing);
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            .controls {
-                margin-top: calc(var(--base-spacing) * 0.5);
-            }
-        }
-
-        @media (min-width: 1200px) {
-            :root {
-                --base-font-size: 17px;
-            }
-        }
-
-        @media (min-width: 2000px) {
-            :root {
-                --base-font-size: 20px;
-            }
-            .container {
-                max-width: 2400px;
-            }
-            .logo {
-                font-size: 2.8rem;
-            }
-            .main-nav a {
-                font-size: 1.4rem;
-            }
-            .control-button {
-                padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
-                font-size: 1.2rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://mariusjomphe.com/about.html#person",
+      "name": "Marius Jomphe",
+      "url": "https://mariusjomphe.com/about.html",
+      "jobTitle": "Photographer",
+      "description": "Marius Jomphe is a photographer based in Gaspé, Quebec, specializing in landscape and fine art photography. Explore his biography and artistic vision.",
+      "image": "https://mariusjomphe.com/images/portraitmj.jpg",
+      "birthPlace": {
+        "@type": "Place",
+        "name": "Havre St-Pierre, Quebec"
+      },
+      "homeLocation": {
+        "@type": "Place",
+        "name": "Gaspé, Quebec"
+      },
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Université du Québec à Montréal"
+      },
+      "sameAs": [
+        "https://mariusjomphe.com/"
+      ]
+    },
+    {
+      "@type": "AboutPage",
+      "name": "About Marius Jomphe - Marius Jomphe Photography",
+      "url": "https://mariusjomphe.com/about.html",
+      "description": "Learn more about the artist Marius Jomphe, his biography, and artistic statement.",
+      "mainEntity": {
+        "@id": "https://mariusjomphe.com/about.html#person"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Marius Jomphe",
+        "url": "https://mariusjomphe.com/"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
     <header class="site-header">
@@ -514,147 +164,6 @@
         </div>
     </footer>
 
-    <script>
-        // Highlight active nav link based on current URL
-        document.querySelectorAll('.main-nav a').forEach(link => {
-            const currentPath = window.location.pathname;
-            const linkPath = link.getAttribute('href');
-            if (currentPath.endsWith(linkPath) || (currentPath === '/' && linkPath === 'index.html')) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- TRANSLATIONS ---
-            const translations = {
-                en: {
-                    siteTitle: "Marius Jomphe ‧ Photography",
-                    pageTitleAbout: "Marius Jomphe ‧ About",
-                    navImages: "GALLERY",
-                    navAbout: "ABOUT",
-                    navContact: "CONTACT",
-                    themeToggleDark: "DARK THEME",
-                    themeToggleLight: "LIGHT THEME",
-                    languageToggleText: "🌐 FRANÇAIS",
-                    footerRights: "All rights reserved.",
-                    // About page specific
-                    aboutHeading: "About the Artist",
-                    biographyTitle: "Biography",
-                    bioParagraph1: "Marius Jomphe was born in Havre St-Pierre, on the North Shore of Quebec.",
-                    bioParagraph2: "He obtained his Bachelor of Arts from the Université du Québec à Montréal in 1976. He then taught for thirty years at the Cégep de la Gaspésie et des Îles while regularly exhibiting his work.",
-                    bioParagraph3: "Since 1990, he has dedicated himself exclusively to photography. His interest in science (astrobiology, neurosciences) influences his photographic practice, which includes the territories of the Gaspé Peninsula as well as the Rivière-au-Tonnerre region on the North Shore.",
-                    bioParagraph4: "He lives and works in Gaspé.",
-                    artistStatementTitle: "The enigma of reality",
-                    heisenbergQuote: `"We must remember that what we observe is not nature in itself, but nature subjected to our method of questioning."`,
-                    heisenbergAttribution: "Werner Heisenberg",
-                    perceptionText1: "Perception, rather than being a passive recording of a supposed objective external reality, appears more as an active process of interpretation, developed by the brain for effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.",
-                    perceptionText2: "In this sense, photographs should be like open doors where the viewer can enter a world of possibilities. Images are remarkably elusive objects, charged with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, something deeper than oneself, and thereby offer a glimpse into some of the mystery of the world."
-                },
-                fr: {
-                    siteTitle: "Marius Jomphe ‧ Photographie",
-                    pageTitleAbout: "Marius Jomphe ‧ À Propos",
-                    navImages: "GALERIE",
-                    navAbout: "À PROPOS",
-                    navContact: "CONTACT",
-                    themeToggleDark: "THÈME SOMBRE",
-                    themeToggleLight: "THÈME CLAIR",
-                    languageToggleText: "🌐 ENGLISH",
-                    footerRights: "Tous droits réservés.",
-                    // About page specific
-                    aboutHeading: "À Propos de l'Artiste",
-                    biographyTitle: "Biographie",
-                    bioParagraph1: "Marius Jomphe est né à Havre St-Pierre, sur la Côte-Nord au Québec.",
-                    bioParagraph2: "Il obtient son Baccalauréat ès Arts de l’Université du Québec à Montréal en 1976. Il enseigne ensuite durant trente ans au Cégep de la Gaspésie et des Îles tout en exposant régulièrement son travail.",
-                    bioParagraph3: "Depuis 1990, il se consacre exclusivement à la photographie. Son intérêt pour la science (astrobiologie, neurosciences) marque sa pratique photographique qui comprend les territoires de la Pointe de la Gaspésie de même que la région de Rivière-au-Tonnerre sur la Côte-Nord.",
-                    bioParagraph4: "Il vit et travaille à Gaspé.",
-                    artistStatementTitle: "L'énigme du réel",
-                    heisenbergQuote: `"Nous devons nous souvenir que ce que nous observons n’est pas la nature en elle-même, mais la nature soumise à notre méthode de questionnement."`,
-                    heisenbergAttribution: "Werner Heisenberg",
-                    perceptionText1: "La perception, au lieu d’être l’enregistrement passif d’une supposée réalité extérieure objective, apparaît davantage comme un processus actif d’interprétation, élaboré par le cerveau, en vue d’une interaction adaptative efficace au monde qui nous entoure. Au moyen de la photographie, nous pouvons donc nous interroger sur la nature du visible. En nous obligeant à considérer la profonde complexité de ce qui est vu, celle-ci peut par conséquent nous ouvrir à une toute nouvelle expérience du monde.",
-                    perceptionText2: "En ce sens, les photographies doivent être comme des portes ouvertes où le spectateur peut entrer dans le monde des possibilités. Les images sont des objets remarquablement fuyants, chargées de multiples potentiels significatifs. Mon intention est donc d’interroger et de démontrer cette relativité de la perception afin de pointer vers quelque chose de plus grand, de plus profond que soi, et par là même, laisser entrevoir un peu du mystère du monde."
-                }
-            };
-
-            // --- ELEMENTS ---
-            // const body = document.body; // No longer needed as we operate on document.documentElement
-            const themeToggleButton = document.getElementById('themeToggle');
-            const languageToggleButton = document.getElementById('languageToggle');
-            const currentYearSpan = document.getElementById('currentYear');
-            
-            let currentLanguage = localStorage.getItem('language') || 'en';
-            let currentTheme = localStorage.getItem('theme') || 'light'; 
-
-            // --- INITIALIZATION ---
-            // Theme function updates documentElement, localStorage, and button text
-            function applyTheme(theme) {
-                document.documentElement.setAttribute('data-theme', theme);
-                localStorage.setItem('theme', theme);
-                if (themeToggleButton) {
-                    const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
-                    const toggleLightText = themeToggleButton.querySelector('[data-lang-key="themeToggleLight"]');
-                    if (toggleDarkText && toggleLightText) {
-                        if (theme === 'dark') {
-                            toggleDarkText.style.display = 'none';
-                            toggleLightText.style.display = 'inline';
-                        } else {
-                            toggleDarkText.style.display = 'inline';
-                            toggleLightText.style.display = 'none';
-                        }
-                    }
-                }
-            }
-
-            // Language
-            function applyLanguage(lang) {
-                currentLanguage = lang;
-                localStorage.setItem('language', lang);
-                document.documentElement.lang = lang;
-                document.querySelectorAll('[data-lang-key]').forEach(el => {
-                    const key = el.dataset.langKey;
-                    if (translations[lang] && translations[lang][key]) {
-                        // For the page title, we need to handle the <title> tag specifically
-                        if (el.tagName === 'TITLE') {
-                            document.title = translations[lang][key];
-                        } else {
-                            el.textContent = translations[lang][key];
-                        }
-                    }
-                });
-                if (languageToggleButton) {
-                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
-                }
-                applyTheme(currentTheme); // Re-apply theme to ensure signature visibility updates
-            }
-
-            // Footer Year
-            if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear();
-            }
-
-            // --- EVENT LISTENERS ---
-            if (themeToggleButton) {
-                themeToggleButton.addEventListener('click', () => {
-                    currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-                    applyTheme(currentTheme);
-                    applyLanguage(currentLanguage); // Re-apply language to update theme-dependent button text
-                });
-            }
-
-            if (languageToggleButton) {
-                languageToggleButton.addEventListener('click', () => {
-                    const newLang = currentLanguage === 'en' ? 'fr' : 'en';
-                    applyLanguage(newLang);
-                });
-            }
-            
-            // Initial calls to set up UI elements based on stored preferences.
-            // The immediate script has already set the theme and lang on <html>.
-            // These calls ensure button texts and other dynamic content are correct.
-            applyTheme(currentTheme); // Ensures toggle button text is correct for the current theme
-            applyLanguage(currentLanguage);
-        });
-    </script>
+    <script src="js/common.js" defer></script>
 </body>
 </html>
