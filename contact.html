@@ -34,8 +34,6 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mariusjomphe.com">
     <meta property="og:image" content="https://mariusjomphe.com/images/og-preview.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Marius Jomphe Photography">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="en_CA">
@@ -45,40 +43,557 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": "https://mariusjomphe.com/contact.html#person",
-      "name": "Marius Jomphe",
-      "url": "https://mariusjomphe.com/contact.html",
-      "jobTitle": "Photographer",
-      "email": "mariusjomphe52@gmail.com",
-      "image": "https://mariusjomphe.com/images/og-preview.jpg",
-      "sameAs": [
-        "https://mariusjomphe.com/"
-      ]
-    },
-    {
-      "@type": "ContactPage",
-      "name": "Contact Marius Jomphe - Marius Jomphe Photography",
-      "url": "https://mariusjomphe.com/contact.html",
-      "description": "Contact information for photographer Marius Jomphe. Reach out for inquiries, collaborations, or acquisitions.",
-      "mainEntity": {
-        "@id": "https://mariusjomphe.com/contact.html#person"
-      },
-      "publisher": {
-        "@type": "Person",
-        "name": "Marius Jomphe",
-        "url": "https://mariusjomphe.com/"
-      }
-    }
-  ]
-}
-</script>
+    <style>
+        :root {
+            /* Light Theme (Default) */
+            --bg-color: #f4f7f6;
+            --text-color: #1a1a1a;
+            --header-bg-color: #ffffff;
+            --nav-link-color: #333333;
+            --nav-link-hover-color: #000000;
+            --placeholder-bg-color: #ffffff;
+            --button-bg-color: #e0e0e0;
+            --button-text-color: #1a1a1a;
+            --button-hover-bg-color: #c7c7c7;
+            --base-font-size: 16px;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
+            --image-viewer-nav-color: #ffffff;
+            --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
+            --loader-color: #007bff;
+            --base-spacing: 1rem;
+            
+            /* Email Button Colors for Light Theme (Dark button on light background) */
+            --email-button-bg: #1a1a1a; /* Black */
+            --email-button-text: #f4f7f6; /* White */
+            --email-button-hover-bg: #333333; /* Darker grey on hover */
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f4f7f6;
+            --header-bg-color: #2c2c2c;
+            --nav-link-color: #e0e0e0;
+            --nav-link-hover-color: #ffffff;
+            --placeholder-bg-color: #000000;
+            --button-bg-color: #444444;
+            --button-text-color: #f4f7f6;
+            --button-hover-bg-color: #5a5a5a;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Consistent with light theme for viewer */
+            --image-viewer-nav-color: #e0e0e0;
+            --loader-color: #58a6ff;
+
+            /* Email Button Colors for Dark Theme (Light button on dark background) */
+            --email-button-bg: #f4f7f6; /* White */
+            --email-button-text: #1a1a1a; /* Black */
+            --email-button-hover-bg: #c7c7c7; /* Lighter grey on hover */
+        }
+
+        /* Base Styles */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: var(--base-font-size);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: calc(var(--base-spacing) * 0.75);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: var(--base-spacing);
+        }
+
+        /* Header Styles */
+        .site-header {
+            background-color: var(--header-bg-color);
+            padding: var(--base-spacing) 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+            font-weight: 100;
+            color: var(--text-color);
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: calc(var(--base-spacing) * 1.5);
+        }
+
+        .main-nav a {
+            font-weight: 500;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            text-transform: uppercase;
+        }
+        .main-nav a.active {
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            left: 0;
+            background: var(--text-color);
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+        }
+        .main-nav a:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+        .main-nav a:hover {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 1.5);
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            font-weight: 500;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.2s ease;
+
+            /* Additions for stable width and alignment */
+            display: inline-block;
+            min-width: auto;
+        }
+
+        .control-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+        }
+
+        .control-button:hover {
+            color: var(--nav-link-hover-color);
+        }
+
+        .control-button:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+
+        .control-button:active::after,
+        .control-button:focus::after {
+            width: 0; /* Ensure no underline on click (active) or focus */
+        }
+
+        [data-theme="dark"] .control-button {
+            color: var(--nav-link-color);
+        }
+
+        /* Contact Page Specific Styles */
+        .contact-section .container {
+            padding-top: calc(var(--base-spacing) * 2);
+            padding-bottom: calc(var(--base-spacing) * 0);
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .contact-page-title {
+            text-align: center;
+            margin-bottom: calc(var(--base-spacing) * 2.5);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+        }
+
+        .contact-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 25vh;
+        }
+
+        .contact-text {
+            font-size: clamp(0.9rem, 1.6vw, 1.2rem); /* Scaled down further for smaller text */
+            margin-bottom: calc(var(--base-spacing) * 2);
+            text-align: center;
+        }
+
+        /* New Email Button Styles */
+        .email-button {
+            background-color: var(--email-button-bg);
+            color: var(--email-button-text);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-flex; /* Use flex to align icon and text */
+            align-items: center;
+            gap: 0.5rem; /* Space between icon and text */
+            text-decoration: none; /* Remove underline for anchor tag acting as button */
+        }
+
+        .email-button:hover {
+            background-color: var(--email-button-hover-bg);
+            transform: translateY(-2px);
+            text-decoration: none; /* Keep no underline on hover */
+        }
+
+        .email-button:active {
+            transform: translateY(0);
+        }
+
+        /* Image Gallery Styles (MODIFIED) */
+        .image-gallery {
+            display: grid;
+            /* Center the grid items within the available space */
+            justify-content: center; 
+            /* Remove padding from here; let the container handle overall margins */
+            padding: 0; 
+            /* Limit the max width of the grid itself and center it */
+            max-width: 1800px; /* Adjust this value as desired for overall gallery width */
+            margin: 0 auto; /* Centers the entire grid on the page */
+            gap: var(--base-spacing);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            /* Remove aspect-ratio to prevent forced empty space */
+            /* aspect-ratio: 1 / 1; */ 
+            background-color: transparent; /* Changed to transparent to remove white bars */
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            content-visibility: auto;
+            /* Removed contain-intrinsic-size as images will define size within constraints */
+            /* contain-intrinsic-size: 250px 250px; */ 
+            display: flex; /* Added to help center the image */
+            align-items: center; /* Vertically center image within the grid item */
+            justify-content: center; /* Horizontally center image within the grid item */
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            max-width: 100%; 
+            /* Crucial: Set max-height to control the "smallness" of the image in the grid */
+            max-height: 250px; /* Adjust this value to control the image height in the grid */
+            width: auto; 
+            height: auto; 
+            object-fit: contain; /* Ensures the entire image is scaled down to fit */
+            opacity: 0; /* Initially hidden for fade-in */
+            transition: opacity 0.5s ease-in-out; /* Smoother fade */
+            display: block; /* Ensure it behaves as a block for correct centering */
+        }
+        .gallery-item img.loaded {
+            opacity: 1;
+        }
+
+        /* Fullscreen Image Viewer Styles */
+        .image-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--image-viewer-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+
+        .image-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        .image-viewer-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--image-viewer-nav-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2002;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .image-viewer-content {
+            width: 100vw;
+            height: 100vh;
+            padding: 5vh 5vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-viewer-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border-radius: 3px;
+            opacity: 0; /* Start transparent, JS will handle fade-in */
+        }
+
+        .viewer-close-button,
+        .viewer-nav-button {
+            position: fixed;
+            background: transparent;
+            color: var(--image-viewer-nav-color);
+            border: none;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            cursor: pointer;
+            padding: calc(var(--base-spacing) * 0.5);
+            transition: background-color 0.2s ease, color 0.2s ease;
+            z-index: 2001;
+            border-radius: 50%;
+            width: clamp(40px, 6vw, 60px);
+            height: clamp(40px, 6vw, 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .viewer-close-button:hover,
+        .viewer-nav-button:hover {
+            background-color: var(--image-viewer-nav-hover-bg);
+        }
+
+        .viewer-close-button {
+            top: calc(var(--base-spacing) * 1.5);
+            right: calc(var(--base-spacing) * 1.5);
+        }
+
+        .viewer-nav-button.prev {
+            left: calc(var(--base-spacing) * 1.5);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .viewer-nav-button.next {
+            right: calc(var(--base-spacing) * 1.5);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Footer Styles */
+        .site-footer {
+            text-align: center;
+            padding: calc(var(--base-spacing) * 1) 0;
+            margin-top: calc(var(--base-spacing) * 2);
+            border-top: 1px solid var(--button-bg-color);
+            font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+        }
+
+        .site-footer .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-signature {
+            margin-top: calc(var(--base-spacing) * 0.5);
+            margin-bottom: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-signature img {
+            max-width: 300px;
+            height: auto;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+            display: none; /* Hide all signatures by default */
+        }
+
+        /* Show light signature for light theme */
+        html[data-theme="light"] .artist-signature .signature-light {
+            display: block; /* Show the light signature */
+        }
+
+        /* Show dark signature for dark theme */
+        html[data-theme="dark"] .artist-signature .signature-dark {
+            display: block; /* Show the dark signature */
+        }
+
+        .artist-signature a {
+            text-decoration: none; /* Remove underline from link */
+            display: inline-block; /* Ensures the link wraps the image appropriately */
+        }
+
+        .artist-signature a:hover {
+            text-decoration: none; /* Ensure no underline on hover */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .site-header .container {
+                flex-direction: column;
+                gap: calc(var(--base-spacing) * 0.5);
+            }
+            .main-nav ul {
+                gap: var(--base-spacing);
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .controls {
+                margin-top: calc(var(--base-spacing) * 0.5);
+            }
+        }
+
+        /* Gallery Responsive Adjustments (MODIFIED) */
+        @media (min-width: 768px) {
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly larger min-width for columns */
+                gap: calc(var(--base-spacing) * 1.5);
+            }
+            .gallery-item img {
+                max-height: 280px; /* Adjust max-height for larger screens */
+            }
+        }
+
+        @media (min-width: 1200px) {
+            :root {
+                --base-font-size: 17px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Further increase min-width */
+            }
+            .gallery-item img {
+                max-height: 320px; /* Adjust max-height for larger screens */
+            }
+        }
+
+        @media (min-width: 2000px) {
+            :root {
+                --base-font-size: 20px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); /* Even larger min-width */
+                gap: calc(var(--base-spacing) * 1.8);
+            }
+            .gallery-item img {
+                max-height: 380px; /* Adjust max-height for very large screens */
+            }
+            .viewer-close-button,
+            .viewer-nav-button {
+                font-size: 3rem;
+                width: 70px;
+                height: 70px;
+            }
+            .container {
+                max-width: 2200px; /* Adjusted max-width for the main container on 4K displays */
+            }
+            .logo {
+                font-size: 2.8rem;
+            }
+            .main-nav a {
+                font-size: 1.4rem;
+            }
+            .control-button {
+                padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header class="site-header">
@@ -148,7 +663,324 @@
         </div>
     </footer>
 
-    <script src="js/common.js" defer></script>
-    <script src="js/gallery-contact.js" defer></script>
+    <script>
+        // Highlight active nav link based on current URL
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            const currentPath = window.location.pathname;
+            const linkPath = link.getAttribute('href');
+            // Check if the current path ends with the link's href, or if it's the root and the link is index.html
+            if (currentPath.endsWith(linkPath) || (currentPath === '/' && linkPath === 'index.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- CONFIGURATION FOR CONTACT PAGE GALLERY ---
+            const contactPageImageFilenames = [
+                'contact/contact1.jpg', 
+                'contact/contact2.jpg', 
+                'contact/contact3.jpg', 
+                'contact/contact4.jpg'
+            ];
+            const imagePath = 'images/'; // Base path for all images
+
+
+            // --- TRANSLATIONS ---
+            const translations = {
+                en: {
+                    siteTitle: "Marius Jomphe ‧ Photography",
+                    pageTitleContact: "Marius Jomphe ‧ Contact",
+                    navImages: "GALLERY",
+                    navAbout: "ABOUT",
+                    navContact: "CONTACT",
+                    themeToggleDark: "DARK THEME",
+                    themeToggleLight: "LIGHT THEME",
+                    languageToggleText: "🌐 FRANÇAIS",
+                    footerRights: "All rights reserved.",
+                    contactHeading: "Contact",
+                    contactText: "For any questions, collaboration requests, acquisition, exhibition proposals, or use of the works, do not hesitate to contact the artist directly. He will be pleased to discuss with you. Thank you for your interest.",
+                    emailButtonText: "Write to the artist"
+                },
+                fr: {
+                    siteTitle: "Marius Jomphe ‧ Photographie",
+                    pageTitleContact: "Marius Jomphe ‧ Contact",
+                    navImages: "GALERIE",
+                    navAbout: "À PROPOS",
+                    navContact: "CONTACT",
+                    themeToggleDark: "THÈME SOMBRE",
+                    themeToggleLight: "THÈME CLAIR",
+                    languageToggleText: "🌐 ENGLISH",
+                    footerRights: "Tous droits réservés.",
+                    contactHeading: "Contact",
+                    contactText: "Pour toute question, demande de collaboration, acquisition, proposition d’exposition ou utilisation des œuvres, n’hésitez pas à contacter l’artiste directement. Il se fera un plaisir d’échanger avec vous. Merci pour votre intérêt.",
+                    emailButtonText: "Écrire à l'artiste"
+                }
+            };
+
+            // --- ELEMENTS ---
+            const themeToggleButton = document.getElementById('themeToggle');
+            const languageToggleButton = document.getElementById('languageToggle');
+            const currentYearSpan = document.getElementById('currentYear');
+            // Gallery and Viewer Elements
+            const galleryContainer = document.getElementById('imageGallery');
+            const imageViewerOverlay = document.getElementById('imageViewerOverlay');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            const viewerCloseButton = document.getElementById('viewerCloseButton');
+            const viewerPrevButton = document.getElementById('viewerPrevButton');
+            const viewerNextButton = document.getElementById('viewerNextButton');
+            const imageViewerSpinner = document.getElementById('imageViewerSpinner');
+            
+            let currentLanguage = localStorage.getItem('language') || 'en';
+            let currentTheme = localStorage.getItem('theme') || 'light';
+
+            // --- FUNCTIONS ---
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme); // Apply to html tag
+                localStorage.setItem('theme', theme);
+                if (themeToggleButton) {
+                    const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
+                    const toggleLightText = themeToggleButton.querySelector('[data-lang-key="themeToggleLight"]');
+                    if (toggleDarkText && toggleLightText) {
+                        if (theme === 'dark') {
+                            toggleDarkText.style.display = 'none';
+                            toggleLightText.style.display = 'inline';
+                        } else {
+                            toggleDarkText.style.display = 'inline';
+                            toggleLightText.style.display = 'none';
+                        }
+                    }
+                }
+            }
+
+            function applyLanguage(lang) {
+                currentLanguage = lang;
+                localStorage.setItem('language', lang);
+                document.documentElement.lang = lang; // Ensure HTML lang attribute is updated
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.dataset.langKey;
+                    if (translations[lang] && translations[lang][key]) {
+                        if (el.tagName === 'TITLE') {
+                            document.title = translations[lang][key];
+                        } else {
+                            el.textContent = translations[lang][key];
+                        }
+                    }
+                });
+                if (languageToggleButton) {
+                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
+                }
+                // Re-apply theme to ensure any language-dependent theme visuals update correctly
+                applyTheme(currentTheme); 
+            }
+            
+            let currentImageIndex = 0;
+
+            // --- GALLERY & IMAGE FUNCTIONS (Adapted for contact page) ---
+            const createImageOnIntersection = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const galleryItemDiv = entry.target;
+                        const fullResFilename = galleryItemDiv.dataset.fullresFilename;
+                        const currentImagePath = galleryItemDiv.dataset.imagePath; 
+
+                        if (!fullResFilename || galleryItemDiv.querySelector('img')) {
+                            observer.unobserve(galleryItemDiv);
+                            return;
+                        }
+
+                        const img = document.createElement('img');
+                        img.src = currentImagePath + fullResFilename; 
+                        const altNamePart = fullResFilename.substring(0, fullResFilename.lastIndexOf('.'));
+                        img.alt = `Image of ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`; 
+                        img.loading = 'lazy';
+                        img.decoding = 'async';
+                        img.addEventListener('load', () => img.classList.add('loaded'));
+                        if (img.complete) img.classList.add('loaded'); 
+
+                        galleryItemDiv.appendChild(img);
+                        observer.unobserve(galleryItemDiv); 
+                    }
+                });
+            };
+
+            const imageObserver = new IntersectionObserver(createImageOnIntersection, {
+                rootMargin: '0px 0px 200px 0px', 
+                threshold: 0.01 
+            });
+
+            function populateGallery() {
+                if (!galleryContainer) return;
+                galleryContainer.innerHTML = ''; 
+                contactPageImageFilenames.forEach((fullResFilename, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.dataset.index = index; 
+                    item.dataset.fullresFilename = fullResFilename; 
+                    item.dataset.imagePath = imagePath; 
+                    galleryContainer.appendChild(item);
+                    imageObserver.observe(item); 
+                });
+            }
+
+            // --- IMAGE VIEWER FUNCTIONS (Adapted for contact page) ---
+            function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
+                if (!imageViewerOverlay || !fullscreenImage || contactPageImageFilenames.length === 0) return;
+
+                const proceedToLoadImage = (targetIndex) => {
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+
+                    fullscreenImage.style.transition = 'none';
+                    fullscreenImage.style.opacity = 0;
+                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                    fullscreenImage.alt = "";
+
+                    const imageUrl = imagePath + contactPageImageFilenames[targetIndex];
+                    const altText = `Enlarged view of ${contactPageImageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
+
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        fullscreenImage.src = imageUrl;
+                        fullscreenImage.alt = altText;
+
+                        requestAnimationFrame(() => {
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
+                        });
+
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                    };
+
+                    tempImg.onerror = () => {
+                        console.error("Error loading image:", imageUrl);
+                        fullscreenImage.alt = "Error loading image";
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                        if (isOpeningCallParam && currentImageIndex === targetIndex) {
+                            setTimeout(closeImageViewer, 1500);
+                        }
+                    };
+                    tempImg.src = imageUrl;
+                };
+
+                if (isOpeningCallParam) {
+                    currentImageIndex = newIndex;
+                    imageViewerOverlay.classList.add('active');
+                    if (document.body) document.body.style.overflow = 'hidden';
+                    proceedToLoadImage(currentImageIndex);
+                } else {
+                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                    fullscreenImage.style.opacity = 0;
+
+                    setTimeout(() => {
+                        if (!imageViewerOverlay.classList.contains('active')) {
+                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                            return;
+                        }
+                        currentImageIndex = newIndex;
+                        proceedToLoadImage(currentImageIndex);
+                    }, 500);
+                }
+            }
+
+            function openImageViewer(index) {
+                loadAndShowImageInViewer(index, true);
+            }
+
+            function closeImageViewer() {
+                if (!imageViewerOverlay) return;
+                imageViewerOverlay.classList.remove('active');
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                if (document.body) document.body.style.overflow = ''; 
+            }
+
+            function showPrevImage() {
+                if (contactPageImageFilenames.length === 0) return;
+                const newIndex = (currentImageIndex - 1 + contactPageImageFilenames.length) % contactPageImageFilenames.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function showNextImage() {
+                if (contactPageImageFilenames.length === 0) return;
+                const newIndex = (currentImageIndex + 1) % contactPageImageFilenames.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function updateNavButtons() {
+                if (!viewerPrevButton || !viewerNextButton || contactPageImageFilenames.length <= 1) {
+                    if(viewerPrevButton) viewerPrevButton.style.display = 'none';
+                    if(viewerNextButton) viewerNextButton.style.display = 'none';
+                    return;
+                }
+                if(viewerPrevButton) viewerPrevButton.style.display = 'block';
+                if(viewerNextButton) viewerNextButton.style.display = 'block';
+            }
+
+            // --- INITIALIZATION ON DOMContentLoaded ---
+
+            // Footer Year
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            // Apply theme and language based on localStorage after DOM is ready
+            // The very first script in head already sets data-theme and lang on <html> for FOUC prevention.
+            // These calls ensure that buttons and dynamic text are updated correctly.
+            applyTheme(currentTheme); 
+            applyLanguage(currentLanguage);
+            
+            // Initialize gallery for contact page
+            populateGallery();
+            updateNavButtons();
+
+            // --- EVENT LISTENERS ---
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', () => {
+                    currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                    applyTheme(currentTheme);
+                    applyLanguage(currentLanguage); // Re-apply language to update theme-dependent button text
+                });
+            }
+
+            if (languageToggleButton) {
+                languageToggleButton.addEventListener('click', () => {
+                    const newLang = currentLanguage === 'en' ? 'fr' : 'en';
+                    applyLanguage(newLang);
+                });
+            }
+
+            // Gallery Event Listeners
+            if (galleryContainer) {
+                galleryContainer.addEventListener('click', (e) => {
+                    const item = e.target.closest('.gallery-item');
+                    if (item) {
+                        currentImageIndex = parseInt(item.dataset.index);
+                        openImageViewer(currentImageIndex);
+                    }
+                });
+            }
+
+            if (viewerCloseButton) viewerCloseButton.addEventListener('click', closeImageViewer);
+            if (viewerPrevButton) viewerPrevButton.addEventListener('click', showPrevImage);
+            if (viewerNextButton) viewerNextButton.addEventListener('click', showNextImage);
+            
+            if (imageViewerOverlay) {
+                imageViewerOverlay.addEventListener('click', (e) => {
+                    if (e.target === imageViewerOverlay) closeImageViewer();
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                    if (e.key === 'Escape') closeImageViewer();
+                    if (e.key === 'ArrowLeft') showPrevImage();
+                    if (e.key === 'ArrowRight') showNextImage();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
