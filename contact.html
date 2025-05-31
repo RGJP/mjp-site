@@ -980,6 +980,53 @@
                     if (e.key === 'ArrowRight') showNextImage();
                 }
             });
+
+            // --- TOUCH GESTURE SUPPORT FOR IMAGE VIEWER (Adapted for contact page) ---
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+            const swipeThreshold = 50; // Minimum pixels to be considered a swipe
+
+            if (imageViewerOverlay) {
+                imageViewerOverlay.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                    }
+                }, { passive: true });
+
+                imageViewerOverlay.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                        touchEndX = e.touches[0].clientX;
+                        touchEndY = e.touches[0].clientY;
+                    }
+                }, { passive: true });
+
+                imageViewerOverlay.addEventListener('touchend', (e) => {
+                    if (!imageViewerOverlay.classList.contains('active')) return;
+
+                    if (touchStartX === 0 || touchEndX === 0) { // No significant horizontal movement
+                        touchStartX = 0;
+                        touchStartY = 0;
+                        touchEndX = 0;
+                        touchEndY = 0;
+                        return;
+                    }
+
+                    const deltaX = touchEndX - touchStartX;
+                    const deltaY = touchEndY - touchStartY;
+
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+                        if (deltaX < 0) { // Swiped left
+                            showNextImage();
+                        } else { // Swiped right
+                            showPrevImage();
+                        }
+                    }
+                    touchStartX = 0; touchStartY = 0; touchEndX = 0; touchEndY = 0; // Reset coordinates
+                });
+            }
         });
     </script>
 </body>
