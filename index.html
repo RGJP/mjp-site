@@ -61,11 +61,6 @@
             --image-viewer-nav-color: #ffffff;
             --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
             --loader-color: #007bff;
-            --announcement-bg: rgba(240, 240, 240, 0.95);
-            --announcement-text: #1a1a1a;
-            --announcement-border: #cccccc;
-            --announcement-button-bg: #1a1a1a; /* Dark gray/black for light theme button background */
-            --announcement-button-text: #ffffff; /* White text for light theme button */
 
             /* Base font size for scaling */
             --base-font-size: 16px;
@@ -86,11 +81,6 @@
             --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Increased opacity for darker overlay */
             --image-viewer-nav-color: #e0e0e0;
             --loader-color: #58a6ff;
-            --announcement-bg: rgba(40, 40, 40, 0.95);
-            --announcement-text: #f4f7f6;
-            --announcement-border: #555555;
-            --announcement-button-bg: #e0e0e0; /* Light gray/white for dark theme button background */
-            --announcement-button-text: #1a1a1a; /* Black text for dark theme button */
         }
 
         *,
@@ -472,58 +462,6 @@
             text-decoration: none; /* Ensure no underline on hover */
         }
 
-        /* Announcement Overlay */
-        #announcementOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: none; /* Hidden by default, shown by JS */
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
-            padding: var(--base-spacing);
-        }
-
-        .announcement-content {
-            background-color: var(--announcement-bg);
-            color: var(--announcement-text);
-            padding: calc(var(--base-spacing) * 2);
-            border-radius: 8px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            border: 1px solid var(--announcement-border);
-        }
-        .announcement-content h2 {
-            margin-top: 0;
-            color: var(--text-color); 
-        }
-        .announcement-content p {
-            margin-bottom: calc(var(--base-spacing) * 1.5);
-            line-height: 1.7;
-        }
-        #closeAnnouncement {
-            /* This rule already uses the CSS variables, so it will adapt automatically */
-            background-color: var(--announcement-button-bg);
-            color: var(--announcement-button-text);
-            border: none;
-            padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.5);
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: clamp(0.9rem, 1.3vw, 1rem);
-            transition: background-color 0.3s ease, color 0.3s ease; /* Added color to transition */
-        }
-
-        #closeAnnouncement:hover {
-            /* You might want a subtle hover effect */
-            opacity: 0.85; /* Keep the opacity change */
-        }
-
-
         /* Responsive Adjustments */
 
         /* For smaller mobiles - header controls might stack */
@@ -602,14 +540,6 @@
     </style>
 </head>
 <body>
-
-    <div id="announcementOverlay">
-        <div class="announcement-content">
-            <h2 data-lang-key="announcementTitle">Welcome!</h2>
-            <p data-lang-key="announcementText">This is a special announcement. Check out the latest updates or ongoing promotions here. This message appears once per session.</p>
-            <button id="closeAnnouncement" data-lang-key="announcementClose">Close</button>
-        </div>
-    </div>
 
     <header class="site-header">
         <div class="container">
@@ -719,10 +649,7 @@
                     themeToggleDark: "🌓 DARK THEME",
                     themeToggleLight: "🌓 LIGHT THEME",
                     languageToggleText: "🌐 FRANÇAIS", 
-                    footerRights: "All rights reserved.",
-                    announcementTitle: "Welcome!",
-                    announcementText: "This is a special announcement. Check out the latest updates or ongoing promotions here. This message appears once per session.",
-                    announcementClose: "Close",
+                    footerRights: "All rights reserved."
                 },
                 fr: {
                     siteTitle: "Marius Jomphe ‧ Photographie",
@@ -732,10 +659,7 @@
                     themeToggleDark: "🌓 THÈME SOMBRE",
                     themeToggleLight: "🌓 THÈME CLAIR",
                     languageToggleText: "🌐 ENGLISH", 
-                    footerRights: "Tous droits réservés.",
-                    announcementTitle: "Bienvenue !",
-                    announcementText: "Ceci est une annonce spéciale. Consultez les dernières mises à jour ou promotions en cours ici. Ce message apparaît une fois par session.",
-                    announcementClose: "Fermer",
+                    footerRights: "Tous droits réservés."
                 }
             };
 
@@ -750,8 +674,6 @@
             const viewerNextButton = document.getElementById('viewerNextButton');
             const imageViewerSpinner = document.getElementById('imageViewerSpinner');
             const currentYearSpan = document.getElementById('currentYear');
-            const announcementOverlay = document.getElementById('announcementOverlay');
-            const closeAnnouncementButton = document.getElementById('closeAnnouncement');
 
             let currentImageIndex = 0;
             let currentLanguage = localStorage.getItem('language') || 'en'; 
@@ -896,22 +818,63 @@
                 }
             });
             
-            /*
-            // Announcement Logic (currently commented out, ensure it also manages body.style.overflow if re-enabled)
-            if (announcementOverlay && closeAnnouncementButton) {
-                if (!sessionStorage.getItem('announcementShown')) {
-                    announcementOverlay.style.display = 'flex';
-                    // if (document.body) document.body.style.overflow = 'hidden'; // If announcement takes over scrolling
-                }
-                closeAnnouncementButton.addEventListener('click', () => {
-                    announcementOverlay.style.display = 'none';
-                    // if (document.body && !imageViewerOverlay.classList.contains('active')) { // Only restore if viewer isn't active
-                    //    document.body.style.overflow = '';
-                    // }
-                    sessionStorage.setItem('announcementShown', 'true');
+            // --- TOUCH GESTURE SUPPORT FOR IMAGE VIEWER ---
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+            const swipeThreshold = 50; // Minimum pixels to be considered a swipe
+
+            if (imageViewerOverlay) {
+                imageViewerOverlay.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                        // Prevent default scrolling when swiping on the image viewer itself
+                        // Only if we want to strictly control behavior and avoid accidental pull-to-refresh etc.
+                        // e.preventDefault(); 
+                    }
+                }, { passive: true }); // Set passive to true if not calling preventDefault
+
+                imageViewerOverlay.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                        touchEndX = e.touches[0].clientX;
+                        touchEndY = e.touches[0].clientY;
+                    }
+                }, { passive: true }); // Set passive to true if not calling preventDefault
+
+                imageViewerOverlay.addEventListener('touchend', (e) => {
+                    if (!imageViewerOverlay.classList.contains('active')) return;
+
+                    if (touchStartX === 0 || touchEndX === 0) { // No significant horizontal movement
+                        // Reset for safety, though primary reset is after action
+                        touchStartX = 0;
+                        touchStartY = 0;
+                        touchEndX = 0;
+                        touchEndY = 0;
+                        return;
+                    }
+
+                    const deltaX = touchEndX - touchStartX;
+                    const deltaY = touchEndY - touchStartY;
+
+                    // Prioritize horizontal swipe and ensure it's more horizontal than vertical
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+                        if (deltaX < 0) { // Swiped left
+                            showNextImage();
+                        } else { // Swiped right
+                            showPrevImage();
+                        }
+                    }
+                    
+                    // Reset touch coordinates for the next gesture
+                    touchStartX = 0;
+                    touchStartY = 0;
+                    touchEndX = 0;
+                    touchEndY = 0;
                 });
             }
-            */
+
 
             // --- IMAGE VIEWER FUNCTIONS ---
             function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
@@ -995,23 +958,18 @@
                 if (document.body) {
                     document.body.style.overflow = ''; 
                 }
-                // Optional: Reset image details if needed, though current logic handles opacity fine
-                // fullscreenImage.style.transition = 'none'; 
-                // fullscreenImage.style.opacity = 0;
-                // fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                // fullscreenImage.alt = ''; 
             }
 
             function showPrevImage() {
                 if (imageFilenames.length === 0) return;
                 const newIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); // isOpeningCallParam will be false by default
+                loadAndShowImageInViewer(newIndex); 
             }
 
             function showNextImage() {
                 if (imageFilenames.length === 0) return;
                 const newIndex = (currentImageIndex + 1) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); // isOpeningCallParam will be false by default
+                loadAndShowImageInViewer(newIndex); 
             }
 
             function updateNavButtons() {
