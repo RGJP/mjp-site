@@ -150,13 +150,14 @@
             gap: calc(var(--base-spacing) * 1.5);
         }
 
-        .main-nav a {
+        .main-nav a, .main-nav .dropdown > a { /* Apply to dropdown toggle as well */
             font-weight: 500;
             font-size: clamp(0.9rem, 1.5vw, 1.1rem);
             color: var(--nav-link-color);
             padding: calc(var(--base-spacing) * 0.5) 0;
             position: relative;
-            text-transform: uppercase; /* Add this line */
+            text-transform: uppercase;
+            display: inline-block; /* Ensures proper spacing and ::after positioning */
         }
         .main-nav a.active {
             color: var(--text-color);
@@ -174,7 +175,9 @@
             background: var(--text-color);
         }
 
-        .main-nav a::after {
+        /* General underline for main nav links, including dropdown toggle */
+        .main-nav a::after, 
+        .main-nav .dropdown > a::after { 
             content: '';
             position: absolute;
             width: 0;
@@ -185,15 +188,92 @@
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
         }
-        .main-nav a:hover::after {
+        
+        .main-nav a:hover::after,
+        .main-nav .dropdown > a:hover::after {
             width: 100%;
             left: 0;
             background: var(--nav-link-hover-color);
         }
-        .main-nav a:hover {
+
+        .main-nav a:hover,
+        .main-nav .dropdown > a:hover {
             color: var(--nav-link-hover-color);
             text-decoration: none;
         }
+
+        /* Dropdown Menu Styles */
+        .main-nav .dropdown {
+            position: relative;
+        }
+
+        .main-nav .dropdown > a { /* The "PROJECTS" link */
+            cursor: pointer; /* Indicate it's clickable */
+        }
+        
+        /* REMOVED ARROW STYLES
+        .main-nav .dropdown > a::after { 
+            content: ' ▼'; 
+            font-size: 0.7em;
+            margin-left: 4px;
+            transition: transform 0.2s ease-in-out;
+            display: inline-block; 
+        }
+
+        .main-nav .dropdown > a[aria-expanded="true"]::after {
+            transform: rotate(180deg); 
+        }
+        */
+        
+        /* REMOVED: Rule that prevented hover underline on dropdown toggle
+        .main-nav .dropdown > a[href="#"]:hover::after {
+             width: 0; 
+        }
+        */
+
+        .main-nav .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px); /* Position below the parent, accounts for main nav underline */
+            left: 0;
+            background-color: var(--header-bg-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            list-style: none;
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            margin: 0;
+            min-width: 200px;
+            z-index: 1100;
+            border-radius: 4px;
+            border: 1px solid var(--button-bg-color); /* Subtle border */
+        }
+
+        .main-nav .dropdown-menu.show {
+            display: block;
+        }
+
+        .main-nav .dropdown-menu li a {
+            display: block;
+            padding: calc(var(--base-spacing) * 0.6) calc(var(--base-spacing) * 1.2);
+            color: var(--nav-link-color);
+            text-transform: none; /* Dropdown items typically not uppercase */
+            font-size: clamp(0.85rem, 1.3vw, 1rem);
+            font-weight: 400; /* Normal weight for dropdown items */
+            white-space: nowrap; /* Prevent items from wrapping */
+        }
+
+        .main-nav .dropdown-menu li a:hover {
+            background-color: var(--button-bg-color);
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+        }
+
+        /* Remove ::after underline effects from dropdown sub-items */
+        .main-nav .dropdown-menu li a::after,
+        .main-nav .dropdown-menu li a:hover::after {
+            display: none; /* Ensures no inherited underline from main nav 'a' styles */
+        }
+        /* End Dropdown Menu Styles */
+
 
         .controls {
             display: flex;
@@ -211,9 +291,7 @@
             position: relative;
             cursor: pointer;
             transition: color 0.2s ease;
-            /* Additions for stable width and alignment */
-               /* Additions for stable width and alignment */
-               display: inline-block;
+            display: inline-block;
             min-width: auto;
         }
 
@@ -330,8 +408,8 @@
             border-radius: 4px;
         }
         .artist-statement blockquote p {
-            margin-bottom: calc(var(--base-spacing) * 0.5);
-            font-size: 1em;
+            margin-bottom: calc(var(--base-spacing) * 0.5); /* Keep existing margin */
+            font-size: 1.15em; /* Increased font size for the quote itself */
         }
 
         .artist-statement blockquote footer {
@@ -400,6 +478,18 @@
         }
 
         /* Responsive Adjustments */
+        @media (max-width: 767px) { /* Adjusted breakpoint for nav items stacking */
+            .main-nav ul {
+                flex-wrap: wrap; /* Allow nav items to wrap */
+                 justify-content: center; /* Center items when they wrap */
+            }
+            .main-nav .dropdown-menu { /* Adjust dropdown for mobile */
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 180px; /* Ensure it's not too wide */
+            }
+        }
+
         @media (max-width: 480px) {
             .site-header .container {
                 flex-direction: column;
@@ -431,8 +521,11 @@
             .logo {
                 font-size: 2.8rem;
             }
-            .main-nav a {
+            .main-nav a, .main-nav .dropdown > a {
                 font-size: 1.4rem;
+            }
+            .main-nav .dropdown-menu li a {
+                 font-size: 1.3rem;
             }
             .control-button {
                 padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
@@ -449,6 +542,13 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html" data-lang-key="navImages">IMAGES</a></li>
+                    <li class="dropdown">
+                        <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
+                        <ul class="dropdown-menu" aria-label="Projects submenu">
+                            <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
+                            <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
+                        </ul>
+                    </li>
                     <li><a href="about.html" class="active" data-lang-key="navAbout">ABOUT</a></li>
                     <li><a href="contact.html" data-lang-key="navContact">CONTACT</a></li>
                 </ul>
@@ -516,15 +616,31 @@
 
     <script>
         // Highlight active nav link based on current URL
-        document.querySelectorAll('.main-nav a').forEach(link => {
+        document.querySelectorAll('.main-nav > ul > li > a').forEach(link => { // Select only direct children links of li
             const currentPath = window.location.pathname;
-            const linkPath = link.getAttribute('href');
-            if (currentPath.endsWith(linkPath) || (currentPath === '/' && linkPath === 'index.html')) {
-                link.classList.add('active');
+            const linkHref = link.getAttribute('href');
+
+            if (linkHref && linkHref !== '#') { // Ensure href exists and is not just a toggle
+                let isActive = false;
+                // Ends with check for pages like about.html, contact.html
+                if (currentPath.endsWith(linkHref)) {
+                    isActive = true;
+                }
+                // Specific check for index.html at root
+                if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === 'index.html') {
+                    isActive = true;
+                }
+                
+                if (isActive) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
             } else {
-                link.classList.remove('active');
+                 link.classList.remove('active'); // Remove active from non-navigating links like dropdown toggle
             }
         });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             // --- TRANSLATIONS ---
@@ -533,6 +649,10 @@
                     siteTitle: "Marius Jomphe ‧ Photography",
                     pageTitleAbout: "Marius Jomphe ‧ About",
                     navImages: "GALLERY",
+                                    navProjects: "PROJECTS", // Added
+                    projectSonde: "SONDE",
+                    projectBruine: "BRUINE",
+                    projectPassage: "PASSAGE",
                     navAbout: "ABOUT",
                     navContact: "CONTACT",
                     themeToggleDark: "DARK THEME",
@@ -556,6 +676,10 @@
                     siteTitle: "Marius Jomphe ‧ Photographie",
                     pageTitleAbout: "Marius Jomphe ‧ À Propos",
                     navImages: "GALERIE",
+                                    navProjects: "PROJETS", // Added
+                    projectSonde: "SONDE",
+                    projectBruine: "BRUINE",
+                    projectPassage: "PASSAGE",
                     navAbout: "À PROPOS",
                     navContact: "CONTACT",
                     themeToggleDark: "THÈME SOMBRE",
@@ -578,7 +702,6 @@
             };
 
             // --- ELEMENTS ---
-            // const body = document.body; // No longer needed as we operate on document.documentElement
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
             const currentYearSpan = document.getElementById('currentYear');
@@ -587,7 +710,6 @@
             let currentTheme = localStorage.getItem('theme') || 'light'; 
 
             // --- INITIALIZATION ---
-            // Theme function updates documentElement, localStorage, and button text
             function applyTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
@@ -606,7 +728,6 @@
                 }
             }
 
-            // Language
             function applyLanguage(lang) {
                 currentLanguage = lang;
                 localStorage.setItem('language', lang);
@@ -614,7 +735,6 @@
                 document.querySelectorAll('[data-lang-key]').forEach(el => {
                     const key = el.dataset.langKey;
                     if (translations[lang] && translations[lang][key]) {
-                        // For the page title, we need to handle the <title> tag specifically
                         if (el.tagName === 'TITLE') {
                             document.title = translations[lang][key];
                         } else {
@@ -625,10 +745,9 @@
                 if (languageToggleButton) {
                     languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
                 }
-                applyTheme(currentTheme); // Re-apply theme to ensure signature visibility updates
+                applyTheme(currentTheme); 
             }
 
-            // Footer Year
             if (currentYearSpan) {
                 currentYearSpan.textContent = new Date().getFullYear();
             }
@@ -638,7 +757,7 @@
                 themeToggleButton.addEventListener('click', () => {
                     currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                     applyTheme(currentTheme);
-                    applyLanguage(currentLanguage); // Re-apply language to update theme-dependent button text
+                    applyLanguage(currentLanguage); 
                 });
             }
 
@@ -649,10 +768,45 @@
                 });
             }
             
-            // Initial calls to set up UI elements based on stored preferences.
-            // The immediate script has already set the theme and lang on <html>.
-            // These calls ensure button texts and other dynamic content are correct.
-            applyTheme(currentTheme); // Ensures toggle button text is correct for the current theme
+            // Dropdown Menu Logic
+            const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    // Close all other open dropdowns first
+                    document.querySelectorAll('.main-nav .dropdown-menu.show').forEach(openMenu => {
+                        if (openMenu !== dropdownMenu) {
+                            openMenu.classList.remove('show');
+                            const otherToggle = openMenu.previousElementSibling;
+                            if (otherToggle) {
+                                otherToggle.setAttribute('aria-expanded', 'false');
+                            }
+                        }
+                    });
+
+                    // Toggle current dropdown
+                    dropdownMenu.classList.toggle('show');
+                    this.setAttribute('aria-expanded', String(!isExpanded));
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(event) {
+                const openDropdowns = document.querySelectorAll('.main-nav .dropdown');
+                openDropdowns.forEach(dropdown => {
+                    const toggle = dropdown.querySelector('a[aria-expanded="true"]');
+                    const menu = dropdown.querySelector('.dropdown-menu.show');
+                    if (menu && toggle && !dropdown.contains(event.target)) {
+                        menu.classList.remove('show');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+
+            applyTheme(currentTheme);
             applyLanguage(currentLanguage);
         });
     </script>

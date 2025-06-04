@@ -184,7 +184,7 @@
             display: block;
             bottom: 0px; /* Add this to position it at the bottom */
             left: 0;
-            background: var(--text-color); /* underline in text color */
+            background: var(--text-color); 
         }
 
         .main-nav a::after {
@@ -193,7 +193,7 @@
             width: 0;
             height: 2px;
             display: block;
-            bottom: 0px; /* Add this to position it at the bottom */
+            margin-top: 5px; /* Consistent with about.html */
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -208,6 +208,56 @@
         .main-nav a:hover {
             color: var(--nav-link-hover-color);
             text-decoration: none;
+        }
+
+        /* Dropdown Menu Styles (from about.html) */
+        .main-nav .dropdown {
+            position: relative;
+        }
+
+        .main-nav .dropdown > a { /* The "PROJECTS" link */
+            cursor: pointer; /* Indicate it's clickable */
+        }
+        
+        .main-nav .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px); /* Position below the parent, accounts for main nav underline */
+            left: 0;
+            background-color: var(--header-bg-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            list-style: none;
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            margin: 0;
+            min-width: 200px;
+            z-index: 1100;
+            border-radius: 4px;
+            border: 1px solid var(--button-bg-color); /* Subtle border */
+        }
+
+        .main-nav .dropdown-menu.show {
+            display: block;
+        }
+
+        .main-nav .dropdown-menu li a {
+            display: block;
+            padding: calc(var(--base-spacing) * 0.6) calc(var(--base-spacing) * 1.2);
+            color: var(--nav-link-color);
+            text-transform: none; /* Dropdown items typically not uppercase */
+            font-size: clamp(0.85rem, 1.3vw, 1rem);
+            font-weight: 400; /* Normal weight for dropdown items */
+            white-space: nowrap; /* Prevent items from wrapping */
+        }
+
+        .main-nav .dropdown-menu li a:hover {
+            background-color: var(--button-bg-color);
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+        }
+
+        .main-nav .dropdown-menu li a::after,
+        .main-nav .dropdown-menu li a:hover::after {
+            display: none; 
         }
 
         .controls {
@@ -240,7 +290,7 @@
             width: 0;
             height: 2px;
             display: block;
-            bottom: 0px; /* Add this to position it at the bottom */
+            margin-top: 5px; /* Consistent with about.html */
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -480,6 +530,18 @@
             }
         }
 
+        /* Responsive Adjustments from about.html for dropdown */
+        @media (max-width: 767px) { 
+            .main-nav ul {
+                flex-wrap: wrap; 
+                justify-content: center; 
+            }
+            .main-nav .dropdown-menu { 
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 180px; 
+            }
+        }
         /* Tablets and small desktops */
         @media (min-width: 768px) {
             .image-gallery {
@@ -522,8 +584,11 @@
             .logo {
                 font-size: 2.8rem;
             }
-            .main-nav a {
+            .main-nav a, .main-nav .dropdown > a { /* from about.html */
                 font-size: 1.4rem;
+            }
+            .main-nav .dropdown-menu li a { /* from about.html */
+                font-size: 1.3rem;
             }
             .control-button {
                 padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
@@ -547,16 +612,23 @@
             
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html"  class="active" data-lang-key="navImages">Images</a></li>
-                    <li><a href="about.html" data-lang-key="navAbout">About</a></li>
-                    <li><a href="contact.html" data-lang-key="navContact">Contact</a></li>
+                    <li><a href="index.html" class="active" data-lang-key="navImages">IMAGES</a></li>
+                    <li class="dropdown">
+                        <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
+                        <ul class="dropdown-menu" aria-label="Projects submenu">
+                            <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
+                            <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html" data-lang-key="navAbout">ABOUT</a></li>
+                    <li><a href="contact.html" data-lang-key="navContact">CONTACT</a></li>
                 </ul>
             </nav>
             
             <div class="controls">
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
-                        <span data-lang-key="themeToggleDark">Dark Mode</span>
-                        <span data-lang-key="themeToggleLight" style="display:none;">Light Mode</span>
+                    <span data-lang-key="themeToggleDark">Dark Mode</span>
+                    <span data-lang-key="themeToggleLight" style="display:none;">Light Mode</span>
                 </button>
                 
                 <button id="languageToggle" class="control-button" aria-label="Toggle language">
@@ -600,51 +672,69 @@
 
     <script>
         // Highlight active nav link based on current URL
-        document.querySelectorAll('.main-nav a').forEach(link => {
+        document.querySelectorAll('.main-nav > ul > li > a').forEach(link => { 
             const currentPath = window.location.pathname;
-            const linkPath = link.getAttribute('href');
-            // Handle root path and index.html as the same for 'Images' link
-            if (currentPath.endsWith(linkPath) || ( (currentPath === '/' || currentPath.endsWith('/index.html') ) && linkPath === 'index.html')) {
-                link.classList.add('active');
+            const linkHref = link.getAttribute('href');
+
+            if (linkHref && linkHref !== '#') { 
+                let isActive = false;
+                if (currentPath.endsWith(linkHref)) {
+                    isActive = true;
+                }
+                if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === 'index.html') {
+                    isActive = true;
+                }
+                
+                if (isActive) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
             } else {
                 link.classList.remove('active'); 
             }
         });
 
 
+
+
         document.addEventListener('DOMContentLoaded', () => {
             
             // --- CONFIGURATION ---
             const imageFilenames = [
-                'Site-1.webp', 'Site-2.webp', 'Site-3.webp', 'Site-4.webp', 'Site-5.webp',
-                'Site-6.webp', 'Site-7.webp', 'Site-8.webp', 'Site-9.webp', 'Site-10.webp',
-                'Site-11.webp', 'Site-12.webp', 'Site-13.webp', 'Site-14.webp', 'Site-15.webp',
-                'Site-16.webp', 'Site-17.webp', 'Site-18.webp', 'Site-19.webp', 'Site-20.webp',
-                'Site-21.webp', 'Site-22.webp', 'Site-23.webp', 'Site-24.webp', 'Site-25.webp',
-                'Site-26.webp', 'Site-27.webp', 'Site-28.webp', 'Site-29.webp', 'Site-30.webp',
-                'Site-31.webp', 'Site-32.webp', 'Site-33.webp', 'Site-34.webp', 'Site-35.webp',
-                'Site-36.webp', 'Site-37.webp', 'Site-38.webp', 'Site-39.webp', 'Site-40.webp',
-                'Site-41.webp', 'Site-42.webp', 'Site-43.webp', 'Site-44.webp', 'Site-45.webp',
-                'Site-46.webp', 'Site-47.webp', 'Site-48.webp', 'Site-49.webp', 'Site-50.webp',
-                'Site-51.webp', 'Site-52.webp', 'Site-53.webp', 'Site-54.webp', 'Site-55.webp',
-                'Site-56.webp', 'Site-57.webp', 'Site-58.webp', 'Site-59.webp', 'Site-60.webp',
-                'Site-61.webp', 'Site-62.webp', 'Site-63.webp', 'Site-64.webp', 'Site-65.webp',
-                'Site-66.webp', 'Site-67.webp', 'Site-68.webp', 'Site-69.webp', 'Site-70.webp',
-                'Site-71.webp', 'Site-72.webp', 'Site-73.webp', 'Site-74.webp', 'Site-75.webp',
-                'Site-76.webp', 'Site-77.webp', 'Site-78.webp', 'Site-79.webp', 'Site-80.webp',
-                'Site-81.webp', 'Site-82.webp', 'Site-83.webp', 'Site-84.webp', 'Site-85.webp',
-                'Site-86.webp', 'Site-87.webp', 'Site-88.webp', 'Site-89.webp', 'Site-90.webp',
-                'Site-91.webp', 'Site-92.webp', 'Site-93.webp', 'Site-94.webp', 'Site-95.webp'
+                'Site-1.jpg', 'Site-2.jpg', 'Site-3.jpg', 'Site-4.jpg', 'Site-5.jpg',
+                'Site-6.jpg', 'Site-7.jpg', 'Site-8.jpg', 'Site-9.jpg', 'Site-10.jpg',
+                'Site-11.jpg', 'Site-12.jpg', 'Site-13.jpg', 'Site-14.jpg', 'Site-15.jpg',
+                'Site-16.jpg', 'Site-17.jpg', 'Site-18.jpg', 'Site-19.jpg', 'Site-20.jpg',
+                'Site-21.jpg', 'Site-22.jpg', 'Site-23.jpg', 'Site-24.jpg', 'Site-25.jpg',
+                'Site-26.jpg', 'Site-27.jpg', 'Site-28.jpg', 'Site-29.jpg', 'Site-30.jpg',
+                'Site-31.jpg', 'Site-32.jpg', 'Site-33.jpg', 'Site-34.jpg', 'Site-35.jpg',
+                'Site-36.jpg', 'Site-37.jpg', 'Site-38.jpg', 'Site-39.jpg', 'Site-40.jpg',
+                'Site-41.jpg', 'Site-42.jpg', 'Site-43.jpg', 'Site-44.jpg', 'Site-45.jpg',
+                'Site-46.jpg', 'Site-47.jpg', 'Site-48.jpg', 'Site-49.jpg', 'Site-50.jpg',
+                'Site-51.jpg', 'Site-52.jpg', 'Site-53.jpg', 'Site-54.jpg', 'Site-55.jpg',
+                'Site-56.jpg', 'Site-57.jpg', 'Site-58.jpg', 'Site-59.jpg', 'Site-60.jpg',
+                'Site-61.jpg', 'Site-62.jpg', 'Site-63.jpg', 'Site-64.jpg', 'Site-65.jpg',
+                'Site-66.jpg', 'Site-67.jpg', 'Site-68.jpg', 'Site-69.jpg', 'Site-70.jpg',
+                'Site-71.jpg', 'Site-72.jpg', 'Site-73.jpg', 'Site-74.jpg', 'Site-75.jpg',
+                'Site-76.jpg', 'Site-77.jpg', 'Site-78.jpg', 'Site-79.jpg', 'Site-80.jpg',
+                'Site-81.jpg', 'Site-82.jpg', 'Site-83.jpg', 'Site-84.jpg', 'Site-85.jpg',
+                'Site-86.jpg', 'Site-87.jpg', 'Site-88.jpg', 'Site-89.jpg', 'Site-90.jpg',
+                'Site-91.jpg', 'Site-92.jpg', 'Site-93.jpg', 'Site-94.jpg', 'Site-95.jpg'
             ];
 
-            const imagePath = 'images/'; 
+            const thumbPath = 'images/thumbs/'; // Corrected Path
+            const fullsizePath = 'images/fullsize/'; // Corrected Path
 
             // --- TRANSLATIONS ---
             const translations = {
                 en: {
                     siteTitle: "Marius Jomphe ‧ Photography",
                     navImages: "GALLERY",
-                    navAbout: "ABOUT",
+                    navAbout: "ABOUT",                        
+                    navProjects: "PROJECTS",
+                    projectBruine: "BRUINE",  // Added
+                    projectPassage: "PASSAGE", // Added
                     navContact: "CONTACT",
                     themeToggleDark: "🌓 DARK THEME",
                     themeToggleLight: "🌓 LIGHT THEME",
@@ -654,7 +744,10 @@
                 fr: {
                     siteTitle: "Marius Jomphe ‧ Photographie",
                     navImages: "GALERIE",
-                    navAbout: "À PROPOS",
+                    navAbout: "À PROPOS",                        
+                    navProjects: "PROJETS",
+                    projectBruine: "BRUINE",   // Added
+                    projectPassage: "PASSAGE",  // Added
                     navContact: "CONTACT",
                     themeToggleDark: "🌓 THÈME SOMBRE",
                     themeToggleLight: "🌓 THÈME CLAIR",
@@ -684,8 +777,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const galleryItemDiv = entry.target;
-                        const fullResFilename = galleryItemDiv.dataset.fullresFilename;
-                        const currentImagePath = galleryItemDiv.dataset.imagePath; 
+                        const fullResFilename = galleryItemDiv.dataset.fullresFilename; 
 
                         if (!fullResFilename || galleryItemDiv.querySelector('img')) {
                             observer.unobserve(galleryItemDiv);
@@ -694,10 +786,9 @@
 
                         const img = document.createElement('img');
                         const namePart = fullResFilename.substring(0, fullResFilename.lastIndexOf('.'));
-                        const extension = fullResFilename.substring(fullResFilename.lastIndexOf('.'));
-                        const thumbnailFilename = `${namePart}-thumb${extension}`;
+                        const thumbnailFilename = `${namePart}-thumb.webp`; // Corrected thumbnail name
                         
-                        img.src = currentImagePath + thumbnailFilename;
+                        img.src = thumbPath + thumbnailFilename; // Corrected path usage
                         const altNamePart = fullResFilename.substring(0, fullResFilename.lastIndexOf('.'));
                         img.alt = `Thumbnail of ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`;
                         img.loading = 'lazy';
@@ -724,7 +815,7 @@
                     item.className = 'gallery-item';
                     item.dataset.index = index; 
                     item.dataset.fullresFilename = fullResFilename; 
-                    item.dataset.imagePath = imagePath; 
+                    // item.dataset.imagePath was removed as it's no longer needed
                     galleryContainer.appendChild(item);
                     imageObserver.observe(item); 
                 });
@@ -790,6 +881,41 @@
                 });
             }
 
+            // Dropdown Menu Logic (from about.html)
+            const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    document.querySelectorAll('.main-nav .dropdown-menu.show').forEach(openMenu => {
+                        if (openMenu !== dropdownMenu) {
+                            openMenu.classList.remove('show');
+                            const otherToggle = openMenu.previousElementSibling;
+                            if (otherToggle) {
+                                otherToggle.setAttribute('aria-expanded', 'false');
+                            }
+                        }
+                    });
+
+                    dropdownMenu.classList.toggle('show');
+                    this.setAttribute('aria-expanded', String(!isExpanded));
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                const openDropdowns = document.querySelectorAll('.main-nav .dropdown');
+                openDropdowns.forEach(dropdown => {
+                    const toggle = dropdown.querySelector('a[aria-expanded="true"]');
+                    const menu = dropdown.querySelector('.dropdown-menu.show');
+                    if (menu && toggle && !dropdown.contains(event.target)) {
+                        menu.classList.remove('show');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+
             if (galleryContainer) {
                 galleryContainer.addEventListener('click', (e) => {
                     const item = e.target.closest('.gallery-item');
@@ -830,24 +956,20 @@
                     if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
                         touchStartX = e.touches[0].clientX;
                         touchStartY = e.touches[0].clientY;
-                        // Prevent default scrolling when swiping on the image viewer itself
-                        // Only if we want to strictly control behavior and avoid accidental pull-to-refresh etc.
-                        // e.preventDefault(); 
                     }
-                }, { passive: true }); // Set passive to true if not calling preventDefault
+                }, { passive: true }); 
 
                 imageViewerOverlay.addEventListener('touchmove', (e) => {
                     if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
                         touchEndX = e.touches[0].clientX;
                         touchEndY = e.touches[0].clientY;
                     }
-                }, { passive: true }); // Set passive to true if not calling preventDefault
+                }, { passive: true }); 
 
                 imageViewerOverlay.addEventListener('touchend', (e) => {
                     if (!imageViewerOverlay.classList.contains('active')) return;
 
-                    if (touchStartX === 0 || touchEndX === 0) { // No significant horizontal movement
-                        // Reset for safety, though primary reset is after action
+                    if (touchStartX === 0 || touchEndX === 0) { 
                         touchStartX = 0;
                         touchStartY = 0;
                         touchEndX = 0;
@@ -858,16 +980,14 @@
                     const deltaX = touchEndX - touchStartX;
                     const deltaY = touchEndY - touchStartY;
 
-                    // Prioritize horizontal swipe and ensure it's more horizontal than vertical
                     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
-                        if (deltaX < 0) { // Swiped left
+                        if (deltaX < 0) { 
                             showNextImage();
-                        } else { // Swiped right
+                        } else { 
                             showPrevImage();
                         }
                     }
                     
-                    // Reset touch coordinates for the next gesture
                     touchStartX = 0;
                     touchStartY = 0;
                     touchEndX = 0;
@@ -881,30 +1001,27 @@
                 if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
 
                 const proceedToLoadImage = (targetIndex) => {
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block'; // Show spinner before loading
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block'; 
 
-                    // 1. Instantly make the image element transparent WITHOUT transition before new content
                     fullscreenImage.style.transition = 'none';
                     fullscreenImage.style.opacity = 0;
-                    // Use a placeholder to clear the old image content and ensure transparency
                     fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                     fullscreenImage.alt = "";
 
-                    const imageUrl = imagePath + imageFilenames[targetIndex];
+                    const imageUrl = fullsizePath + imageFilenames[targetIndex]; // Corrected path usage
                     const altText = `Enlarged view of ${imageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
 
                     const tempImg = new Image();
                     tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl; // Set the actual new image source
+                        fullscreenImage.src = imageUrl; 
                         fullscreenImage.alt = altText;
 
-                        // Use rAF to ensure opacity:0 and new src are processed before starting fade-in
                         requestAnimationFrame(() => {
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; // 0.5s fade-in
-                            fullscreenImage.style.opacity = 1; // Fade in the new image
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
+                            fullscreenImage.style.opacity = 1; 
                         });
 
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; // Hide spinner
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
                         updateNavButtons();
                     };
 
@@ -913,41 +1030,35 @@
                         fullscreenImage.alt = "Error loading image";
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
-                        // If this load operation was part of the initial opening of the viewer, and it failed, close.
                         if (isOpeningCallParam && currentImageIndex === targetIndex) {
                             setTimeout(closeImageViewer, 1500);
                         }
                     };
-                    tempImg.src = imageUrl; // Start loading the new image
+                    tempImg.src = imageUrl; 
                 };
 
                 if (isOpeningCallParam) {
-                    // This is the first image being opened in the viewer
-                    currentImageIndex = newIndex; // Set index for the image to be opened
+                    currentImageIndex = newIndex; 
                     imageViewerOverlay.classList.add('active');
                     if (document.body) document.body.style.overflow = 'hidden';
-                    proceedToLoadImage(currentImageIndex); // Directly load and fade in
+                    proceedToLoadImage(currentImageIndex); 
                 } else {
-                    // An image is currently showing. Fade it out first.
-                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; // 0.5s fade-out
+                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
                     fullscreenImage.style.opacity = 0;
 
-                    // After the 1s fade-out, proceed to load the new image
                     setTimeout(() => {
-                        // Check if viewer is still active (user might have closed it during fade-out)
                         if (!imageViewerOverlay.classList.contains('active')) {
-                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; // Ensure spinner is hidden if closed early
+                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
                             return;
                         }
-                        // NOW, update currentImageIndex to the new image we are about to load.
                         currentImageIndex = newIndex;
-                        proceedToLoadImage(currentImageIndex); // Load and fade in the new image
-                    }, 500); // Wait for fade-out (500ms = 0.5s)
+                        proceedToLoadImage(currentImageIndex); 
+                    }, 500); 
                 }
             }
 
             function openImageViewer(index) {
-                loadAndShowImageInViewer(index, true); // true indicates it's an opening call
+                loadAndShowImageInViewer(index, true); 
             }
 
             function closeImageViewer() {

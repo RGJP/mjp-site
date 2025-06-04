@@ -214,6 +214,56 @@
             text-decoration: none;
         }
 
+        /* Dropdown Menu Styles (from about.html) */
+        .main-nav .dropdown {
+            position: relative;
+        }
+
+        .main-nav .dropdown > a { 
+            cursor: pointer; 
+        }
+        
+        .main-nav .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px); 
+            left: 0;
+            background-color: var(--header-bg-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            list-style: none;
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            margin: 0;
+            min-width: 200px;
+            z-index: 1100;
+            border-radius: 4px;
+            border: 1px solid var(--button-bg-color); 
+        }
+
+        .main-nav .dropdown-menu.show {
+            display: block;
+        }
+
+        .main-nav .dropdown-menu li a {
+            display: block;
+            padding: calc(var(--base-spacing) * 0.6) calc(var(--base-spacing) * 1.2);
+            color: var(--nav-link-color);
+            text-transform: none; 
+            font-size: clamp(0.85rem, 1.3vw, 1rem);
+            font-weight: 400; 
+            white-space: nowrap; 
+        }
+
+        .main-nav .dropdown-menu li a:hover {
+            background-color: var(--button-bg-color);
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+        }
+
+        .main-nav .dropdown-menu li a::after,
+        .main-nav .dropdown-menu li a:hover::after {
+            display: none; 
+        }
+
         .controls {
             display: flex;
             align-items: center;
@@ -539,6 +589,19 @@
             }
         }
 
+        /* Responsive Adjustments from about.html for dropdown */
+        @media (max-width: 767px) { 
+            .main-nav ul {
+                flex-wrap: wrap; 
+                 justify-content: center; 
+            }
+            .main-nav .dropdown-menu { 
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 180px; 
+            }
+        }
+
         /* Gallery Responsive Adjustments (MODIFIED) */
         @media (min-width: 768px) {
             .image-gallery {
@@ -585,8 +648,11 @@
             .logo {
                 font-size: 2.8rem;
             }
-            .main-nav a {
+            .main-nav a, .main-nav .dropdown > a { /* from about.html */
                 font-size: 1.4rem;
+            }
+            .main-nav .dropdown-menu li a { /* from about.html */
+                 font-size: 1.3rem;
             }
             .control-button {
                 padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
@@ -602,8 +668,15 @@
             
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html" data-lang-key="navImages">Images</a></li>
-                    <li><a href="about.html" data-lang-key="navAbout">About</a></li>
+                    <li><a href="index.html" data-lang-key="navImages">IMAGES</a></li>
+                    <li class="dropdown">
+                        <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
+                        <ul class="dropdown-menu" aria-label="Projects submenu">
+                            <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
+                            <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html" data-lang-key="navAbout">ABOUT</a></li>
                     <li><a href="contact.html" class="active" data-lang-key="navContact">Contact</a></li>
                 </ul>
             </nav>
@@ -665,16 +738,29 @@
 
     <script>
         // Highlight active nav link based on current URL
-        document.querySelectorAll('.main-nav a').forEach(link => {
+        document.querySelectorAll('.main-nav > ul > li > a').forEach(link => { 
             const currentPath = window.location.pathname;
-            const linkPath = link.getAttribute('href');
-            // Check if the current path ends with the link's href, or if it's the root and the link is index.html
-            if (currentPath.endsWith(linkPath) || (currentPath === '/' && linkPath === 'index.html')) {
-                link.classList.add('active');
+            const linkHref = link.getAttribute('href');
+
+            if (linkHref && linkHref !== '#') { 
+                let isActive = false;
+                if (currentPath.endsWith(linkHref)) {
+                    isActive = true;
+                }
+                if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === 'index.html') {
+                    isActive = true;
+                }
+                
+                if (isActive) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
             } else {
-                link.classList.remove('active');
+                 link.classList.remove('active'); 
             }
         });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             // --- CONFIGURATION FOR CONTACT PAGE GALLERY ---
@@ -694,13 +780,16 @@
                     pageTitleContact: "Marius Jomphe ‧ Contact",
                     navImages: "GALLERY",
                     navAbout: "ABOUT",
+                    navProjects: "PROJECTS",
+                    projectBruine: "BRUINE",   // Added
+                    projectPassage: "PASSAGE", // Added
                     navContact: "CONTACT",
                     themeToggleDark: "DARK THEME",
                     themeToggleLight: "LIGHT THEME",
                     languageToggleText: "🌐 FRANÇAIS",
                     footerRights: "All rights reserved.",
                     contactHeading: "Contact",
-                    contactText: "For any questions, collaboration requests, acquisition, exhibition proposals, or use of the works, do not hesitate to contact the artist directly. He will be pleased to discuss with you. Thank you for your interest.",
+                    contactText: "For any questions, collaboration requests, purchase, exhibition proposals, or use of the works, do not hesitate to contact the artist directly. He will be pleased to discuss with you. Thank you for your interest.",
                     emailButtonText: "Write to the artist"
                 },
                 fr: {
@@ -708,13 +797,16 @@
                     pageTitleContact: "Marius Jomphe ‧ Contact",
                     navImages: "GALERIE",
                     navAbout: "À PROPOS",
+                    navProjects: "PROJETS",
+                    projectBruine: "BRUINE",    // Added
+                    projectPassage: "PASSAGE",  // Added
                     navContact: "CONTACT",
                     themeToggleDark: "THÈME SOMBRE",
                     themeToggleLight: "THÈME CLAIR",
                     languageToggleText: "🌐 ENGLISH",
                     footerRights: "Tous droits réservés.",
                     contactHeading: "Contact",
-                    contactText: "Pour toute question, demande de collaboration, acquisition, proposition d’exposition ou utilisation des œuvres, n’hésitez pas à contacter l’artiste directement. Il se fera un plaisir d’échanger avec vous. Merci pour votre intérêt.",
+                    contactText: "Pour toute question, demande de collaboration, achat, proposition d’exposition ou utilisation des œuvres, n’hésitez pas à contacter l’artiste directement. Il se fera un plaisir d’échanger avec vous. Merci pour votre intérêt.",
                     emailButtonText: "Écrire à l'artiste"
                 }
             };
@@ -951,6 +1043,41 @@
                     applyLanguage(newLang);
                 });
             }
+
+            // Dropdown Menu Logic (from about.html)
+            const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    document.querySelectorAll('.main-nav .dropdown-menu.show').forEach(openMenu => {
+                        if (openMenu !== dropdownMenu) {
+                            openMenu.classList.remove('show');
+                            const otherToggle = openMenu.previousElementSibling;
+                            if (otherToggle) {
+                                otherToggle.setAttribute('aria-expanded', 'false');
+                            }
+                        }
+                    });
+
+                    dropdownMenu.classList.toggle('show');
+                    this.setAttribute('aria-expanded', String(!isExpanded));
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                const openDropdowns = document.querySelectorAll('.main-nav .dropdown');
+                openDropdowns.forEach(dropdown => {
+                    const toggle = dropdown.querySelector('a[aria-expanded="true"]');
+                    const menu = dropdown.querySelector('.dropdown-menu.show');
+                    if (menu && toggle && !dropdown.contains(event.target)) {
+                        menu.classList.remove('show');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
 
             // Gallery Event Listeners
             if (galleryContainer) {
