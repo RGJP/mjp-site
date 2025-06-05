@@ -320,9 +320,10 @@
         }
 
         .about-page-title {
-            text-align: center;
-            margin-bottom: calc(var(--base-spacing) * 2.5);
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
+ text-align: center;
+ margin-bottom: calc(var(--base-spacing) * 2.5);
+ font-size: clamp(1.62rem, 2.7vw, 2.25rem); /* Reduced by ~10% from 1.8rem, 3vw, 2.5rem */
+            font-weight: 500; /* Changed from default bold to regular weight */
         }
 
         .about-content-wrapper {
@@ -410,9 +411,10 @@
         .artist-bio h2, .artist-statement h2 {
             font-size: clamp(1.5rem, 2.2vw, 2rem);
             color: var(--text-color);
-            margin-bottom: calc(var(--base-spacing) * 1.2);
+            margin-bottom: calc(var(--base-spacing) * 1.2); /* Keep existing margin */
             padding-bottom: calc(var(--base-spacing) * 0.4);
             border-bottom: 2px solid var(--nav-link-hover-color);
+            font-weight: 500; /* Match the weight of .about-page-title */
         }
         /* End About Page Specific Styles */
 
