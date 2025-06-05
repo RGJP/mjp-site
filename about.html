@@ -954,6 +954,13 @@
                 viewerCloseButton.addEventListener('click', closeImageViewer);
             }
 
+            // Close viewer if user clicks on the image itself
+            if (fullscreenImage) {
+                fullscreenImage.addEventListener('click', (e) => {
+                    closeImageViewer();
+                });
+            }
+
             if (imageViewerOverlay) {
                 // Close viewer if user clicks on the overlay background (not the image itself)
                 imageViewerOverlay.addEventListener('click', (e) => {
