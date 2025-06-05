@@ -416,6 +416,25 @@
             border-bottom: 2px solid var(--nav-link-hover-color);
             font-weight: 500; /* Match the weight of .about-page-title */
         }
+
+        .photo-credit {
+            font-size: 0.7rem; /* Very small text */
+            opacity: 0.5;      /* 50% opacity */
+            color: var(--text-color);
+            text-align: center;
+            margin-top: calc(var(--base-spacing) * 0.25); /* Small space below image */
+            font-style: italic;
+        }
+
+        .artist-statement video {
+            width: 100%; /* Take full width of its container (.artist-statement) */
+            max-width: 100%; /* Ensure it doesn't overflow */
+            height: auto;    /* Maintain aspect ratio */
+            display: block;  /* Ensure it's a block element for layout purposes */
+            margin-top: calc(var(--base-spacing) * 1.5); /* Space above the video */
+            border-radius: 4px; /* Optional: consistent with blockquote styling */
+        }
+
         /* End About Page Specific Styles */
 
         /* Footer - Identical to index.html */
@@ -655,6 +674,7 @@
                     <div class="about-main-content">
                         <div class="artist-image-container">
                             <img src="images/portraitmj.jpg" alt="Marius Jomphe" class="artist-photo">
+                            <p class="photo-credit" data-lang-key="photoCredit">Photo: Marcel Jomphe</p>
                         </div>
                         <div class="artist-text-content">
                             <section class="artist-bio">
@@ -675,6 +695,10 @@
                         </blockquote>
                         <p data-lang-key="perceptionText1">Perception, instead of being the passive recording of a supposed objective external reality, appears more as an active process of interpretation, elaborated by the brain, with a view to effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.</p>
                         <p data-lang-key="perceptionText2">In this sense, photographs must be like open doors where the viewer can enter the world of possibilities. Images are remarkably fleeting objects, loaded with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, deeper than oneself, and thereby offer a glimpse into a little of the mystery of the world.</p>
+                        <video autoplay loop muted playsinline>
+                            <source src="images/inthefield.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     </section>
                 </div>
             </div>
@@ -754,7 +778,8 @@
                     heisenbergQuote: `"We must remember that what we observe is not nature in itself, but nature subjected to our method of questioning."`,
                     heisenbergAttribution: "Werner Heisenberg",
                     perceptionText1: "Perception, rather than being a passive recording of a supposed objective external reality, appears more as an active process of interpretation, developed by the brain for effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.",
-                    perceptionText2: "In this sense, photographs should be like open doors where the viewer can enter a world of possibilities. Images are remarkably elusive objects, charged with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, something deeper than oneself, and thereby offer a glimpse into some of the mystery of the world."
+                    perceptionText2: "In this sense, photographs should be like open doors where the viewer can enter a world of possibilities. Images are remarkably elusive objects, charged with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, something deeper than oneself, and thereby offer a glimpse into some of the mystery of the world.",
+                    photoCredit: "Photo: Marcel Jomphe"
                 },
                 fr: {
                     siteTitle: "Marius Jomphe ‧ Photographie",
@@ -780,7 +805,8 @@
                     heisenbergQuote: `"Nous devons nous souvenir que ce que nous observons n’est pas la nature en elle-même, mais la nature soumise à notre méthode de questionnement."`,
                     heisenbergAttribution: "Werner Heisenberg",
                     perceptionText1: "La perception, au lieu d’être l’enregistrement passif d’une supposée réalité extérieure objective, apparaît davantage comme un processus actif d’interprétation, élaboré par le cerveau, en vue d’une interaction adaptative efficace au monde qui nous entoure. Au moyen de la photographie, nous pouvons donc nous interroger sur la nature du visible. En nous obligeant à considérer la profonde complexité de ce qui est vu, celle-ci peut par conséquent nous ouvrir à une toute nouvelle expérience du monde.",
-                    perceptionText2: "En ce sens, les photographies doivent être comme des portes ouvertes où le spectateur peut entrer dans le monde des possibilités. Les images sont des objets remarquablement fuyants, chargées de multiples potentiels significatifs. Mon intention est donc d’interroger et de démontrer cette relativité de la perception afin de pointer vers quelque chose de plus grand, de plus profond que soi, et par là même, laisser entrevoir un peu du mystère du monde."
+                    perceptionText2: "En ce sens, les photographies doivent être comme des portes ouvertes où le spectateur peut entrer dans le monde des possibilités. Les images sont des objets remarquablement fuyants, chargées de multiples potentiels significatifs. Mon intention est donc d’interroger et de démontrer cette relativité de la perception afin de pointer vers quelque chose de plus grand, de plus profond que soi, et par là même, laisser entrevoir un peu du mystère du monde.",
+                    photoCredit: "Photo : Marcel Jomphe"
                 }
             };
 
