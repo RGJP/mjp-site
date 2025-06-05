@@ -799,20 +799,39 @@
         });
 
         // Additional logic to highlightx active dropdown sub-links and their parent
-        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(subLink => {
-            const currentPath = window.location.pathname;
-            const subLinkPath = subLink.getAttribute('href');
+      // Additional logic to highlight active dropdown sub-links and their parent
+document.querySelectorAll('.main-nav .dropdown-menu a').forEach(subLink => {
+    const currentPath = window.location.pathname; // E.g., "/passage.html", "/passage", "/passage/"
+    const subLinkHref = subLink.getAttribute('href');   // E.g., "passage.html"
 
-            if (subLinkPath && currentPath.endsWith(subLinkPath)) {
-                subLink.classList.add('active'); // Highlight the sub-link
+    if (subLinkHref) {
+        // Create a "base" name from href by removing .html (if present)
+        // e.g., "passage.html" -> "passage"
+        const subLinkBaseName = subLinkHref.replace(/\.html$/, '');
 
-                // Find the parent dropdown toggle and highlight it too
-                let parentDropdownToggle = subLink.closest('.dropdown').querySelector(':scope > a');
-                if (parentDropdownToggle) {
-                    parentDropdownToggle.classList.add('active');
-                }
+        // Normalize currentPath: remove trailing slash if present
+        let normalizedCurrentPath = currentPath;
+        if (normalizedCurrentPath.endsWith('/')) {
+            normalizedCurrentPath = normalizedCurrentPath.slice(0, -1); // e.g., "/passage" from "/passage/"
+        }
+
+        // Get the last segment of the current path (the filename or directory name)
+        // e.g., "/foo/bar/passage.html" -> "passage.html"
+        // e.g., "/foo/bar/passage" -> "passage"
+        const currentPathLastSegment = normalizedCurrentPath.substring(normalizedCurrentPath.lastIndexOf('/') + 1);
+
+        // Compare the last segment of the current path with the full href and the base name of the href
+        if (currentPathLastSegment === subLinkHref || currentPathLastSegment === subLinkBaseName) {
+            subLink.classList.add('active'); // Highlight the sub-link
+
+            // Find the parent dropdown toggle and highlight it too
+            let parentDropdownToggle = subLink.closest('.dropdown').querySelector(':scope > a');
+            if (parentDropdownToggle) {
+                parentDropdownToggle.classList.add('active');
             }
-        });
+        }
+    }
+});
 
         document.addEventListener('DOMContentLoaded', () => {
             
