@@ -247,6 +247,17 @@
             display: none;
         }
 
+        /* Added for active dropdown item underline */
+        .main-nav .dropdown-menu li a.active {
+            color: var(--text-color); /* Match main active link color */
+            font-weight: 700;       /* Match main active link font-weight */
+            text-decoration-line: underline;
+            text-decoration-color: var(--text-color);
+            text-decoration-thickness: 2px; /* Match main active link underline thickness */
+            text-underline-offset: 4px;  /* Adjust for pleasant spacing below text */
+                                         /* This also helps it look distinct from a simple hover underline */
+        }
+
         .controls {
             display: flex;
             align-items: center;
@@ -721,40 +732,43 @@
     </footer>
 
     <script>
-        // Highlight active nav link - UPDATED SCRIPT
+        // Highlight active nav link - UPDATED SCRIPT (to match passage.html behavior)
+        // This script runs before DOMContentLoaded to avoid a flash of unstyled active link
+
+        // First, handle top-level navigation links
         document.querySelectorAll('.main-nav > ul > li > a').forEach(link => {
             const currentPath = window.location.pathname;
-            const linkPath = link.getAttribute('href'); // Use a different variable name for clarity
+            const linkPath = link.getAttribute('href');
 
-            // Default to not active, will be added if conditions met
-            link.classList.remove('active');
+            link.classList.remove('active'); // Reset active class for all top-level links
 
             if (linkPath && linkPath !== '#') {
-                // Handles direct links like about.html, contact.html
-                // Also handles index.html when currentPath is / or /index.html
+                // Direct match or index.html special case
                 if (currentPath.endsWith(linkPath) ||
                     ((currentPath.endsWith('/') || currentPath.endsWith('/index.html')) && linkPath === 'index.html')) {
                     link.classList.add('active');
                 }
-            } else if (linkPath === '#' && link.parentElement.classList.contains('dropdown')) {
-                // This is a dropdown toggle link, like "PROJECTS"
-                const dropdownMenu = link.nextElementSibling; // The <ul> dropdown menu
-                if (dropdownMenu) {
-                    let isSubPageActive = false;
-                    dropdownMenu.querySelectorAll('a').forEach(subLink => {
-                        const subLinkPath = subLink.getAttribute('href');
-                        // Check if the current page URL ends with any of the sub-link HREFs
-                        if (subLinkPath && currentPath.endsWith(subLinkPath)) {
-                            isSubPageActive = true;
-                        }
-                    });
-                    if (isSubPageActive) {
-                        link.classList.add('active'); // Make the parent "PROJECTS" link active
-                    }
-                }
             }
         });
 
+        // Additional logic to highlight active dropdown sub-links and their parent "PROJECTS" link
+        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(subLink => {
+            const currentPath = window.location.pathname;
+            const subLinkPath = subLink.getAttribute('href');
+
+            // No need to explicitly remove 'active' from subLink here if the whole script runs on page load,
+            // as only the matching one will get it.
+
+            if (subLinkPath && currentPath.endsWith(subLinkPath)) {
+                subLink.classList.add('active'); // Highlight the active sub-link (e.g., "BRUINE")
+
+                // Find the parent dropdown toggle (e.g., "PROJECTS") and highlight it too
+                let parentDropdownToggle = subLink.closest('.dropdown').querySelector(':scope > a');
+                if (parentDropdownToggle) {
+                    parentDropdownToggle.classList.add('active');
+                }
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             
