@@ -56,6 +56,10 @@
             --button-hover-bg-color: #c7c7c7;
             --base-font-size: 16px;
             --base-spacing: 1rem;
+            /* Added from contact.html for image viewer */
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
+            --image-viewer-nav-color: #ffffff;
+            --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
         }
 
         [data-theme="dark"] {
@@ -68,6 +72,9 @@
             --button-bg-color: #444444;
             --button-text-color: #f4f7f6;
             --button-hover-bg-color: #5a5a5a;
+            /* Added from contact.html for image viewer */
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
+            --image-viewer-nav-color: #e0e0e0;
         }
 
         /* ... rest of your CSS ... */
@@ -211,26 +218,6 @@
             cursor: pointer; /* Indicate it's clickable */
         }
         
-        /* REMOVED ARROW STYLES
-        .main-nav .dropdown > a::after { 
-            content: ' ▼'; 
-            font-size: 0.7em;
-            margin-left: 4px;
-            transition: transform 0.2s ease-in-out;
-            display: inline-block; 
-        }
-
-        .main-nav .dropdown > a[aria-expanded="true"]::after {
-            transform: rotate(180deg); 
-        }
-        */
-        
-        /* REMOVED: Rule that prevented hover underline on dropdown toggle
-        .main-nav .dropdown > a[href="#"]:hover::after {
-             width: 0; 
-        }
-        */
-
         .main-nav .dropdown-menu {
             display: none;
             position: absolute;
@@ -267,10 +254,9 @@
             text-decoration: none;
         }
 
-        /* Remove ::after underline effects from dropdown sub-items */
         .main-nav .dropdown-menu li a::after,
         .main-nav .dropdown-menu li a:hover::after {
-            display: none; /* Ensures no inherited underline from main nav 'a' styles */
+            display: none; 
         }
         /* End Dropdown Menu Styles */
 
@@ -319,7 +305,7 @@
 
         .control-button:active::after,
         .control-button:focus::after {
-            width: 0; /* Ensure no underline on click (active) or focus */
+            width: 0; 
         }
 
         [data-theme="dark"] .control-button {
@@ -381,6 +367,7 @@
             border-radius: 8px;
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
             border: 4px solid var(--header-bg-color);
+            cursor: pointer; /* Added for clickability */
         }
 
         .artist-text-content {
@@ -408,8 +395,8 @@
             border-radius: 4px;
         }
         .artist-statement blockquote p {
-            margin-bottom: calc(var(--base-spacing) * 0.5); /* Keep existing margin */
-            font-size: 1.15em; /* Increased font size for the quote itself */
+            margin-bottom: calc(var(--base-spacing) * 0.5); 
+            font-size: 1.15em; 
         }
 
         .artist-statement blockquote footer {
@@ -458,35 +445,33 @@
             display: none;
         }
 
-        /* Show light signature for light theme */
         html[data-theme="light"] .artist-signature .signature-light {
             display: block;
         }
 
-        /* Show dark signature for dark theme */
         html[data-theme="dark"] .artist-signature .signature-dark {
             display: block;
         }
 
         .artist-signature a {
-            text-decoration: none; /* Remove underline from link */
-            display: inline-block; /* Ensures the link wraps the image appropriately */
+            text-decoration: none; 
+            display: inline-block; 
         }
 
         .artist-signature a:hover {
-            text-decoration: none; /* Ensure no underline on hover */
+            text-decoration: none; 
         }
 
         /* Responsive Adjustments */
-        @media (max-width: 767px) { /* Adjusted breakpoint for nav items stacking */
+        @media (max-width: 767px) { 
             .main-nav ul {
-                flex-wrap: wrap; /* Allow nav items to wrap */
-                 justify-content: center; /* Center items when they wrap */
+                flex-wrap: wrap; 
+                 justify-content: center; 
             }
-            .main-nav .dropdown-menu { /* Adjust dropdown for mobile */
+            .main-nav .dropdown-menu { 
                 left: 50%;
                 transform: translateX(-50%);
-                min-width: 180px; /* Ensure it's not too wide */
+                min-width: 180px; 
             }
         }
 
@@ -532,6 +517,98 @@
                 font-size: 1.2rem;
             }
         }
+
+        /* Fullscreen Image Viewer Styles (Copied from contact.html) */
+        .image-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--image-viewer-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+
+        .image-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        .image-viewer-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--image-viewer-nav-color); /* Uses variable */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2002;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .image-viewer-content {
+            width: 100vw;
+            height: 100vh;
+            padding: 5vh 5vw; /* Added padding around the image */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-viewer-content img {
+            width: auto;   /* Ensure image scales proportionally */
+            height: auto;  /* Ensure image scales proportionally */
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Important for fitting image within bounds */
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border-radius: 3px;
+            opacity: 0; /* Start transparent, JS will handle fade-in */
+        }
+
+        .viewer-close-button { /* Simplified from contact.html, nav buttons removed */
+            position: fixed;
+            background: transparent;
+            color: var(--image-viewer-nav-color);
+            border: none;
+            font-size: clamp(1.8rem, 3vw, 2.5rem); /* Responsive font size */
+            cursor: pointer;
+            padding: calc(var(--base-spacing) * 0.5);
+            transition: background-color 0.2s ease, color 0.2s ease;
+            z-index: 2001;
+            border-radius: 50%; /* Circular button */
+            width: clamp(40px, 6vw, 60px); /* Responsive width */
+            height: clamp(40px, 6vw, 60px); /* Responsive height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1; /* Ensure symbol is centered */
+        }
+        .viewer-close-button:hover {
+            background-color: var(--image-viewer-nav-hover-bg);
+        }
+
+        .viewer-close-button { /* Specific positioning for close button */
+            top: calc(var(--base-spacing) * 1.5);
+            right: calc(var(--base-spacing) * 1.5);
+        }
+         /* End Fullscreen Image Viewer Styles */
     </style>
 </head>
 <body>
@@ -614,19 +691,25 @@
         </div>
     </footer>
 
+    <div class="image-viewer-overlay" id="imageViewerOverlay">
+        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">&times;</button>
+        <div class="image-viewer-content">
+            <div class="image-viewer-spinner" id="imageViewerSpinner"></div>
+            <img src="" alt="Enlarged view" id="fullscreenImage">
+        </div>
+    </div>
+
     <script>
         // Highlight active nav link based on current URL
-        document.querySelectorAll('.main-nav > ul > li > a').forEach(link => { // Select only direct children links of li
+        document.querySelectorAll('.main-nav > ul > li > a').forEach(link => { 
             const currentPath = window.location.pathname;
             const linkHref = link.getAttribute('href');
 
-            if (linkHref && linkHref !== '#') { // Ensure href exists and is not just a toggle
+            if (linkHref && linkHref !== '#') { 
                 let isActive = false;
-                // Ends with check for pages like about.html, contact.html
                 if (currentPath.endsWith(linkHref)) {
                     isActive = true;
                 }
-                // Specific check for index.html at root
                 if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === 'index.html') {
                     isActive = true;
                 }
@@ -637,7 +720,7 @@
                     link.classList.remove('active');
                 }
             } else {
-                 link.classList.remove('active'); // Remove active from non-navigating links like dropdown toggle
+                 link.classList.remove('active'); 
             }
         });
 
@@ -649,7 +732,7 @@
                     siteTitle: "Marius Jomphe ‧ Photography",
                     pageTitleAbout: "Marius Jomphe ‧ About",
                     navImages: "GALLERY",
-                                    navProjects: "PROJECTS", // Added
+                    navProjects: "PROJECTS", 
                     projectSonde: "SONDE",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
@@ -659,7 +742,6 @@
                     themeToggleLight: "LIGHT THEME",
                     languageToggleText: "🌐 FRANÇAIS",
                     footerRights: "All rights reserved.",
-                    // About page specific
                     aboutHeading: "About the Artist",
                     biographyTitle: "Biography",
                     bioParagraph1: "Marius Jomphe was born in Havre St-Pierre, on the North Shore of Quebec.",
@@ -676,7 +758,7 @@
                     siteTitle: "Marius Jomphe ‧ Photographie",
                     pageTitleAbout: "Marius Jomphe ‧ À Propos",
                     navImages: "GALERIE",
-                                    navProjects: "PROJETS", // Added
+                    navProjects: "PROJETS", 
                     projectSonde: "SONDE",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
@@ -686,7 +768,6 @@
                     themeToggleLight: "THÈME CLAIR",
                     languageToggleText: "🌐 ENGLISH",
                     footerRights: "Tous droits réservés.",
-                    // About page specific
                     aboutHeading: "À Propos de l'Artiste",
                     biographyTitle: "Biographie",
                     bioParagraph1: "Marius Jomphe est né à Havre St-Pierre, sur la Côte-Nord au Québec.",
@@ -708,6 +789,13 @@
             
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light'; 
+
+            // --- IMAGE VIEWER ELEMENTS (Added) ---
+            const artistPortraitImage = document.querySelector('.artist-photo');
+            const imageViewerOverlay = document.getElementById('imageViewerOverlay');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            const viewerCloseButton = document.getElementById('viewerCloseButton');
+            const imageViewerSpinner = document.getElementById('imageViewerSpinner');
 
             // --- INITIALIZATION ---
             function applyTheme(theme) {
@@ -752,6 +840,61 @@
                 currentYearSpan.textContent = new Date().getFullYear();
             }
 
+            // --- IMAGE VIEWER FUNCTIONS (Added and Adapted) ---
+            function loadAndShowArtistPortrait() {
+                if (!imageViewerOverlay || !fullscreenImage || !artistPortraitImage) return;
+
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                fullscreenImage.style.transition = 'none'; // No transition while loading
+                fullscreenImage.style.opacity = 0; // Hide while loading
+                // Use a transparent placeholder to clear previous image if any
+                fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
+                fullscreenImage.alt = "";
+
+                const imageUrl = artistPortraitImage.src;
+                const altText = artistPortraitImage.alt || "Enlarged view of artist portrait";
+
+                const tempImg = new Image(); // Preload image
+                tempImg.onload = () => {
+                    fullscreenImage.src = imageUrl;
+                    fullscreenImage.alt = altText;
+                    
+                    // Use requestAnimationFrame to ensure the opacity transition applies after src is set
+                    requestAnimationFrame(() => {
+                        fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                        fullscreenImage.style.opacity = 1;
+                    });
+
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                };
+                tempImg.onerror = () => {
+                    console.error("Error loading artist portrait:", imageUrl);
+                    fullscreenImage.alt = "Error loading image"; // Show error in alt
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    // Optionally: setTimeout(closeImageViewer, 1500); // Close viewer if image fails
+                };
+                tempImg.src = imageUrl; // Start loading
+            }
+
+            function openArtistPortraitViewer() {
+                if (!imageViewerOverlay || !artistPortraitImage) return;
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                loadAndShowArtistPortrait();
+            }
+
+            function closeImageViewer() {
+                if (!imageViewerOverlay) return;
+                imageViewerOverlay.classList.remove('active');
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                if (document.body) document.body.style.overflow = ''; // Restore scrolling
+                // Clear the image src to free memory and prevent it from showing briefly next time
+                if (fullscreenImage) {
+                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                    fullscreenImage.alt = "";
+                }
+            }
+
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
                 themeToggleButton.addEventListener('click', () => {
@@ -768,7 +911,6 @@
                 });
             }
             
-            // Dropdown Menu Logic
             const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(event) {
@@ -776,7 +918,6 @@
                     const dropdownMenu = this.nextElementSibling;
                     const isExpanded = this.getAttribute('aria-expanded') === 'true';
 
-                    // Close all other open dropdowns first
                     document.querySelectorAll('.main-nav .dropdown-menu.show').forEach(openMenu => {
                         if (openMenu !== dropdownMenu) {
                             openMenu.classList.remove('show');
@@ -787,13 +928,11 @@
                         }
                     });
 
-                    // Toggle current dropdown
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
                 });
             });
 
-            // Close dropdowns when clicking outside
             document.addEventListener('click', function(event) {
                 const openDropdowns = document.querySelectorAll('.main-nav .dropdown');
                 openDropdowns.forEach(dropdown => {
@@ -806,6 +945,34 @@
                 });
             });
 
+            // --- IMAGE VIEWER EVENT LISTENERS (Added) ---
+            if (artistPortraitImage) {
+                artistPortraitImage.addEventListener('click', openArtistPortraitViewer);
+            }
+
+            if (viewerCloseButton) {
+                viewerCloseButton.addEventListener('click', closeImageViewer);
+            }
+
+            if (imageViewerOverlay) {
+                // Close viewer if user clicks on the overlay background (not the image itself)
+                imageViewerOverlay.addEventListener('click', (e) => {
+                    if (e.target === imageViewerOverlay) { 
+                        closeImageViewer();
+                    }
+                });
+            }
+
+            // Keyboard navigation for viewer (Escape key)
+            document.addEventListener('keydown', (e) => {
+                if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                    if (e.key === 'Escape') {
+                        closeImageViewer();
+                    }
+                }
+            });
+
+            // --- INITIAL APPLY ---
             applyTheme(currentTheme);
             applyLanguage(currentLanguage);
         });
