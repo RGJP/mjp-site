@@ -426,13 +426,13 @@
             font-style: italic;
         }
 
-        .artist-statement video {
-            width: 100%; /* Take full width of its container (.artist-statement) */
-            max-width: 100%; /* Ensure it doesn't overflow */
-            height: auto;    /* Maintain aspect ratio */
-            display: block;  /* Ensure it's a block element for layout purposes */
-            margin-top: calc(var(--base-spacing) * 1.5); /* Space above the video */
-            border-radius: 4px; /* Optional: consistent with blockquote styling */
+        .artist-video { /* Renamed from .artist-statement video */
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            /* margin-top: calc(var(--base-spacing) * 1.5); Removed, rely on parent gap */
+            border-radius: 4px;
         }
 
         /* End About Page Specific Styles */
@@ -685,8 +685,15 @@
                                 <p data-lang-key="bioParagraph4">He lives and works in Gaspé.</p>
                             </section>
                         </div>
-                    </div>
+                    </div> <!-- End of about-main-content -->
 
+                    <!-- Video moved here -->
+                    <video class="artist-video" autoplay loop muted playsinline>
+                        <source src="images/inthefield.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <!-- Artist statement starts after the video -->
                     <section class="artist-statement">
                         <h2 data-lang-key="artistStatementTitle">Artist's Statement</h2>
                         <blockquote>
@@ -695,10 +702,6 @@
                         </blockquote>
                         <p data-lang-key="perceptionText1">Perception, instead of being the passive recording of a supposed objective external reality, appears more as an active process of interpretation, elaborated by the brain, with a view to effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.</p>
                         <p data-lang-key="perceptionText2">In this sense, photographs must be like open doors where the viewer can enter the world of possibilities. Images are remarkably fleeting objects, loaded with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, deeper than oneself, and thereby offer a glimpse into a little of the mystery of the world.</p>
-                        <video autoplay loop muted playsinline>
-                            <source src="images/inthefield.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
                     </section>
                 </div>
             </div>
