@@ -375,8 +375,11 @@
             flex-grow: 1;
         }
 
-        .artist-bio, .artist-statement {
+        .artist-statement { /* Keep original margin for artist statement */
             margin-bottom: calc(var(--base-spacing) * 2);
+        }
+        .artist-bio { /* Reduce bottom margin for biography section */
+            margin-bottom: 0; /* Rely on inner paragraph's margin and parent gap */
         }
 
         .artist-bio p, .artist-statement p {
@@ -431,7 +434,7 @@
             max-width: 100%;
             height: auto;
             display: block;
-            /* margin-top: calc(var(--base-spacing) * 1.5); Removed, rely on parent gap */
+            margin-top: calc(var(--base-spacing) * -1.5); /* Pull video up to reduce space */
             border-radius: 4px;
         }
 
