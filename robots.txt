@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /index.html
+Allow: /about.html
+Allow: /bruine.html
+Allow: /contact.html
+Allow: /passage.html
+Disallow: /images/
+Disallow: /CNAME
+
+Sitemap: https://mariusjomphe.com/sitemap.xml
