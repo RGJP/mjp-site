@@ -77,10 +77,7 @@
             --image-viewer-nav-color: #e0e0e0;
         }
 
-        /* ... rest of your CSS ... */
-        *,
-        *::before,
-        *::after {
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -316,70 +313,35 @@
         .about-section .container {
             padding-top: calc(var(--base-spacing) * 2);
             padding-bottom: calc(var(--base-spacing) * 0);
-            max-width: 1000px;
+            max-width: 1000px; /* Max width for the text content */
         }
 
         .about-page-title {
  text-align: center;
  margin-bottom: calc(var(--base-spacing) * 2.5);
  font-size: clamp(1.62rem, 2.7vw, 2.25rem); /* Reduced by ~10% from 1.8rem, 3vw, 2.5rem */
-            font-weight: 500; /* Changed from default bold to regular weight */
+            font-weight: 500;
+        }
+
+        .artist-video {
+            width: 100%;
+            max-width: 100%; /* Allow video to take full width of its container, up to 1000px */
+            height: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: calc(var(--base-spacing) * 2.5); /* Space before biography text */
+           
         }
 
         .about-content-wrapper {
-            display: flex;
             flex-direction: column;
             gap: calc(var(--base-spacing) * 3);
-        }
-
-        .about-main-content {
-            display: flex;
-            flex-direction: column;
-            gap: calc(var(--base-spacing) * 2);
-            align-items: flex-start;
-        }
-
-        @media (min-width: 768px) {
-            .about-main-content {
-                flex-direction: row;
-                gap: calc(var(--base-spacing) * 3);
-            }
-        }
-
-        .artist-image-container {
-            flex-shrink: 0;
-            width: 100%;
-            max-width: 280px;
-            margin: 0 auto calc(var(--base-spacing) * 1.5) auto;
-        }
-
-        @media (min-width: 768px) {
-            .artist-image-container {
-                width: 30%;
-                max-width: 300px;
-                margin: 0;
-                align-self: flex-start;
-            }
-        }
-
-        .artist-photo {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            border: 4px solid var(--header-bg-color);
-            cursor: pointer; /* Added for clickability */
-        }
-
-        .artist-text-content {
-            flex-grow: 1;
+            display: flex; /* Kept for gap functionality between bio and statement */
         }
 
         .artist-statement { /* Keep original margin for artist statement */
             margin-bottom: calc(var(--base-spacing) * 2);
-        }
-        .artist-bio { /* Reduce bottom margin for biography section */
-            margin-bottom: 0; /* Rely on inner paragraph's margin and parent gap */
         }
 
         .artist-bio p, .artist-statement p {
@@ -417,27 +379,8 @@
             margin-bottom: calc(var(--base-spacing) * 1.2); /* Keep existing margin */
             padding-bottom: calc(var(--base-spacing) * 0.4);
             border-bottom: 2px solid var(--nav-link-hover-color);
+            text-align: center; /* Add this line to center the text */
             font-weight: 500; /* Match the weight of .about-page-title */
-        }
-
-        .photo-credit {
-            font-size: 0.7rem; /* Very small text */
-            opacity: 0.5;      /* 50% opacity */
-            color: var(--text-color);
-            text-align: center;
-            margin-top: calc(var(--base-spacing) * 0.25); /* Small space below image */
-            font-style: italic;
-        }
-
-        .artist-video { /* Renamed from .artist-statement video */
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin-top: calc(var(--base-spacing) * -1.5); 
-            border-radius: 8px; /* Match artist-photo */
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Match artist-photo */
-            border: 4px solid var(--header-bg-color); /* Match artist-photo */
         }
 
         /* End About Page Specific Styles */
@@ -544,97 +487,7 @@
             }
         }
 
-        /* Fullscreen Image Viewer Styles (Copied from contact.html) */
-        .image-viewer-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--image-viewer-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-        }
-
-        .image-viewer-overlay.active {
-            opacity: 1;
-            visibility: visible;
-            transition-delay: 0s;
-        }
-
-        .image-viewer-spinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            border: 6px solid rgba(255, 255, 255, 0.3);
-            border-top-color: var(--image-viewer-nav-color); /* Uses variable */
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            z-index: 2002;
-            display: none;
-        }
-
-        @keyframes spin {
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-
-        .image-viewer-content {
-            width: 100vw;
-            height: 100vh;
-            padding: 5vh 5vw; /* Added padding around the image */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .image-viewer-content img {
-            width: auto;   /* Ensure image scales proportionally */
-            height: auto;  /* Ensure image scales proportionally */
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; /* Important for fitting image within bounds */
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            border-radius: 3px;
-            opacity: 0; /* Start transparent, JS will handle fade-in */
-        }
-
-        .viewer-close-button { /* Simplified from contact.html, nav buttons removed */
-            position: fixed;
-            background: transparent;
-            color: var(--image-viewer-nav-color);
-            border: none;
-            font-size: clamp(1.8rem, 3vw, 2.5rem); /* Responsive font size */
-            cursor: pointer;
-            padding: calc(var(--base-spacing) * 0.5);
-            transition: background-color 0.2s ease, color 0.2s ease;
-            z-index: 2001;
-            border-radius: 50%; /* Circular button */
-            width: clamp(40px, 6vw, 60px); /* Responsive width */
-            height: clamp(40px, 6vw, 60px); /* Responsive height */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1; /* Ensure symbol is centered */
-        }
-        .viewer-close-button:hover {
-            background-color: var(--image-viewer-nav-hover-bg);
-        }
-
-        .viewer-close-button { /* Specific positioning for close button */
-            top: calc(var(--base-spacing) * 1.5);
-            right: calc(var(--base-spacing) * 1.5);
-        }
-         /* End Fullscreen Image Viewer Styles */
+        /* Removed Fullscreen Image Viewer Styles as the image viewer is no longer used on this page */
     </style>
 </head>
 <body>
@@ -674,29 +527,21 @@
         <section class="about-section">
             <div class="container">
                 <h1 class="about-page-title" data-lang-key="aboutHeading">About the Artist</h1>
+                <!-- Video moved here and centered -->
+                <video class="artist-video" autoplay loop muted playsinline>
+                    <source src="images/ITF540P.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
                 
                 <div class="about-content-wrapper">
-                    <div class="about-main-content">
-                        <div class="artist-image-container">
-                            <img src="images/portraitmj.jpg" alt="Marius Jomphe" class="artist-photo">
-                            <p class="photo-credit" data-lang-key="photoCredit"> </p>
-                        </div>
-                        <div class="artist-text-content">
-                            <section class="artist-bio">
-                                <h2 data-lang-key="biographyTitle">Biography</h2>
-                                <p data-lang-key="bioParagraph1">Marius Jomphe was born in Havre St-Pierre, on the North Shore.</p>
-                                <p data-lang-key="bioParagraph2">He obtained his Bachelor of Arts from the Université du Québec à Montréal in 1976. He then taught for thirty years at the Cégep de la Gaspésie et des Îles while regularly exhibiting his work.</p>
-                                <p data-lang-key="bioParagraph3">Since 1990, he has dedicated himself exclusively to photography. His interest in science (astrobiology, neurosciences) influences his photographic practice, which includes the territories of the Gaspé Peninsula as well as the Rivière-au-Tonnerre region on the North Shore.</p>
-                                <p data-lang-key="bioParagraph4">He lives and works in Gaspé.</p>
-                            </section>
-                        </div>
-                    </div> <!-- End of about-main-content -->
-
-                    <!-- Video moved here -->
-                    <video class="artist-video" autoplay loop muted playsinline>
-                        <source src="images/inthefield.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <!-- Artist image container and about-main-content div removed -->
+                    <section class="artist-bio">
+                        <h2 data-lang-key="biographyTitle">Biography</h2>
+                        <p data-lang-key="bioParagraph1">Marius Jomphe was born in Havre St-Pierre, on the North Shore.</p>
+                        <p data-lang-key="bioParagraph2">He obtained his Bachelor of Arts from the Université du Québec à Montréal in 1976. He then taught for thirty years at the Cégep de la Gaspésie et des Îles while regularly exhibiting his work.</p>
+                        <p data-lang-key="bioParagraph3">Since 1990, he has dedicated himself exclusively to photography. His interest in science (astrobiology, neurosciences) influences his photographic practice, which includes the territories of the Gaspé Peninsula as well as the Rivière-au-Tonnerre region on the North Shore.</p>
+                        <p data-lang-key="bioParagraph4">He lives and works in Gaspé.</p>
+                    </section>
 
                     <!-- Artist statement starts after the video -->
                     <section class="artist-statement">
@@ -725,14 +570,7 @@
         </div>
     </footer>
 
-    <div class="image-viewer-overlay" id="imageViewerOverlay">
-        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">&times;</button>
-        <div class="image-viewer-content">
-            <div class="image-viewer-spinner" id="imageViewerSpinner"></div>
-            <img src="" alt="Enlarged view" id="fullscreenImage">
-        </div>
-    </div>
-
+    <!-- Image Viewer Overlay HTML removed as it's no longer used on this page -->
     <script>
         // Highlight active nav link based on current URL
         document.querySelectorAll('.main-nav > ul > li > a').forEach(link => { 
@@ -826,13 +664,8 @@
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light'; 
 
-            // --- IMAGE VIEWER ELEMENTS (Added) ---
-            const artistPortraitImage = document.querySelector('.artist-photo');
-            const imageViewerOverlay = document.getElementById('imageViewerOverlay');
-            const fullscreenImage = document.getElementById('fullscreenImage');
-            const viewerCloseButton = document.getElementById('viewerCloseButton');
-            const imageViewerSpinner = document.getElementById('imageViewerSpinner');
-
+            // --- IMAGE VIEWER ELEMENTS REMOVED ---
+            // Variables for artistPortraitImage, imageViewerOverlay, fullscreenImage, viewerCloseButton, imageViewerSpinner are removed.
             // --- INITIALIZATION ---
             function applyTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
@@ -876,60 +709,8 @@
                 currentYearSpan.textContent = new Date().getFullYear();
             }
 
-            // --- IMAGE VIEWER FUNCTIONS (Added and Adapted) ---
-            function loadAndShowArtistPortrait() {
-                if (!imageViewerOverlay || !fullscreenImage || !artistPortraitImage) return;
-
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-                fullscreenImage.style.transition = 'none'; // No transition while loading
-                fullscreenImage.style.opacity = 0; // Hide while loading
-                // Use a transparent placeholder to clear previous image if any
-                fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
-                fullscreenImage.alt = "";
-
-                const imageUrl = artistPortraitImage.src;
-                const altText = artistPortraitImage.alt || "Enlarged view of artist portrait";
-
-                const tempImg = new Image(); // Preload image
-                tempImg.onload = () => {
-                    fullscreenImage.src = imageUrl;
-                    fullscreenImage.alt = altText;
-                    
-                    // Use requestAnimationFrame to ensure the opacity transition applies after src is set
-                    requestAnimationFrame(() => {
-                        fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
-                        fullscreenImage.style.opacity = 1;
-                    });
-
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                };
-                tempImg.onerror = () => {
-                    console.error("Error loading artist portrait:", imageUrl);
-                    fullscreenImage.alt = "Error loading image"; // Show error in alt
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    // Optionally: setTimeout(closeImageViewer, 1500); // Close viewer if image fails
-                };
-                tempImg.src = imageUrl; // Start loading
-            }
-
-            function openArtistPortraitViewer() {
-                if (!imageViewerOverlay || !artistPortraitImage) return;
-                imageViewerOverlay.classList.add('active');
-                if (document.body) document.body.style.overflow = 'hidden'; // Prevent background scrolling
-                loadAndShowArtistPortrait();
-            }
-
-            function closeImageViewer() {
-                if (!imageViewerOverlay) return;
-                imageViewerOverlay.classList.remove('active');
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                if (document.body) document.body.style.overflow = ''; // Restore scrolling
-                // Clear the image src to free memory and prevent it from showing briefly next time
-                if (fullscreenImage) {
-                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                    fullscreenImage.alt = "";
-                }
-            }
+            // --- IMAGE VIEWER FUNCTIONS REMOVED ---
+            // Functions loadAndShowArtistPortrait, openArtistPortraitViewer, and closeImageViewer are removed.
 
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
@@ -981,39 +762,8 @@
                 });
             });
 
-            // --- IMAGE VIEWER EVENT LISTENERS (Added) ---
-            if (artistPortraitImage) {
-                artistPortraitImage.addEventListener('click', openArtistPortraitViewer);
-            }
-
-            if (viewerCloseButton) {
-                viewerCloseButton.addEventListener('click', closeImageViewer);
-            }
-
-            // Close viewer if user clicks on the image itself
-            if (fullscreenImage) {
-                fullscreenImage.addEventListener('click', (e) => {
-                    closeImageViewer();
-                });
-            }
-
-            if (imageViewerOverlay) {
-                // Close viewer if user clicks on the overlay background (not the image itself)
-                imageViewerOverlay.addEventListener('click', (e) => {
-                    if (e.target === imageViewerOverlay) { 
-                        closeImageViewer();
-                    }
-                });
-            }
-
-            // Keyboard navigation for viewer (Escape key)
-            document.addEventListener('keydown', (e) => {
-                if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
-                    if (e.key === 'Escape') {
-                        closeImageViewer();
-                    }
-                }
-            });
+            // --- IMAGE VIEWER EVENT LISTENERS REMOVED ---
+            // Event listeners for artistPortraitImage, viewerCloseButton, fullscreenImage, imageViewerOverlay, and Escape key for viewer are removed.
 
             // --- INITIAL APPLY ---
             applyTheme(currentTheme);
