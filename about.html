@@ -56,6 +56,8 @@
             --button-hover-bg-color: #c7c7c7;
             --base-font-size: 16px;
             --base-spacing: 1rem;
+            --video-border-color: #000000; /* Black for light theme video border */
+            --video-spinner-track-color: rgba(0, 0, 0, 0.1); /* Darker track for light theme spinner */
             /* Added from contact.html for image viewer */
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #ffffff;
@@ -72,6 +74,8 @@
             --button-bg-color: #444444;
             --button-text-color: #f4f7f6;
             --button-hover-bg-color: #5a5a5a;
+            --video-border-color: #ffffff; /* White for dark theme video border */
+            --video-spinner-track-color: rgba(255, 255, 255, 0.3); /* Lighter track for dark theme spinner */
             /* Added from contact.html for image viewer */
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #e0e0e0;
@@ -323,15 +327,39 @@
             font-weight: 500;
         }
 
+        /* NEW: Video Container for spinner and border */
+        .video-container {
+            position: relative; /* For spinner positioning */
+            width: 100%;
+            max-width: 1000px; /* Max width of the video area */
+            margin: 0 auto calc(var(--base-spacing) * 2.5); /* Centering and bottom margin */
+        }
+
         .artist-video {
             width: 100%;
-            max-width: 100%; /* Allow video to take full width of its container, up to 1000px */
+            /* max-width: 100%; Removed, container handles max-width */
             height: auto;
             display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: calc(var(--base-spacing) * 2.5); /* Space before biography text */
-           
+            /* margin-left: auto; Removed, container handles centering */
+            /* margin-right: auto; Removed, container handles centering */
+            /* margin-bottom: calc(var(--base-spacing) * 2.5); Removed, container handles bottom margin */
+            border: 0px solid var(--video-border-color); /* Theme-aware border */
+        }
+
+        /* NEW: Video Spinner Styles */
+        .video-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--video-spinner-track-color);
+            border-top-color: var(--loader-color); /* Uses existing themed loader color */
+            border-radius: 50%;
+            animation: spin 1s linear infinite; /* Uses existing spin animation */
+            z-index: 10;
+            display: block; /* Show by default, JS will hide it */
         }
 
         .about-content-wrapper {
@@ -528,11 +556,14 @@
             <div class="container">
                 <h1 class="about-page-title" data-lang-key="aboutHeading">About the Artist</h1>
                 <!-- Video moved here and centered -->
-                <video class="artist-video" autoplay loop muted playsinline>
-                    <source src="images/ITF540P.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                
+                <div class="video-container">
+                    <div class="video-spinner" id="videoSpinner"></div>
+                    <video class="artist-video" id="artistVideoElement" autoplay loop muted playsinline>
+                        <source src="images/ITF540P.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
                 <div class="about-content-wrapper">
                     <!-- Artist image container and about-main-content div removed -->
                     <section class="artist-bio">
@@ -660,6 +691,9 @@
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
             const currentYearSpan = document.getElementById('currentYear');
+            // NEW: Get video and spinner elements
+            const artistVideoElement = document.getElementById('artistVideoElement');
+            const videoSpinnerElement = document.getElementById('videoSpinner');
             
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light'; 
@@ -768,6 +802,40 @@
             // --- INITIAL APPLY ---
             applyTheme(currentTheme);
             applyLanguage(currentLanguage);
+
+            // NEW: Video spinner logic
+            if (artistVideoElement && videoSpinnerElement) {
+                const showSpinner = () => {
+                    videoSpinnerElement.style.display = 'block';
+                };
+                const hideSpinner = () => {
+                    videoSpinnerElement.style.display = 'none';
+                };
+
+                // Spinner is visible by CSS initially. Hide it when video is ready.
+                artistVideoElement.addEventListener('loadeddata', hideSpinner);
+                artistVideoElement.addEventListener('canplay', hideSpinner);
+                artistVideoElement.addEventListener('playing', hideSpinner);
+
+                // Show spinner if video is waiting for data (buffering)
+                artistVideoElement.addEventListener('waiting', showSpinner);
+
+                // Handle stalled or errored video
+                artistVideoElement.addEventListener('stalled', () => {
+                    showSpinner();
+                    console.warn('Video playback stalled.');
+                });
+                artistVideoElement.addEventListener('error', (e) => {
+                    hideSpinner();
+                    console.error('Error loading or playing video:', e);
+                    // Optionally, you could display a user-friendly error message here
+                });
+
+                // Check initial readyState in case events were missed (e.g., cached video)
+                if (artistVideoElement.readyState >= 3) { // HAVE_FUTURE_DATA or HAVE_ENOUGH_DATA
+                    hideSpinner();
+                }
+            }
         });
     </script>
 </body>
