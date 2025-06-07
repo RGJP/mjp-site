@@ -819,9 +819,8 @@
                     videoSpinnerElement.style.display = 'none';
                 };
 
-                // Spinner is visible by CSS initially. Hide it when video is ready.
-                artistVideoElement.addEventListener('loadeddata', hideSpinner);
-                artistVideoElement.addEventListener('canplay', hideSpinner);
+                // Hide spinner when the browser estimates it can play through, or when playback actually starts.
+                artistVideoElement.addEventListener('canplaythrough', hideSpinner);
                 artistVideoElement.addEventListener('playing', hideSpinner);
 
                 // Show spinner if video is waiting for data (buffering)
@@ -838,8 +837,8 @@
                     // Optionally, you could display a user-friendly error message here
                 });
 
-                // Check initial readyState in case events were missed (e.g., cached video)
-                if (artistVideoElement.readyState >= 3) { // HAVE_FUTURE_DATA or HAVE_ENOUGH_DATA
+                // Check initial readyState. If video already has enough data, hide spinner.
+                if (artistVideoElement.readyState === 4) { // HAVE_ENOUGH_DATA
                     hideSpinner();
                 }
             }
