@@ -362,6 +362,13 @@
             display: block; /* Show by default, JS will hide it */
         }
 
+        /* NEW: Keyframes for the spinner animation (was missing) */
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
         .about-content-wrapper {
             flex-direction: column;
             gap: calc(var(--base-spacing) * 3);
