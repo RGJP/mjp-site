@@ -62,6 +62,7 @@
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #ffffff;
             --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
+            --loader-color: #333; /* For spinner */
         }
 
         [data-theme="dark"] {
@@ -79,6 +80,7 @@
             /* Added from contact.html for image viewer */
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #e0e0e0;
+            --loader-color: #f4f7f6; /* For spinner */
         }
 
         *, *::before, *::after {
@@ -321,9 +323,9 @@
         }
 
         .about-page-title {
- text-align: center;
- margin-bottom: calc(var(--base-spacing) * 2.5);
- font-size: clamp(1.62rem, 2.7vw, 2.25rem); /* Reduced by ~10% from 1.8rem, 3vw, 2.5rem */
+            text-align: center;
+            margin-bottom: calc(var(--base-spacing) * 2.5);
+            font-size: clamp(1.62rem, 2.7vw, 2.25rem); /* Reduced by ~10% from 1.8rem, 3vw, 2.5rem */
             font-weight: 500;
         }
 
@@ -337,13 +339,13 @@
 
         .artist-video {
             width: 100%;
-            /* max-width: 100%; Removed, container handles max-width */
             height: auto;
             display: block;
-            /* margin-left: auto; Removed, container handles centering */
-            /* margin-right: auto; Removed, container handles centering */
-            /* margin-bottom: calc(var(--base-spacing) * 2.5); Removed, container handles bottom margin */
-            border: 1px solid var(--video-border-color); /* Theme-aware border - CORRECTED to 1px */
+            border: 0px solid var(--video-border-color);
+            /* --- FIX --- */
+            /* Hide the video initially and add a fade-in transition */
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
         }
 
         /* NEW: Video Spinner Styles */
@@ -355,14 +357,13 @@
             width: 50px;
             height: 50px;
             border: 5px solid var(--video-spinner-track-color);
-            border-top-color: var(--loader-color); /* Uses existing themed loader color */
+            border-top-color: var(--loader-color);
             border-radius: 50%;
-            animation: spin 1s linear infinite; /* Uses existing spin animation */
+            animation: spin 1s linear infinite;
             z-index: 10;
             display: block; /* Show by default, JS will hide it */
         }
 
-        /* NEW: Keyframes for the spinner animation (was missing) */
         @keyframes spin {
             to {
                 transform: translate(-50%, -50%) rotate(360deg);
@@ -470,7 +471,7 @@
         @media (max-width: 767px) { 
             .main-nav ul {
                 flex-wrap: wrap; 
-                 justify-content: center; 
+                justify-content: center; 
             }
             .main-nav .dropdown-menu { 
                 left: 50%;
@@ -514,15 +515,13 @@
                 font-size: 1.4rem;
             }
             .main-nav .dropdown-menu li a {
-                 font-size: 1.3rem;
+                font-size: 1.3rem;
             }
             .control-button {
                 padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
                 font-size: 1.2rem;
             }
         }
-
-        /* Removed Fullscreen Image Viewer Styles as the image viewer is no longer used on this page */
     </style>
 </head>
 <body>
@@ -562,7 +561,6 @@
         <section class="about-section">
             <div class="container">
                 <h1 class="about-page-title" data-lang-key="aboutHeading">About the Artist</h1>
-                <!-- Video moved here and centered -->
                 <div class="video-container">
                     <div class="video-spinner" id="videoSpinner"></div>
                     <video class="artist-video" id="artistVideoElement" autoplay loop muted playsinline>
@@ -572,7 +570,6 @@
                 </div>
 
                 <div class="about-content-wrapper">
-                    <!-- Artist image container and about-main-content div removed -->
                     <section class="artist-bio">
                         <h2 data-lang-key="biographyTitle">Biography</h2>
                         <p data-lang-key="bioParagraph1">Marius Jomphe was born in Havre St-Pierre, on the North Shore.</p>
@@ -581,7 +578,6 @@
                         <p data-lang-key="bioParagraph4">He lives and works in Gaspé.</p>
                     </section>
 
-                    <!-- Artist statement starts after the video -->
                     <section class="artist-statement">
                         <h2 data-lang-key="artistStatementTitle">Artist's Statement</h2>
                         <blockquote>
@@ -608,7 +604,6 @@
         </div>
     </footer>
 
-    <!-- Image Viewer Overlay HTML removed as it's no longer used on this page -->
     <script>
         // Highlight active nav link based on current URL
         document.querySelectorAll('.main-nav > ul > li > a').forEach(link => { 
@@ -630,7 +625,7 @@
                     link.classList.remove('active');
                 }
             } else {
-                 link.classList.remove('active'); 
+                link.classList.remove('active'); 
             }
         });
 
@@ -698,15 +693,12 @@
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
             const currentYearSpan = document.getElementById('currentYear');
-            // NEW: Get video and spinner elements
             const artistVideoElement = document.getElementById('artistVideoElement');
             const videoSpinnerElement = document.getElementById('videoSpinner');
             
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light'; 
 
-            // --- IMAGE VIEWER ELEMENTS REMOVED ---
-            // Variables for artistPortraitImage, imageViewerOverlay, fullscreenImage, viewerCloseButton, imageViewerSpinner are removed.
             // --- INITIALIZATION ---
             function applyTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
@@ -749,9 +741,6 @@
             if (currentYearSpan) {
                 currentYearSpan.textContent = new Date().getFullYear();
             }
-
-            // --- IMAGE VIEWER FUNCTIONS REMOVED ---
-            // Functions loadAndShowArtistPortrait, openArtistPortraitViewer, and closeImageViewer are removed.
 
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
@@ -803,45 +792,73 @@
                 });
             });
 
-            // --- IMAGE VIEWER EVENT LISTENERS REMOVED ---
-            // Event listeners for artistPortraitImage, viewerCloseButton, fullscreenImage, imageViewerOverlay, and Escape key for viewer are removed.
-
             // --- INITIAL APPLY ---
             applyTheme(currentTheme);
             applyLanguage(currentLanguage);
 
-            // NEW: Video spinner logic
+            // --- REVISED: FOOLPROOF VIDEO SPINNER LOGIC ---
             if (artistVideoElement && videoSpinnerElement) {
-                const showSpinner = () => {
-                    artistVideoElement.style.visibility = 'hidden'; // Hide video
-                    videoSpinnerElement.style.display = 'block';
-                };
-                const hideSpinner = () => {
+                // The video is initially hidden by CSS (opacity: 0).
+                // The spinner is visible by CSS (display: block).
+                let videoHasLoaded = false;
+
+                const onVideoReady = () => {
+                    // This function should only run once for the initial load.
+                    if (videoHasLoaded) return;
+                    videoHasLoaded = true;
+                    
                     videoSpinnerElement.style.display = 'none';
-                    artistVideoElement.style.visibility = 'visible'; // Show video
+                    artistVideoElement.style.opacity = '1'; // Fade in the video
                 };
-                // Hide spinner when the browser estimates it can play through, or when playback actually starts.
-                artistVideoElement.addEventListener('canplaythrough', hideSpinner);
-                artistVideoElement.addEventListener('playing', hideSpinner);
 
-                // Show spinner if video is waiting for data (buffering)
-                artistVideoElement.addEventListener('waiting', showSpinner);
+                const onVideoWaiting = () => {
+                    // If video has already loaded and is just rebuffering, show spinner.
+                    // The video frame remains visible, which is standard UI behavior.
+                    if (videoHasLoaded) {
+                        videoSpinnerElement.style.display = 'block';
+                    }
+                };
 
-                // Handle stalled or errored video
-                artistVideoElement.addEventListener('stalled', () => {
-                    showSpinner();
-                    console.warn('Video playback stalled.');
-                });
+                const onVideoPlaying = () => {
+                    // If we were waiting (rebuffering), hide the spinner.
+                    if (videoHasLoaded) {
+                        videoSpinnerElement.style.display = 'none';
+                    } else {
+                        // This can act as a fallback if 'playing' fires before 'canplaythrough'.
+                        onVideoReady();
+                    }
+                };
+
+                // 'canplaythrough' is the ideal event. It signals that the browser
+                // believes it can play the entire video without buffering.
+                artistVideoElement.addEventListener('canplaythrough', onVideoReady);
+
+                // 'playing' handles resuming from a buffer and can be a fallback.
+                artistVideoElement.addEventListener('playing', onVideoPlaying);
+
+                // 'waiting' handles rebuffering after the initial load.
+                artistVideoElement.addEventListener('waiting', onVideoWaiting);
+
                 artistVideoElement.addEventListener('error', (e) => {
-                    hideSpinner();
+                    videoSpinnerElement.style.display = 'none';
                     console.error('Error loading or playing video:', e);
-                    // Optionally, you could display a user-friendly error message here
+                    const container = artistVideoElement.parentElement;
+                    if (!container.querySelector('.video-error-message')) {
+                        container.innerHTML += '<p class="video-error-message" style="text-align:center; padding: 20px; color: var(--text-color);">The video could not be loaded.</p>';
+                    }
                 });
 
-                // Check initial readyState. If video already has enough data, hide spinner.
-                if (artistVideoElement.readyState === 4) { // HAVE_ENOUGH_DATA
-                    hideSpinner();
+                // Initial check: If the video is already cached and ready, show it.
+                // readyState 4 means HAVE_ENOUGH_DATA.
+                if (artistVideoElement.readyState >= 4) {
+                    onVideoReady();
                 }
+
+                // Some browsers block autoplay. This .catch() prevents an error in the console.
+                // Our event listeners will handle showing the video when it's ready regardless.
+                artistVideoElement.play().catch(error => {
+                    console.log("Video autoplay was prevented by the browser. It will start when ready and allowed.");
+                });
             }
         });
     </script>
