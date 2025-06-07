@@ -343,7 +343,7 @@
             /* margin-left: auto; Removed, container handles centering */
             /* margin-right: auto; Removed, container handles centering */
             /* margin-bottom: calc(var(--base-spacing) * 2.5); Removed, container handles bottom margin */
-            border: 0px solid var(--video-border-color); /* Theme-aware border */
+            border: 1px solid var(--video-border-color); /* Theme-aware border - CORRECTED to 1px */
         }
 
         /* NEW: Video Spinner Styles */
@@ -813,12 +813,13 @@
             // NEW: Video spinner logic
             if (artistVideoElement && videoSpinnerElement) {
                 const showSpinner = () => {
+                    artistVideoElement.style.visibility = 'hidden'; // Hide video
                     videoSpinnerElement.style.display = 'block';
                 };
                 const hideSpinner = () => {
                     videoSpinnerElement.style.display = 'none';
+                    artistVideoElement.style.visibility = 'visible'; // Show video
                 };
-
                 // Hide spinner when the browser estimates it can play through, or when playback actually starts.
                 artistVideoElement.addEventListener('canplaythrough', hideSpinner);
                 artistVideoElement.addEventListener('playing', hideSpinner);
