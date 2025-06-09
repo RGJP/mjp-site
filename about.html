@@ -161,7 +161,7 @@
             gap: calc(var(--base-spacing) * 1.5);
         }
 
-        .main-nav a, .main-nav .dropdown > a {
+        .main-nav a {
             font-weight: 500;
             font-size: clamp(0.9rem, 1.5vw, 1.1rem);
             color: var(--nav-link-color);
@@ -186,8 +186,7 @@
             background: var(--text-color);
         }
 
-        .main-nav a::after, 
-        .main-nav .dropdown > a::after { 
+        .main-nav a::after { 
             content: '';
             position: absolute;
             width: 0;
@@ -199,8 +198,7 @@
             transition: width 0.3s ease;
         }
         
-        .main-nav a:hover::after,
-        .main-nav .dropdown > a:hover::after {
+        .main-nav a:hover::after {
             width: 100%;
             left: 0;
             background: var(--nav-link-hover-color);
