@@ -149,10 +149,10 @@
         }
 
         .logo {
-            font-size: clamp(1.4rem, 4vw, 2.2rem); /* Adjusted for better scaling on narrow screens */
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
             font-weight: 100;
             color: var(--text-color);
-            white-space: nowrap; /* Prevent title from wrapping */
+            white-space: nowrap;
         }
 
         .main-nav ul {
@@ -161,14 +161,14 @@
             gap: calc(var(--base-spacing) * 1.5);
         }
 
-        .main-nav a, .main-nav .dropdown > a { /* Apply to dropdown toggle as well */
+        .main-nav a, .main-nav .dropdown > a {
             font-weight: 500;
             font-size: clamp(0.9rem, 1.5vw, 1.1rem);
             color: var(--nav-link-color);
             padding: calc(var(--base-spacing) * 0.5) 0;
             position: relative;
             text-transform: uppercase;
-            display: inline-block; /* Ensures proper spacing and ::after positioning */
+            /* FIX: The problematic 'display: inline-block;' was removed from here */
         }
         .main-nav a.active {
             color: var(--text-color);
@@ -181,12 +181,11 @@
             width: 100%;
             height: 2px;
             display: block;
-            bottom: 0px; /* CORRECT: Position for active link */
+            bottom: 0px; 
             left: 0;
             background: var(--text-color);
         }
 
-        /* General underline for main nav links, including dropdown toggle */
         .main-nav a::after, 
         .main-nav .dropdown > a::after { 
             content: '';
@@ -194,7 +193,7 @@
             width: 0;
             height: 2px;
             display: block;
-            margin-top: 5px; /* FIX: Changed from 'bottom: 0px' to match index.html */
+            margin-top: 5px; 
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -218,14 +217,14 @@
             position: relative;
         }
 
-        .main-nav .dropdown > a { /* The "PROJECTS" link */
-            cursor: pointer; /* Indicate it's clickable */
+        .main-nav .dropdown > a {
+            cursor: pointer;
         }
         
         .main-nav .dropdown-menu {
             display: none;
             position: absolute;
-            top: calc(100% + 5px); /* Position below the parent, accounts for main nav underline */
+            top: calc(100% + 5px);
             left: 0;
             background-color: var(--header-bg-color);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
@@ -235,7 +234,7 @@
             min-width: 200px;
             z-index: 1100;
             border-radius: 4px;
-            border: 1px solid var(--button-bg-color); /* Subtle border */
+            border: 1px solid var(--button-bg-color);
         }
 
         .main-nav .dropdown-menu.show {
@@ -246,10 +245,10 @@
             display: block;
             padding: calc(var(--base-spacing) * 0.6) calc(var(--base-spacing) * 1.2);
             color: var(--nav-link-color);
-            text-transform: none; /* Dropdown items typically not uppercase */
+            text-transform: none;
             font-size: clamp(0.85rem, 1.3vw, 1rem);
-            font-weight: 400; /* Normal weight for dropdown items */
-            white-space: nowrap; /* Prevent items from wrapping */
+            font-weight: 400;
+            white-space: nowrap;
         }
 
         .main-nav .dropdown-menu li a:hover {
@@ -281,7 +280,6 @@
             position: relative;
             cursor: pointer;
             transition: color 0.2s ease;
-            /* FIX: Added properties to match index.html */
             text-transform: uppercase;
             line-height: inherit;
             display: inline-block;
@@ -323,22 +321,21 @@
         .about-section .container {
             padding-top: calc(var(--base-spacing) * 2);
             padding-bottom: calc(var(--base-spacing) * 0);
-            max-width: 1000px; /* Max width for the text content */
+            max-width: 1000px;
         }
 
         .about-page-title {
             text-align: center;
             margin-bottom: calc(var(--base-spacing) * 2.5);
-            font-size: clamp(1.62rem, 2.7vw, 2.25rem); /* Reduced by ~10% from 1.8rem, 3vw, 2.5rem */
+            font-size: clamp(1.62rem, 2.7vw, 2.25rem);
             font-weight: 500;
         }
 
-        /* NEW: Video Container for spinner and border */
         .video-container {
-            position: relative; /* For spinner positioning */
+            position: relative;
             width: 100%;
-            max-width: 1000px; /* Max width of the video area */
-            margin: 0 auto calc(var(--base-spacing) * 2.5); /* Centering and bottom margin */
+            max-width: 1000px;
+            margin: 0 auto calc(var(--base-spacing) * 2.5);
         }
 
         .artist-video {
@@ -346,13 +343,10 @@
             height: auto;
             display: block;
             border: 0px solid var(--video-border-color);
-            /* --- FIX --- */
-            /* Hide the video initially and add a fade-in transition */
             opacity: 0;
             transition: opacity 0.5s ease-in;
         }
 
-        /* NEW: Video Spinner Styles */
         .video-spinner {
             position: absolute;
             top: 50%;
@@ -365,8 +359,8 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
             z-index: 10;
-            display: block; /* Show by default, JS will hide it */
-            opacity: 0.3; /* Set spinner opacity to 30% */
+            display: block;
+            opacity: 0.3;
         }
 
         @keyframes spin {
@@ -378,10 +372,10 @@
         .about-content-wrapper {
             flex-direction: column;
             gap: calc(var(--base-spacing) * 3);
-            display: flex; /* Kept for gap functionality between bio and statement */
+            display: flex;
         }
 
-        .artist-statement { /* Keep original margin for artist statement */
+        .artist-statement {
             margin-bottom: calc(var(--base-spacing) * 2);
         }
 
@@ -389,11 +383,11 @@
             margin-bottom: var(--base-spacing);
             line-height: 1.75;
             text-align: justify;
-            font-size: 1.2rem; /* Adjusted for slightly larger text */
+            font-size: 1.2rem;
         }
 
         .artist-statement blockquote {
-            margin: calc(var(--base-spacing) * 1.5) 0; /* Removed left margin */
+            margin: calc(var(--base-spacing) * 1.5) 0;
             padding: var(--base-spacing) calc(var(--base-spacing) * 1.5);
             border-left: 5px solid var(--button-bg-color);
             background-color: var(--placeholder-bg-color);
@@ -417,11 +411,11 @@
         .artist-bio h2, .artist-statement h2 {
             font-size: clamp(1.5rem, 2.2vw, 2rem);
             color: var(--text-color);
-            margin-bottom: calc(var(--base-spacing) * 1.2); /* Keep existing margin */
+            margin-bottom: calc(var(--base-spacing) * 1.2);
             padding-bottom: calc(var(--base-spacing) * 0.4);
             border-bottom: 2px solid var(--nav-link-hover-color);
-            text-align: center; /* Add this line to center the text */
-            font-weight: 500; /* Match the weight of .about-page-title */
+            text-align: center;
+            font-weight: 500;
         }
 
         /* End About Page Specific Styles */
@@ -530,7 +524,7 @@
     </style>
 </head>
 <body>
-    <header class="site-header">
+     <header class="site-header">
         <div class="container">
             <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
             
