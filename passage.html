@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"> <head>
+<html lang="en">
+<head>
     <script>
         // VER 0605 IMMEDIATE THEME & LANGUAGE APPLICATION
         (function() {
@@ -26,7 +27,8 @@
     <meta property="og:description" content="Explore the Gaspé Peninsula through 'Passage,' a photo book by Marius Jomphe capturing its subtle details and natural beauty.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mariusjomphe.com/passage.html">
-    <meta property="og:image" content="https://mariusjomphe.com/images/passage/passage.png"> <meta property="og:image:alt" content="Passage Book by Marius Jomphe">
+    <meta property="og:image" content="https://mariusjomphe.com/images/passage/passage.png">
+    <meta property="og:image:alt" content="Passage Book by Marius Jomphe">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="en_CA">
     <meta property="og:locale:alternate" content="fr_CA">
@@ -161,7 +163,7 @@
             gap: calc(var(--base-spacing) * 1.5);
         }
 
-        .main-nav a { 
+        .main-nav a {
             font-weight: 500;
             font-size: clamp(0.9rem, 1.5vw, 1.1rem);
             color: var(--nav-link-color);
@@ -170,28 +172,28 @@
             text-transform: uppercase;
         }
         .main-nav a.active {
-            color: var(--text-color); 
+            color: var(--text-color);
             font-weight: 700;
         }
 
-        .main-nav a.active::after { 
+        .main-nav a.active::after {
             content: '';
             position: absolute;
             width: 100%;
             height: 2px;
             display: block;
-            bottom: 0px; 
+            bottom: 0px;
             left: 0;
-            background: var(--text-color); 
+            background: var(--text-color);
         }
 
-        .main-nav a::after { 
+        .main-nav a::after {
             content: '';
             position: absolute;
             width: 0;
             height: 2px;
             display: block;
-            bottom: 0px; 
+            bottom: 0px;
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -219,14 +221,14 @@
             position: relative;
         }
 
-        .main-nav .dropdown > a { 
-            cursor: pointer; 
+        .main-nav .dropdown > a {
+            cursor: pointer;
         }
-        
+
         .main-nav .dropdown-menu {
-            display: none; 
+            display: none;
             position: absolute;
-            top: calc(100% + 5px); 
+            top: calc(100% + 5px);
             left: 0;
             background-color: var(--header-bg-color);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
@@ -236,43 +238,43 @@
             min-width: 200px;
             z-index: 1100;
             border-radius: 4px;
-            border: 1px solid var(--button-bg-color); 
+            border: 1px solid var(--button-bg-color);
         }
 
-        .main-nav .dropdown-menu.show { 
+        .main-nav .dropdown-menu.show {
             display: block;
         }
 
-        .main-nav .dropdown-menu li a { 
+        .main-nav .dropdown-menu li a {
             display: block;
             padding: calc(var(--base-spacing) * 0.6) calc(var(--base-spacing) * 1.2);
             color: var(--nav-link-color);
-            text-transform: none; 
+            text-transform: none;
             font-size: clamp(0.85rem, 1.3vw, 1rem);
-            font-weight: 400; 
-            white-space: nowrap; 
+            font-weight: 400;
+            white-space: nowrap;
         }
 
         .main-nav .dropdown-menu li a:hover {
             background-color: var(--button-bg-color);
             color: var(--nav-link-hover-color);
-            text-decoration: none; 
+            text-decoration: none;
         }
 
         .main-nav .dropdown-menu li a::after,
         .main-nav .dropdown-menu li a:hover::after {
-            display: none; 
+            display: none;
         }
 
         /* Added for active dropdown item underline */
         .main-nav .dropdown-menu li a.active {
             color: var(--text-color); /* Match main active link color */
-            font-weight: 700;       /* Match main active link font-weight */
+            font-weight: 700;        /* Match main active link font-weight */
             text-decoration-line: underline;
             text-decoration-color: var(--text-color);
             text-decoration-thickness: 2px; /* Match main active link underline thickness */
-            text-underline-offset: calc(var(--base-spacing) * 0.5);  /* Adjust for pleasant spacing below text, matches main nav */
-                                         /* This also helps it look distinct from a simple hover underline */
+            text-underline-offset: calc(var(--base-spacing) * 0.5);   /* Adjust for pleasant spacing below text, matches main nav */
+                                            /* This also helps it look distinct from a simple hover underline */
         }
 
 
@@ -356,8 +358,8 @@
 
         .email-button .button-price-text {
             display: block; /* Ensures it takes its own line */
-          font-size: clamp(1rem, 1.8vw, 1.2rem);
-              font-weight: 600;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            font-weight: 600;
         }
 
         .email-button:hover {
@@ -383,7 +385,7 @@
         .gallery-item {
             position: relative;
             overflow: hidden;
-            aspect-ratio: 1 / 1; 
+            aspect-ratio: 1 / 1;
             background-color: var(--placeholder-bg-color);
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
@@ -441,7 +443,7 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
             z-index: 2002;
-            display: none; 
+            display: none;
             opacity: 0.3;
         }
 
@@ -468,7 +470,7 @@
             object-fit: contain;
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             border-radius: 3px;
-            opacity: 0; 
+            opacity: 0;
         }
 
         .viewer-close-button,
@@ -538,7 +540,7 @@
             height: auto;
             opacity: 0.4;
             transition: opacity 0.3s ease;
-            display: none; 
+            display: none;
         }
 
         html[data-theme="light"] .artist-signature .signature-light {
@@ -557,28 +559,28 @@
         .artist-signature a:hover {
             text-decoration: none;
         }
-        
+
         .book-cover-image {
-            width: clamp(280px, 50vw, 700px); 
-            height: auto; 
+            width: clamp(280px, 50vw, 700px);
+            height: auto;
             border: 1px solid var(--button-bg-color);
-            margin: 0 auto; 
+            margin: 0 auto;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            display: block; 
+            display: block;
         }
         .book-text-container {
             margin-bottom: 2rem;
-            max-width: 800px; 
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-            padding: 0 1rem; 
+            padding: 0 1rem;
         }
         .book-text-container h2 {
-            font-size: 1.8rem; 
+            font-size: 1.8rem;
             margin-bottom: 1rem;
             color: var(--text-color);
         }
-         .book-text-container p {
+        .book-text-container p {
             /* Updated to match about.html .artist-bio p */
             margin-bottom: var(--base-spacing);
             line-height: 1.75;
@@ -589,22 +591,22 @@
 
         .book-text-container > div[lang="fr"],
         .book-text-container > div[lang="en"] {
-            display: none; 
+            display: none;
         }
 
         html[lang="fr"] .book-text-container > div[lang="fr"] {
-            display: block; 
+            display: block;
         }
 
         html[lang="en"] .book-text-container > div[lang="en"] {
-            display: block; 
+            display: block;
         }
 
         .book-gallery-title {
             text-align: center;
             font-size: 1.6rem;
             margin-bottom: 1.5rem;
-            font-weight: 400; 
+            font-weight: 400;
             color: var(--text-color);
         }
 
@@ -623,16 +625,16 @@
                 margin-top: calc(var(--base-spacing) * 0.5);
             }
         }
-        
-        @media (max-width: 767px) { 
+
+        @media (max-width: 767px) {
             .main-nav ul {
-                flex-wrap: wrap; 
-                justify-content: center; 
+                flex-wrap: wrap;
+                justify-content: center;
             }
-            .main-nav .dropdown-menu { 
+            .main-nav .dropdown-menu {
                 left: 50%;
                 transform: translateX(-50%);
-                min-width: 180px; 
+                min-width: 180px;
             }
         }
 
@@ -675,10 +677,10 @@
             .logo {
                 font-size: 2.8rem;
             }
-            .main-nav a, .main-nav .dropdown > a { 
+            .main-nav a, .main-nav .dropdown > a {
                 font-size: 1.4rem;
             }
-            .main-nav .dropdown-menu li a { 
+            .main-nav .dropdown-menu li a {
                 font-size: 1.3rem;
             }
             .control-button {
@@ -712,7 +714,7 @@
                     <li><a href="contact.html" data-lang-key="navContact">CONTACT</a></li>
                 </ul>
             </nav>
-            
+
             <div class="controls">
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
                     <span data-lang-key="themeToggleDark">Dark Mode</span>
@@ -734,14 +736,14 @@
 
             <section class="book-text-container">
                 <div lang="fr">
-                     <h3 class="book-gallery-title">Livre français 8x10"<br>110 pages</h3>
+                    <h3 class="book-gallery-title">Livre français 8x10"<br>110 pages</h3>
                     <p>Dans le livre "Passage", l'artiste nous convie à une exploration sensible et poétique de la Gaspésie, loin des sentiers battus et des clichés touristiques. Son objectif capte l’immanence d’une nature grandiose, révélée dans ses détails les plus subtils : le mouvement éphémère d’une marée descendante, la superposition des strates rocheuses, ou encore les jeux de lumière sur les glaces hivernales.</p>
                     <p>Ce livre invite à la contemplation et au recueillement. En scrutant les textures, les lignes et les transparences de ce territoire parfois rude, mais profondément inspirant, l'artiste donne naissance à une galerie de tableaux naturels, parfois monumentaux, parfois intimes.</p>
                     <p>"Passage" est bien plus qu’un simple recueil photographique : c’est une invitation à ralentir, à ressentir, à rêver. Il s’adresse à celles et ceux qui souhaitent poser un regard neuf sur la réalité, et se laisser porter par un voyage intérieur, sensible et mystérieux, né du dialogue entre les mots et les images.</p>
                 </div>
 
                 <div lang="en">
-                     <h3 class="book-gallery-title">8x10" 110-page<br>French book</h3>
+                    <h3 class="book-gallery-title">8x10" 110-page<br>French book</h3>
                     <p>In the book "Passage", the artist invites us on a sensitive and poetic exploration of the Gaspé Peninsula, far from beaten paths and tourist clichés. His lens captures the immanence of a grandiose nature, revealed in its most subtle details: the fleeting motion of a receding tide, the layering of rock strata, or the interplay of light on winter ice.</p>
                     <p>This book is an invitation to contemplation and reflection. By observing the textures, lines, and transparencies of this sometimes harsh but deeply inspiring land, the artist creates a gallery of natural tableaux—at times monumental, at times intimate.</p>
                     <p>"Passage" is much more than a simple photographic collection: it is an invitation to slow down, to feel, to dream. It speaks to those who seek a fresh perspective on reality and wish to embark on an inner journey—sensitive and mysterious—born of the dialogue between words and images.</p>
@@ -757,9 +759,9 @@
                 </a>
             </div>
             <section class="image-gallery-section book-specific-gallery" style="padding-bottom: 2rem;">
-                 <h3 class="book-gallery-title" data-lang-key="bookGalleryTitle">Extrait du Livre / Book Excerpt</h3>
+                <h3 class="book-gallery-title" data-lang-key="bookGalleryTitle">Extrait du Livre / Book Excerpt</h3>
                 <div class="image-gallery" id="imageGallery">
-                    </div>
+                </div>
             </section>
         </div>
     </main>
@@ -844,10 +846,10 @@
         // --- END OF UNIFIED ACTIVE LINK SCRIPT ---
 
         document.addEventListener('DOMContentLoaded', () => {
-            
+
             // --- CONFIGURATION FOR THIS PAGE (PASSAGE BOOK IMAGES) ---
-            const imageFilenames = [ 
-                'Photos Passage-1.jpg', 'Photos Passage-2.jpg', 'Photos Passage-3.jpg', 
+            const imageFilenames = [
+                'Photos Passage-1.jpg', 'Photos Passage-2.jpg', 'Photos Passage-3.jpg',
                 'Photos Passage-4.jpg', 'Photos Passage-5.jpg', 'Photos Passage-6.jpg',
                 'Photos Passage-7.jpg', 'Photos Passage-8.jpg', 'Photos Passage-9.jpg',
                 'Photos Passage-10.jpg', 'Photos Passage-11.jpg', 'Photos Passage-12.jpg',
@@ -862,10 +864,10 @@
                 en: {
                     siteTitle: "Marius Jomphe ‧ Photography",
                     siteTitlePassageLivre: "Passage - The Book | Marius Jomphe",
-                    navImages: "GALLERY", 
+                    navImages: "GALLERY",
                     navProjects: "PROJECTS",
-                    projectBruine: "BRUINE", 
-                    projectPassage: "PASSAGE", 
+                    projectBruine: "BRUINE",
+                    projectPassage: "PASSAGE",
                     navAbout: "ABOUT",
                     navContact: "CONTACT",
                     themeToggleDark: "🌓 DARK THEME",
@@ -874,20 +876,20 @@
                     footerRights: "All rights reserved.",
                     bookGalleryTitle: "Book Excerpts",
                     metaDescriptionContent: "Discover 'Passage' by Marius Jomphe, a photo book offering a sensitive and poetic exploration of the Gaspé Peninsula's grandiose nature, textures, and light.",
-                    ogDescriptionContent: "Explore the Gaspé Peninsula through 'Passage,' a photo book by Marius Jomphe capturing its subtle details and natural beauty.", 
+                    ogDescriptionContent: "Explore the Gaspé Peninsula through 'Passage,' a photo book by Marius Jomphe capturing its subtle details and natural beauty.",
                     buyButtonMainText: "Get the limited edition book", // New key for main text
-                    buyButtonPriceText: "50 USD ‧ 65 CAD",                   // New key for price
+                    buyButtonPriceText: "50 USD ‧ 65 CAD",             // New key for price
                     ogImageAltContent: "Passage Book by Marius Jomphe",
                     bookCoverAltText: "Passage Book Cover",
-                    bookCoverAltText2: "Passage Book Cover - Second View" 
+                    bookCoverAltText2: "Passage Book Cover - Second View"
                 },
                 fr: {
                     siteTitle: "Marius Jomphe ‧ Photographie",
                     siteTitlePassageLivre: "Passage - Le Livre | Marius Jomphe",
-                    navImages: "GALERIE", 
+                    navImages: "GALERIE",
                     navProjects: "PROJETS",
-                    projectBruine: "BRUINE", 
-                    projectPassage: "PASSAGE",  
+                    projectBruine: "BRUINE",
+                    projectPassage: "PASSAGE",
                     navAbout: "À PROPOS",
                     navContact: "CONTACT",
                     themeToggleDark: "🌓 THÈME SOMBRE",
@@ -901,7 +903,7 @@
                     buyButtonMainText: "Obtenir le livre en édition limitée", // New key for main text
                     buyButtonPriceText: "50 USD ‧ 65 CAD",                       // New key for price (adjust if currency/price differs for FR)
                     bookCoverAltText: "Couverture du livre Passage",
-                    bookCoverAltText2: "Couverture du livre Passage - Deuxième Vue" 
+                    bookCoverAltText2: "Couverture du livre Passage - Deuxième Vue"
                 }
             };
 
@@ -917,7 +919,7 @@
             const imageViewerSpinner = document.getElementById('imageViewerSpinner');
             const currentYearSpan = document.getElementById('currentYear');
             const mainBookCoverImage = document.getElementById('mainBookCoverImage');
-            const secondaryBookCoverImage = document.getElementById('secondaryBookCoverImage'); 
+            const secondaryBookCoverImage = document.getElementById('secondaryBookCoverImage');
             const buyBookButton = document.getElementById('passageBuyButton'); // Get the buy button by its new ID
 
 
@@ -938,7 +940,7 @@
                         }
 
                         const img = document.createElement('img');
-                        
+
                         img.src = thumbPath + filename; // Use thumbPath for gallery items
                         const altNamePart = filename.substring(0, filename.lastIndexOf('.'));
                         img.alt = `Thumbnail from Passage book: ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`;
@@ -954,20 +956,20 @@
             };
 
             const imageObserver = new IntersectionObserver(createImageOnIntersection, {
-                rootMargin: '0px 0px 200px 0px', 
-                threshold: 0.01 
+                rootMargin: '0px 0px 200px 0px',
+                threshold: 0.01
             });
 
             function populateGallery() {
                 if (!galleryContainer) return;
-                galleryContainer.innerHTML = ''; 
+                galleryContainer.innerHTML = '';
                 imageFilenames.forEach((filename, index) => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
                     item.dataset.index = index;
                     item.dataset.filename = filename; // Store the base filename
                     galleryContainer.appendChild(item);
-                    imageObserver.observe(item); 
+                    imageObserver.observe(item);
                 });
             }
 
@@ -993,7 +995,7 @@
             function applyLanguage(lang) {
                 currentLanguage = lang;
                 localStorage.setItem('language', lang);
-                document.documentElement.lang = lang; 
+                document.documentElement.lang = lang;
 
                 document.querySelectorAll('[data-lang-key]').forEach(el => {
                     const key = el.dataset.langKey;
@@ -1011,12 +1013,12 @@
                         }
                     }
                 });
-                
+
                 // Special handling for mailto link subject based on language
                 if (buyBookButton) { // Check if the element exists
                     const subjectKey = lang === 'fr' ? 'data-subject-fr' : 'data-subject-en';
                     const subjectText = buyBookButton.getAttribute(subjectKey) || "Book Purchase Inquiry"; // Fallback subject
-                    buyBookButton.href = `mailto:mariusjomphe52@gmail.com?subject=${subjectText}`; 
+                    buyBookButton.href = `mailto:mariusjomphe52@gmail.com?subject=${subjectText}`;
                 }
 
 
@@ -1033,15 +1035,15 @@
                 if (ogDescriptionTag && translations[lang]?.ogDescriptionContent) {
                     ogDescriptionTag.setAttribute('content', translations[lang].ogDescriptionContent);
                 }
-                
+
                 const ogImageAltTag = document.querySelector('meta[property="og:image:alt"]');
                 if (ogImageAltTag && translations[lang]?.ogImageAltContent) {
                     ogImageAltTag.setAttribute('content', translations[lang].ogImageAltContent);
                 }
-                
+
                 const ogTitleTag = document.querySelector('meta[property="og:title"]');
-                if (ogTitleTag && translations[lang]?.siteTitlePassageLivre) { 
-                     ogTitleTag.setAttribute('content', translations[lang].siteTitlePassageLivre);
+                if (ogTitleTag && translations[lang]?.siteTitlePassageLivre) {
+                    ogTitleTag.setAttribute('content', translations[lang].siteTitlePassageLivre);
                 }
 
                 if (mainBookCoverImage && translations[lang]?.bookCoverAltText) {
@@ -1050,7 +1052,7 @@
                 if (secondaryBookCoverImage && translations[lang]?.bookCoverAltText2) {
                     secondaryBookCoverImage.alt = translations[lang].bookCoverAltText2;
                 }
-                applyTheme(currentTheme); 
+                applyTheme(currentTheme);
             }
 
 
@@ -1093,9 +1095,8 @@
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
-                     // --- START: Added logic to ensure parent toggle ("PROJECTS") remains active if a sub-page is current ---
-                    // After toggling, check if this dropdown toggle (e.g., "PROJECTS") should be active
-                    // because one of its sub-menu items matches the current page.
+
+                    // --- START: Added/Modified logic to ensure parent toggle ("PROJECTS") remains active if a sub-page is current ---
                     const currentPath = window.location.pathname;
                     let isSubPageOfThisToggleActive = false;
                     const subMenuLinks = this.nextElementSibling.querySelectorAll('a'); // Get <a> from the .dropdown-menu
@@ -1112,14 +1113,24 @@
 
                             if (currentPathLastSegment === subLinkBaseName || currentPathLastSegment === subLinkHrefAttribute) {
                                 isSubPageOfThisToggleActive = true;
+                                subLink.classList.add('active'); // Ensure sub-link is active if it's the current page
+                            } else {
+                                subLink.classList.remove('active'); // Ensure sub-link is not active if not current
                             }
                         }
                     });
 
                     if (isSubPageOfThisToggleActive) {
                         this.classList.add('active'); // Ensure the parent toggle has the active class
+                    } else {
+                        // Only remove 'active' if the dropdown is NOT currently expanded and none of its sub-pages are active
+                        // Also, check if the current page itself is NOT this dropdown's target
+                        const toggleHref = this.getAttribute('href');
+                        if (!dropdownMenu.classList.contains('show') && (!toggleHref || !currentPath.endsWith(toggleHref))) {
+                            this.classList.remove('active');
+                        }
                     }
-                    // --- END: Added logic ---
+                    // --- END: Added/Modified logic ---
                 });
             });
 
@@ -1131,6 +1142,36 @@
                     if (menu && toggle && !dropdown.contains(event.target)) {
                         menu.classList.remove('show');
                         toggle.setAttribute('aria-expanded', 'false');
+                        // Crucially, re-evaluate the active state of the parent "Projects" link here
+                        // if a sub-page is active, ensure the parent remains active.
+                        const currentPath = window.location.pathname;
+                        const subMenuLinks = dropdown.querySelectorAll('.dropdown-menu a');
+                        let isSubPageActiveWithinThisDropdown = false;
+                        subMenuLinks.forEach(subLink => {
+                            const subLinkHrefAttribute = subLink.getAttribute('href');
+                            if (subLinkHrefAttribute) {
+                                const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
+                                let normalizedCurrentPath = currentPath;
+                                if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
+                                    normalizedCurrentPath = normalizedCurrentPath.slice(0, -1);
+                                }
+                                const currentPathLastSegment = normalizedCurrentPath.substring(normalizedCurrentPath.lastIndexOf('/') + 1);
+
+                                if (currentPathLastSegment === subLinkBaseName || currentPathLastSegment === subLinkHrefAttribute) {
+                                    isSubPageActiveWithinThisDropdown = true;
+                                }
+                            }
+                        });
+
+                        if (isSubPageActiveWithinThisDropdown) {
+                            toggle.classList.add('active');
+                        } else {
+                             // Only remove active if no sub-page is active AND the current page is not this dropdown's own href
+                            const toggleHref = toggle.getAttribute('href');
+                            if (!toggleHref || !currentPath.endsWith(toggleHref)) {
+                                toggle.classList.remove('active');
+                            }
+                        }
                     }
                 });
             });
@@ -1149,7 +1190,7 @@
             if (viewerCloseButton) viewerCloseButton.addEventListener('click', closeImageViewer);
             if (viewerPrevButton) viewerPrevButton.addEventListener('click', showPrevImage);
             if (viewerNextButton) viewerNextButton.addEventListener('click', showNextImage);
-            
+
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('click', (e) => {
                     if (e.target === imageViewerOverlay) closeImageViewer();
@@ -1163,12 +1204,12 @@
                     if (e.key === 'ArrowRight') showNextImage();
                 }
             });
-            
+
             let touchStartX = 0;
             let touchStartY = 0;
             let touchEndX = 0;
             let touchEndY = 0;
-            const swipeThreshold = 50; 
+            const swipeThreshold = 50;
 
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('touchstart', (e) => {
@@ -1187,14 +1228,14 @@
 
                 imageViewerOverlay.addEventListener('touchend', (e) => {
                     if (!imageViewerOverlay.classList.contains('active')) return;
-                    if (touchStartX === 0 || touchEndX === 0) return; 
+                    if (touchStartX === 0 || touchEndX === 0) return;
                     const deltaX = touchEndX - touchStartX;
                     const deltaY = touchEndY - touchStartY;
-                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) { 
-                        if (deltaX < 0) showNextImage(); 
-                        else showPrevImage(); 
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+                        if (deltaX < 0) showNextImage();
+                        else showPrevImage();
                     }
-                    touchStartX = touchStartY = touchEndX = touchEndY = 0; 
+                    touchStartX = touchStartY = touchEndX = touchEndY = 0;
                 });
             }
 
@@ -1205,10 +1246,10 @@
                 const proceedToLoadImage = (targetIndex) => {
                     if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
 
-                    fullscreenImage.style.transition = 'none'; 
+                    fullscreenImage.style.transition = 'none';
                     fullscreenImage.style.opacity = 0;
-                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
-                    fullscreenImage.alt = ""; 
+                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                    fullscreenImage.alt = "";
 
                     const imageUrl = fullsizePath + imageFilenames[targetIndex]; // Use fullsizePath here
                     const altText = `Enlarged view of Passage book image ${imageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
@@ -1217,7 +1258,7 @@
                     tempImg.onload = () => {
                         fullscreenImage.src = imageUrl;
                         fullscreenImage.alt = altText;
-                        requestAnimationFrame(() => { 
+                        requestAnimationFrame(() => {
                             fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
                             fullscreenImage.style.opacity = 1;
                         });
@@ -1230,28 +1271,28 @@
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
                         if (isOpeningCallParam && currentImageIndex === targetIndex) {
-                             setTimeout(closeImageViewer, 1500);
+                            setTimeout(closeImageViewer, 1500);
                         }
                     };
                     tempImg.src = imageUrl;
                 };
 
-                if (isOpeningCallParam) { 
+                if (isOpeningCallParam) {
                     currentImageIndex = newIndex;
                     imageViewerOverlay.classList.add('active');
                     if (document.body) document.body.style.overflow = 'hidden';
                     proceedToLoadImage(currentImageIndex);
-                } else { 
-                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
+                } else {
+                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
                     fullscreenImage.style.opacity = 0;
                     setTimeout(() => {
-                        if (!imageViewerOverlay.classList.contains('active')) { 
-                             if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                             return;
+                        if (!imageViewerOverlay.classList.contains('active')) {
+                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                            return;
                         }
                         currentImageIndex = newIndex;
                         proceedToLoadImage(currentImageIndex);
-                    }, 500); 
+                    }, 500);
                 }
             }
 
@@ -1279,13 +1320,13 @@
             }
 
             function updateNavButtons() {
-                 if (!viewerPrevButton || !viewerNextButton || imageFilenames.length <= 1) {
-                      if(viewerPrevButton) viewerPrevButton.style.display = 'none';
-                      if(viewerNextButton) viewerNextButton.style.display = 'none';
-                      return;
-                 }
-                 if(viewerPrevButton) viewerPrevButton.style.display = 'block';
-                 if(viewerNextButton) viewerNextButton.style.display = 'block';
+                if (!viewerPrevButton || !viewerNextButton || imageFilenames.length <= 1) {
+                    if(viewerPrevButton) viewerPrevButton.style.display = 'none';
+                    if(viewerNextButton) viewerNextButton.style.display = 'none';
+                    return;
+                }
+                if(viewerPrevButton) viewerPrevButton.style.display = 'block';
+                if(viewerNextButton) viewerNextButton.style.display = 'block';
             }
 
             // --- INITIAL LOAD ---
@@ -1293,11 +1334,10 @@
             // Apply initial theme and language (head script handles FOUC, this updates dynamic content)
             applyTheme(currentTheme); // Apply theme first
             applyLanguage(currentLanguage); // Then apply language, which might re-apply theme for text updates.
-            
+
             updateNavButtons();
 
         })
     </script>
 </body>
 </html>
- 
