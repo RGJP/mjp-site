@@ -206,6 +206,13 @@
             left: 0;
             background: var(--nav-link-hover-color);
         }
+        /* Prevent sticky hover underline on dropdown toggles on touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            .main-nav .dropdown > a:hover::after {
+                display: none;
+            }
+        }
+
         .main-nav a:hover {
             color: var(--nav-link-hover-color);
             text-decoration: none;
