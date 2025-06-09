@@ -346,7 +346,7 @@
             max-width: 1000px;
             margin: 0 auto calc(var(--base-spacing) * 2.5);
             /* Added box-shadow with CSS variable */
-          /*box-shadow: 0 8px 16px var(--video-shadow-color);
+         /* box-shadow: 0 8px 16px var(--video-shadow-color); */
             /* Added transition for smooth theme switching */
             transition: box-shadow 0.3s ease;
         }
@@ -820,6 +820,34 @@
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
+
+                    // --- START: Added logic to ensure parent toggle ("PROJECTS") remains active if a sub-page is current ---
+                    // After toggling, check if this dropdown toggle (e.g., "PROJECTS") should be active
+                    // because one of its sub-menu items matches the current page.
+                    const currentPath = window.location.pathname;
+                    let isSubPageOfThisToggleActive = false;
+                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a'); // Get <a> from the .dropdown-menu
+
+                    subMenuLinks.forEach(subLink => {
+                        const subLinkHrefAttribute = subLink.getAttribute('href');
+                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') { // Ensure it's a real link
+                            const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
+                            let normalizedCurrentPath = currentPath;
+                            if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
+                                normalizedCurrentPath = normalizedCurrentPath.slice(0, -1);
+                            }
+                            const currentPathLastSegment = normalizedCurrentPath.substring(normalizedCurrentPath.lastIndexOf('/') + 1);
+
+                            if (currentPathLastSegment === subLinkBaseName || currentPathLastSegment === subLinkHrefAttribute) {
+                                isSubPageOfThisToggleActive = true;
+                            }
+                        }
+                    });
+
+                    if (isSubPageOfThisToggleActive) {
+                        this.classList.add('active'); // Ensure the parent toggle has the active class
+                    }
+                    // --- END: Added logic ---
                 });
             });
 
