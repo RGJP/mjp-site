@@ -255,7 +255,7 @@
             text-decoration-line: underline;
             text-decoration-color: var(--text-color);
             text-decoration-thickness: 2px; /* Match main active link underline thickness */
-            text-underline-offset: 4px;  /* Adjust for pleasant spacing below text */
+            text-underline-offset: calc(var(--base-spacing) * 0.5);  /* Adjust for pleasant spacing below text, matches main nav */
                                          /* This also helps it look distinct from a simple hover underline */
         }
 
