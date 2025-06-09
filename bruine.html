@@ -1019,22 +1019,28 @@ img.src = galleryItemDiv.dataset.thumbPath + fullResFilename; // THUMBNAIL path 
                 threshold: 0.01
             });
 
-       function populateGallery() {
-         if (!galleryContainer) return;
-         galleryContainer.innerHTML = '';
-         imageFilenames.forEach((filename, index) => {
-             const item = document.createElement('div');
-             item.className = 'gallery-item';
-             item.dataset.index = index;
-             item.dataset.fullresFilename = filename;
-             // item.dataset.imagePath = imagePath; // Storing the fullsize base path if needed elsewhere, though not for thumb src
-             item.dataset.thumbPath = thumbPath; 
-             galleryContainer.appendChild(item);
-             imageObserver.observe(item);
-         });
-       }
+            /**
+             * [OPTIMIZED] Populates the gallery using a DocumentFragment to minimize DOM reflows.
+             */
+            function populateGallery() {
+                if (!galleryContainer) return;
 
+                // Use a DocumentFragment to batch DOM appends for better performance.
+                const fragment = document.createDocumentFragment();
 
+                imageFilenames.forEach((filename, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.dataset.index = index;
+                    item.dataset.fullresFilename = filename;
+                    item.dataset.thumbPath = thumbPath; 
+                    fragment.appendChild(item);
+                    imageObserver.observe(item);
+                });
+                
+                galleryContainer.innerHTML = '';
+                galleryContainer.appendChild(fragment);
+            }
             function applyTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
@@ -1255,6 +1261,24 @@ img.src = galleryItemDiv.dataset.thumbPath + fullResFilename; // THUMBNAIL path 
             }
 
             // --- IMAGE VIEWER FUNCTIONS ---
+            /**
+             * [OPTIMIZED] Preloads the next and previous images to make navigation feel instant.
+             * This function creates new Image objects and sets their src, which prompts the
+             * browser to download and cache them without displaying them.
+             * @param {number} currentIndex The index of the currently displayed image.
+             */
+            function preloadAdjacentImages(currentIndex) {
+                if (imageFilenames.length <= 1) return;
+
+                const nextIndex = (currentIndex + 1) % imageFilenames.length;
+                const prevIndex = (currentIndex - 1 + imageFilenames.length) % imageFilenames.length;
+
+                const nextImg = new Image();
+                nextImg.src = imagePath + imageFilenames[nextIndex];
+
+                const prevImg = new Image();
+                prevImg.src = imagePath + imageFilenames[prevIndex];
+            }
             function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
                 if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
 
@@ -1279,6 +1303,9 @@ img.src = galleryItemDiv.dataset.thumbPath + fullResFilename; // THUMBNAIL path 
                         });
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
+                        
+                        // [OPTIMIZED] Once the current image is loaded, start preloading the adjacent ones.
+                        preloadAdjacentImages(targetIndex);
                     };
                     tempImg.onerror = () => {
                         console.error("Error loading image:", imageUrl);

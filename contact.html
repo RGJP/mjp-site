@@ -350,7 +350,7 @@
         }
 
         .contact-text {
-             font-size: 1.2rem; /* Changed to match about page paragraph text */
+             font-size: 1rem; /* Changed to match about page paragraph text */
             margin-bottom: calc(var(--base-spacing) * 2.5); /* Increased bottom margin */
             text-align: center; /* Justify the text */
 
@@ -945,21 +945,49 @@
                 threshold: 0.01 
             });
 
+            /**
+             * [OPTIMIZED] Populates the gallery using a DocumentFragment to minimize DOM reflows.
+             */
             function populateGallery() {
                 if (!galleryContainer) return;
-                galleryContainer.innerHTML = ''; 
+
+                // Use a DocumentFragment to batch DOM appends for better performance.
+                const fragment = document.createDocumentFragment();
+
                 contactPageImageFilenames.forEach((fullResFilename, index) => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
                     item.dataset.index = index; 
                     item.dataset.fullresFilename = fullResFilename; 
                     item.dataset.imagePath = imagePath; 
-                    galleryContainer.appendChild(item);
+                    // Append to the fragment instead of the live DOM
+                    fragment.appendChild(item);
                     imageObserver.observe(item); 
                 });
+
+                // Clear the container once, then append the entire fragment in a single operation.
+                galleryContainer.innerHTML = '';
+                galleryContainer.appendChild(fragment);
             }
 
             // --- IMAGE VIEWER FUNCTIONS (Adapted for contact page) ---
+            /**
+             * [OPTIMIZED] Preloads the next and previous images to make navigation feel instant.
+             * @param {number} currentIndex The index of the currently displayed image.
+             */
+            function preloadAdjacentImages(currentIndex) {
+                if (contactPageImageFilenames.length <= 1) return;
+
+                const nextIndex = (currentIndex + 1) % contactPageImageFilenames.length;
+                const prevIndex = (currentIndex - 1 + contactPageImageFilenames.length) % contactPageImageFilenames.length;
+
+                const nextImg = new Image();
+                nextImg.src = imagePath + contactPageImageFilenames[nextIndex];
+
+                const prevImg = new Image();
+                prevImg.src = imagePath + contactPageImageFilenames[prevIndex];
+            }
+
             function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
                 if (!imageViewerOverlay || !fullscreenImage || contactPageImageFilenames.length === 0) return;
 
@@ -986,6 +1014,9 @@
 
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
+                        
+                        // [OPTIMIZED] Once the current image is loaded, start preloading the adjacent ones.
+                        preloadAdjacentImages(targetIndex);
                     };
 
                     tempImg.onerror = () => {

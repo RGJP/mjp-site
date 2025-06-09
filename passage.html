@@ -958,19 +958,27 @@
                 threshold: 0.01 
             });
 
+            /**
+             * [OPTIMIZED] Populates the gallery using a DocumentFragment to minimize DOM reflows.
+             */
             function populateGallery() {
                 if (!galleryContainer) return;
-                galleryContainer.innerHTML = ''; 
+
+                // Use a DocumentFragment to batch DOM appends for better performance.
+                const fragment = document.createDocumentFragment();
+
                 imageFilenames.forEach((filename, index) => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
                     item.dataset.index = index;
                     item.dataset.filename = filename; // Store the base filename
-                    galleryContainer.appendChild(item);
+                    fragment.appendChild(item);
                     imageObserver.observe(item); 
                 });
-            }
 
+                galleryContainer.innerHTML = '';
+                galleryContainer.appendChild(fragment);
+            }
             function applyTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
@@ -1199,6 +1207,24 @@
             }
 
             // --- IMAGE VIEWER FUNCTIONS ---
+            /**
+             * [OPTIMIZED] Preloads the next and previous images to make navigation feel instant.
+             * This function creates new Image objects and sets their src, which prompts the
+             * browser to download and cache them without displaying them.
+             * @param {number} currentIndex The index of the currently displayed image.
+             */
+            function preloadAdjacentImages(currentIndex) {
+                if (imageFilenames.length <= 1) return;
+
+                const nextIndex = (currentIndex + 1) % imageFilenames.length;
+                const prevIndex = (currentIndex - 1 + imageFilenames.length) % imageFilenames.length;
+
+                const nextImg = new Image();
+                nextImg.src = fullsizePath + imageFilenames[nextIndex];
+
+                const prevImg = new Image();
+                prevImg.src = fullsizePath + imageFilenames[prevIndex];
+            }
             function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
                 if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
 
@@ -1223,6 +1249,9 @@
                         });
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
+                        
+                        // [OPTIMIZED] Once the current image is loaded, start preloading the adjacent ones.
+                        preloadAdjacentImages(targetIndex);
                     };
                     tempImg.onerror = () => {
                         console.error("Error loading image:", imageUrl);
