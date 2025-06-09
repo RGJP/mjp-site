@@ -796,7 +796,6 @@
                         }
 
                         const img = document.createElement('img');
-                        // Use the full filename for the thumbnail, as per the new structure
                         img.src = thumbPath + fullResFilename;
                         const altNamePart = fullResFilename.substring(0, fullResFilename.lastIndexOf('.'));
                         img.alt = `Thumbnail of ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`;
@@ -816,17 +815,28 @@
                 threshold: 0.01 
             });
 
+            /**
+             * [OPTIMIZED] Populates the gallery using a DocumentFragment to minimize DOM reflows.
+             */
             function populateGallery() {
                 if (!galleryContainer) return;
-                galleryContainer.innerHTML = ''; 
+
+                // Use a DocumentFragment to batch DOM appends for better performance.
+                const fragment = document.createDocumentFragment();
+
                 imageFilenames.forEach((fullResFilename, index) => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
                     item.dataset.index = index; 
                     item.dataset.fullresFilename = fullResFilename; 
-                    galleryContainer.appendChild(item);
+                    // Append to the fragment instead of the live DOM
+                    fragment.appendChild(item);
                     imageObserver.observe(item); 
                 });
+                
+                // Clear the container once, then append the entire fragment in a single operation.
+                galleryContainer.innerHTML = ''; 
+                galleryContainer.appendChild(fragment);
             }
 
             function applyTheme(theme) {
@@ -889,7 +899,7 @@
                 });
             }
 
-            // Dropdown Menu Logic (from about.html)
+            // Dropdown Menu Logic
             const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(event) {
@@ -1005,6 +1015,29 @@
 
 
             // --- IMAGE VIEWER FUNCTIONS ---
+
+            /**
+             * [OPTIMIZED] Preloads the next and previous images to make navigation feel instant.
+             * This function creates new Image objects and sets their src, which prompts the
+             * browser to download and cache them without displaying them.
+             * @param {number} currentIndex The index of the currently displayed image.
+             */
+            function preloadAdjacentImages(currentIndex) {
+                if (imageFilenames.length <= 1) return;
+
+                const nextIndex = (currentIndex + 1) % imageFilenames.length;
+                const prevIndex = (currentIndex - 1 + imageFilenames.length) % imageFilenames.length;
+
+                // Preload the next image
+                const nextImg = new Image();
+                nextImg.src = fullsizePath + imageFilenames[nextIndex];
+
+                // Preload the previous image
+                const prevImg = new Image();
+                prevImg.src = fullsizePath + imageFilenames[prevIndex];
+            }
+
+
             function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
                 if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
 
@@ -1031,6 +1064,9 @@
 
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
                         updateNavButtons();
+                        
+                        // [OPTIMIZED] Once the current image is loaded, start preloading the adjacent ones.
+                        preloadAdjacentImages(targetIndex);
                     };
 
                     tempImg.onerror = () => {
