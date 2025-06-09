@@ -58,6 +58,8 @@
             --base-spacing: 1rem;
             --video-border-color: #000000; /* Black for light theme video border */
             --video-spinner-track-color: rgba(0, 0, 0, 0.1); /* Darker track for light theme spinner */
+            /* Added shadow color variable */
+            --video-shadow-color: rgba(0, 0, 0, 0.15); /* Light theme shadow */
             /* Added from contact.html for image viewer */
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #ffffff;
@@ -77,6 +79,8 @@
             --button-hover-bg-color: #5a5a5a;
             --video-border-color: #ffffff; /* White for dark theme video border */
             --video-spinner-track-color: rgba(255, 255, 255, 0.3); /* Lighter track for dark theme spinner */
+            /* Updated shadow color for dark theme */
+            --video-shadow-color: rgba(0, 0, 0, 0.4); /* Dark theme shadow (slightly darker to stand out on dark bg) */
             /* Added from contact.html for image viewer */
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #e0e0e0;
@@ -341,6 +345,10 @@
             width: 100%;
             max-width: 1000px;
             margin: 0 auto calc(var(--base-spacing) * 2.5);
+            /* Added box-shadow with CSS variable */
+          box-shadow: 0 8px 16px var(--video-shadow-color);
+            /* Added transition for smooth theme switching */
+            transition: box-shadow 0.3s ease;
         }
 
         .artist-video {
@@ -529,7 +537,7 @@
     </style>
 </head>
 <body>
-     <header class="site-header">
+      <header class="site-header">
         <div class="container">
             <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
             
@@ -576,20 +584,20 @@
                 <div class="about-content-wrapper">
                     <section class="artist-bio">
                         <h2 data-lang-key="biographyTitle">Biography</h2>
-                        <p data-lang-key="bioParagraph1">Marius Jomphe was born in Havre St-Pierre, on the North Shore.</p>
+                        <p data-lang-key="bioParagraph1">Marius Jomphe was born in Havre St-Pierre, on the North Shore of Quebec.</p>
                         <p data-lang-key="bioParagraph2">He obtained his Bachelor of Arts from the Université du Québec à Montréal in 1976. He then taught for thirty years at the Cégep de la Gaspésie et des Îles while regularly exhibiting his work.</p>
                         <p data-lang-key="bioParagraph3">Since 1990, he has dedicated himself exclusively to photography. His interest in science (astrobiology, neurosciences) influences his photographic practice, which includes the territories of the Gaspé Peninsula as well as the Rivière-au-Tonnerre region on the North Shore.</p>
                         <p data-lang-key="bioParagraph4">He lives and works in Gaspé.</p>
                     </section>
 
                     <section class="artist-statement">
-                        <h2 data-lang-key="artistStatementTitle">Artist's Statement</h2>
+                        <h2 data-lang-key="artistStatementTitle">The enigma of reality</h2>
                         <blockquote>
                             <p data-lang-key="heisenbergQuote">« We must remember that what we observe is not nature in itself, but nature subjected to our method of questioning. »</p>
                             <footer>- <span data-lang-key="heisenbergAttribution">Werner Heisenberg</span></footer>
                         </blockquote>
-                        <p data-lang-key="perceptionText1">Perception, instead of being the passive recording of a supposed objective external reality, appears more as an active process of interpretation, elaborated by the brain, with a view to effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.</p>
-                        <p data-lang-key="perceptionText2">In this sense, photographs must be like open doors where the viewer can enter the world of possibilities. Images are remarkably fleeting objects, loaded with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, deeper than oneself, and thereby offer a glimpse into a little of the mystery of the world.</p>
+                        <p data-lang-key="perceptionText1">Perception, rather than being a passive recording of a supposed objective external reality, appears more as an active process of interpretation, developed by the brain for effective adaptive interaction with the world around us. Through photography, we can therefore question the nature of the visible. By forcing us to consider the profound complexity of what is seen, it can consequently open us to a whole new experience of the world.</p>
+                        <p data-lang-key="perceptionText2">In this sense, photographs should be like open doors where the viewer can enter a world of possibilities. Images are remarkably elusive objects, charged with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, something deeper than oneself, and thereby offer a glimpse into some of the mystery of the world.</p>
                     </section>
                 </div>
             </div>
