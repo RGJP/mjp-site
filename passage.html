@@ -780,59 +780,61 @@
     </footer>
 
     <script>
-        // Highlight active nav link - UPDATED SCRIPT
-        // This script runs before DOMContentLoaded to avoid a flash of unstyled active link
+        // --- START OF UNIFIED ACTIVE LINK SCRIPT (Place before DOMContentLoaded) ---
+
+        // Part 1: Handle top-level navigation links
         document.querySelectorAll('.main-nav > ul > li > a').forEach(link => {
-            // Select all links, including those in dropdowns
-            
             const currentPath = window.location.pathname;
-            const linkPath = link.getAttribute('href');
+            const linkHref = link.getAttribute('href'); // Standardized variable name
 
-            link.classList.remove('active'); // Reset all active classes first
+            link.classList.remove('active'); // Crucial: Reset active class for ALL top-level links first
 
-            if (linkPath && linkPath !== '#') {
-                // Direct match or index.html special case
-                if (currentPath.endsWith(linkPath) ||
-                    ((currentPath.endsWith('/') || currentPath.endsWith('/index.html')) && linkPath === 'index.html')) {
+            if (linkHref && linkHref !== '#') { // Process only actual navigation links
+                let isActive = false;
+                // Check if currentPath ends with linkHref (e.g. /about.html ends with about.html)
+                if (currentPath.endsWith(linkHref)) {
+                    isActive = true;
+                }
+                // Special case for the homepage (index.html)
+                // It can be accessed as '/', or ends with '/index.html'.
+                if ((currentPath.endsWith('/') || currentPath.endsWith('/index.html')) && linkHref === 'index.html') {
+                    isActive = true;
+                }
+
+                if (isActive) {
                     link.classList.add('active');
                 }
             }
         });
 
-        // Additional logic to highlightx active dropdown sub-links and their parent
-      // Additional logic to highxxligxht active dropdown sub-links and their parent
-document.querySelectorAll('.main-nav .dropdown-menu a').forEach(subLink => {
-    const currentPath = window.location.pathname; // E.g., "/passage.html", "/passage", "/passage/"
-    const subLinkHref = subLink.getAttribute('href');   // E.g., "passage.html"
+        // Part 2: Handle dropdown sub-links and activate their parent
+        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(subLink => {
+            const currentPath = window.location.pathname;
+            const subLinkHrefAttribute = subLink.getAttribute('href');
 
-    if (subLinkHref) {
-        // Create a "base" name from href by removing .html (if present)
-        // e.g., "passage.html" -> "passage"
-        const subLinkBaseName = subLinkHref.replace(/\.html$/, '');
+            if (subLinkHrefAttribute) {
+                const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
 
-        // Normalize currentPath: remove trailing slash if present
-        let normalizedCurrentPath = currentPath;
-        if (normalizedCurrentPath.endsWith('/')) {
-            normalizedCurrentPath = normalizedCurrentPath.slice(0, -1); // e.g., "/passage" from "/passage/"
-        }
+                let normalizedCurrentPath = currentPath;
+                // Normalize currentPath: remove trailing slash if not root
+                if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
+                    normalizedCurrentPath = normalizedCurrentPath.slice(0, -1);
+                }
+                const currentPathLastSegment = normalizedCurrentPath.substring(normalizedCurrentPath.lastIndexOf('/') + 1);
 
-        // Get the last segment of the current path (the filename or directory name)
-        // e.g., "/foo/bar/passage.html" -> "passage.html"
-        // e.g., "/foo/bar/passage" -> "passage"
-        const currentPathLastSegment = normalizedCurrentPath.substring(normalizedCurrentPath.lastIndexOf('/') + 1);
+                if (currentPathLastSegment === subLinkBaseName || currentPathLastSegment === subLinkHrefAttribute) {
+                    subLink.classList.add('active');
 
-        // Compare the last segment of the current path with the full href and the base name of the href
-        if (currentPathLastSegment === subLinkHref || currentPathLastSegment === subLinkBaseName) {
-            subLink.classList.add('active'); // Highlight the sub-link
-
-            // Find the parent dropdown toggle and highlight it too
-            let parentDropdownToggle = subLink.closest('.dropdown').querySelector(':scope > a');
-            if (parentDropdownToggle) {
-                parentDropdownToggle.classList.add('active');
+                    const parentDropdownToggle = subLink.closest('.dropdown')?.querySelector(':scope > a');
+                    if (parentDropdownToggle) {
+                        parentDropdownToggle.classList.add('active');
+                    }
+                } else {
+                    subLink.classList.remove('active'); // Ensure sublink is not active if not current
+                }
             }
-        }
-    }
-});
+        });
+        // --- END OF UNIFIED ACTIVE LINK SCRIPT ---
 
         document.addEventListener('DOMContentLoaded', () => {
             

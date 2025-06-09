@@ -602,31 +602,61 @@
     </footer>
 
     <script>
-        // The script block is unchanged
-        // Highlight active nav link based on current URL
-        document.querySelectorAll('.main-nav > ul > li > a').forEach(link => { 
-            const currentPath = window.location.pathname;
-            const linkHref = link.getAttribute('href');
+        // --- START OF UNIFIED ACTIVE LINK SCRIPT (Place before DOMContentLoaded) ---
 
-            if (linkHref && linkHref !== '#') { 
+        // Part 1: Handle top-level navigation links
+        document.querySelectorAll('.main-nav > ul > li > a').forEach(link => {
+            const currentPath = window.location.pathname;
+            const linkHref = link.getAttribute('href'); // Standardized variable name
+
+            link.classList.remove('active'); // Crucial: Reset active class for ALL top-level links first
+
+            if (linkHref && linkHref !== '#') { // Process only actual navigation links
                 let isActive = false;
+                // Check if currentPath ends with linkHref (e.g. /about.html ends with about.html)
                 if (currentPath.endsWith(linkHref)) {
                     isActive = true;
                 }
+                // Special case for the homepage (index.html)
+                // It can be accessed as '/', or ends with '/index.html'.
                 if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === 'index.html') {
                     isActive = true;
                 }
-                
+
                 if (isActive) {
                     link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
                 }
-            } else {
-                link.classList.remove('active'); 
             }
         });
 
+        // Part 2: Handle dropdown sub-links and activate their parent
+        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(subLink => {
+            const currentPath = window.location.pathname;
+            const subLinkHrefAttribute = subLink.getAttribute('href');
+
+            if (subLinkHrefAttribute) {
+                const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
+
+                let normalizedCurrentPath = currentPath;
+                // Normalize currentPath: remove trailing slash if not root
+                if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
+                    normalizedCurrentPath = normalizedCurrentPath.slice(0, -1);
+                }
+                const currentPathLastSegment = normalizedCurrentPath.substring(normalizedCurrentPath.lastIndexOf('/') + 1);
+
+                if (currentPathLastSegment === subLinkBaseName || currentPathLastSegment === subLinkHrefAttribute) {
+                    subLink.classList.add('active');
+
+                    const parentDropdownToggle = subLink.closest('.dropdown')?.querySelector(':scope > a');
+                    if (parentDropdownToggle) {
+                        parentDropdownToggle.classList.add('active');
+                    }
+                } else {
+                    subLink.classList.remove('active'); // Ensure sublink is not active if not current
+                }
+            }
+        });
+        // --- END OF UNIFIED ACTIVE LINK SCRIPT ---
 
         document.addEventListener('DOMContentLoaded', () => {
             // --- TRANSLATIONS ---
