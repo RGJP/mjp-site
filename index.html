@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XBH50G5K56"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBH50G5K56"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -74,6 +73,14 @@
             /* Base font size for scaling */
             --base-font-size: 16px;
             --base-spacing: 1rem; /* 16px */
+
+            /* Overlay specific variables */
+            --overlay-bg-color: rgba(0, 0, 0, 0.8);
+            --overlay-content-bg: #fff;
+            --overlay-text-color: #1a1a1a;
+            --overlay-link-color: #007bff;
+            --overlay-button-bg: #007bff;
+            --overlay-button-text: #fff;
         }
 
         [data-theme="dark"] {
@@ -90,6 +97,14 @@
             --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Increased opacity for darker overlay */
             --image-viewer-nav-color: #e0e0e0;
             --loader-color: #58a6ff;
+
+            /* Overlay specific variables for dark theme */
+            --overlay-bg-color: rgba(0, 0, 0, 0.9);
+            --overlay-content-bg: #2c2c2c;
+            --overlay-text-color: #f4f7f6;
+            --overlay-link-color: #58a6ff;
+            --overlay-button-bg: #58a6ff;
+            --overlay-button-text: #1a1a1a;
         }
 
         *,
@@ -581,6 +596,25 @@
             .gallery-item {
                 contain-intrinsic-size: 350px 350px; 
             }
+            .logo {
+                font-size: 2.8rem;
+            }
+            .main-nav a, .main-nav .dropdown > a { /* from about.html */
+                font-size: 1.4rem;
+            }
+            .main-nav .dropdown-menu li a { /* from about.html */
+                font-size: 1.3rem;
+            }
+            .control-button {
+                padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
+                font-size: 1.2rem;
+            }
+            .viewer-close-button,
+            .viewer-nav-button {
+                font-size: 3rem;
+                width: 70px;
+                height: 70px;
+            }
         }
 
         /* 4K Displays */
@@ -619,6 +653,163 @@
             }
         }
 
+        /* Overlay styles */
+        .promo-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+
+        .promo-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        .promo-content {
+            background-color: var(--overlay-content-bg);
+            color: var(--overlay-text-color);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease-out;
+        }
+
+        .promo-overlay.active .promo-content {
+            transform: translateY(0);
+        }
+
+        .promo-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .promo-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .promo-content a {
+            color: var(--overlay-link-color);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .promo-content a:hover {
+            text-decoration: underline;
+        }
+
+        .promo-content video {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            background-color: #000;
+            margin-bottom: 1.5rem;
+            display: block; /* Ensures it takes up full width */
+        }
+
+        .video-play-button {
+            background-color: var(--overlay-button-bg);
+            color: var(--overlay-button-text);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .video-play-button:hover {
+            background-color: var(--overlay-button-hover-bg); /* Use a new CSS variable for hover */
+        }
+
+        .overlay-close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--overlay-text-color);
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+
+        .overlay-close-button:hover {
+            color: #ff0000;
+        }
+
+        /* Fullscreen Video Overlay */
+        .fullscreen-video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 4000;
+        }
+
+        .fullscreen-video-overlay video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .fullscreen-video-overlay .close-video-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 4001;
+        }
+
+        @media (max-width: 600px) {
+            .promo-content {
+                padding: 1.5rem;
+            }
+            .promo-content h2 {
+                font-size: 1.5rem;
+            }
+            .promo-content p {
+                font-size: 1rem;
+            }
+            .video-play-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -635,7 +826,8 @@
                         <ul class="dropdown-menu" aria-label="Projects submenu">
                             <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
                             <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
-                        </ul>
+                           
+                         </ul>
                     </li>
                     <li><a href="about.html" data-lang-key="navAbout">ABOUT</a></li>
                     <li><a href="contact.html" data-lang-key="navContact">CONTACT</a></li>
@@ -666,13 +858,32 @@
     </main>
 
     <div class="image-viewer-overlay" id="imageViewerOverlay">
-        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">&times;</button>
-        <button class="viewer-nav-button prev" id="viewerPrevButton" aria-label="Previous image">&lt;</button>
+        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">×</button>
+        <button class="viewer-nav-button prev" id="viewerPrevButton" aria-label="Previous image"><</button>
         <div class="image-viewer-content">
             <div class="image-viewer-spinner" id="imageViewerSpinner"></div>
             <img src="" alt="Enlarged view" id="fullscreenImage">
         </div>
-        <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">&gt;</button>
+        <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">></button>
+    </div>
+
+    <div class="promo-overlay" id="promoOverlay">
+        <div class="promo-content">
+            <button class="overlay-close-button" id="promoCloseButton" aria-label="Close promotion">×</button>
+            <h2>Lancement du livre "Sonde"<br>21 août, 17h00<a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer"><br>Centre d'art de Percé</a>:<br></h2>
+            <div style="position: relative;">
+                <video id="promoVideo" preload="metadata" muted playsinline>
+                    <source src="images/sonde.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <button class="video-play-button" id="videoPlayButton">▶</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fullscreen-video-overlay" id="fullscreenVideoOverlay">
+        <button class="close-video-button" id="closeVideoButton">×</button>
+        <video id="fullscreenVideo" controls autoplay playsinline></video>
     </div>
 
     <footer class="site-footer">
@@ -683,7 +894,7 @@
                     <img src="images/signaturedt.png" alt="Artist Signature (Dark Theme)" class="signature-dark" id="signatureDark">
                 </a>
             </div>
-            <p>&copy; <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
+            <p>© <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
         </div>
     </footer>
 
@@ -788,10 +999,11 @@
                     siteTitle: "Marius Jomphe ‧ Photography",
                     pageTitleGallery: "Gallery • Marius Jomphe Photography",
                     navImages: "GALLERY",
-                    navAbout: "ABOUT",                        
+                    navAbout: "ABOUT",                    
                     navProjects: "PROJECTS",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
+                    projectSonde: "SONDE", // Added Sonde translation
                     navContact: "CONTACT",
                     themeToggleDark: "🌓 DARK THEME",
                     themeToggleLight: "🌓 LIGHT THEME",
@@ -802,10 +1014,11 @@
                     siteTitle: "Marius Jomphe ‧ Photographie",
                     pageTitleGallery: "Galerie • Marius Jomphe Photographie",
                     navImages: "GALERIE",
-                    navAbout: "À PROPOS",                        
+                    navAbout: "À PROPOS",                    
                     navProjects: "PROJETS",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
+                    projectSonde: "SONDE", // Added Sonde translation
                     navContact: "CONTACT",
                     themeToggleDark: "🌓 THÈME SOMBRE",
                     themeToggleLight: "🌓 THÈME CLAIR",
@@ -825,6 +1038,16 @@
             const viewerNextButton = document.getElementById('viewerNextButton');
             const imageViewerSpinner = document.getElementById('imageViewerSpinner');
             const currentYearSpan = document.getElementById('currentYear');
+
+            // Promo Overlay Elements
+            const promoOverlay = document.getElementById('promoOverlay');
+            const promoCloseButton = document.getElementById('promoCloseButton');
+            const promoVideo = document.getElementById('promoVideo');
+            const videoPlayButton = document.getElementById('videoPlayButton');
+            const fullscreenVideoOverlay = document.getElementById('fullscreenVideoOverlay');
+            const fullscreenVideo = document.getElementById('fullscreenVideo');
+            const closeVideoButton = document.getElementById('closeVideoButton');
+
 
             let currentImageIndex = 0;
             let currentLanguage = localStorage.getItem('language') || 'en'; 
@@ -966,8 +1189,8 @@
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
-                     // --- START: Added logic to ensure parent toggle ("PROJECTS") remains active if a sub-page is current ---
-                    // After toggling, check if this dropdown toggle (e.g., "PROJECTS") should be active
+                    // --- START: Added logic to ensure parent toggle ("PROJECTS") remains active if a sub-page is current ---
+                    // After toggling, check if this dropdown toggle ("PROJECTS") should be active
                     // because one of its sub-menu items matches the current page.
                     const currentPath = window.location.pathname;
                     let isSubPageOfThisToggleActive = false;
@@ -1210,6 +1433,78 @@
                 if(viewerPrevButton) viewerPrevButton.style.display = 'block';
                 if(viewerNextButton) viewerNextButton.style.display = 'block';
             }
+
+            // --- PROMO OVERLAY FUNCTIONS ---
+            function openPromoOverlay() {
+                promoOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when overlay is active
+            }
+
+            function closePromoOverlay() {
+                promoOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+                promoVideo.pause(); // Pause video if playing
+                promoVideo.currentTime = 0; // Reset video to start
+            }
+
+            function openFullscreenVideo() {
+                fullscreenVideo.src = promoVideo.querySelector('source').src;
+                fullscreenVideoOverlay.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling behind fullscreen video
+                fullscreenVideo.load(); // Load the video
+                fullscreenVideo.play(); // Play the video
+            }
+
+            function closeFullscreenVideo() {
+                fullscreenVideo.pause();
+                fullscreenVideo.currentTime = 0;
+                fullscreenVideoOverlay.style.display = 'none';
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            // Event Listeners for Promo Overlay
+            if (promoCloseButton) {
+                promoCloseButton.addEventListener('click', closePromoOverlay);
+            }
+
+            if (videoPlayButton) {
+                videoPlayButton.addEventListener('click', openFullscreenVideo);
+            }
+
+            if (closeVideoButton) {
+                closeVideoButton.addEventListener('click', closeFullscreenVideo);
+            }
+
+            // Close promo overlay if clicking outside the content area
+            if (promoOverlay) {
+                promoOverlay.addEventListener('click', (e) => {
+                    if (e.target === promoOverlay) {
+                        closePromoOverlay();
+                    }
+                });
+            }
+
+            // Close fullscreen video if clicking outside the video or pressing escape
+            if (fullscreenVideoOverlay) {
+                fullscreenVideoOverlay.addEventListener('click', (e) => {
+                    if (e.target === fullscreenVideoOverlay || e.target === closeVideoButton) {
+                        closeFullscreenVideo();
+                    }
+                });
+            }
+            document.addEventListener('keydown', (e) => {
+                if (fullscreenVideoOverlay.style.display === 'flex' && e.key === 'Escape') {
+                    closeFullscreenVideo();
+                }
+            });
+
+
+            // Automatically open promo overlay when the page loads
+            // Use a short timeout to ensure all other DOM elements are ready
+            // and the user has a moment to see the initial page load before the overlay appears.
+            window.addEventListener('load', () => {
+                setTimeout(openPromoOverlay, 500); // Opens 0.5 seconds after page load
+            });
 
             // --- INITIAL LOAD ---
             populateGallery();
