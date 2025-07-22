@@ -59,28 +59,21 @@
             --header-bg-color: #ffffff;
             --nav-link-color: #333333;
             --nav-link-hover-color: #000000;
-
-            --placeholder-bg-color: #ffffff; /* White for light theme */
-
+            --placeholder-bg-color: #ffffff;
             --button-bg-color: #e0e0e0;
             --button-text-color: #1a1a1a;
             --button-hover-bg-color: #c7c7c7;
-            --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Increased opacity for darker overlay */
+            --base-font-size: 16px;
+            --base-spacing: 1rem;
+            --video-border-color: #000000; /* Black for light theme video border */
+            --video-spinner-track-color: rgba(0, 0, 0, 0.1); /* Darker track for light theme spinner */
+            /* Added shadow color variable */
+            --video-shadow-color: rgba(0, 0, 0, 0.15); /* Light theme shadow */
+            /* Added from contact.html for image viewer */
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #ffffff;
             --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
-            --loader-color: #007bff;
-
-            /* Base font size for scaling */
-            --base-font-size: 16px;
-            --base-spacing: 1rem; /* 16px */
-
-            /* Overlay specific variables */
-            --overlay-bg-color: rgba(0, 0, 0, 0.8);
-            --overlay-content-bg: #fff;
-            --overlay-text-color: #1a1a1a;
-            --overlay-link-color: #007bff;
-            --overlay-button-bg: #007bff;
-            --overlay-button-text: #fff;
+            --loader-color: #333; /* For spinner */
         }
 
         [data-theme="dark"] {
@@ -89,27 +82,21 @@
             --header-bg-color: #2c2c2c;
             --nav-link-color: #e0e0e0;
             --nav-link-hover-color: #ffffff;
-            
-            --placeholder-bg-color: #000000; /* Black for dark theme */
+            --placeholder-bg-color: #000000;
             --button-bg-color: #444444;
             --button-text-color: #f4f7f6;
             --button-hover-bg-color: #5a5a5a;
-            --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Increased opacity for darker overlay */
+            --video-border-color: #ffffff; /* White for dark theme video border */
+            --video-spinner-track-color: rgba(255, 255, 255, 0.3); /* Lighter track for dark theme spinner */
+            /* Updated shadow color for dark theme */
+            --video-shadow-color: rgba(0, 0, 0, 0.4); /* Dark theme shadow (slightly darker to stand out on dark bg) */
+            /* Added from contact.html for image viewer */
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #e0e0e0;
-            --loader-color: #58a6ff;
-
-            /* Overlay specific variables for dark theme */
-            --overlay-bg-color: rgba(0, 0, 0, 0.9);
-            --overlay-content-bg: #2c2c2c;
-            --overlay-text-color: #f4f7f6;
-            --overlay-link-color: #58a6ff;
-            --overlay-button-bg: #58a6ff;
-            --overlay-button-text: #1a1a1a;
+            --loader-color: #f4f7f6; /* For spinner */
         }
 
-        *,
-        *::before,
-        *::after {
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -126,7 +113,7 @@
             color: var(--text-color);
             line-height: 1.6;
             transition: background-color 0.3s ease, color 0.3s ease;
-            overflow-x: hidden; /* Prevent horizontal scrollbars from appearing briefly during transitions */
+            overflow-x: hidden;
         }
 
         h1, h2, h3 {
@@ -152,12 +139,11 @@
 
         .container {
             width: 90%;
-            max-width: 1800px; /* Increased max-width for larger screens */
+            max-width: 1800px;
             margin: 0 auto;
             padding: var(--base-spacing);
         }
 
-        /* Header & Navigation */
         .site-header {
             background-color: var(--header-bg-color);
             padding: var(--base-spacing) 0;
@@ -172,14 +158,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap; /* Allow wrapping for smaller screens */
+            flex-wrap: wrap;
         }
 
         .logo {
-            font-size: clamp(1.5rem, 4vw, 2.2rem); /* Adjusted for better scaling on narrow screens */
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
             font-weight: 100;
             color: var(--text-color);
-            white-space: nowrap; /* Prevent title from wrapping */
+            white-space: nowrap;
         }
 
         .main-nav ul {
@@ -194,10 +180,11 @@
             color: var(--nav-link-color);
             padding: calc(var(--base-spacing) * 0.5) 0;
             position: relative;
-            text-transform: uppercase; /* Add this line to make text uppercase */
+            text-transform: uppercase;
+            /* FIX: The problematic 'display: inline-block;' was removed from here */
         }
         .main-nav a.active {
-            color: var(--text-color); /* use theme's main text color */
+            color: var(--text-color);
             font-weight: 700;
         }
 
@@ -207,24 +194,23 @@
             width: 100%;
             height: 2px;
             display: block;
-            bottom: 0px; /* Add this to position it at the bottom */
+            bottom: 0px; 
             left: 0;
-            background: var(--text-color); 
+            background: var(--text-color);
         }
 
-        .main-nav a::after {
+        .main-nav a::after { 
             content: '';
             position: absolute;
             width: 0;
             height: 2px;
             display: block;
-            margin-top: 5px; /* Consistent with about.html */
+            margin-top: 5px; 
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
-            -webkit-transition: width 0.3s ease;
         }
-
+        
         .main-nav a:hover::after {
             width: 100%;
             left: 0;
@@ -237,24 +223,26 @@
             }
         }
 
-        .main-nav a:hover {
+
+        .main-nav a:hover,
+        .main-nav .dropdown > a:hover {
             color: var(--nav-link-hover-color);
             text-decoration: none;
         }
 
-        /* Dropdown Menu Styles (from about.html) */
+        /* Dropdown Menu Styles */
         .main-nav .dropdown {
             position: relative;
         }
 
-        .main-nav .dropdown > a { /* The "PROJECTS" link */
-            cursor: pointer; /* Indicate it's clickable */
+        .main-nav .dropdown > a {
+            cursor: pointer;
         }
         
         .main-nav .dropdown-menu {
             display: none;
             position: absolute;
-            top: calc(100% + 5px); /* Position below the parent, accounts for main nav underline */
+            top: calc(100% + 5px);
             left: 0;
             background-color: var(--header-bg-color);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
@@ -264,7 +252,7 @@
             min-width: 200px;
             z-index: 1100;
             border-radius: 4px;
-            border: 1px solid var(--button-bg-color); /* Subtle border */
+            border: 1px solid var(--button-bg-color);
         }
 
         .main-nav .dropdown-menu.show {
@@ -275,10 +263,10 @@
             display: block;
             padding: calc(var(--base-spacing) * 0.6) calc(var(--base-spacing) * 1.2);
             color: var(--nav-link-color);
-            text-transform: none; /* Dropdown items typically not uppercase */
+            text-transform: none;
             font-size: clamp(0.85rem, 1.3vw, 1rem);
-            font-weight: 400; /* Normal weight for dropdown items */
-            white-space: nowrap; /* Prevent items from wrapping */
+            font-weight: 400;
+            white-space: nowrap;
         }
 
         .main-nav .dropdown-menu li a:hover {
@@ -291,11 +279,13 @@
         .main-nav .dropdown-menu li a:hover::after {
             display: none; 
         }
+        /* End Dropdown Menu Styles */
+
 
         .controls {
             display: flex;
             align-items: center;
-            gap: calc(var(--base-spacing) * 1.5); /* Increase spacing to match nav link gap */
+            gap: calc(var(--base-spacing) * 1.5);
         }
 
         .control-button {
@@ -309,9 +299,7 @@
             cursor: pointer;
             transition: color 0.2s ease;
             text-transform: uppercase;
-            line-height: inherit; /* Ensure consistent line height with nav links */
-
-            /* Additions for stable width and alignment */
+            line-height: inherit;
             display: inline-block;
             min-width: auto;
         }
@@ -322,7 +310,7 @@
             width: 0;
             height: 2px;
             display: block;
-            margin-top: 5px; /* Consistent with about.html */
+            margin-top: 5px;
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -340,7 +328,7 @@
 
         .control-button:active::after,
         .control-button:focus::after {
-            width: 0; /* Ensure no underline on click (active) or focus */
+            width: 0; 
         }
 
         [data-theme="dark"] .control-button {
@@ -359,14 +347,11 @@
             position: relative;
             overflow: hidden;
             aspect-ratio: 1 / 1;
-            /* Placeholder background for while image loads */
-            background-color: var(--placeholder-bg-color); /* Use a CSS variable */
+            background-color: var(--placeholder-bg-color);
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Add background-color to transition */
-
-            /* Performance improvements for lazy rendering off-screen items */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             content-visibility: auto;
-            contain-intrinsic-size: 250px 250px; /* Corresponds to minmax(250px,...) */
+            contain-intrinsic-size: 250px 250px;
         }
         .gallery-item:hover {
             transform: scale(1.03);
@@ -377,14 +362,12 @@
             width: 100%;
             height: 100%;
             object-fit: cover; 
-            opacity: 0; /* Initially hidden for fade-in */
-            /* Adjust these values for a smoother fade */
-            transition: opacity 0s ease-in-out;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
-        .gallery-item img.loaded { /* Class to trigger fade-in */
+        .gallery-item img.loaded {
             opacity: 1;
         }
-
 
         /* Fullscreen Image Viewer */
         .image-viewer-overlay {
@@ -409,21 +392,20 @@
             transition-delay: 0s;
         }
 
-        /* Spinner Styles */
         .image-viewer-spinner {
-            position: absolute; /* Position it within the viewer content or overlay */
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 60px; /* Adjust size as needed */
+            width: 60px;
             height: 60px;
-            border: 6px solid rgba(255, 255, 255, 0.3); /* Light border */
-            border-top-color: var(--image-viewer-nav-color); /* Spinner color, matches nav buttons */
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--image-viewer-nav-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            z-index: 2002; /* Ensure it's above the image but below controls if necessary */
-            display: none; /* Hidden by default */
-            opacity: 0.3; /* Add this line to reduce the spinner's visibility */
+            z-index: 2002;
+            display: none;
+            opacity: 0.3;
         }
 
         @keyframes spin {
@@ -431,7 +413,6 @@
                 transform: translate(-50%, -50%) rotate(360deg);
             }
         }
-
 
         .image-viewer-content {
             width: 100vw;
@@ -450,8 +431,7 @@
             object-fit: contain;
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             border-radius: 3px;
-            opacity: 0; /* Start transparent, JS will handle fade-in */
-            /* transition: opacity 4s ease-in-out; */ /* JS will manage this dynamically */
+            opacity: 0;
         }
 
         .viewer-close-button,
@@ -497,7 +477,7 @@
 
         /* Footer */
         .site-footer {
-            text-align: center; /* Center the text within the footer */
+            text-align: center;
             padding: calc(var(--base-spacing) * 1) 0;
             margin-top: calc(var(--base-spacing) * 2);
             border-top: 1px solid var(--button-bg-color);
@@ -506,47 +486,54 @@
 
         .site-footer .container {
             display: flex;
-            flex-direction: column; /* Stack signature and text */
-            align-items: center; /* Center items horizontally */
-            gap: calc(var(--base-spacing) * 0.5); /* Space between signature and text */
+            flex-direction: column;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 0.5);
         }
 
         .artist-signature {
-            /* No specific alignment needed here as the container centers it */
-            margin-top: calc(var(--base-spacing) * 0.5); /* Smaller space */
+            margin-top: calc(var(--base-spacing) * 0.5);
             margin-bottom: calc(var(--base-spacing) * 0.5);
         }
 
         .artist-signature img {
-            max-width: 300px; /* Increased size - adjust as needed */
+            max-width: 300px;
             height: auto;
-            opacity: 0.4; /* 40% opacity */
+            opacity: 0.4;
             transition: opacity 0.3s ease;
-            display: none; /* Hide both by default */
+            display: none;
         }
 
-        /* Show light signature for light theme */
         html[data-theme="light"] .artist-signature .signature-light {
             display: block;
         }
 
-        /* Show dark signature for dark theme */
         html[data-theme="dark"] .artist-signature .signature-dark {
             display: block;
         }
 
         .artist-signature a {
-            text-decoration: none; /* Remove underline from link */
-            display: inline-block; /* Ensures the link wraps the image appropriately */
+            text-decoration: none; 
+            display: inline-block; 
         }
 
         .artist-signature a:hover {
-            text-decoration: none; /* Ensure no underline on hover */
+            text-decoration: none; 
         }
 
         /* Responsive Adjustments */
+        @media (max-width: 767px) { 
+            .main-nav ul {
+                flex-wrap: wrap; 
+                justify-content: center; 
+            }
+            .main-nav .dropdown-menu { 
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 180px; 
+            }
+        }
 
-        /* For smaller mobiles - header controls might stack */
         @media (max-width: 480px) {
             .site-header .container {
                 flex-direction: column;
@@ -562,105 +549,42 @@
             }
         }
 
-        /* Responsive Adjustments from about.html for dropdown */
-        @media (max-width: 767px) { 
-            .main-nav ul {
-                flex-wrap: wrap; 
-                justify-content: center; 
-            }
-            .main-nav .dropdown-menu { 
-                left: 50%;
-                transform: translateX(-50%);
-                min-width: 180px; 
-            }
-        }
-        /* Tablets and small desktops */
-        @media (min-width: 768px) {
-            .image-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: calc(var(--base-spacing) * 1.5);
-            }
-            .gallery-item {
-                contain-intrinsic-size: 300px 300px; 
-            }
-        }
-
-        /* Larger desktops */
         @media (min-width: 1200px) {
             :root {
-                --base-font-size: 17px; 
-            }
-            .image-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            }
-            .gallery-item {
-                contain-intrinsic-size: 350px 350px; 
-            }
-            .logo {
-                font-size: 2.8rem;
-            }
-            .main-nav a, .main-nav .dropdown > a { /* from about.html */
-                font-size: 1.4rem;
-            }
-            .main-nav .dropdown-menu li a { /* from about.html */
-                font-size: 1.3rem;
-            }
-            .control-button {
-                padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
-                font-size: 1.2rem;
-            }
-            .viewer-close-button,
-            .viewer-nav-button {
-                font-size: 3rem;
-                width: 70px;
-                height: 70px;
+                --base-font-size: 17px;
             }
         }
 
-        /* 4K Displays */
         @media (min-width: 2000px) {
             :root {
-                --base-font-size: 20px; 
+                --base-font-size: 20px;
             }
             .container {
-                max-width: 2400px; 
-            }
-            .image-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-                gap: calc(var(--base-spacing) * 1.8);
-            }
-            .gallery-item {
-                contain-intrinsic-size: 400px 400px; 
+                max-width: 2400px;
             }
             .logo {
                 font-size: 2.8rem;
             }
-            .main-nav a, .main-nav .dropdown > a { /* from about.html */
+            .main-nav a, .main-nav .dropdown > a {
                 font-size: 1.4rem;
             }
-            .main-nav .dropdown-menu li a { /* from about.html */
+            .main-nav .dropdown-menu li a {
                 font-size: 1.3rem;
             }
             .control-button {
                 padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
                 font-size: 1.2rem;
             }
-            .viewer-close-button,
-            .viewer-nav-button {
-                font-size: 3rem;
-                width: 70px;
-                height: 70px;
-            }
         }
 
-        /* Overlay styles */
+        /* Promo Overlay styles from the original index.html */
         .promo-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--overlay-bg-color);
+            background-color: var(--overlay-bg-color, rgba(0, 0, 0, 0.8));
             display: flex;
             justify-content: center;
             align-items: center;
@@ -677,8 +601,8 @@
         }
 
         .promo-content {
-            background-color: var(--overlay-content-bg);
-            color: var(--overlay-text-color);
+            background-color: var(--overlay-content-bg, #fff);
+            color: var(--overlay-text-color, #1a1a1a);
             padding: 2rem;
             border-radius: 8px;
             text-align: center;
@@ -689,7 +613,8 @@
             transform: translateY(20px);
             transition: transform 0.3s ease-out;
         }
-
+        
+        /* ... remaining promo styles from original index.html ... */
         .promo-overlay.active .promo-content {
             transform: translateY(0);
         }
@@ -707,7 +632,7 @@
         }
 
         .promo-content a {
-            color: var(--overlay-link-color);
+            color: var(--overlay-link-color, #007bff);
             font-weight: bold;
             text-decoration: none;
         }
@@ -726,8 +651,8 @@
         }
 
         .video-play-button {
-            background-color: var(--overlay-button-bg);
-            color: var(--overlay-button-text);
+            background-color: var(--overlay-button-bg, #007bff);
+            color: var(--overlay-button-text, #fff);
             border: none;
             padding: 0.8rem 1.5rem;
             font-size: 1rem;
@@ -742,7 +667,7 @@
         }
 
         .video-play-button:hover {
-            background-color: var(--overlay-button-hover-bg); /* Use a new CSS variable for hover */
+            background-color: var(--overlay-button-hover-bg, #0056b3); 
         }
 
         .overlay-close-button {
@@ -752,7 +677,7 @@
             background: none;
             border: none;
             font-size: 2rem;
-            color: var(--overlay-text-color);
+            color: var(--overlay-text-color, #1a1a1a);
             cursor: pointer;
             padding: 5px;
             line-height: 1;
@@ -763,7 +688,6 @@
             color: #ff0000;
         }
 
-        /* Fullscreen Video Overlay */
         .fullscreen-video-overlay {
             position: fixed;
             top: 0;
@@ -794,27 +718,11 @@
             cursor: pointer;
             z-index: 4001;
         }
-
-        @media (max-width: 600px) {
-            .promo-content {
-                padding: 1.5rem;
-            }
-            .promo-content h2 {
-                font-size: 1.5rem;
-            }
-            .promo-content p {
-                font-size: 1rem;
-            }
-            .video-play-button {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <header class="site-header">
+      <header class="site-header">
         <div class="container">
             <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
             
@@ -822,12 +730,11 @@
                 <ul>
                     <li><a href="index.html" class="active" data-lang-key="navImages">IMAGES</a></li>
                     <li class="dropdown">
-                        <a href="#" role="button" aaria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
+                        <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
                         <ul class="dropdown-menu" aria-label="Projects submenu">
                             <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
                             <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
-                           
-                         </ul>
+                        </ul>
                     </li>
                     <li><a href="about.html" data-lang-key="navAbout">ABOUT</a></li>
                     <li><a href="contact.html" data-lang-key="navContact">CONTACT</a></li>
@@ -836,14 +743,13 @@
             
             <div class="controls">
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
-                    <span data-lang-key="themeToggleDark">Dark Mode</span>
-                    <span data-lang-key="themeToggleLight" style="display:none;">Light Mode</span>
+                    🌓 <span data-lang-key="themeToggleDark">DARK MODE</span>
+                    <span data-lang-key="themeToggleLight" style="display:none;">LIGHT MODE</span>
                 </button>
                 
                 <button id="languageToggle" class="control-button" aria-label="Toggle language">
                     🌐 English
                 </button>
-                
             </div>
         </div>
     </header>
@@ -999,30 +905,30 @@
                     siteTitle: "Marius Jomphe ‧ Photography",
                     pageTitleGallery: "Gallery • Marius Jomphe Photography",
                     navImages: "GALLERY",
-                    navAbout: "ABOUT",                    
-                    navProjects: "PROJECTS",
+                    navProjects: "PROJECTS", 
+                    projectSonde: "SONDE",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
-                    projectSonde: "SONDE", // Added Sonde translation
+                    navAbout: "ABOUT",
                     navContact: "CONTACT",
-                    themeToggleDark: "🌓 DARK THEME",
-                    themeToggleLight: "🌓 LIGHT THEME",
-                    languageToggleText: "🌐 FRANÇAIS", 
+                    themeToggleDark: "DARK THEME",
+                    themeToggleLight: "LIGHT THEME",
+                    languageToggleText: "🌐 FRANÇAIS",
                     footerRights: "All rights reserved."
                 },
                 fr: {
                     siteTitle: "Marius Jomphe ‧ Photographie",
                     pageTitleGallery: "Galerie • Marius Jomphe Photographie",
                     navImages: "GALERIE",
-                    navAbout: "À PROPOS",                    
-                    navProjects: "PROJETS",
+                    navProjects: "PROJETS", 
+                    projectSonde: "SONDE",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
-                    projectSonde: "SONDE", // Added Sonde translation
+                    navAbout: "À PROPOS",
                     navContact: "CONTACT",
-                    themeToggleDark: "🌓 THÈME SOMBRE",
-                    themeToggleLight: "🌓 THÈME CLAIR",
-                    languageToggleText: "🌐 ENGLISH", 
+                    themeToggleDark: "THÈME SOMBRE",
+                    themeToggleLight: "THÈME CLAIR",
+                    languageToggleText: "🌐 ENGLISH",
                     footerRights: "Tous droits réservés."
                 }
             };
@@ -1085,26 +991,17 @@
                 threshold: 0.01 
             });
 
-            /**
-             * [OPTIMIZED] Populates the gallery using a DocumentFragment to minimize DOM reflows.
-             */
             function populateGallery() {
                 if (!galleryContainer) return;
-
-                // Use a DocumentFragment to batch DOM appends for better performance.
                 const fragment = document.createDocumentFragment();
-
                 imageFilenames.forEach((fullResFilename, index) => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
                     item.dataset.index = index; 
                     item.dataset.fullresFilename = fullResFilename; 
-                    // Append to the fragment instead of the live DOM
                     fragment.appendChild(item);
                     imageObserver.observe(item); 
                 });
-                
-                // Clear the container once, then append the entire fragment in a single operation.
                 galleryContainer.innerHTML = ''; 
                 galleryContainer.appendChild(fragment);
             }
@@ -1134,17 +1031,14 @@
                 document.querySelectorAll('[data-lang-key]').forEach(el => {
                     const key = el.dataset.langKey;
                     if (translations[lang] && translations[lang][key]) {
-                        if (el.id === 'themeToggle') {
-                            const darkTextSpan = el.querySelector('[data-lang-key="themeToggleDark"]');
-                            const lightTextSpan = el.querySelector('[data-lang-key="themeToggleLight"]');
-                            if (darkTextSpan) darkTextSpan.textContent = translations[lang]['themeToggleDark'];
-                            if (lightTextSpan) lightTextSpan.textContent = translations[lang]['themeToggleLight'];
+                        if (el.tagName === 'TITLE') {
+                            document.title = translations[lang][key];
                         } else {
-                                el.textContent = translations[lang][key];
+                            el.textContent = translations[lang][key];
                         }
                     }
                 });
-                if (languageToggleButton) { 
+                if (languageToggleButton) {
                     languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
                 }
                 applyTheme(currentTheme); 
@@ -1158,7 +1052,8 @@
             if (themeToggleButton) {
                 themeToggleButton.addEventListener('click', () => {
                     currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-                    applyLanguage(currentLanguage); 
+                    applyTheme(currentTheme);
+                    applyLanguage(currentLanguage);
                 });
             }
 
@@ -1169,7 +1064,6 @@
                 });
             }
 
-            // Dropdown Menu Logic
             const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(event) {
@@ -1189,16 +1083,14 @@
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
-                    // --- START: Added logic to ensure parent toggle ("PROJECTS") remains active if a sub-page is current ---
-                    // After toggling, check if this dropdown toggle ("PROJECTS") should be active
-                    // because one of its sub-menu items matches the current page.
+                    
                     const currentPath = window.location.pathname;
                     let isSubPageOfThisToggleActive = false;
-                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a'); // Get <a> from the .dropdown-menu
+                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a');
 
                     subMenuLinks.forEach(subLink => {
                         const subLinkHrefAttribute = subLink.getAttribute('href');
-                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') { // Ensure it's a real link
+                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') {
                             const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
                             let normalizedCurrentPath = currentPath;
                             if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
@@ -1213,9 +1105,8 @@
                     });
 
                     if (isSubPageOfThisToggleActive) {
-                        this.classList.add('active'); // Ensure the parent toggle has the active class
+                        this.classList.add('active');
                     }
-                    // --- END: Added logic ---
                 });
             });
 
@@ -1259,12 +1150,11 @@
                 }
             });
             
-            // --- TOUCH GESTURE SUPPORT FOR IMAGE VIEWER ---
             let touchStartX = 0;
             let touchStartY = 0;
             let touchEndX = 0;
             let touchEndY = 0;
-            const swipeThreshold = 50; // Minimum pixels to be considered a swipe
+            const swipeThreshold = 50; 
 
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('touchstart', (e) => {
@@ -1311,25 +1201,12 @@
             }
 
 
-            // --- IMAGE VIEWER FUNCTIONS ---
-
-            /**
-             * [OPTIMIZED] Preloads the next and previous images to make navigation feel instant.
-             * This function creates new Image objects and sets their src, which prompts the
-             * browser to download and cache them without displaying them.
-             * @param {number} currentIndex The index of the currently displayed image.
-             */
             function preloadAdjacentImages(currentIndex) {
                 if (imageFilenames.length <= 1) return;
-
                 const nextIndex = (currentIndex + 1) % imageFilenames.length;
                 const prevIndex = (currentIndex - 1 + imageFilenames.length) % imageFilenames.length;
-
-                // Preload the next image
                 const nextImg = new Image();
                 nextImg.src = fullsizePath + imageFilenames[nextIndex];
-
-                // Preload the previous image
                 const prevImg = new Image();
                 prevImg.src = fullsizePath + imageFilenames[prevIndex];
             }
@@ -1340,7 +1217,6 @@
 
                 const proceedToLoadImage = (targetIndex) => {
                     if (imageViewerSpinner) imageViewerSpinner.style.display = 'block'; 
-
                     fullscreenImage.style.transition = 'none';
                     fullscreenImage.style.opacity = 0;
                     fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -1353,19 +1229,14 @@
                     tempImg.onload = () => {
                         fullscreenImage.src = imageUrl; 
                         fullscreenImage.alt = altText;
-
                         requestAnimationFrame(() => {
                             fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
                             fullscreenImage.style.opacity = 1; 
                         });
-
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
                         updateNavButtons();
-                        
-                        // [OPTIMIZED] Once the current image is loaded, start preloading the adjacent ones.
                         preloadAdjacentImages(targetIndex);
                     };
-
                     tempImg.onerror = () => {
                         console.error("Error loading image:", imageUrl);
                         fullscreenImage.alt = "Error loading image";
@@ -1386,7 +1257,6 @@
                 } else {
                     fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
                     fullscreenImage.style.opacity = 0;
-
                     setTimeout(() => {
                         if (!imageViewerOverlay.classList.contains('active')) {
                             if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
@@ -1406,7 +1276,6 @@
                 if (!imageViewerOverlay) return;
                 imageViewerOverlay.classList.remove('active');
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
-                
                 if (document.body) {
                     document.body.style.overflow = ''; 
                 }
@@ -1437,80 +1306,52 @@
             // --- PROMO OVERLAY FUNCTIONS ---
             function openPromoOverlay() {
                 promoOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling when overlay is active
+                document.body.style.overflow = 'hidden';
             }
 
             function closePromoOverlay() {
                 promoOverlay.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scrolling
-                promoVideo.pause(); // Pause video if playing
-                promoVideo.currentTime = 0; // Reset video to start
+                document.body.style.overflow = '';
+                promoVideo.pause();
+                promoVideo.currentTime = 0;
             }
 
             function openFullscreenVideo() {
                 fullscreenVideo.src = promoVideo.querySelector('source').src;
                 fullscreenVideoOverlay.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // Prevent scrolling behind fullscreen video
-                fullscreenVideo.load(); // Load the video
-                fullscreenVideo.play(); // Play the video
+                document.body.style.overflow = 'hidden';
+                fullscreenVideo.load();
+                fullscreenVideo.play();
             }
 
             function closeFullscreenVideo() {
                 fullscreenVideo.pause();
                 fullscreenVideo.currentTime = 0;
                 fullscreenVideoOverlay.style.display = 'none';
-                document.body.style.overflow = ''; // Restore scrolling
+                document.body.style.overflow = '';
             }
 
-            // Event Listeners for Promo Overlay
-            if (promoCloseButton) {
-                promoCloseButton.addEventListener('click', closePromoOverlay);
-            }
-
-            if (videoPlayButton) {
-                videoPlayButton.addEventListener('click', openFullscreenVideo);
-            }
-
-            if (closeVideoButton) {
-                closeVideoButton.addEventListener('click', closeFullscreenVideo);
-            }
-
-            // Close promo overlay if clicking outside the content area
-            if (promoOverlay) {
-                promoOverlay.addEventListener('click', (e) => {
-                    if (e.target === promoOverlay) {
-                        closePromoOverlay();
-                    }
-                });
-            }
-
-            // Close fullscreen video if clicking outside the video or pressing escape
-            if (fullscreenVideoOverlay) {
-                fullscreenVideoOverlay.addEventListener('click', (e) => {
-                    if (e.target === fullscreenVideoOverlay || e.target === closeVideoButton) {
-                        closeFullscreenVideo();
-                    }
-                });
-            }
+            if (promoCloseButton) promoCloseButton.addEventListener('click', closePromoOverlay);
+            if (videoPlayButton) videoPlayButton.addEventListener('click', openFullscreenVideo);
+            if (closeVideoButton) closeVideoButton.addEventListener('click', closeFullscreenVideo);
+            if (promoOverlay) promoOverlay.addEventListener('click', (e) => {
+                if (e.target === promoOverlay) closePromoOverlay();
+            });
+            if (fullscreenVideoOverlay) fullscreenVideoOverlay.addEventListener('click', (e) => {
+                if (e.target === fullscreenVideoOverlay || e.target === closeVideoButton) closeFullscreenVideo();
+            });
             document.addEventListener('keydown', (e) => {
-                if (fullscreenVideoOverlay.style.display === 'flex' && e.key === 'Escape') {
-                    closeFullscreenVideo();
-                }
+                if (fullscreenVideoOverlay.style.display === 'flex' && e.key === 'Escape') closeFullscreenVideo();
             });
 
-
-            // Automatically open promo overlay when the page loads
-            // Use a short timeout to ensure all other DOM elements are ready
-            // and the user has a moment to see the initial page load before the overlay appears.
             window.addEventListener('load', () => {
-                setTimeout(openPromoOverlay, 500); // Opens 0.5 seconds after page load
+                setTimeout(openPromoOverlay, 500);
             });
 
             // --- INITIAL LOAD ---
             populateGallery();
             applyLanguage(currentLanguage); 
             updateNavButtons(); 
-
         });
     </script>
 </body>
