@@ -385,6 +385,15 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
         }
+        
+        /* When in fullscreen, ensure the background is set directly on the element */
+        .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+        html[data-theme='dark'] .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+
 
         .image-viewer-overlay.active {
             opacity: 1;
@@ -722,7 +731,7 @@
 </head>
 <body>
 
-      <header class="site-header">
+    <header class="site-header">
         <div class="container">
             <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
             
@@ -776,7 +785,7 @@
     <div class="promo-overlay" id="promoOverlay">
         <div class="promo-content">
             <button class="overlay-close-button" id="promoCloseButton" aria-label="Close promotion">×</button>
-            <h2>Lancement du livre "Sonde"<br>21 août, 17h00<a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer"><br>Centre d'art de Percé</a>:<br></h2>
+            <h2>Lancement du livre "Sonde"<br>21 août, 17h00<a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer"><br>Centre d'art de Percé</a>:</h2>
             <div style="position: relative;">
                 <video id="promoVideo" preload="metadata" muted playsinline>
                     <source src="images/sonde.mp4" type="video/mp4">
@@ -959,6 +968,39 @@
             let currentLanguage = localStorage.getItem('language') || 'en'; 
             let currentTheme = localStorage.getItem('theme') || 'light'; 
 
+            // --- HELPER FUNCTIONS FOR FULLSCREEN ---
+            function openFullscreen(element) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
+                } else if (element.mozRequestFullScreen) { /* Firefox */
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { /* IE/Edge */
+                    element.msRequestFullscreen();
+                }
+            }
+
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { /* Firefox */
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE/Edge */
+                    document.msExitFullscreen();
+                }
+            }
+
+            function handleFullscreenChange() {
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                if (!isFullscreen && imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                    closeImageViewer(); // We've exited fullscreen via browser UI, so ensure the viewer is also closed.
+                }
+            }
+
+
             // --- GALLERY & IMAGE FUNCTIONS ---
             const createImageOnIntersection = (entries, observer) => {
                 entries.forEach(entry => {
@@ -1048,6 +1090,117 @@
                 currentYearSpan.textContent = new Date().getFullYear();
             }
 
+            function preloadAdjacentImages(currentIndex) {
+                if (imageFilenames.length <= 1) return;
+                const nextIndex = (currentIndex + 1) % imageFilenames.length;
+                const prevIndex = (currentIndex - 1 + imageFilenames.length) % imageFilenames.length;
+                const nextImg = new Image();
+                nextImg.src = fullsizePath + imageFilenames[nextIndex];
+                const prevImg = new Image();
+                prevImg.src = fullsizePath + imageFilenames[prevIndex];
+            }
+
+
+            function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
+                if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
+
+                const proceedToLoadImage = (targetIndex) => {
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block'; 
+                    fullscreenImage.style.transition = 'none';
+                    fullscreenImage.style.opacity = 0;
+                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                    fullscreenImage.alt = "";
+
+                    const imageUrl = fullsizePath + imageFilenames[targetIndex];
+                    const altText = `Enlarged view of ${imageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
+
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        fullscreenImage.src = imageUrl; 
+                        fullscreenImage.alt = altText;
+                        requestAnimationFrame(() => {
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
+                            fullscreenImage.style.opacity = 1; 
+                        });
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                        updateNavButtons();
+                        preloadAdjacentImages(targetIndex);
+                    };
+                    tempImg.onerror = () => {
+                        console.error("Error loading image:", imageUrl);
+                        fullscreenImage.alt = "Error loading image";
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                        if (isOpeningCallParam && currentImageIndex === targetIndex) {
+                            setTimeout(closeImageViewer, 1500);
+                        }
+                    };
+                    tempImg.src = imageUrl; 
+                };
+
+                if (isOpeningCallParam) {
+                    currentImageIndex = newIndex; 
+                    imageViewerOverlay.classList.add('active');
+                    if (document.body) document.body.style.overflow = 'hidden';
+                    proceedToLoadImage(currentImageIndex); 
+                } else {
+                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
+                    fullscreenImage.style.opacity = 0;
+                    setTimeout(() => {
+                        if (!imageViewerOverlay.classList.contains('active')) {
+                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                            return;
+                        }
+                        currentImageIndex = newIndex;
+                        proceedToLoadImage(currentImageIndex); 
+                    }, 500); 
+                }
+            }
+            
+            function openImageViewer(index) {
+                if(imageViewerOverlay) {
+                    openFullscreen(imageViewerOverlay);
+                }
+                loadAndShowImageInViewer(index, true); 
+            }
+
+            function closeImageViewer() {
+                if (!imageViewerOverlay) return;
+
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                if (isFullscreen) {
+                    exitFullscreen();
+                }
+                
+                imageViewerOverlay.classList.remove('active');
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                if (document.body) {
+                    document.body.style.overflow = ''; 
+                }
+            }
+
+            function showPrevImage() {
+                if (imageFilenames.length === 0) return;
+                const newIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
+                loadAndShowImageInViewer(newIndex); 
+            }
+
+            function showNextImage() {
+                if (imageFilenames.length === 0) return;
+                const newIndex = (currentImageIndex + 1) % imageFilenames.length;
+                loadAndShowImageInViewer(newIndex); 
+            }
+
+            function updateNavButtons() {
+                if (!viewerPrevButton || !viewerNextButton || imageFilenames.length <= 1) {
+                    if(viewerPrevButton) viewerPrevButton.style.display = 'none';
+                    if(viewerNextButton) viewerNextButton.style.display = 'none';
+                    return;
+                }
+                if(viewerPrevButton) viewerPrevButton.style.display = 'block';
+                if(viewerNextButton) viewerNextButton.style.display = 'block';
+            }
+            
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
                 themeToggleButton.addEventListener('click', () => {
@@ -1200,108 +1353,11 @@
                 });
             }
 
-
-            function preloadAdjacentImages(currentIndex) {
-                if (imageFilenames.length <= 1) return;
-                const nextIndex = (currentIndex + 1) % imageFilenames.length;
-                const prevIndex = (currentIndex - 1 + imageFilenames.length) % imageFilenames.length;
-                const nextImg = new Image();
-                nextImg.src = fullsizePath + imageFilenames[nextIndex];
-                const prevImg = new Image();
-                prevImg.src = fullsizePath + imageFilenames[prevIndex];
-            }
-
-
-            function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
-                if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
-
-                const proceedToLoadImage = (targetIndex) => {
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block'; 
-                    fullscreenImage.style.transition = 'none';
-                    fullscreenImage.style.opacity = 0;
-                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                    fullscreenImage.alt = "";
-
-                    const imageUrl = fullsizePath + imageFilenames[targetIndex];
-                    const altText = `Enlarged view of ${imageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
-
-                    const tempImg = new Image();
-                    tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl; 
-                        fullscreenImage.alt = altText;
-                        requestAnimationFrame(() => {
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
-                            fullscreenImage.style.opacity = 1; 
-                        });
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
-                        updateNavButtons();
-                        preloadAdjacentImages(targetIndex);
-                    };
-                    tempImg.onerror = () => {
-                        console.error("Error loading image:", imageUrl);
-                        fullscreenImage.alt = "Error loading image";
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                        updateNavButtons();
-                        if (isOpeningCallParam && currentImageIndex === targetIndex) {
-                            setTimeout(closeImageViewer, 1500);
-                        }
-                    };
-                    tempImg.src = imageUrl; 
-                };
-
-                if (isOpeningCallParam) {
-                    currentImageIndex = newIndex; 
-                    imageViewerOverlay.classList.add('active');
-                    if (document.body) document.body.style.overflow = 'hidden';
-                    proceedToLoadImage(currentImageIndex); 
-                } else {
-                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
-                    fullscreenImage.style.opacity = 0;
-                    setTimeout(() => {
-                        if (!imageViewerOverlay.classList.contains('active')) {
-                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
-                            return;
-                        }
-                        currentImageIndex = newIndex;
-                        proceedToLoadImage(currentImageIndex); 
-                    }, 500); 
-                }
-            }
-
-            function openImageViewer(index) {
-                loadAndShowImageInViewer(index, true); 
-            }
-
-            function closeImageViewer() {
-                if (!imageViewerOverlay) return;
-                imageViewerOverlay.classList.remove('active');
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
-                if (document.body) {
-                    document.body.style.overflow = ''; 
-                }
-            }
-
-            function showPrevImage() {
-                if (imageFilenames.length === 0) return;
-                const newIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); 
-            }
-
-            function showNextImage() {
-                if (imageFilenames.length === 0) return;
-                const newIndex = (currentImageIndex + 1) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); 
-            }
-
-            function updateNavButtons() {
-                if (!viewerPrevButton || !viewerNextButton || imageFilenames.length <= 1) {
-                    if(viewerPrevButton) viewerPrevButton.style.display = 'none';
-                    if(viewerNextButton) viewerNextButton.style.display = 'none';
-                    return;
-                }
-                if(viewerPrevButton) viewerPrevButton.style.display = 'block';
-                if(viewerNextButton) viewerNextButton.style.display = 'block';
-            }
+            // Fullscreen change listeners
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
             // --- PROMO OVERLAY FUNCTIONS ---
             function openPromoOverlay() {
