@@ -431,6 +431,14 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
         }
+        
+        /* NEW: When in fullscreen, ensure the background is set directly on the element */
+        .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+        html[data-theme='dark'] .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
 
         .image-viewer-overlay.active {
             opacity: 1;
@@ -574,7 +582,15 @@
             margin: 0 auto; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             display: block; 
+            cursor: pointer; /* NEW: Make book covers clickable */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
+        .book-cover-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+
         .book-text-container {
             margin-bottom: 2rem;
             max-width: 800px; 
@@ -865,6 +881,13 @@
             const thumbPath = 'images/passage/thumbs/'; // Path for thumbnails
             const fullsizePath = 'images/passage/fullsize/'; // Path for full-size images
 
+            // NEW: Create a unified list of all images for the viewer
+            const viewerImageSources = [
+                'images/passage/passage.webp',
+                'images/passage/passageF.webp',
+                ...imageFilenames.map(name => fullsizePath + name)
+            ];
+
 
             // --- TRANSLATIONS --- MODIFIED
             const translations = {
@@ -934,12 +957,46 @@
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light';
 
+             // --- NEW: HELPER FUNCTIONS FOR FULLSCREEN ---
+            function openFullscreen(element) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
+                } else if (element.mozRequestFullScreen) { /* Firefox */
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { /* IE/Edge */
+                    element.msRequestFullscreen();
+                }
+            }
+
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { /* Firefox */
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE/Edge */
+                    document.msExitFullscreen();
+                }
+            }
+
+            function handleFullscreenChange() {
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                
+                // If we exit fullscreen mode (e.g., user pressed ESC), close the viewer.
+                if (!isFullscreen && imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                    closeImageViewer(false); // Pass false to avoid a redundant exitFullscreen call
+                }
+            }
+
             // --- GALLERY & IMAGE FUNCTIONS ---
             const createImageOnIntersection = (entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const galleryItemDiv = entry.target;
-                        const filename = galleryItemDiv.dataset.filename; // Use generic filename
+                        const filename = galleryItemDiv.dataset.filename;
 
                         if (!filename || galleryItemDiv.querySelector('img')) {
                             observer.unobserve(galleryItemDiv);
@@ -967,20 +1024,16 @@
                 threshold: 0.01 
             });
 
-            /**
-             * [OPTIMIZED] Populates the gallery using a DocumentFragment to minimize DOM reflows.
-             */
             function populateGallery() {
                 if (!galleryContainer) return;
 
-                // Use a DocumentFragment to batch DOM appends for better performance.
                 const fragment = document.createDocumentFragment();
 
                 imageFilenames.forEach((filename, index) => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
                     item.dataset.index = index;
-                    item.dataset.filename = filename; // Store the base filename
+                    item.dataset.filename = filename;
                     fragment.appendChild(item);
                     imageObserver.observe(item); 
                 });
@@ -1020,7 +1073,6 @@
                         } else if (el.id === 'themeToggle') {
                             const darkTextSpan = el.querySelector('[data-lang-key="themeToggleDark"]');
                             const lightTextSpan = el.querySelector('[data-lang-key="themeToggleLight"]');
-                            // Check if spans exist before setting textContent to avoid errors if markup changes
                             if (darkTextSpan) darkTextSpan.textContent = translations[lang]['themeToggleDark'] || 'Dark Mode';
                             if (lightTextSpan) lightTextSpan.textContent = translations[lang]['themeToggleLight'] || 'Light Mode';
                         } else {
@@ -1029,10 +1081,9 @@
                     }
                 });
                 
-                // Special handling for mailto link subject based on language
-                if (buyBookButton) { // Check if the element exists
+                if (buyBookButton) {
                     const subjectKey = lang === 'fr' ? 'data-subject-fr' : 'data-subject-en';
-                    const subjectText = buyBookButton.getAttribute(subjectKey) || "Book Purchase Inquiry"; // Fallback subject
+                    const subjectText = buyBookButton.getAttribute(subjectKey) || "Book Purchase Inquiry";
                     buyBookButton.href = `mailto:mariusjomphe52@gmail.com?subject=${subjectText}`; 
                 }
 
@@ -1080,7 +1131,7 @@
                 themeToggleButton.addEventListener('click', () => {
                     const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                     applyTheme(newTheme);
-                    applyLanguage(currentLanguage); // Re-apply lang to update any theme-dependent text if needed
+                    applyLanguage(currentLanguage);
                 });
             }
 
@@ -1110,16 +1161,13 @@
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
-                     // --- START: Added logic to ensure parent toggle ("PROJECTS") remains active if a sub-page is current ---
-                    // After toggling, check if this dropdown toggle (e.g., "PROJECTS") should be active
-                    // because one of its sub-menu items matches the current page.
                     const currentPath = window.location.pathname;
                     let isSubPageOfThisToggleActive = false;
-                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a'); // Get <a> from the .dropdown-menu
+                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a');
 
                     subMenuLinks.forEach(subLink => {
                         const subLinkHrefAttribute = subLink.getAttribute('href');
-                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') { // Ensure it's a real link
+                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') {
                             const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
                             let normalizedCurrentPath = currentPath;
                             if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
@@ -1134,9 +1182,8 @@
                     });
 
                     if (isSubPageOfThisToggleActive) {
-                        this.classList.add('active'); // Ensure the parent toggle has the active class
+                        this.classList.add('active');
                     }
-                    // --- END: Added logic ---
                 });
             });
 
@@ -1152,30 +1199,34 @@
                 });
             });
 
+            // NEW: Click listeners for book covers
+            if (mainBookCoverImage) mainBookCoverImage.addEventListener('click', () => openImageViewer(0));
+            if (secondaryBookCoverImage) secondaryBookCoverImage.addEventListener('click', () => openImageViewer(1));
 
             if (galleryContainer) {
                 galleryContainer.addEventListener('click', (e) => {
                     const item = e.target.closest('.gallery-item');
                     if (item) {
-                        currentImageIndex = parseInt(item.dataset.index);
+                        // Add 2 to the gallery index to account for the two book covers at the start of the viewer array
+                        currentImageIndex = parseInt(item.dataset.index) + 2;
                         openImageViewer(currentImageIndex);
                     }
                 });
             }
 
-            if (viewerCloseButton) viewerCloseButton.addEventListener('click', closeImageViewer);
+            if (viewerCloseButton) viewerCloseButton.addEventListener('click', () => closeImageViewer(true));
             if (viewerPrevButton) viewerPrevButton.addEventListener('click', showPrevImage);
             if (viewerNextButton) viewerNextButton.addEventListener('click', showNextImage);
             
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('click', (e) => {
-                    if (e.target === imageViewerOverlay) closeImageViewer();
+                    if (e.target === imageViewerOverlay) closeImageViewer(true);
                 });
             }
 
             document.addEventListener('keydown', (e) => {
                 if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
-                    if (e.key === 'Escape') closeImageViewer();
+                    if (e.key === 'Escape') closeImageViewer(true);
                     if (e.key === 'ArrowLeft') showPrevImage();
                     if (e.key === 'ArrowRight') showNextImage();
                 }
@@ -1214,28 +1265,28 @@
                     touchStartX = touchStartY = touchEndX = touchEndY = 0; 
                 });
             }
+            
+            // NEW: Fullscreen change listeners
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
             // --- IMAGE VIEWER FUNCTIONS ---
-            /**
-             * [OPTIMIZED] Preloads the next and previous images to make navigation feel instant.
-             * This function creates new Image objects and sets their src, which prompts the
-             * browser to download and cache them without displaying them.
-             * @param {number} currentIndex The index of the currently displayed image.
-             */
             function preloadAdjacentImages(currentIndex) {
-                if (imageFilenames.length <= 1) return;
+                if (viewerImageSources.length <= 1) return;
 
-                const nextIndex = (currentIndex + 1) % imageFilenames.length;
-                const prevIndex = (currentIndex - 1 + imageFilenames.length) % imageFilenames.length;
+                const nextIndex = (currentIndex + 1) % viewerImageSources.length;
+                const prevIndex = (currentIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
 
                 const nextImg = new Image();
-                nextImg.src = fullsizePath + imageFilenames[nextIndex];
+                nextImg.src = viewerImageSources[nextIndex];
 
                 const prevImg = new Image();
-                prevImg.src = fullsizePath + imageFilenames[prevIndex];
+                prevImg.src = viewerImageSources[prevIndex];
             }
             function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
-                if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
+                if (!imageViewerOverlay || !fullscreenImage || viewerImageSources.length === 0) return;
 
                 const proceedToLoadImage = (targetIndex) => {
                     if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
@@ -1245,8 +1296,8 @@
                     fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
                     fullscreenImage.alt = ""; 
 
-                    const imageUrl = fullsizePath + imageFilenames[targetIndex]; // Use fullsizePath here
-                    const altText = `Enlarged view of Passage book image ${imageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
+                    const imageUrl = viewerImageSources[targetIndex];
+                    const altText = `Enlarged view of image ${targetIndex + 1} - Marius Jomphe`;
 
                     const tempImg = new Image();
                     tempImg.onload = () => {
@@ -1258,8 +1309,6 @@
                         });
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
-                        
-                        // [OPTIMIZED] Once the current image is loaded, start preloading the adjacent ones.
                         preloadAdjacentImages(targetIndex);
                     };
                     tempImg.onerror = () => {
@@ -1268,7 +1317,7 @@
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
                         if (isOpeningCallParam && currentImageIndex === targetIndex) {
-                             setTimeout(closeImageViewer, 1500);
+                             setTimeout(() => closeImageViewer(true), 1500);
                         }
                     };
                     tempImg.src = imageUrl;
@@ -1294,30 +1343,43 @@
             }
 
             function openImageViewer(index) {
+                // NEW: Request fullscreen when opening the viewer
+                if(imageViewerOverlay) {
+                    openFullscreen(imageViewerOverlay);
+                }
                 loadAndShowImageInViewer(index, true);
             }
 
-            function closeImageViewer() {
+            function closeImageViewer(shouldExitFullscreen) {
                 if (!imageViewerOverlay) return;
+
+                // NEW: Exit fullscreen if active
+                if (shouldExitFullscreen) {
+                    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                    if (isFullscreen) {
+                        exitFullscreen();
+                    }
+                }
+                
                 imageViewerOverlay.classList.remove('active');
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                 if (document.body) document.body.style.overflow = '';
             }
 
             function showPrevImage() {
-                if (imageFilenames.length === 0) return;
-                const newIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
+                if (viewerImageSources.length === 0) return;
+                const newIndex = (currentImageIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
                 loadAndShowImageInViewer(newIndex);
             }
 
             function showNextImage() {
-                if (imageFilenames.length === 0) return;
-                const newIndex = (currentImageIndex + 1) % imageFilenames.length;
+                if (viewerImageSources.length === 0) return;
+                const newIndex = (currentImageIndex + 1) % viewerImageSources.length;
                 loadAndShowImageInViewer(newIndex);
             }
 
             function updateNavButtons() {
-                 if (!viewerPrevButton || !viewerNextButton || imageFilenames.length <= 1) {
+                 if (!viewerPrevButton || !viewerNextButton || viewerImageSources.length <= 1) {
                       if(viewerPrevButton) viewerPrevButton.style.display = 'none';
                       if(viewerNextButton) viewerNextButton.style.display = 'none';
                       return;
@@ -1328,14 +1390,11 @@
 
             // --- INITIAL LOAD ---
             populateGallery();
-            // Apply initial theme and language (head script handles FOUC, this updates dynamic content)
-            applyTheme(currentTheme); // Apply theme first
-            applyLanguage(currentLanguage); // Then apply language, which might re-apply theme for text updates.
-            
+            applyTheme(currentTheme);
+            applyLanguage(currentLanguage);
             updateNavButtons();
 
         })
     </script>
 </body>
 </html>
- 
