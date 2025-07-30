@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBH50G5K56"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  gtag('config', 'G-XBH50G5K56');
-</script>
+        gtag('config', 'G-XBH50G5K56');
+    </script>
     <script>
         // IMMEDIATE THEME & LANGUAGE APPLICATION
         // This script runs synchronously and applies the theme and language
@@ -32,20 +32,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-
     <meta name="description" content="Explore the captivating photography portfolio of Marius Jomphe, based in Gaspé, Quebec.">
     <meta name="keywords" content="Marius Jomphe, Photo, Photographie, Gaspé, Gaspe, Québec, Quebec, landscape, photography, artistic, perception, textures, fine art, books, livre, livres, bruine, sonde, passage, nature photography, professional, artist">
     <meta name="author" content="Marius Jomphe">
-    <link rel="canonical" href="https://mariusjomphe.com"> <meta property="og:title" content="Marius Jomphe - Photography">
+    <link rel="canonical" href="https://mariusjomphe.com">
+    <meta property="og:title" content="Marius Jomphe - Photography">
     <meta property="og:description" content="Explore the captivating photography portfolio of Marius Jomphe, based in Gaspé, Quebec.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mariusjomphe.com"> <meta property="og:image" content="https://mariusjomphe.com/images/og-preview.jpg"> <meta property="og:image:alt" content="Marius Jomphe Photography">
+    <meta property="og:url" content="https://mariusjomphe.com">
+    <meta property="og:image" content="https://mariusjomphe.com/images/og-preview.jpg">
+    <meta property="og:image:alt" content="Marius Jomphe Photography">
     <meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="en_CA">
-<meta property="og:locale:alternate" content="fr_CA">
-
-
+    <meta property="og:locale:alternate" content="en_CA">
+    <meta property="og:locale:alternate" content="fr_CA">
 
     <title data-lang-key="pageTitleGallery">Gallery • Marius Jomphe Photography</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -181,7 +180,6 @@
             padding: calc(var(--base-spacing) * 0.5) 0;
             position: relative;
             text-transform: uppercase;
-            /* FIX: The problematic 'display: inline-block;' was removed from here */
         }
         .main-nav a.active {
             color: var(--text-color);
@@ -222,7 +220,6 @@
                 display: none;
             }
         }
-
 
         .main-nav a:hover,
         .main-nav .dropdown > a:hover {
@@ -280,7 +277,6 @@
             display: none; 
         }
         /* End Dropdown Menu Styles */
-
 
         .controls {
             display: flex;
@@ -393,7 +389,6 @@
         html[data-theme='dark'] .image-viewer-overlay:fullscreen {
              background-color: var(--image-viewer-bg);
         }
-
 
         .image-viewer-overlay.active {
             opacity: 1;
@@ -709,6 +704,10 @@
             align-items: center;
             z-index: 4000;
         }
+        
+        .fullscreen-video-overlay:fullscreen {
+            background-color: #000;
+        }
 
         .fullscreen-video-overlay video {
             max-width: 100%;
@@ -767,7 +766,7 @@
         <section class="image-gallery-section">
             <div class="container">
                 <div class="image-gallery" id="imageGallery">
-                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -785,7 +784,7 @@
     <div class="promo-overlay" id="promoOverlay">
         <div class="promo-content">
             <button class="overlay-close-button" id="promoCloseButton" aria-label="Close promotion">×</button>
-            <h2>Lancement du livre "Sonde"<br>21 août, 17h00<a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer"><br>Centre d'art de Percé</a>:</h2>
+            <h2>Lancement du livre "Sonde"<br>21 août, 17h00<br><a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer">Centre d'art de Percé</a>:</h2>
             <div style="position: relative;">
                 <video id="promoVideo" preload="metadata" muted playsinline>
                     <source src="images/sonde.mp4" type="video/mp4">
@@ -995,8 +994,16 @@
 
             function handleFullscreenChange() {
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-                if (!isFullscreen && imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
-                    closeImageViewer(); // We've exited fullscreen via browser UI, so ensure the viewer is also closed.
+                
+                if (!isFullscreen) {
+                    // We have exited fullscreen mode (e.g., user pressed ESC).
+                    // Close any active fullscreen overlay.
+                    if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                        closeImageViewer(); 
+                    }
+                    if (fullscreenVideoOverlay && fullscreenVideoOverlay.style.display === 'flex') {
+                        closeFullscreenVideo();
+                    }
                 }
             }
 
@@ -1361,30 +1368,61 @@
 
             // --- PROMO OVERLAY FUNCTIONS ---
             function openPromoOverlay() {
-                promoOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                if (promoOverlay) {
+                    promoOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
             }
 
             function closePromoOverlay() {
-                promoOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-                promoVideo.pause();
-                promoVideo.currentTime = 0;
+                if (promoOverlay) {
+                    promoOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    if (promoVideo) {
+                        promoVideo.pause();
+                        promoVideo.currentTime = 0;
+                    }
+                }
             }
 
             function openFullscreenVideo() {
-                fullscreenVideo.src = promoVideo.querySelector('source').src;
+                if (!promoVideo || !fullscreenVideo || !fullscreenVideoOverlay) return;
+
+                const videoSource = promoVideo.querySelector('source')?.src;
+                if (!videoSource) {
+                    console.error("Promo video source not found.");
+                    return;
+                }
+                
+                fullscreenVideo.src = videoSource;
                 fullscreenVideoOverlay.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
+                
+                openFullscreen(fullscreenVideoOverlay);
+
                 fullscreenVideo.load();
-                fullscreenVideo.play();
+                const playPromise = fullscreenVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.error("Video play failed:", error);
+                    });
+                }
             }
 
             function closeFullscreenVideo() {
+                if (!fullscreenVideo || !fullscreenVideoOverlay) return;
+                
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                if (isFullscreen && isFullscreen === fullscreenVideoOverlay) {
+                    exitFullscreen();
+                }
+                
                 fullscreenVideo.pause();
                 fullscreenVideo.currentTime = 0;
                 fullscreenVideoOverlay.style.display = 'none';
-                document.body.style.overflow = '';
+
+                if (promoOverlay && !promoOverlay.classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
             }
 
             if (promoCloseButton) promoCloseButton.addEventListener('click', closePromoOverlay);
@@ -1397,7 +1435,9 @@
                 if (e.target === fullscreenVideoOverlay || e.target === closeVideoButton) closeFullscreenVideo();
             });
             document.addEventListener('keydown', (e) => {
-                if (fullscreenVideoOverlay.style.display === 'flex' && e.key === 'Escape') closeFullscreenVideo();
+                if (fullscreenVideoOverlay.style.display === 'flex' && e.key === 'Escape') {
+                    // The 'fullscreenchange' event will handle the closing
+                }
             });
 
             window.addEventListener('load', () => {
