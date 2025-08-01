@@ -462,19 +462,20 @@
             background-color: var(--image-viewer-nav-hover-bg);
         }
 
-        .viewer-close-button {
-            top: calc(var(--base-spacing) * 1.5);
-            right: calc(var(--base-spacing) * 1.5);
-        }
+     .viewer-close-button {
+    top: 0rem;      /* was: calc(var(--base-spacing) * 1.5); */
+    right: 0rem;    /* was: calc(var(--base-spacing) * 1.5); */
+}
+
 
         .viewer-nav-button.prev {
-            left: calc(var(--base-spacing) * 1.5);
+              left: 0rem;     /* was: calc(var(--base-spacing) * 1.5); */
             top: 50%;
             transform: translateY(-50%);
         }
 
         .viewer-nav-button.next {
-            right: calc(var(--base-spacing) * 1.5);
+                right: 0.5rem;    /* was: calc(var(--base-spacing) * 1.5); */
             top: 50%;
             transform: translateY(-50%);
         }
