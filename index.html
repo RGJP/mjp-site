@@ -573,9 +573,25 @@
             }
         }
 
+        @media (min-width: 768px) {
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: calc(var(--base-spacing) * 1.5);
+            }
+            .gallery-item {
+                contain-intrinsic-size: 300px 300px;
+            }
+        }
+
         @media (min-width: 1200px) {
             :root {
                 --base-font-size: 17px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+            .gallery-item {
+                contain-intrinsic-size: 350px 350px;
             }
         }
 
@@ -585,6 +601,13 @@
             }
             .container {
                 max-width: 2400px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                gap: calc(var(--base-spacing) * 1.8);
+            }
+            .gallery-item {
+                contain-intrinsic-size: 400px 400px;
             }
             .logo {
                 font-size: 2.8rem;

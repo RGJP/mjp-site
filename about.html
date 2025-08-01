@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XBH50G5K56"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBH50G5K56"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -166,6 +165,11 @@
             font-weight: 100;
             color: var(--text-color);
             white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         .main-nav ul {
@@ -181,7 +185,6 @@
             padding: calc(var(--base-spacing) * 0.5) 0;
             position: relative;
             text-transform: uppercase;
-            /* FIX: The problematic 'display: inline-block;' was removed from here */
         }
         .main-nav a.active {
             color: var(--text-color);
@@ -354,9 +357,6 @@
             width: 100%;
             max-width: 1000px;
             margin: 0 auto calc(var(--base-spacing) * 2.5);
-            /* Added box-shadow with CSS variable */
-         /* box-shadow: 0 8px 16px var(--video-shadow-color); */
-            /* Added transition for smooth theme switching */
             transition: box-shadow 0.3s ease;
         }
 
@@ -439,8 +439,114 @@
             text-align: center;
             font-weight: 500;
         }
-
         /* End About Page Specific Styles */
+
+        /* Fullscreen Image Viewer Styles (from index.html) */
+        .image-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--image-viewer-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+        
+        .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+        html[data-theme='dark'] .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+
+        .image-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        .image-viewer-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--image-viewer-nav-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2002;
+            display: none;
+            opacity: 0.3;
+        }
+
+        .image-viewer-content {
+            width: 100vw;
+            height: 100vh;
+            padding: 5vh 5vw; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-viewer-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border-radius: 3px;
+            opacity: 0;
+        }
+
+        .viewer-close-button,
+        .viewer-nav-button {
+            position: fixed;
+            background: transparent;
+            color: var(--image-viewer-nav-color);
+            border: none;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            cursor: pointer;
+            padding: 0rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            z-index: 2001; 
+            border-radius: 50%;
+            width: clamp(40px, 6vw, 60px);
+            height: clamp(40px, 6vw, 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .viewer-close-button:hover,
+        .viewer-nav-button:hover {
+            background-color: var(--image-viewer-nav-hover-bg);
+        }
+
+       .viewer-close-button {
+            top: 0rem;
+            right: 0rem;
+        }
+
+        .viewer-nav-button.prev {
+            left: 0rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .viewer-nav-button.next {
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
         /* Footer - Identical to index.html */
         .site-footer {
@@ -613,6 +719,16 @@
         </section>
     </main>
 
+    <div class="image-viewer-overlay" id="imageViewerOverlay">
+        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">×</button>
+        <button class="viewer-nav-button prev" id="viewerPrevButton" aria-label="Previous image"><</button>
+        <div class="image-viewer-content">
+            <div class="image-viewer-spinner" id="imageViewerSpinner"></div>
+            <img src="" alt="Enlarged view" id="fullscreenImage">
+        </div>
+        <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">></button>
+    </div>
+
     <footer class="site-footer">
         <div class="container">
             <div class="artist-signature">
@@ -748,8 +864,100 @@
             const artistVideoElement = document.getElementById('artistVideoElement');
             const videoSpinnerElement = document.getElementById('videoSpinner');
             
+            // Easter Egg & Viewer Elements (from index.html)
+            const imageViewerOverlay = document.getElementById('imageViewerOverlay');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            const viewerCloseButton = document.getElementById('viewerCloseButton');
+            const viewerPrevButton = document.getElementById('viewerPrevButton');
+            const viewerNextButton = document.getElementById('viewerNextButton');
+            const imageViewerSpinner = document.getElementById('imageViewerSpinner');
+            const siteLogo = document.querySelector('.logo');
+            const easterEggImagePaths = [
+                'images/bruine/fullsize/1.jpg', 'images/bruine/fullsize/10.jpg', 'images/bruine/fullsize/100.jpg', 'images/bruine/fullsize/101.jpg', 'images/bruine/fullsize/102.jpg', 'images/bruine/fullsize/103.jpg', 'images/bruine/fullsize/104.jpg', 'images/bruine/fullsize/105.jpg', 'images/bruine/fullsize/106.jpg', 'images/bruine/fullsize/107.jpg', 'images/bruine/fullsize/108.jpg', 'images/bruine/fullsize/109.jpg', 'images/bruine/fullsize/11.jpg', 'images/bruine/fullsize/110.jpg', 'images/bruine/fullsize/111.jpg', 'images/bruine/fullsize/112.jpg', 'images/bruine/fullsize/113.jpg', 'images/bruine/fullsize/114.jpg', 'images/bruine/fullsize/115.jpg', 'images/bruine/fullsize/116.jpg', 'images/bruine/fullsize/117.jpg', 'images/bruine/fullsize/12.jpg', 'images/bruine/fullsize/13.jpg', 'images/bruine/fullsize/14.jpg', 'images/bruine/fullsize/15.jpg', 'images/bruine/fullsize/16.jpg', 'images/bruine/fullsize/17.jpg', 'images/bruine/fullsize/18.jpg', 'images/bruine/fullsize/19.jpg', 'images/bruine/fullsize/2.jpg', 'images/bruine/fullsize/20.jpg', 'images/bruine/fullsize/21.jpg', 'images/bruine/fullsize/22.jpg', 'images/bruine/fullsize/23.jpg', 'images/bruine/fullsize/24.jpg', 'images/bruine/fullsize/25.jpg', 'images/bruine/fullsize/26.jpg', 'images/bruine/fullsize/27.jpg', 'images/bruine/fullsize/29.jpg', 'images/bruine/fullsize/3.jpg', 'images/bruine/fullsize/30.jpg', 'images/bruine/fullsize/31.jpg', 'images/bruine/fullsize/32.jpg', 'images/bruine/fullsize/33.jpg', 'images/bruine/fullsize/34.jpg', 'images/bruine/fullsize/36.jpg', 'images/bruine/fullsize/37.jpg', 'images/bruine/fullsize/38.jpg', 'images/bruine/fullsize/39.jpg', 'images/bruine/fullsize/4.jpg', 'images/bruine/fullsize/40.jpg', 'images/bruine/fullsize/41.jpg', 'images/bruine/fullsize/42.jpg', 'images/bruine/fullsize/43.jpg', 'images/bruine/fullsize/44.jpg', 'images/bruine/fullsize/45.jpg', 'images/bruine/fullsize/46.jpg', 'images/bruine/fullsize/47.jpg', 'images/bruine/fullsize/48.jpg', 'images/bruine/fullsize/49.jpg', 'images/bruine/fullsize/5.jpg', 'images/bruine/fullsize/50.jpg', 'images/bruine/fullsize/51.jpg', 'images/bruine/fullsize/54.jpg', 'images/bruine/fullsize/55.jpg', 'images/bruine/fullsize/56.jpg', 'images/bruine/fullsize/57.jpg', 'images/bruine/fullsize/58.jpg', 'images/bruine/fullsize/59.jpg', 'images/bruine/fullsize/6.jpg', 'images/bruine/fullsize/60.jpg', 'images/bruine/fullsize/61.jpg', 'images/bruine/fullsize/62.jpg', 'images/bruine/fullsize/63.jpg', 'images/bruine/fullsize/64.jpg', 'images/bruine/fullsize/65.jpg', 'images/bruine/fullsize/66.jpg', 'images/bruine/fullsize/67.jpg', 'images/bruine/fullsize/68.jpg', 'images/bruine/fullsize/69.jpg', 'images/bruine/fullsize/7.jpg', 'images/bruine/fullsize/70.jpg', 'images/bruine/fullsize/71.jpg', 'images/bruine/fullsize/72.jpg', 'images/bruine/fullsize/73.jpg', 'images/bruine/fullsize/74.jpg', 'images/bruine/fullsize/75.jpg', 'images/bruine/fullsize/76.jpg', 'images/bruine/fullsize/77.jpg', 'images/bruine/fullsize/78.jpg', 'images/bruine/fullsize/8.jpg', 'images/bruine/fullsize/80.jpg', 'images/bruine/fullsize/81.jpg', 'images/bruine/fullsize/82.jpg', 'images/bruine/fullsize/83.jpg', 'images/bruine/fullsize/84.jpg', 'images/bruine/fullsize/85.jpg', 'images/bruine/fullsize/86.jpg', 'images/bruine/fullsize/87.jpg', 'images/bruine/fullsize/88.jpg', 'images/bruine/fullsize/89.jpg', 'images/bruine/fullsize/9.jpg', 'images/bruine/fullsize/90.jpg', 'images/bruine/fullsize/91.jpg', 'images/bruine/fullsize/92.jpg', 'images/bruine/fullsize/93.jpg', 'images/bruine/fullsize/94.jpg', 'images/bruine/fullsize/95.jpg', 'images/bruine/fullsize/96.jpg', 'images/bruine/fullsize/97.jpg', 'images/bruine/fullsize/98.jpg', 'images/bruine/fullsize/99.jpg',
+                'images/fullsize/Galerie-1.jpg', 'images/fullsize/Galerie-10.jpg', 'images/fullsize/Galerie-100.jpg', 'images/fullsize/Galerie-101.jpg', 'images/fullsize/Galerie-102.jpg', 'images/fullsize/Galerie-103.jpg', 'images/fullsize/Galerie-104.jpg', 'images/fullsize/Galerie-105.jpg', 'images/fullsize/Galerie-106.jpg', 'images/fullsize/Galerie-107.jpg', 'images/fullsize/Galerie-108.jpg', 'images/fullsize/Galerie-109.jpg', 'images/fullsize/Galerie-11.jpg', 'images/fullsize/Galerie-110.jpg', 'images/fullsize/Galerie-111.jpg', 'images/fullsize/Galerie-112.jpg', 'images/fullsize/Galerie-113.jpg', 'images/fullsize/Galerie-114.jpg', 'images/fullsize/Galerie-115.jpg', 'images/fullsize/Galerie-116.jpg', 'images/fullsize/Galerie-117.jpg', 'images/fullsize/Galerie-118.jpg', 'images/fullsize/Galerie-119.jpg', 'images/fullsize/Galerie-12.jpg', 'images/fullsize/Galerie-120.jpg', 'images/fullsize/Galerie-121.jpg', 'images/fullsize/Galerie-122.jpg', 'images/fullsize/Galerie-123.jpg', 'images/fullsize/Galerie-124.jpg', 'images/fullsize/Galerie-125.jpg', 'images/fullsize/Galerie-126.jpg', 'images/fullsize/Galerie-127.jpg', 'images/fullsize/Galerie-128.jpg', 'images/fullsize/Galerie-129.jpg', 'images/fullsize/Galerie-13.jpg', 'images/fullsize/Galerie-130.jpg', 'images/fullsize/Galerie-131.jpg', 'images/fullsize/Galerie-132.jpg', 'images/fullsize/Galerie-133.jpg', 'images/fullsize/Galerie-134.jpg', 'images/fullsize/Galerie-135.jpg', 'images/fullsize/Galerie-136.jpg', 'images/fullsize/Galerie-137.jpg', 'images/fullsize/Galerie-138.jpg', 'images/fullsize/Galerie-139.jpg', 'images/fullsize/Galerie-14.jpg', 'images/fullsize/Galerie-140.jpg', 'images/fullsize/Galerie-141.jpg', 'images/fullsize/Galerie-142.jpg', 'images/fullsize/Galerie-143.jpg', 'images/fullsize/Galerie-144.jpg', 'images/fullsize/Galerie-145.jpg', 'images/fullsize/Galerie-15.jpg', 'images/fullsize/Galerie-16.jpg', 'images/fullsize/Galerie-17.jpg', 'images/fullsize/Galerie-18.jpg', 'images/fullsize/Galerie-19.jpg', 'images/fullsize/Galerie-2.jpg', 'images/fullsize/Galerie-20.jpg', 'images/fullsize/Galerie-21.jpg', 'images/fullsize/Galerie-22.jpg', 'images/fullsize/Galerie-23.jpg', 'images/fullsize/Galerie-24.jpg', 'images/fullsize/Galerie-25.jpg', 'images/fullsize/Galerie-26.jpg', 'images/fullsize/Galerie-27.jpg', 'images/fullsize/Galerie-28.jpg', 'images/fullsize/Galerie-29.jpg', 'images/fullsize/Galerie-3.jpg', 'images/fullsize/Galerie-30.jpg', 'images/fullsize/Galerie-31.jpg', 'images/fullsize/Galerie-32.jpg', 'images/fullsize/Galerie-33.jpg', 'images/fullsize/Galerie-34.jpg', 'images/fullsize/Galerie-35.jpg', 'images/fullsize/Galerie-36.jpg', 'images/fullsize/Galerie-37.jpg', 'images/fullsize/Galerie-38.jpg', 'images/fullsize/Galerie-39.jpg', 'images/fullsize/Galerie-4.jpg', 'images/fullsize/Galerie-40.jpg', 'images/fullsize/Galerie-41.jpg', 'images/fullsize/Galerie-42.jpg', 'images/fullsize/Galerie-43.jpg', 'images/fullsize/Galerie-44.jpg', 'images/fullsize/Galerie-45.jpg', 'images/fullsize/Galerie-46.jpg', 'images/fullsize/Galerie-47.jpg', 'images/fullsize/Galerie-48.jpg', 'images/fullsize/Galerie-49.jpg', 'images/fullsize/Galerie-5.jpg', 'images/fullsize/Galerie-50.jpg', 'images/fullsize/Galerie-51.jpg', 'images/fullsize/Galerie-52.jpg', 'images/fullsize/Galerie-53.jpg', 'images/fullsize/Galerie-54.jpg', 'images/fullsize/Galerie-55.jpg', 'images/fullsize/Galerie-56.jpg', 'images/fullsize/Galerie-57.jpg', 'images/fullsize/Galerie-58.jpg', 'images/fullsize/Galerie-59.jpg', 'images/fullsize/Galerie-6.jpg', 'images/fullsize/Galerie-60.jpg', 'images/fullsize/Galerie-61.jpg', 'images/fullsize/Galerie-62.jpg', 'images/fullsize/Galerie-63.jpg', 'images/fullsize/Galerie-64.jpg', 'images/fullsize/Galerie-65.jpg', 'images/fullsize/Galerie-66.jpg', 'images/fullsize/Galerie-67.jpg', 'images/fullsize/Galerie-68.jpg', 'images/fullsize/Galerie-69.jpg', 'images/fullsize/Galerie-7.jpg', 'images/fullsize/Galerie-70.jpg', 'images/fullsize/Galerie-71.jpg', 'images/fullsize/Galerie-72.jpg', 'images/fullsize/Galerie-73.jpg', 'images/fullsize/Galerie-74.jpg', 'images/fullsize/Galerie-75.jpg', 'images/fullsize/Galerie-76.jpg', 'images/fullsize/Galerie-77.jpg', 'images/fullsize/Galerie-78.jpg', 'images/fullsize/Galerie-79.jpg', 'images/fullsize/Galerie-8.jpg', 'images/fullsize/Galerie-80.jpg', 'images/fullsize/Galerie-81.jpg', 'images/fullsize/Galerie-82.jpg', 'images/fullsize/Galerie-83.jpg', 'images/fullsize/Galerie-84.jpg', 'images/fullsize/Galerie-85.jpg', 'images/fullsize/Galerie-86.jpg', 'images/fullsize/Galerie-87.jpg', 'images/fullsize/Galerie-88.jpg', 'images/fullsize/Galerie-89.jpg', 'images/fullsize/Galerie-9.jpg', 'images/fullsize/Galerie-90.jpg', 'images/fullsize/Galerie-91.jpg', 'images/fullsize/Galerie-92.jpg', 'images/fullsize/Galerie-93.jpg', 'images/fullsize/Galerie-94.jpg', 'images/fullsize/Galerie-95.jpg', 'images/fullsize/Galerie-96.jpg', 'images/fullsize/Galerie-97.jpg', 'images/fullsize/Galerie-98.jpg', 'images/fullsize/Galerie-99.jpg',
+                'images/passage/fullsize/Photos Passage-1.jpg', 'images/passage/fullsize/Photos Passage-10.jpg', 'images/passage/fullsize/Photos Passage-11.jpg', 'images/passage/fullsize/Photos Passage-12.jpg', 'images/passage/fullsize/Photos Passage-13.jpg', 'images/passage/fullsize/Photos Passage-14.jpg', 'images/passage/fullsize/Photos Passage-2.jpg', 'images/passage/fullsize/Photos Passage-3.jpg', 'images/passage/fullsize/Photos Passage-4.jpg', 'images/passage/fullsize/Photos Passage-5.jpg', 'images/passage/fullsize/Photos Passage-6.jpg', 'images/passage/fullsize/Photos Passage-7.jpg', 'images/passage/fullsize/Photos Passage-8.jpg', 'images/passage/fullsize/Photos Passage-9.jpg'
+            ];
+
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light'; 
+
+            // --- HELPER FUNCTIONS FOR FULLSCREEN (from index.html) ---
+            function openFullscreen(element) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
+                } else if (element.mozRequestFullScreen) { /* Firefox */
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { /* IE/Edge */
+                    element.msRequestFullscreen();
+                }
+            }
+
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { /* Firefox */
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE/Edge */
+                    document.msExitFullscreen();
+                }
+            }
+
+            function handleFullscreenChange() {
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                if (!isFullscreen) {
+                    if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                        closeImageViewer(); 
+                    }
+                }
+            }
+            
+            // --- IMAGE VIEWER & EASTER EGG FUNCTIONS (from index.html) ---
+            function closeImageViewer() {
+                if (!imageViewerOverlay) return;
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                if (isFullscreen) {
+                    exitFullscreen();
+                }
+                imageViewerOverlay.classList.remove('active');
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                if (document.body) {
+                    document.body.style.overflow = ''; 
+                }
+            }
+
+            function showEasterEggImage(imageUrl) {
+                if (!imageViewerOverlay || !fullscreenImage) return;
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden';
+                openFullscreen(imageViewerOverlay);
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                if (viewerPrevButton) viewerPrevButton.style.display = 'none';
+                if (viewerNextButton) viewerNextButton.style.display = 'none';
+                fullscreenImage.style.transition = 'none';
+                fullscreenImage.style.opacity = 0;
+                fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                fullscreenImage.alt = "Loading secret image...";
+                const tempImg = new Image();
+                tempImg.onload = () => {
+                    fullscreenImage.src = imageUrl;
+                    fullscreenImage.alt = "A special random image.";
+                    requestAnimationFrame(() => {
+                        fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                        fullscreenImage.style.opacity = 1;
+                    });
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                };
+                tempImg.onerror = () => {
+                    console.error("Error loading easter egg image:", imageUrl);
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    closeImageViewer();
+                };
+                tempImg.src = imageUrl;
+            }
 
             // --- INITIALIZATION ---
             function applyTheme(theme) {
@@ -809,6 +1017,16 @@
                     applyLanguage(newLang);
                 });
             }
+
+            if (siteLogo) {
+                siteLogo.addEventListener('click', () => {
+                    if (easterEggImagePaths.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
+                        const randomImageUrl = easterEggImagePaths[randomIndex];
+                        showEasterEggImage(randomImageUrl);
+                    }
+                });
+            }
             
             const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
             dropdownToggles.forEach(toggle => {
@@ -829,17 +1047,12 @@
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
-
-                    // --- START: Added logic to ensure parent toggle ("PROJECTS") remains active if a sub-page is current ---
-                    // After toggling, check if this dropdown toggle (e.g., "PROJECTS") should be active
-                    // because one of its sub-menu items matches the current page.
                     const currentPath = window.location.pathname;
                     let isSubPageOfThisToggleActive = false;
-                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a'); // Get <a> from the .dropdown-menu
-
+                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a');
                     subMenuLinks.forEach(subLink => {
                         const subLinkHrefAttribute = subLink.getAttribute('href');
-                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') { // Ensure it's a real link
+                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') {
                             const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
                             let normalizedCurrentPath = currentPath;
                             if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
@@ -854,9 +1067,8 @@
                     });
 
                     if (isSubPageOfThisToggleActive) {
-                        this.classList.add('active'); // Ensure the parent toggle has the active class
+                        this.classList.add('active');
                     }
-                    // --- END: Added logic ---
                 });
             });
 
@@ -872,53 +1084,53 @@
                 });
             });
 
+            // Image Viewer Event Listeners (from index.html)
+            if (viewerCloseButton) viewerCloseButton.addEventListener('click', closeImageViewer);
+            if (imageViewerOverlay) {
+                imageViewerOverlay.addEventListener('click', (e) => {
+                    if (e.target === imageViewerOverlay) closeImageViewer();
+                });
+            }
+            document.addEventListener('keydown', (e) => {
+                if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                    if (e.key === 'Escape') closeImageViewer();
+                }
+            });
+
+            // Fullscreen change listeners (from index.html)
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
             // --- INITIAL APPLY ---
             applyTheme(currentTheme);
             applyLanguage(currentLanguage);
 
             // --- REVISED: FOOLPROOF VIDEO SPINNER LOGIC ---
             if (artistVideoElement && videoSpinnerElement) {
-                // The video is initially hidden by CSS (opacity: 0).
-                // The spinner is visible by CSS (display: block).
                 let videoHasLoaded = false;
-
                 const onVideoReady = () => {
-                    // This function should only run once for the initial load.
                     if (videoHasLoaded) return;
                     videoHasLoaded = true;
-                    
                     videoSpinnerElement.style.display = 'none';
-                    artistVideoElement.style.opacity = '1'; // Fade in the video
+                    artistVideoElement.style.opacity = '1';
                 };
-
                 const onVideoWaiting = () => {
-                    // If video has already loaded and is just rebuffering, show spinner.
-                    // The video frame remains visible, which is standard UI behavior.
                     if (videoHasLoaded) {
                         videoSpinnerElement.style.display = 'block';
                     }
                 };
-
                 const onVideoPlaying = () => {
-                    // If we were waiting (rebuffering), hide the spinner.
                     if (videoHasLoaded) {
                         videoSpinnerElement.style.display = 'none';
                     } else {
-                        // This can act as a fallback if 'playing' fires before 'canplaythrough'.
                         onVideoReady();
                     }
                 };
-
-                // 'canplaythrough' is the ideal event. It signals that the browser
-                // believes it can play the entire video without buffering.
                 artistVideoElement.addEventListener('canplaythrough', onVideoReady);
-
-                // 'playing' handles resuming from a buffer and can be a fallback.
                 artistVideoElement.addEventListener('playing', onVideoPlaying);
-
-                // 'waiting' handles rebuffering after the initial load.
                 artistVideoElement.addEventListener('waiting', onVideoWaiting);
-
                 artistVideoElement.addEventListener('error', (e) => {
                     videoSpinnerElement.style.display = 'none';
                     console.error('Error loading or playing video:', e);
@@ -927,15 +1139,9 @@
                         container.innerHTML += '<p class="video-error-message" style="text-align:center; padding: 20px; color: var(--text-color);">The video could not be loaded.</p>';
                     }
                 });
-
-                // Initial check: If the video is already cached and ready, show it.
-                // readyState 4 means HAVE_ENOUGH_DATA.
                 if (artistVideoElement.readyState >= 4) {
                     onVideoReady();
                 }
-
-                // Some browsers block autoplay. This .catch() prevents an error in the console.
-                // Our event listeners will handle showing the video when it's ready regardless.
                 artistVideoElement.play().catch(error => {
                     console.log("Video autoplay was prevented by the browser. It will start when ready and allowed.");
                 });
