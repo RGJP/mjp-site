@@ -1629,9 +1629,16 @@
                 }
             });
 
-            window.addEventListener('load', () => {
-                setTimeout(openPromoOverlay, 500);
-            });
+      window.addEventListener('load', () => {
+    const today = new Date().toISOString().split('T')[0]; // format: "YYYY-MM-DD"
+    const lastShownDate = localStorage.getItem('promoLastShownDate');
+
+    if (lastShownDate !== today) {
+        setTimeout(openPromoOverlay, 500);
+        localStorage.setItem('promoLastShownDate', today);
+    }
+});
+
 
             // --- INITIAL LOAD ---
             populateGallery();
