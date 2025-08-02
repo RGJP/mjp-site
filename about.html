@@ -346,13 +346,12 @@
             color: var(--nav-link-hover-color);
         }
         
-        .shuffle-icon {
-            /* Image styling for shuffle button */
-            width: 1.5rem;
-            height: 1.5rem;
-            object-fit: contain;
-            transition: opacity 0.3s ease;
-        }
+    .shuffle-icon {
+    width: clamp(1.8rem, 2vw, 2.5rem);
+    height: clamp(1.8rem, 2vw, 2.5rem);
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
         /* Hide one image based on theme */
         html[data-theme="light"] .shuffle-icon.dark-theme-image,
         html[data-theme="dark"] .shuffle-icon.light-theme-image {
@@ -673,7 +672,7 @@
     </style>
 </head>
 <body>
-      <header class="site-header">
+    <header class="site-header">
         <div class="container">
             <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
             
@@ -871,14 +870,14 @@
                     aboutHeading: "À Propos de l'Artiste",
                     biographyTitle: "Biographie",
                     bioParagraph1: "Marius Jomphe est né à Havre St-Pierre, sur la Côte-Nord au Québec.",
-                    bioParagraph2: "Il obtient son Baccalauréat ès Arts de l’Université du Québec à Montréal en 1976. Il enseigne ensuite durant trente ans au Cégep de la Gaspésie et des Îles while régulièrement exhibiting son travail.",
+                    bioParagraph2: "Il obtient son Baccalauréat ès Arts de l’Université du Québec à Montréal en 1976. Il enseigne ensuite durant trente ans au Cégep de la Gaspésie et des Îles tout en exposant régulièrement son travail.",
                     bioParagraph3: "Depuis 1990, il se consacre exclusivement à la photographie. Son intérêt pour la science (astrobiologie, neurosciences) marque sa pratique photographique qui comprend les territoires de la Pointe de la Gaspésie de même que la région de Rivière-au-Tonnerre sur la Côte-Nord.",
                     bioParagraph4: "Il vit et travaille à Gaspé.",
                     artistStatementTitle: "L'énigme du réel",
                     heisenbergQuote: `"Nous devons nous souvenir que ce que nous observons n’est pas la nature en elle-même, mais la nature soumise à notre méthode de questionnement."`,
                     heisenbergAttribution: "Werner Heisenberg",
                     perceptionText1: "La perception, au lieu d’être l’enregistrement passif d’une supposée réalité extérieure objective, apparaît davantage comme un processus actif d’interprétation, élaboré par le cerveau, en vue d’une interaction adaptative efficace au monde qui nous entoure. Au moyen de la photographie, nous pouvons donc nous interroger sur la nature du visible. En nous obligeant à considérer la profonde complexité de ce qui est vu, celle-ci peut par conséquent nous ouvrir à une toute nouvelle expérience du monde.",
-                    perceptionText2: "In this sense, photographs should be like open doors where the viewer can enter a world of possibilities. Images are remarkably elusive objects, charged with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, something deeper than oneself, and thereby offer a glimpse into some of the mystery of the world.",
+                    perceptionText2: "En ce sens, les photographies devraient être comme des portes ouvertes où le spectateur peut entrer dans un monde de possibilités. Les images sont des objets remarquablement insaisissables, chargés de multiples potentiels significatifs. Mon intention est donc de questionner et de démontrer cette relativité de la perception afin de pointer vers quelque chose de plus grand, de plus profond que soi, et d’offrir ainsi un aperçu d’une partie du mystère du monde.",
                     photoCredit: " "
                 }
             };
