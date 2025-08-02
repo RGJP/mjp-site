@@ -44,8 +44,6 @@
     <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="en_CA">
 <meta property="og:locale:alternate" content="fr_CA">
-
-
     <title data-lang-key="pageTitleAbout">Marius Jomphe ‧ About</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,9 +64,7 @@
             --base-spacing: 1rem;
             --video-border-color: #000000; /* Black for light theme video border */
             --video-spinner-track-color: rgba(0, 0, 0, 0.1); /* Darker track for light theme spinner */
-            /* Added shadow color variable */
             --video-shadow-color: rgba(0, 0, 0, 0.15); /* Light theme shadow */
-            /* Added from contact.html for image viewer */
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #ffffff;
             --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
@@ -87,9 +83,7 @@
             --button-hover-bg-color: #5a5a5a;
             --video-border-color: #ffffff; /* White for dark theme video border */
             --video-spinner-track-color: rgba(255, 255, 255, 0.3); /* Lighter track for dark theme spinner */
-            /* Updated shadow color for dark theme */
             --video-shadow-color: rgba(0, 0, 0, 0.4); /* Dark theme shadow (slightly darker to stand out on dark bg) */
-            /* Added from contact.html for image viewer */
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #e0e0e0;
             --loader-color: #f4f7f6; /* For spinner */
@@ -165,11 +159,7 @@
             font-weight: 100;
             color: var(--text-color);
             white-space: nowrap;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
+            /* Removed cursor: pointer and user-select properties from .logo */
         }
 
         .main-nav ul {
@@ -336,6 +326,37 @@
 
         [data-theme="dark"] .control-button {
             color: var(--nav-link-color);
+        }
+
+        /* Shuffle icon specific styles */
+        .shuffle-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--nav-link-color);
+            transition: color 0.2s ease;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .shuffle-button:hover {
+            color: var(--nav-link-hover-color);
+        }
+        
+        .shuffle-icon {
+            /* Image styling for shuffle button */
+            width: 1.5rem;
+            height: 1.5rem;
+            object-fit: contain;
+            transition: opacity 0.3s ease;
+        }
+        /* Hide one image based on theme */
+        html[data-theme="light"] .shuffle-icon.dark-theme-image,
+        html[data-theme="dark"] .shuffle-icon.light-theme-image {
+            display: none;
         }
 
         /* About Page Specific Styles */
@@ -672,6 +693,11 @@
             </nav>
             
             <div class="controls">
+                <button id="shuffleButton" class="shuffle-button" aria-label="Shuffle and view random photo">
+                    <img src="images/shufflelighttheme.png" alt="Shuffle icon" class="shuffle-icon light-theme-image">
+                    <img src="images/shuffledarktheme.png" alt="Shuffle icon" class="shuffle-icon dark-theme-image">
+                </button>
+                
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
                     🌓 <span data-lang-key="themeToggleDark">DARK MODE</span>
                     <span data-lang-key="themeToggleLight" style="display:none;">LIGHT MODE</span>
@@ -845,14 +871,14 @@
                     aboutHeading: "À Propos de l'Artiste",
                     biographyTitle: "Biographie",
                     bioParagraph1: "Marius Jomphe est né à Havre St-Pierre, sur la Côte-Nord au Québec.",
-                    bioParagraph2: "Il obtient son Baccalauréat ès Arts de l’Université du Québec à Montréal en 1976. Il enseigne ensuite durant trente ans au Cégep de la Gaspésie et des Îles tout en exposant régulièrement son travail.",
+                    bioParagraph2: "Il obtient son Baccalauréat ès Arts de l’Université du Québec à Montréal en 1976. Il enseigne ensuite durant trente ans au Cégep de la Gaspésie et des Îles while régulièrement exhibiting son travail.",
                     bioParagraph3: "Depuis 1990, il se consacre exclusivement à la photographie. Son intérêt pour la science (astrobiologie, neurosciences) marque sa pratique photographique qui comprend les territoires de la Pointe de la Gaspésie de même que la région de Rivière-au-Tonnerre sur la Côte-Nord.",
                     bioParagraph4: "Il vit et travaille à Gaspé.",
                     artistStatementTitle: "L'énigme du réel",
                     heisenbergQuote: `"Nous devons nous souvenir que ce que nous observons n’est pas la nature en elle-même, mais la nature soumise à notre méthode de questionnement."`,
                     heisenbergAttribution: "Werner Heisenberg",
                     perceptionText1: "La perception, au lieu d’être l’enregistrement passif d’une supposée réalité extérieure objective, apparaît davantage comme un processus actif d’interprétation, élaboré par le cerveau, en vue d’une interaction adaptative efficace au monde qui nous entoure. Au moyen de la photographie, nous pouvons donc nous interroger sur la nature du visible. En nous obligeant à considérer la profonde complexité de ce qui est vu, celle-ci peut par conséquent nous ouvrir à une toute nouvelle expérience du monde.",
-                    perceptionText2: "En ce sens, les photographies doivent être comme des portes ouvertes où le spectateur peut entrer dans le monde des possibilités. Les images sont des objets remarquablement fuyants, chargées de multiples potentiels significatifs. Mon intention est donc d’interroger et de démontrer cette relativité de la perception afin de pointer vers quelque chose de plus grand, de plus profond que soi, et par là même, laisser entrevoir un peu du mystère du monde.",
+                    perceptionText2: "In this sense, photographs should be like open doors where the viewer can enter a world of possibilities. Images are remarkably elusive objects, charged with multiple significant potentials. My intention is therefore to question and demonstrate this relativity of perception in order to point towards something greater, something deeper than oneself, and thereby offer a glimpse into some of the mystery of the world.",
                     photoCredit: " "
                 }
             };
@@ -882,6 +908,9 @@
             
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light'; 
+            
+            // New shuffle button element
+            const shuffleButton = document.getElementById('shuffleButton');
 
             // --- HELPER FUNCTIONS FOR FULLSCREEN ---
             function openFullscreen(element) {
@@ -1056,8 +1085,9 @@
                 });
             }
 
-            if (siteLogo) {
-                siteLogo.addEventListener('click', openRandomImageViewer);
+            // The random photo viewer is now triggered by the shuffle button, not the site logo.
+            if (shuffleButton) {
+                shuffleButton.addEventListener('click', openRandomImageViewer);
             }
             
             if (viewerNextButton) {
