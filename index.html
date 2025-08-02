@@ -495,7 +495,7 @@
 
        .viewer-close-button {
             top: 0rem;      /* was: calc(var(--base-spacing) * 1.5); */
-            right: 0rem;     /* was: calc(var(--base-spacing) * 1.5); */
+            right: 0rem;      /* was: calc(var(--base-spacing) * 1.5); */
         }
 
 
@@ -506,7 +506,7 @@
         }
 
         .viewer-nav-button.next {
-            right: 0.5rem;     /* was: calc(var(--base-spacing) * 1.5); */
+            right: 0.5rem;      /* was: calc(var(--base-spacing) * 1.5); */
             top: 50%;
             transform: translateY(-50%);
         }
@@ -1571,6 +1571,9 @@
                         promoVideo.pause();
                         promoVideo.currentTime = 0;
                     }
+                    // **MODIFIED**: Set flag that promo was closed today
+                    const today = new Date().toISOString().split('T')[0];
+                    localStorage.setItem('promoClosedDate', today);
                 }
             }
 
@@ -1629,21 +1632,21 @@
                 }
             });
 
-      window.addEventListener('load', () => {
-    const today = new Date().toISOString().split('T')[0]; // format: "YYYY-MM-DD"
-    const lastShownDate = localStorage.getItem('promoLastShownDate');
-
-    if (lastShownDate !== today) {
-        setTimeout(openPromoOverlay, 500);
-        localStorage.setItem('promoLastShownDate', today);
-    }
-});
-
-
             // --- INITIAL LOAD ---
             populateGallery();
             applyLanguage(currentLanguage); 
             updateNavButtons(); 
+            
+            // --- PROMO OVERLAY LOGIC ---
+            // **MODIFIED**: Check if the promo overlay should be shown. It should appear on page load
+            // unless it has already been closed on the current day.
+            const promoClosedDate = localStorage.getItem('promoClosedDate');
+            const today = new Date().toISOString().split('T')[0];
+
+            if (promoClosedDate !== today) {
+                // Show after a short delay for a better user experience
+                setTimeout(openPromoOverlay, 500);
+            }
         });
     </script>
 </body>
