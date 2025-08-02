@@ -1141,13 +1141,214 @@
                 currentYearSpan.textContent = new Date().getFullYear();
             }
 
+            // --- EASTER EGG VIEWER FUNCTIONS ---
+            function openEasterEggImageViewer(imageUrl) {
+                if (!imageViewerOverlay || !fullscreenImage) return;
+
+                // Set a data attribute to indicate the mode
+                imageViewerOverlay.dataset.mode = 'easter-egg';
+                
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden';
+                openFullscreen(imageViewerOverlay);
+
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                if (viewerPrevButton) viewerPrevButton.style.display = 'none'; // Hide prev/next buttons
+                if (viewerNextButton) viewerNextButton.style.display = 'flex'; // But show next for random images
+                
+                fullscreenImage.style.transition = 'none';
+                fullscreenImage.style.opacity = 0;
+                fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                fullscreenImage.alt = "Loading secret image...";
+
+                const tempImg = new Image();
+                tempImg.onload = () => {
+                    fullscreenImage.src = imageUrl;
+                    fullscreenImage.alt = "A special random image.";
+                    requestAnimationFrame(() => {
+                        fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                        fullscreenImage.style.opacity = 1;
+                    });
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                };
+                tempImg.onerror = () => {
+                    console.error("Error loading easter egg image:", imageUrl);
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    closeImageViewer(true); // Close if the image fails to load
+                };
+                tempImg.src = imageUrl;
+            }
+
+            function showNextEasterEggImage() {
+                if (easterEggImagePaths.length === 0) return;
+
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                fullscreenImage.style.transition = 'opacity 0.3s ease-in-out';
+                fullscreenImage.style.opacity = 0;
+
+                setTimeout(() => {
+                    if (!imageViewerOverlay.classList.contains('active')) {
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        return; 
+                    }
+
+                    const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
+                    const imageUrl = easterEggImagePaths[randomIndex];
+                    const altText = "A special random image.";
+
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        fullscreenImage.src = imageUrl;
+                        fullscreenImage.alt = altText;
+                        requestAnimationFrame(() => {
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
+                        });
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    };
+                    tempImg.onerror = () => {
+                        console.error("Error loading image:", imageUrl);
+                        fullscreenImage.alt = "Error loading image";
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    };
+                    tempImg.src = imageUrl;
+                }, 300);
+            }
+
+
+            // --- GALLERY IMAGE VIEWER FUNCTIONS ---
+            function preloadAdjacentImages(currentIndex) {
+                if (viewerImageSources.length <= 1) return;
+
+                const nextIndex = (currentIndex + 1) % viewerImageSources.length;
+                const prevIndex = (currentIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
+
+                const nextImg = new Image();
+                nextImg.src = viewerImageSources[nextIndex];
+
+                const prevImg = new Image();
+                prevImg.src = viewerImageSources[prevIndex];
+            }
+            function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
+                if (!imageViewerOverlay || !fullscreenImage || viewerImageSources.length === 0) return;
+
+                // Ensure the data-mode is set to 'gallery' when opening from the gallery
+                if (isOpeningCallParam) {
+                    imageViewerOverlay.dataset.mode = 'gallery';
+                }
+
+                const proceedToLoadImage = (targetIndex) => {
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+
+                    fullscreenImage.style.transition = 'none'; 
+                    fullscreenImage.style.opacity = 0;
+                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
+                    fullscreenImage.alt = ""; 
+
+                    const imageUrl = viewerImageSources[targetIndex];
+                    const altText = `Enlarged view of image ${targetIndex + 1} - Marius Jomphe`;
+
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        fullscreenImage.src = imageUrl;
+                        fullscreenImage.alt = altText;
+                        requestAnimationFrame(() => { 
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
+                        });
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                        preloadAdjacentImages(targetIndex);
+                    };
+                    tempImg.onerror = () => {
+                        console.error("Error loading image:", imageUrl);
+                        fullscreenImage.alt = "Error loading image";
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                        if (isOpeningCallParam && currentImageIndex === targetIndex) {
+                             setTimeout(() => closeImageViewer(true), 1500);
+                        }
+                    };
+                    tempImg.src = imageUrl;
+                };
+
+                if (isOpeningCallParam) { 
+                    currentImageIndex = newIndex;
+                    imageViewerOverlay.classList.add('active');
+                    if (document.body) document.body.style.overflow = 'hidden';
+                    proceedToLoadImage(currentImageIndex);
+                    openFullscreen(imageViewerOverlay); // Request fullscreen only when opening
+                } else { 
+                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
+                    fullscreenImage.style.opacity = 0;
+                    setTimeout(() => {
+                        if (!imageViewerOverlay.classList.contains('active')) { 
+                             if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                             return;
+                        }
+                        currentImageIndex = newIndex;
+                        proceedToLoadImage(currentImageIndex);
+                    }, 500); 
+                }
+            }
+
+            function openImageViewer(index) {
+                loadAndShowImageInViewer(index, true);
+            }
+
+            function closeImageViewer(shouldExitFullscreen) {
+                if (!imageViewerOverlay) return;
+
+                // Exit fullscreen if active, but only if requested (e.g., via close button)
+                if (shouldExitFullscreen) {
+                    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                    if (isFullscreen) {
+                        exitFullscreen();
+                    }
+                }
+                
+                imageViewerOverlay.classList.remove('active');
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                if (document.body) document.body.style.overflow = '';
+            }
+
+            function showPrevImage() {
+                if (viewerImageSources.length === 0) return;
+                const newIndex = (currentImageIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function showNextImage() {
+                if (viewerImageSources.length === 0) return;
+                const newIndex = (currentImageIndex + 1) % viewerImageSources.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function updateNavButtons() {
+                 // Check if we are in 'gallery' mode
+                 if (imageViewerOverlay?.dataset.mode === 'gallery') {
+                    if (!viewerPrevButton || !viewerNextButton || viewerImageSources.length <= 1) {
+                        if(viewerPrevButton) viewerPrevButton.style.display = 'none';
+                        if(viewerNextButton) viewerNextButton.style.display = 'none';
+                    } else {
+                        if(viewerPrevButton) viewerPrevButton.style.display = 'flex';
+                        if(viewerNextButton) viewerNextButton.style.display = 'flex';
+                    }
+                 } else {
+                     // For 'easter-egg' mode, only show next button
+                     if(viewerPrevButton) viewerPrevButton.style.display = 'none';
+                     if(viewerNextButton) viewerNextButton.style.display = 'flex';
+                 }
+            }
+
+
             // --- EVENT LISTENERS ---
             if (siteLogo) {
                 siteLogo.addEventListener('click', () => {
                     if (easterEggImagePaths.length > 0) {
                         const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
                         const randomImageUrl = easterEggImagePaths[randomIndex];
-                        showEasterEggImage(randomImageUrl);
+                        openEasterEggImageViewer(randomImageUrl);
                     }
                 });
             }
@@ -1233,15 +1434,28 @@
                     const item = e.target.closest('.gallery-item');
                     if (item) {
                         // Add 2 to the gallery index to account for the two book covers at the start of the viewer array
-                        currentImageIndex = parseInt(item.dataset.index) + 2;
-                        openImageViewer(currentImageIndex);
+                        const newIndex = parseInt(item.dataset.index) + 2;
+                        openImageViewer(newIndex);
                     }
                 });
             }
 
             if (viewerCloseButton) viewerCloseButton.addEventListener('click', () => closeImageViewer(true));
-            if (viewerPrevButton) viewerPrevButton.addEventListener('click', showPrevImage);
-            if (viewerNextButton) viewerNextButton.addEventListener('click', showNextImage);
+            
+            if (viewerPrevButton) viewerPrevButton.addEventListener('click', () => {
+                if (imageViewerOverlay?.dataset.mode === 'gallery') {
+                    showPrevImage();
+                }
+            });
+
+            if (viewerNextButton) viewerNextButton.addEventListener('click', () => {
+                const mode = imageViewerOverlay?.dataset.mode;
+                if (mode === 'easter-egg') {
+                    showNextEasterEggImage();
+                } else if (mode === 'gallery') {
+                    showNextImage();
+                }
+            });
             
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('click', (e) => {
@@ -1252,10 +1466,19 @@
             document.addEventListener('keydown', (e) => {
                 if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
                     if (e.key === 'Escape') closeImageViewer(true);
-                    // MODIFIED: Only allow arrow navigation if buttons are visible (i.e., not easter egg mode)
-                    if (viewerPrevButton && viewerPrevButton.style.display !== 'none') {
-                        if (e.key === 'ArrowLeft') showPrevImage();
-                        if (e.key === 'ArrowRight') showNextImage();
+                    
+                    const mode = imageViewerOverlay?.dataset.mode;
+                    if (mode === 'easter-egg') {
+                        if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
+                             showNextEasterEggImage();
+                        }
+                    } else if (mode === 'gallery') {
+                        if (e.key === 'ArrowLeft' && viewerPrevButton.style.display !== 'none') {
+                            showPrevImage();
+                        }
+                        if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
+                            showNextImage();
+                        }
                     }
                 }
             });
@@ -1284,15 +1507,27 @@
                 imageViewerOverlay.addEventListener('touchend', (e) => {
                     if (!imageViewerOverlay.classList.contains('active')) return;
                     
-                    // MODIFIED: Only process swipe if it's not the easter egg view
-                    if (viewerPrevButton && viewerPrevButton.style.display === 'none') return;
-                    
-                    if (touchStartX === 0 || touchEndX === 0) return; 
+                    if (touchStartX === 0 || touchEndX === 0) { 
+                        touchStartX = 0; touchStartY = 0; touchEndX = 0; touchEndY = 0;
+                        return;
+                    }
+
                     const deltaX = touchEndX - touchStartX;
                     const deltaY = touchEndY - touchStartY;
+                    const mode = imageViewerOverlay?.dataset.mode;
+
                     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) { 
-                        if (deltaX < 0) showNextImage(); 
-                        else showPrevImage(); 
+                        if (mode === 'easter-egg') {
+                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') {
+                                showNextEasterEggImage();
+                            }
+                        } else if (mode === 'gallery') {
+                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') {
+                                showNextImage();
+                            } else if (deltaX > 0 && viewerPrevButton.style.display !== 'none') {
+                                showPrevImage();
+                            }
+                        }
                     }
                     touchStartX = touchStartY = touchEndX = touchEndY = 0; 
                 });
@@ -1304,162 +1539,12 @@
             document.addEventListener('mozfullscreenchange', handleFullscreenChange);
             document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
-            // --- EASTER EGG FUNCTION ---
-            function showEasterEggImage(imageUrl) {
-                if (!imageViewerOverlay || !fullscreenImage) return;
 
-                imageViewerOverlay.classList.add('active');
-                if (document.body) document.body.style.overflow = 'hidden';
-                openFullscreen(imageViewerOverlay);
-
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-                if (viewerPrevButton) viewerPrevButton.style.display = 'none';
-                if (viewerNextButton) viewerNextButton.style.display = 'none';
-                
-                fullscreenImage.style.transition = 'none';
-                fullscreenImage.style.opacity = 0;
-                fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                fullscreenImage.alt = "Loading secret image...";
-
-                const tempImg = new Image();
-                tempImg.onload = () => {
-                    fullscreenImage.src = imageUrl;
-                    fullscreenImage.alt = "A special random image.";
-                    requestAnimationFrame(() => {
-                        fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
-                        fullscreenImage.style.opacity = 1;
-                    });
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                };
-                tempImg.onerror = () => {
-                    console.error("Error loading easter egg image:", imageUrl);
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    closeImageViewer(true); // Close if the image fails to load
-                };
-                tempImg.src = imageUrl;
-            }
-
-            // --- IMAGE VIEWER FUNCTIONS ---
-            function preloadAdjacentImages(currentIndex) {
-                if (viewerImageSources.length <= 1) return;
-
-                const nextIndex = (currentIndex + 1) % viewerImageSources.length;
-                const prevIndex = (currentIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
-
-                const nextImg = new Image();
-                nextImg.src = viewerImageSources[nextIndex];
-
-                const prevImg = new Image();
-                prevImg.src = viewerImageSources[prevIndex];
-            }
-            function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
-                if (!imageViewerOverlay || !fullscreenImage || viewerImageSources.length === 0) return;
-
-                const proceedToLoadImage = (targetIndex) => {
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-
-                    fullscreenImage.style.transition = 'none'; 
-                    fullscreenImage.style.opacity = 0;
-                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
-                    fullscreenImage.alt = ""; 
-
-                    const imageUrl = viewerImageSources[targetIndex];
-                    const altText = `Enlarged view of image ${targetIndex + 1} - Marius Jomphe`;
-
-                    const tempImg = new Image();
-                    tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl;
-                        fullscreenImage.alt = altText;
-                        requestAnimationFrame(() => { 
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
-                            fullscreenImage.style.opacity = 1;
-                        });
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                        updateNavButtons();
-                        preloadAdjacentImages(targetIndex);
-                    };
-                    tempImg.onerror = () => {
-                        console.error("Error loading image:", imageUrl);
-                        fullscreenImage.alt = "Error loading image";
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                        updateNavButtons();
-                        if (isOpeningCallParam && currentImageIndex === targetIndex) {
-                             setTimeout(() => closeImageViewer(true), 1500);
-                        }
-                    };
-                    tempImg.src = imageUrl;
-                };
-
-                if (isOpeningCallParam) { 
-                    currentImageIndex = newIndex;
-                    imageViewerOverlay.classList.add('active');
-                    if (document.body) document.body.style.overflow = 'hidden';
-                    proceedToLoadImage(currentImageIndex);
-                } else { 
-                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
-                    fullscreenImage.style.opacity = 0;
-                    setTimeout(() => {
-                        if (!imageViewerOverlay.classList.contains('active')) { 
-                             if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                             return;
-                        }
-                        currentImageIndex = newIndex;
-                        proceedToLoadImage(currentImageIndex);
-                    }, 500); 
-                }
-            }
-
-            function openImageViewer(index) {
-                // NEW: Request fullscreen when opening the viewer
-                if(imageViewerOverlay) {
-                    openFullscreen(imageViewerOverlay);
-                }
-                loadAndShowImageInViewer(index, true);
-            }
-
-            function closeImageViewer(shouldExitFullscreen) {
-                if (!imageViewerOverlay) return;
-
-                // NEW: Exit fullscreen if active
-                if (shouldExitFullscreen) {
-                    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-                    if (isFullscreen) {
-                        exitFullscreen();
-                    }
-                }
-                
-                imageViewerOverlay.classList.remove('active');
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                if (document.body) document.body.style.overflow = '';
-            }
-
-            function showPrevImage() {
-                if (viewerImageSources.length === 0) return;
-                const newIndex = (currentImageIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
-                loadAndShowImageInViewer(newIndex);
-            }
-
-            function showNextImage() {
-                if (viewerImageSources.length === 0) return;
-                const newIndex = (currentImageIndex + 1) % viewerImageSources.length;
-                loadAndShowImageInViewer(newIndex);
-            }
-
-            function updateNavButtons() {
-                 if (!viewerPrevButton || !viewerNextButton || viewerImageSources.length <= 1) {
-                      if(viewerPrevButton) viewerPrevButton.style.display = 'none';
-                      if(viewerNextButton) viewerNextButton.style.display = 'none';
-                      return;
-                 }
-                 if(viewerPrevButton) viewerPrevButton.style.display = 'block';
-                 if(viewerNextButton) viewerNextButton.style.display = 'block';
-            }
-
-            // --- INITIAL LOAD ---
+            // --- INITIAL LOAD ---\
             populateGallery();
             applyTheme(currentTheme);
             applyLanguage(currentLanguage);
-            updateNavButtons();
+            updateNavButtons(); // Call this once to set the initial state
 
         })
     </script>
