@@ -151,11 +151,6 @@
             font-weight: 100;
             color: var(--text-color);
             white-space: nowrap; /* Prevent title from wrapping */
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
         }
 
         .main-nav ul {
@@ -296,7 +291,9 @@
             transition: color 0.2s ease;
             text-transform: uppercase;
             line-height: inherit;
-            display: inline-block;
+            display: inline-flex; /* CHANGED */
+            align-items: center; /* ADDED */
+            gap: 8px; /* ADDED */
             min-width: auto;
         }
 
@@ -306,7 +303,7 @@
             width: 0;
             height: 2px;
             display: block;
-            margin-top: 5px;
+            bottom: 0; /* CHANGED */
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -329,6 +326,19 @@
 
         [data-theme="dark"] .control-button {
             color: var(--nav-link-color);
+        }
+		
+		/* Shuffle icon specific styles - ADDED */
+        .shuffle-icon {
+            width: 1.1em;
+            height: 1.1em;
+            object-fit: contain;
+        }
+
+        /* Hide one image based on theme - ADDED */
+        html[data-theme="light"] .shuffle-icon.dark-theme-image,
+        html[data-theme="dark"] .shuffle-icon.light-theme-image {
+            display: none;
         }
 
         /* Image Gallery (reused for book images) */
@@ -696,6 +706,11 @@
             </nav>
             
             <div class="controls">
+				<button id="exploreButton" class="control-button" aria-label="Explore random photos">
+                    <img src="images/shufflelighttheme.png" alt="" class="shuffle-icon light-theme-image">
+                    <img src="images/shuffledarktheme.png" alt="" class="shuffle-icon dark-theme-image">
+                    <span data-lang-key="exploreText">Explore</span>
+                </button>
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
                     <span data-lang-key="themeToggleDark">Dark Mode</span>
                     <span data-lang-key="themeToggleLight" style="display:none;">Light Mode</span>
@@ -850,9 +865,10 @@
                     projectBruine: "BRUINE",  
                     projectPassage: "PASSAGE",
                     navContact: "CONTACT",
-                    themeToggleDark: "🌓 DARK THEME",
-                    themeToggleLight: "🌓 LIGHT THEME",
-                    languageToggleText: "🌐 FRANÇAIS",
+                    exploreText: "Explore", // ADDED
+                    themeToggleDark: "🌓 THEME",
+                    themeToggleLight: "🌓 THEME",
+                    languageToggleText: "🌐 FR/EN",
                     footerRights: "All rights reserved.",
                     bookGalleryTitle: "Book Excerpt",
                     metaDescriptionContent: "Explore the photo book 'BRUINE - Gaspé Peninsula Tip' by Marius Jomphe. A visual journey into the heart of the Gaspé Peninsula.",
@@ -870,9 +886,10 @@
                     projectBruine: "BRUINE",    
                     projectPassage: "PASSAGE",  
                     navContact: "CONTACT",
-                    themeToggleDark: "🌓 THÈME SOMBRE",
-                    themeToggleLight: "🌓 THÈME CLAIR",
-                    languageToggleText: "🌐 ENGLISH",
+                    exploreText: "Explorer", // ADDED
+                    themeToggleDark: "🌓 THÈME",
+                    themeToggleLight: "🌓 THÈME",
+                    languageToggleText: "🌐 FR/EN",
                     footerRights: "Tous droits réservés.",
                     bookGalleryTitle: "Extrait du Livre",
                     metaDescriptionContent: "Découvrez le livre photographique 'BRUINE - la Pointe de la Gaspésie' par Marius Jomphe. Un voyage visuel au cœur de la Gaspésie.",
@@ -896,10 +913,10 @@
             const currentYearSpan = document.getElementById('currentYear');
             const mainBookCoverImage = document.getElementById('mainBookCoverImage');
             const secondaryBookCoverImage = document.getElementById('secondaryBookCoverImage');
-            const siteLogo = document.querySelector('.logo'); // Added for easter egg
+            const exploreButton = document.getElementById('exploreButton'); // ADDED
 
-            // Easter Egg Image Paths (Copied from index.html)
-            const easterEggImagePaths = [
+            // Paths for Random Image Viewer - RENAMED & CONSOLIDATED
+            const randomImageViewerPaths = [
                 'images/bruine/fullsize/1.jpg', 'images/bruine/fullsize/10.jpg', 'images/bruine/fullsize/100.jpg', 'images/bruine/fullsize/101.jpg', 'images/bruine/fullsize/102.jpg', 'images/bruine/fullsize/103.jpg', 'images/bruine/fullsize/104.jpg', 'images/bruine/fullsize/105.jpg', 'images/bruine/fullsize/106.jpg', 'images/bruine/fullsize/107.jpg', 'images/bruine/fullsize/108.jpg', 'images/bruine/fullsize/109.jpg', 'images/bruine/fullsize/11.jpg', 'images/bruine/fullsize/110.jpg', 'images/bruine/fullsize/111.jpg', 'images/bruine/fullsize/112.jpg', 'images/bruine/fullsize/113.jpg', 'images/bruine/fullsize/114.jpg', 'images/bruine/fullsize/115.jpg', 'images/bruine/fullsize/116.jpg', 'images/bruine/fullsize/117.jpg', 'images/bruine/fullsize/12.jpg', 'images/bruine/fullsize/13.jpg', 'images/bruine/fullsize/14.jpg', 'images/bruine/fullsize/15.jpg', 'images/bruine/fullsize/16.jpg', 'images/bruine/fullsize/17.jpg', 'images/bruine/fullsize/18.jpg', 'images/bruine/fullsize/19.jpg', 'images/bruine/fullsize/2.jpg', 'images/bruine/fullsize/20.jpg', 'images/bruine/fullsize/21.jpg', 'images/bruine/fullsize/22.jpg', 'images/bruine/fullsize/23.jpg', 'images/bruine/fullsize/24.jpg', 'images/bruine/fullsize/25.jpg', 'images/bruine/fullsize/26.jpg', 'images/bruine/fullsize/27.jpg', 'images/bruine/fullsize/29.jpg', 'images/bruine/fullsize/3.jpg', 'images/bruine/fullsize/30.jpg', 'images/bruine/fullsize/31.jpg', 'images/bruine/fullsize/32.jpg', 'images/bruine/fullsize/33.jpg', 'images/bruine/fullsize/34.jpg', 'images/bruine/fullsize/36.jpg', 'images/bruine/fullsize/37.jpg', 'images/bruine/fullsize/38.jpg', 'images/bruine/fullsize/39.jpg', 'images/bruine/fullsize/4.jpg', 'images/bruine/fullsize/40.jpg', 'images/bruine/fullsize/41.jpg', 'images/bruine/fullsize/42.jpg', 'images/bruine/fullsize/43.jpg', 'images/bruine/fullsize/44.jpg', 'images/bruine/fullsize/45.jpg', 'images/bruine/fullsize/46.jpg', 'images/bruine/fullsize/47.jpg', 'images/bruine/fullsize/48.jpg', 'images/bruine/fullsize/49.jpg', 'images/bruine/fullsize/5.jpg', 'images/bruine/fullsize/50.jpg', 'images/bruine/fullsize/51.jpg', 'images/bruine/fullsize/54.jpg', 'images/bruine/fullsize/55.jpg', 'images/bruine/fullsize/56.jpg', 'images/bruine/fullsize/57.jpg', 'images/bruine/fullsize/58.jpg', 'images/bruine/fullsize/59.jpg', 'images/bruine/fullsize/6.jpg', 'images/bruine/fullsize/60.jpg', 'images/bruine/fullsize/61.jpg', 'images/bruine/fullsize/62.jpg', 'images/bruine/fullsize/63.jpg', 'images/bruine/fullsize/64.jpg', 'images/bruine/fullsize/65.jpg', 'images/bruine/fullsize/66.jpg', 'images/bruine/fullsize/67.jpg', 'images/bruine/fullsize/68.jpg', 'images/bruine/fullsize/69.jpg', 'images/bruine/fullsize/7.jpg', 'images/bruine/fullsize/70.jpg', 'images/bruine/fullsize/71.jpg', 'images/bruine/fullsize/72.jpg', 'images/bruine/fullsize/73.jpg', 'images/bruine/fullsize/74.jpg', 'images/bruine/fullsize/75.jpg', 'images/bruine/fullsize/76.jpg', 'images/bruine/fullsize/77.jpg', 'images/bruine/fullsize/78.jpg', 'images/bruine/fullsize/8.jpg', 'images/bruine/fullsize/80.jpg', 'images/bruine/fullsize/81.jpg', 'images/bruine/fullsize/82.jpg', 'images/bruine/fullsize/83.jpg', 'images/bruine/fullsize/84.jpg', 'images/bruine/fullsize/85.jpg', 'images/bruine/fullsize/86.jpg', 'images/bruine/fullsize/87.jpg', 'images/bruine/fullsize/88.jpg', 'images/bruine/fullsize/89.jpg', 'images/bruine/fullsize/9.jpg', 'images/bruine/fullsize/90.jpg', 'images/bruine/fullsize/91.jpg', 'images/bruine/fullsize/92.jpg', 'images/bruine/fullsize/93.jpg', 'images/bruine/fullsize/94.jpg', 'images/bruine/fullsize/95.jpg', 'images/bruine/fullsize/96.jpg', 'images/bruine/fullsize/97.jpg', 'images/bruine/fullsize/98.jpg', 'images/bruine/fullsize/99.jpg',
                 'images/fullsize/Galerie-1.jpg', 'images/fullsize/Galerie-10.jpg', 'images/fullsize/Galerie-100.jpg', 'images/fullsize/Galerie-101.jpg', 'images/fullsize/Galerie-102.jpg', 'images/fullsize/Galerie-103.jpg', 'images/fullsize/Galerie-104.jpg', 'images/fullsize/Galerie-105.jpg', 'images/fullsize/Galerie-106.jpg', 'images/fullsize/Galerie-107.jpg', 'images/fullsize/Galerie-108.jpg', 'images/fullsize/Galerie-109.jpg', 'images/fullsize/Galerie-11.jpg', 'images/fullsize/Galerie-110.jpg', 'images/fullsize/Galerie-111.jpg', 'images/fullsize/Galerie-112.jpg', 'images/fullsize/Galerie-113.jpg', 'images/fullsize/Galerie-114.jpg', 'images/fullsize/Galerie-115.jpg', 'images/fullsize/Galerie-116.jpg', 'images/fullsize/Galerie-117.jpg', 'images/fullsize/Galerie-118.jpg', 'images/fullsize/Galerie-119.jpg', 'images/fullsize/Galerie-12.jpg', 'images/fullsize/Galerie-120.jpg', 'images/fullsize/Galerie-121.jpg', 'images/fullsize/Galerie-122.jpg', 'images/fullsize/Galerie-123.jpg', 'images/fullsize/Galerie-124.jpg', 'images/fullsize/Galerie-125.jpg', 'images/fullsize/Galerie-126.jpg', 'images/fullsize/Galerie-127.jpg', 'images/fullsize/Galerie-128.jpg', 'images/fullsize/Galerie-129.jpg', 'images/fullsize/Galerie-13.jpg', 'images/fullsize/Galerie-130.jpg', 'images/fullsize/Galerie-131.jpg', 'images/fullsize/Galerie-132.jpg', 'images/fullsize/Galerie-133.jpg', 'images/fullsize/Galerie-134.jpg', 'images/fullsize/Galerie-135.jpg', 'images/fullsize/Galerie-136.jpg', 'images/fullsize/Galerie-137.jpg', 'images/fullsize/Galerie-138.jpg', 'images/fullsize/Galerie-139.jpg', 'images/fullsize/Galerie-14.jpg', 'images/fullsize/Galerie-140.jpg', 'images/fullsize/Galerie-141.jpg', 'images/fullsize/Galerie-142.jpg', 'images/fullsize/Galerie-143.jpg', 'images/fullsize/Galerie-144.jpg', 'images/fullsize/Galerie-145.jpg', 'images/fullsize/Galerie-15.jpg', 'images/fullsize/Galerie-16.jpg', 'images/fullsize/Galerie-17.jpg', 'images/fullsize/Galerie-18.jpg', 'images/fullsize/Galerie-19.jpg', 'images/fullsize/Galerie-2.jpg', 'images/fullsize/Galerie-20.jpg', 'images/fullsize/Galerie-21.jpg', 'images/fullsize/Galerie-22.jpg', 'images/fullsize/Galerie-23.jpg', 'images/fullsize/Galerie-24.jpg', 'images/fullsize/Galerie-25.jpg', 'images/fullsize/Galerie-26.jpg', 'images/fullsize/Galerie-27.jpg', 'images/fullsize/Galerie-28.jpg', 'images/fullsize/Galerie-29.jpg', 'images/fullsize/Galerie-3.jpg', 'images/fullsize/Galerie-30.jpg', 'images/fullsize/Galerie-31.jpg', 'images/fullsize/Galerie-32.jpg', 'images/fullsize/Galerie-33.jpg', 'images/fullsize/Galerie-34.jpg', 'images/fullsize/Galerie-35.jpg', 'images/fullsize/Galerie-36.jpg', 'images/fullsize/Galerie-37.jpg', 'images/fullsize/Galerie-38.jpg', 'images/fullsize/Galerie-39.jpg', 'images/fullsize/Galerie-4.jpg', 'images/fullsize/Galerie-40.jpg', 'images/fullsize/Galerie-41.jpg', 'images/fullsize/Galerie-42.jpg', 'images/fullsize/Galerie-43.jpg', 'images/fullsize/Galerie-44.jpg', 'images/fullsize/Galerie-45.jpg', 'images/fullsize/Galerie-46.jpg', 'images/fullsize/Galerie-47.jpg', 'images/fullsize/Galerie-48.jpg', 'images/fullsize/Galerie-49.jpg', 'images/fullsize/Galerie-5.jpg', 'images/fullsize/Galerie-50.jpg', 'images/fullsize/Galerie-51.jpg', 'images/fullsize/Galerie-52.jpg', 'images/fullsize/Galerie-53.jpg', 'images/fullsize/Galerie-54.jpg', 'images/fullsize/Galerie-55.jpg', 'images/fullsize/Galerie-56.jpg', 'images/fullsize/Galerie-57.jpg', 'images/fullsize/Galerie-58.jpg', 'images/fullsize/Galerie-59.jpg', 'images/fullsize/Galerie-6.jpg', 'images/fullsize/Galerie-60.jpg', 'images/fullsize/Galerie-61.jpg', 'images/fullsize/Galerie-62.jpg', 'images/fullsize/Galerie-63.jpg', 'images/fullsize/Galerie-64.jpg', 'images/fullsize/Galerie-65.jpg', 'images/fullsize/Galerie-66.jpg', 'images/fullsize/Galerie-67.jpg', 'images/fullsize/Galerie-68.jpg', 'images/fullsize/Galerie-69.jpg', 'images/fullsize/Galerie-7.jpg', 'images/fullsize/Galerie-70.jpg', 'images/fullsize/Galerie-71.jpg', 'images/fullsize/Galerie-72.jpg', 'images/fullsize/Galerie-73.jpg', 'images/fullsize/Galerie-74.jpg', 'images/fullsize/Galerie-75.jpg', 'images/fullsize/Galerie-76.jpg', 'images/fullsize/Galerie-77.jpg', 'images/fullsize/Galerie-78.jpg', 'images/fullsize/Galerie-79.jpg', 'images/fullsize/Galerie-8.jpg', 'images/fullsize/Galerie-80.jpg', 'images/fullsize/Galerie-81.jpg', 'images/fullsize/Galerie-82.jpg', 'images/fullsize/Galerie-83.jpg', 'images/fullsize/Galerie-84.jpg', 'images/fullsize/Galerie-85.jpg', 'images/fullsize/Galerie-86.jpg', 'images/fullsize/Galerie-87.jpg', 'images/fullsize/Galerie-88.jpg', 'images/fullsize/Galerie-89.jpg', 'images/fullsize/Galerie-9.jpg', 'images/fullsize/Galerie-90.jpg', 'images/fullsize/Galerie-91.jpg', 'images/fullsize/Galerie-92.jpg', 'images/fullsize/Galerie-93.jpg', 'images/fullsize/Galerie-94.jpg', 'images/fullsize/Galerie-95.jpg', 'images/fullsize/Galerie-96.jpg', 'images/fullsize/Galerie-97.jpg', 'images/fullsize/Galerie-98.jpg', 'images/fullsize/Galerie-99.jpg',
                 'images/passage/fullsize/Photos Passage-1.jpg', 'images/passage/fullsize/Photos Passage-10.jpg', 'images/passage/fullsize/Photos Passage-11.jpg', 'images/passage/fullsize/Photos Passage-12.jpg', 'images/passage/fullsize/Photos Passage-13.jpg', 'images/passage/fullsize/Photos Passage-14.jpg', 'images/passage/fullsize/Photos Passage-2.jpg', 'images/passage/fullsize/Photos Passage-3.jpg', 'images/passage/fullsize/Photos Passage-4.jpg', 'images/passage/fullsize/Photos Passage-5.jpg', 'images/passage/fullsize/Photos Passage-6.jpg', 'images/passage/fullsize/Photos Passage-7.jpg', 'images/passage/fullsize/Photos Passage-8.jpg', 'images/passage/fullsize/Photos Passage-9.jpg'
@@ -1061,23 +1078,15 @@
                 currentYearSpan.textContent = new Date().getFullYear();
             }
 
-            // --- EASTER EGG FUNCTION ---
-            function showEasterEggImage(imageUrl) {
-                if (!imageViewerOverlay || !fullscreenImage) return;
+            // --- RANDOM IMAGE VIEWER FUNCTIONS (from about.html) ---
+            function loadRandomImageViewerImage(imageUrl) {
+                if (!fullscreenImage || !imageViewerSpinner) return;
 
-                imageViewerOverlay.dataset.mode = 'random'; // Set mode to random
-                imageViewerOverlay.classList.add('active');
-                if (document.body) document.body.style.overflow = 'hidden';
-                openFullscreen(imageViewerOverlay);
-
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-                if (viewerPrevButton) viewerPrevButton.style.display = 'none'; // Hide prev nav
-                if (viewerNextButton) viewerNextButton.style.display = 'flex'; // Show next nav
-                
+                imageViewerSpinner.style.display = 'block';
                 fullscreenImage.style.transition = 'none';
                 fullscreenImage.style.opacity = 0;
                 fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                fullscreenImage.alt = "Loading secret image...";
+                fullscreenImage.alt = "Loading random image...";
 
                 const tempImg = new Image();
                 tempImg.onload = () => {
@@ -1087,18 +1096,34 @@
                         fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
                         fullscreenImage.style.opacity = 1;
                     });
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    imageViewerSpinner.style.display = 'none';
                 };
                 tempImg.onerror = () => {
-                    console.error("Error loading easter egg image:", imageUrl);
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    closeImageViewer(); // Close if the image fails to load
+                    console.error("Error loading image in viewer:", imageUrl);
+                    imageViewerSpinner.style.display = 'none';
+                    fullscreenImage.alt = "Error loading image.";
+                    closeImageViewer();
                 };
                 tempImg.src = imageUrl;
             }
-            
+
+            function openRandomImageViewer() {
+                if (!imageViewerOverlay || !fullscreenImage || randomImageViewerPaths.length === 0) return;
+
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden';
+                openFullscreen(imageViewerOverlay);
+                imageViewerOverlay.dataset.mode = 'random'; 
+
+                updateNavButtons();
+
+                const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                const randomImageUrl = randomImageViewerPaths[randomIndex];
+                loadRandomImageViewerImage(randomImageUrl);
+            }
+
             function showNextRandomImage() {
-                if (easterEggImagePaths.length === 0) return;
+                if (randomImageViewerPaths.length === 0) return;
 
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
                 fullscreenImage.style.transition = 'opacity 0.3s ease-in-out';
@@ -1110,28 +1135,12 @@
                         return; 
                     }
 
-                    const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
-                    const imageUrl = easterEggImagePaths[randomIndex];
-                    const altText = "A special random image.";
-
-                    const tempImg = new Image();
-                    tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl;
-                        fullscreenImage.alt = altText;
-                        requestAnimationFrame(() => {
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
-                            fullscreenImage.style.opacity = 1;
-                        });
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    };
-                    tempImg.onerror = () => {
-                        console.error("Error loading image:", imageUrl);
-                        fullscreenImage.alt = "Error loading image";
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    };
-                    tempImg.src = imageUrl;
+                    const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                    const imageUrl = randomImageViewerPaths[randomIndex];
+                    loadRandomImageViewerImage(imageUrl);
                 }, 300);
             }
+            
 
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
@@ -1149,14 +1158,8 @@
                 });
             }
 
-            if (siteLogo) {
-                siteLogo.addEventListener('click', () => {
-                    if (easterEggImagePaths.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
-                        const randomImageUrl = easterEggImagePaths[randomIndex];
-                        showEasterEggImage(randomImageUrl);
-                    }
-                });
+            if (exploreButton) { // ADDED
+                exploreButton.addEventListener('click', openRandomImageViewer);
             }
 
             const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
@@ -1392,17 +1395,21 @@
             }
 
             function updateNavButtons() {
-                 if (!viewerPrevButton || !viewerNextButton || viewerImageSources.length <= 1) {
-                      if(viewerPrevButton) viewerPrevButton.style.display = 'none';
-                      if(viewerNextButton) viewerNextButton.style.display = 'none';
-                      return;
-                 }
-                 if (imageViewerOverlay.dataset.mode === 'random') {
-                    if(viewerPrevButton) viewerPrevButton.style.display = 'none';
-                    if(viewerNextButton) viewerNextButton.style.display = 'flex';
+                 if (!viewerPrevButton || !viewerNextButton) return;
+                 
+                 const mode = imageViewerOverlay.dataset.mode;
+                 
+                 if (mode === 'random') {
+                    viewerPrevButton.style.display = 'none';
+                    viewerNextButton.style.display = 'flex';
                  } else { // gallery mode
-                    if(viewerPrevButton) viewerPrevButton.style.display = 'flex';
-                    if(viewerNextButton) viewerNextButton.style.display = 'flex';
+                    if (viewerImageSources.length <= 1) {
+                        viewerPrevButton.style.display = 'none';
+                        viewerNextButton.style.display = 'none';
+                    } else {
+                        viewerPrevButton.style.display = 'flex';
+                        viewerNextButton.style.display = 'flex';
+                    }
                  }
             }
 

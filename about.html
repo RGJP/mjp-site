@@ -293,7 +293,9 @@
             transition: color 0.2s ease;
             text-transform: uppercase;
             line-height: inherit;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             min-width: auto;
         }
 
@@ -303,7 +305,7 @@
             width: 0;
             height: 2px;
             display: block;
-            margin-top: 5px;
+            bottom: 0; /* MODIFIED: Positioned from bottom to prevent clipping */
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -329,29 +331,12 @@
         }
 
         /* Shuffle icon specific styles */
-        .shuffle-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--nav-link-color);
-            transition: color 0.2s ease;
-            font-size: 1.5rem;
-            padding: 0.5rem;
+        .shuffle-icon {
+            width: 1.1em;
+            height: 1.1em;
+            object-fit: contain;
         }
 
-        .shuffle-button:hover {
-            color: var(--nav-link-hover-color);
-        }
-        
-    .shuffle-icon {
-    width: clamp(1.8rem, 2vw, 2.5rem);
-    height: clamp(1.8rem, 2vw, 2.5rem);
-    object-fit: contain;
-    transition: opacity 0.3s ease;
-}
         /* Hide one image based on theme */
         html[data-theme="light"] .shuffle-icon.dark-theme-image,
         html[data-theme="dark"] .shuffle-icon.light-theme-image {
@@ -692,11 +677,11 @@
             </nav>
             
             <div class="controls">
-                <button id="shuffleButton" class="shuffle-button" aria-label="Shuffle and view random photo">
-                    <img src="images/shufflelighttheme.png" alt="Shuffle icon" class="shuffle-icon light-theme-image">
-                    <img src="images/shuffledarktheme.png" alt="Shuffle icon" class="shuffle-icon dark-theme-image">
+                <button id="exploreButton" class="control-button" aria-label="Explore random photos">
+                    <img src="images/shufflelighttheme.png" alt="" class="shuffle-icon light-theme-image">
+                    <img src="images/shuffledarktheme.png" alt="" class="shuffle-icon dark-theme-image">
+                    <span data-lang-key="exploreText">Explore</span>
                 </button>
-                
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
                     🌓 <span data-lang-key="themeToggleDark">DARK MODE</span>
                     <span data-lang-key="themeToggleLight" style="display:none;">LIGHT MODE</span>
@@ -836,9 +821,10 @@
                     projectPassage: "PASSAGE",
                     navAbout: "ABOUT",
                     navContact: "CONTACT",
-                    themeToggleDark: "DARK THEME",
-                    themeToggleLight: "LIGHT THEME",
-                    languageToggleText: "🌐 FRANÇAIS",
+                    exploreText: "Explore",
+                    themeToggleDark: "THEME",
+                    themeToggleLight: "THEME",
+                    languageToggleText: "🌐 FR/EN",
                     footerRights: "All rights reserved.",
                     aboutHeading: "About the Artist",
                     biographyTitle: "Biography",
@@ -863,9 +849,10 @@
                     projectPassage: "PASSAGE",
                     navAbout: "À PROPOS",
                     navContact: "CONTACT",
-                    themeToggleDark: "THÈME SOMBRE",
-                    themeToggleLight: "THÈME CLAIR",
-                    languageToggleText: "🌐 ENGLISH",
+                    exploreText: "Explorer",
+                    themeToggleDark: "THÈME",
+                    themeToggleLight: "THÈME",
+                    languageToggleText: "🌐 FR/EN",
                     footerRights: "Tous droits réservés.",
                     aboutHeading: "À Propos de l'Artiste",
                     biographyTitle: "Biographie",
@@ -904,13 +891,11 @@
             const viewerNextButton = document.getElementById('viewerNextButton');
             const imageViewerSpinner = document.getElementById('imageViewerSpinner');
             const siteLogo = document.querySelector('.logo');
+            const exploreButton = document.getElementById('exploreButton');
             
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light'; 
             
-            // New shuffle button element
-            const shuffleButton = document.getElementById('shuffleButton');
-
             // --- HELPER FUNCTIONS FOR FULLSCREEN ---
             function openFullscreen(element) {
                 if (element.requestFullscreen) {
@@ -1084,17 +1069,16 @@
                 });
             }
 
-            // The random photo viewer is now triggered by the shuffle button, not the site logo.
-            if (shuffleButton) {
-                shuffleButton.addEventListener('click', openRandomImageViewer);
+            if (exploreButton) {
+                exploreButton.addEventListener('click', openRandomImageViewer);
             }
             
             if (viewerNextButton) {
                 viewerNextButton.addEventListener('click', () => {
-                     const mode = imageViewerOverlay.dataset.mode;
-                     if (mode === 'random') {
-                         showNextRandomImage();
-                     }
+                        const mode = imageViewerOverlay.dataset.mode;
+                        if (mode === 'random') {
+                            showNextRandomImage();
+                        }
                 });
             }
             
@@ -1167,7 +1151,7 @@
                     if (e.key === 'Escape') closeImageViewer();
                     const mode = imageViewerOverlay.dataset.mode;
                     if (mode === 'random' && e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
-                         showNextRandomImage();
+                        showNextRandomImage();
                     }
                 }
             });

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBH50G5K56"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -61,11 +60,11 @@
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #ffffff;
             --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
-            --loader-color: #007bff;
+            --loader-color: #333; /* For spinner */
             --base-font-size: 16px;
             --base-spacing: 1rem;
 
-            /* Email Button Colors for Light Theme (Dark button on light background) - ADDED FROM CONTACT.HTML */
+            /* Email Button Colors for Light Theme (Dark button on light background) */
             --email-button-bg: #1a1a1a; /* Black */
             --email-button-text: #f4f7f6; /* White */
             --email-button-hover-bg: #333333; /* Darker grey on hover */
@@ -83,9 +82,9 @@
             --button-hover-bg-color: #5a5a5a;
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #e0e0e0;
-            --loader-color: #58a6ff;
+            --loader-color: #f4f7f6; /* For spinner */
 
-            /* Email Button Colors for Dark Theme (Light button on dark background) - ADDED FROM CONTACT.HTML */
+            /* Email Button Colors for Dark Theme (Light button on dark background) */
             --email-button-bg: #f4f7f6; /* White */
             --email-button-text: #1a1a1a; /* Black */
             --email-button-hover-bg: #c7c7c7; /* Lighter grey on hover */
@@ -164,12 +163,6 @@
             font-weight: 100;
             color: var(--text-color);
             white-space: nowrap;
-            /* MODIFIED: Added cursor and user-select for easter egg */
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
         }
 
         .main-nav ul {
@@ -226,7 +219,8 @@
             }
         }
 
-        .main-nav a:hover {
+        .main-nav a:hover,
+        .main-nav .dropdown > a:hover {
             color: var(--nav-link-hover-color);
             text-decoration: none;
         }
@@ -281,17 +275,14 @@
             display: none; 
         }
 
-        /* Added for active dropdown item underline */
         .main-nav .dropdown-menu li a.active {
-            color: var(--text-color); /* Match main active link color */
-            font-weight: 700;       /* Match main active link font-weight */
+            color: var(--text-color);
+            font-weight: 700;
             text-decoration-line: underline;
             text-decoration-color: var(--text-color);
-            text-decoration-thickness: 2px; /* Match main active link underline thickness */
-            text-underline-offset: calc(var(--base-spacing) * 0.5);  /* Adjust for pleasant spacing below text, matches main nav */
-                                         /* This also helps it look distinct from a simple hover underline */
+            text-decoration-thickness: 2px;
+            text-underline-offset: calc(var(--base-spacing) * 0.5);
         }
-
 
         .controls {
             display: flex;
@@ -311,7 +302,9 @@
             transition: color 0.2s ease;
             text-transform: uppercase;
             line-height: inherit;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             min-width: auto;
         }
 
@@ -321,7 +314,7 @@
             width: 0;
             height: 2px;
             display: block;
-            bottom: 0px;
+            bottom: 0;
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -346,7 +339,21 @@
             color: var(--nav-link-color);
         }
 
-        /* Email Button Styles - MODIFIED */
+        /* Shuffle icon specific styles */
+        .shuffle-icon {
+            width: 1.1em;
+            height: 1.1em;
+            object-fit: contain;
+        }
+
+        /* Hide one image based on theme */
+        html[data-theme="light"] .shuffle-icon.dark-theme-image,
+        html[data-theme="dark"] .shuffle-icon.light-theme-image {
+            display: none;
+        }
+
+
+        /* Email Button Styles */
         .email-button {
             background-color: var(--email-button-bg);
             color: var(--email-button-text);
@@ -357,22 +364,22 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            display: inline-flex; /* Use inline-flex to keep button inline but allow flex properties */
-            flex-direction: column; /* Stack children (text and price) vertically */
-            align-items: center;    /* Center items horizontally */
-            justify-content: center; /* Center items vertically */
-            text-align: center;      /* Ensure text within spans is centered */
-            gap: 0.2em; /* Small gap between the two lines of text */
-            text-decoration: none; /* Remove underline for anchor tag acting as button */
-            line-height: 1.2; /* Adjust line height for better spacing of lines */
+            display: inline-flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 0.2em;
+            text-decoration: none;
+            line-height: 1.2;
         }
 
         .email-button .button-main-text {
-            display: block; /* Ensures it takes its own line */
+            display: block;
         }
 
         .email-button .button-price-text {
-            display: block; /* Ensures it takes its own line */
+            display: block;
           font-size: clamp(1rem, 1.8vw, 1.2rem);
               font-weight: 600;
         }
@@ -380,14 +387,12 @@
         .email-button:hover {
             background-color: var(--email-button-hover-bg);
             transform: translateY(-2px);
-            text-decoration: none; /* Keep no underline on hover */
+            text-decoration: none;
         }
 
         .email-button:active {
             transform: translateY(0);
         }
-        /* END OF MODIFIED EMAIL BUTTON STYLES */
-
 
         /* Image Gallery (reused for book images) */
         .image-gallery {
@@ -417,13 +422,13 @@
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out; /* Smoother transition */
+            transition: opacity 0.5s ease-in-out;
         }
         .gallery-item img.loaded {
             opacity: 1;
         }
 
-        /* Fullscreen Image Viewer (reused) */
+        /* Fullscreen Image Viewer */
         .image-viewer-overlay {
             position: fixed;
             top: 0;
@@ -440,7 +445,6 @@
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
         }
         
-        /* NEW: When in fullscreen, ensure the background is set directly on the element */
         .image-viewer-overlay:fullscreen {
              background-color: var(--image-viewer-bg);
         }
@@ -504,7 +508,7 @@
             border: none;
             font-size: clamp(1.8rem, 3vw, 2.5rem);
             cursor: pointer;
-            padding: 0rem; /* was: calc(var(--base-spacing) * 0.5); */
+            padding: 0rem;
             transition: background-color 0.2s ease, color 0.2s ease;
             z-index: 2001;
             border-radius: 50%;
@@ -517,22 +521,22 @@
         }
         .viewer-close-button:hover,
         .viewer-nav-button:hover {
-            background-color: transparent; /* was: var(--image-viewer-nav-hover-bg); */
+            background-color: transparent;
         }
 
         .viewer-close-button {
-            top: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
-            right: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
+            top: 0rem;
+            right: 0rem;
         }
 
         .viewer-nav-button.prev {
-            left: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
+            left: 0rem;
             top: 50%;
             transform: translateY(-50%);
         }
 
         .viewer-nav-button.next {
-            right: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
+            right: 0.5rem;
             top: 50%;
             transform: translateY(-50%);
         }
@@ -590,7 +594,7 @@
             margin: 0 auto; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             display: block; 
-            cursor: pointer; /* NEW: Make book covers clickable */
+            cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -612,7 +616,6 @@
             color: var(--text-color);
         }
          .book-text-container p {
-            /* Updated to match about.html .artist-bio p */
             margin-bottom: var(--base-spacing);
             line-height: 1.75;
             text-align: justify;
@@ -747,12 +750,16 @@
             </nav>
             
             <div class="controls">
+                <button id="exploreButton" class="control-button" aria-label="Explore random photos">
+                    <img src="images/shufflelighttheme.png" alt="" class="shuffle-icon light-theme-image">
+                    <img src="images/shuffledarktheme.png" alt="" class="shuffle-icon dark-theme-image">
+                    <span data-lang-key="exploreText">Explore</span>
+                </button>
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
-                    <span data-lang-key="themeToggleDark">Dark Mode</span>
-                    <span data-lang-key="themeToggleLight" style="display:none;">Light Mode</span>
+                    🌓 <span data-lang-key="themeToggle">THEME</span>
                 </button>
                 <button id="languageToggle" class="control-button" aria-label="Toggle language">
-                    🌐 English
+                    <span data-lang-key="languageToggleText">🌐 FR/EN</span>
                 </button>
             </div>
         </div>
@@ -821,42 +828,32 @@
 
     <script>
         // --- START OF UNIFIED ACTIVE LINK SCRIPT (Place before DOMContentLoaded) ---
-
-        // Part 1: Handle top-level navigation links
         document.querySelectorAll('.main-nav > ul > li > a').forEach(link => {
             const currentPath = window.location.pathname;
-            const linkHref = link.getAttribute('href'); // Standardized variable name
+            const linkHref = link.getAttribute('href'); 
 
-            link.classList.remove('active'); // Crucial: Reset active class for ALL top-level links first
+            link.classList.remove('active'); 
 
-            if (linkHref && linkHref !== '#') { // Process only actual navigation links
+            if (linkHref && linkHref !== '#') { 
                 let isActive = false;
-                // Check if currentPath ends with linkHref (e.g. /about.html ends with about.html)
                 if (currentPath.endsWith(linkHref)) {
                     isActive = true;
                 }
-                // Special case for the homepage (index.html)
-                // It can be accessed as '/', or ends with '/index.html'.
                 if ((currentPath.endsWith('/') || currentPath.endsWith('/index.html')) && linkHref === 'index.html') {
                     isActive = true;
                 }
-
                 if (isActive) {
                     link.classList.add('active');
                 }
             }
         });
-
-        // Part 2: Handle dropdown sub-links and activate their parent
         document.querySelectorAll('.main-nav .dropdown-menu a').forEach(subLink => {
             const currentPath = window.location.pathname;
             const subLinkHrefAttribute = subLink.getAttribute('href');
 
             if (subLinkHrefAttribute) {
                 const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
-
                 let normalizedCurrentPath = currentPath;
-                // Normalize currentPath: remove trailing slash if not root
                 if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
                     normalizedCurrentPath = normalizedCurrentPath.slice(0, -1);
                 }
@@ -864,13 +861,12 @@
 
                 if (currentPathLastSegment === subLinkBaseName || currentPathLastSegment === subLinkHrefAttribute) {
                     subLink.classList.add('active');
-
                     const parentDropdownToggle = subLink.closest('.dropdown')?.querySelector(':scope > a');
                     if (parentDropdownToggle) {
                         parentDropdownToggle.classList.add('active');
                     }
                 } else {
-                    subLink.classList.remove('active'); // Ensure sublink is not active if not current
+                    subLink.classList.remove('active');
                 }
             }
         });
@@ -886,24 +882,21 @@
                 'Photos Passage-10.jpg', 'Photos Passage-11.jpg', 'Photos Passage-12.jpg',
                 'Photos Passage-13.jpg', 'Photos Passage-14.jpg'
             ];
-            const thumbPath = 'images/passage/thumbs/'; // Path for thumbnails
-            const fullsizePath = 'images/passage/fullsize/'; // Path for full-size images
+            const thumbPath = 'images/passage/thumbs/';
+            const fullsizePath = 'images/passage/fullsize/';
 
-            // NEW: Create a unified list of all images for the viewer
             const viewerImageSources = [
                 'images/passage/passage.webp',
                 'images/passage/passageF.webp',
                 ...imageFilenames.map(name => fullsizePath + name)
             ];
 
-            // NEW: EASTER EGG CONFIG
-            const easterEggImagePaths = [
+            const randomImageViewerPaths = [
                 'images/bruine/fullsize/1.jpg', 'images/bruine/fullsize/10.jpg', 'images/bruine/fullsize/100.jpg', 'images/bruine/fullsize/101.jpg', 'images/bruine/fullsize/102.jpg', 'images/bruine/fullsize/103.jpg', 'images/bruine/fullsize/104.jpg', 'images/bruine/fullsize/105.jpg', 'images/bruine/fullsize/106.jpg', 'images/bruine/fullsize/107.jpg', 'images/bruine/fullsize/108.jpg', 'images/bruine/fullsize/109.jpg', 'images/bruine/fullsize/11.jpg', 'images/bruine/fullsize/110.jpg', 'images/bruine/fullsize/111.jpg', 'images/bruine/fullsize/112.jpg', 'images/bruine/fullsize/113.jpg', 'images/bruine/fullsize/114.jpg', 'images/bruine/fullsize/115.jpg', 'images/bruine/fullsize/116.jpg', 'images/bruine/fullsize/117.jpg', 'images/bruine/fullsize/12.jpg', 'images/bruine/fullsize/13.jpg', 'images/bruine/fullsize/14.jpg', 'images/bruine/fullsize/15.jpg', 'images/bruine/fullsize/16.jpg', 'images/bruine/fullsize/17.jpg', 'images/bruine/fullsize/18.jpg', 'images/bruine/fullsize/19.jpg', 'images/bruine/fullsize/2.jpg', 'images/bruine/fullsize/20.jpg', 'images/bruine/fullsize/21.jpg', 'images/bruine/fullsize/22.jpg', 'images/bruine/fullsize/23.jpg', 'images/bruine/fullsize/24.jpg', 'images/bruine/fullsize/25.jpg', 'images/bruine/fullsize/26.jpg', 'images/bruine/fullsize/27.jpg', 'images/bruine/fullsize/29.jpg', 'images/bruine/fullsize/3.jpg', 'images/bruine/fullsize/30.jpg', 'images/bruine/fullsize/31.jpg', 'images/bruine/fullsize/32.jpg', 'images/bruine/fullsize/33.jpg', 'images/bruine/fullsize/34.jpg', 'images/bruine/fullsize/36.jpg', 'images/bruine/fullsize/37.jpg', 'images/bruine/fullsize/38.jpg', 'images/bruine/fullsize/39.jpg', 'images/bruine/fullsize/4.jpg', 'images/bruine/fullsize/40.jpg', 'images/bruine/fullsize/41.jpg', 'images/bruine/fullsize/42.jpg', 'images/bruine/fullsize/43.jpg', 'images/bruine/fullsize/44.jpg', 'images/bruine/fullsize/45.jpg', 'images/bruine/fullsize/46.jpg', 'images/bruine/fullsize/47.jpg', 'images/bruine/fullsize/48.jpg', 'images/bruine/fullsize/49.jpg', 'images/bruine/fullsize/5.jpg', 'images/bruine/fullsize/50.jpg', 'images/bruine/fullsize/51.jpg', 'images/bruine/fullsize/54.jpg', 'images/bruine/fullsize/55.jpg', 'images/bruine/fullsize/56.jpg', 'images/bruine/fullsize/57.jpg', 'images/bruine/fullsize/58.jpg', 'images/bruine/fullsize/59.jpg', 'images/bruine/fullsize/6.jpg', 'images/bruine/fullsize/60.jpg', 'images/bruine/fullsize/61.jpg', 'images/bruine/fullsize/62.jpg', 'images/bruine/fullsize/63.jpg', 'images/bruine/fullsize/64.jpg', 'images/bruine/fullsize/65.jpg', 'images/bruine/fullsize/66.jpg', 'images/bruine/fullsize/67.jpg', 'images/bruine/fullsize/68.jpg', 'images/bruine/fullsize/69.jpg', 'images/bruine/fullsize/7.jpg', 'images/bruine/fullsize/70.jpg', 'images/bruine/fullsize/71.jpg', 'images/bruine/fullsize/72.jpg', 'images/bruine/fullsize/73.jpg', 'images/bruine/fullsize/74.jpg', 'images/bruine/fullsize/75.jpg', 'images/bruine/fullsize/76.jpg', 'images/bruine/fullsize/77.jpg', 'images/bruine/fullsize/78.jpg', 'images/bruine/fullsize/8.jpg', 'images/bruine/fullsize/80.jpg', 'images/bruine/fullsize/81.jpg', 'images/bruine/fullsize/82.jpg', 'images/bruine/fullsize/83.jpg', 'images/bruine/fullsize/84.jpg', 'images/bruine/fullsize/85.jpg', 'images/bruine/fullsize/86.jpg', 'images/bruine/fullsize/87.jpg', 'images/bruine/fullsize/88.jpg', 'images/bruine/fullsize/89.jpg', 'images/bruine/fullsize/9.jpg', 'images/bruine/fullsize/90.jpg', 'images/bruine/fullsize/91.jpg', 'images/bruine/fullsize/92.jpg', 'images/bruine/fullsize/93.jpg', 'images/bruine/fullsize/94.jpg', 'images/bruine/fullsize/95.jpg', 'images/bruine/fullsize/96.jpg', 'images/bruine/fullsize/97.jpg', 'images/bruine/fullsize/98.jpg', 'images/bruine/fullsize/99.jpg',
                 'images/fullsize/Galerie-1.jpg', 'images/fullsize/Galerie-10.jpg', 'images/fullsize/Galerie-100.jpg', 'images/fullsize/Galerie-101.jpg', 'images/fullsize/Galerie-102.jpg', 'images/fullsize/Galerie-103.jpg', 'images/fullsize/Galerie-104.jpg', 'images/fullsize/Galerie-105.jpg', 'images/fullsize/Galerie-106.jpg', 'images/fullsize/Galerie-107.jpg', 'images/fullsize/Galerie-108.jpg', 'images/fullsize/Galerie-109.jpg', 'images/fullsize/Galerie-11.jpg', 'images/fullsize/Galerie-110.jpg', 'images/fullsize/Galerie-111.jpg', 'images/fullsize/Galerie-112.jpg', 'images/fullsize/Galerie-113.jpg', 'images/fullsize/Galerie-114.jpg', 'images/fullsize/Galerie-115.jpg', 'images/fullsize/Galerie-116.jpg', 'images/fullsize/Galerie-117.jpg', 'images/fullsize/Galerie-118.jpg', 'images/fullsize/Galerie-119.jpg', 'images/fullsize/Galerie-12.jpg', 'images/fullsize/Galerie-120.jpg', 'images/fullsize/Galerie-121.jpg', 'images/fullsize/Galerie-122.jpg', 'images/fullsize/Galerie-123.jpg', 'images/fullsize/Galerie-124.jpg', 'images/fullsize/Galerie-125.jpg', 'images/fullsize/Galerie-126.jpg', 'images/fullsize/Galerie-127.jpg', 'images/fullsize/Galerie-128.jpg', 'images/fullsize/Galerie-129.jpg', 'images/fullsize/Galerie-13.jpg', 'images/fullsize/Galerie-130.jpg', 'images/fullsize/Galerie-131.jpg', 'images/fullsize/Galerie-132.jpg', 'images/fullsize/Galerie-133.jpg', 'images/fullsize/Galerie-134.jpg', 'images/fullsize/Galerie-135.jpg', 'images/fullsize/Galerie-136.jpg', 'images/fullsize/Galerie-137.jpg', 'images/fullsize/Galerie-138.jpg', 'images/fullsize/Galerie-139.jpg', 'images/fullsize/Galerie-14.jpg', 'images/fullsize/Galerie-140.jpg', 'images/fullsize/Galerie-141.jpg', 'images/fullsize/Galerie-142.jpg', 'images/fullsize/Galerie-143.jpg', 'images/fullsize/Galerie-144.jpg', 'images/fullsize/Galerie-145.jpg', 'images/fullsize/Galerie-15.jpg', 'images/fullsize/Galerie-16.jpg', 'images/fullsize/Galerie-17.jpg', 'images/fullsize/Galerie-18.jpg', 'images/fullsize/Galerie-19.jpg', 'images/fullsize/Galerie-2.jpg', 'images/fullsize/Galerie-20.jpg', 'images/fullsize/Galerie-21.jpg', 'images/fullsize/Galerie-22.jpg', 'images/fullsize/Galerie-23.jpg', 'images/fullsize/Galerie-24.jpg', 'images/fullsize/Galerie-25.jpg', 'images/fullsize/Galerie-26.jpg', 'images/fullsize/Galerie-27.jpg', 'images/fullsize/Galerie-28.jpg', 'images/fullsize/Galerie-29.jpg', 'images/fullsize/Galerie-3.jpg', 'images/fullsize/Galerie-30.jpg', 'images/fullsize/Galerie-31.jpg', 'images/fullsize/Galerie-32.jpg', 'images/fullsize/Galerie-33.jpg', 'images/fullsize/Galerie-34.jpg', 'images/fullsize/Galerie-35.jpg', 'images/fullsize/Galerie-36.jpg', 'images/fullsize/Galerie-37.jpg', 'images/fullsize/Galerie-38.jpg', 'images/fullsize/Galerie-39.jpg', 'images/fullsize/Galerie-4.jpg', 'images/fullsize/Galerie-40.jpg', 'images/fullsize/Galerie-41.jpg', 'images/fullsize/Galerie-42.jpg', 'images/fullsize/Galerie-43.jpg', 'images/fullsize/Galerie-44.jpg', 'images/fullsize/Galerie-45.jpg', 'images/fullsize/Galerie-46.jpg', 'images/fullsize/Galerie-47.jpg', 'images/fullsize/Galerie-48.jpg', 'images/fullsize/Galerie-49.jpg', 'images/fullsize/Galerie-5.jpg', 'images/fullsize/Galerie-50.jpg', 'images/fullsize/Galerie-51.jpg', 'images/fullsize/Galerie-52.jpg', 'images/fullsize/Galerie-53.jpg', 'images/fullsize/Galerie-54.jpg', 'images/fullsize/Galerie-55.jpg', 'images/fullsize/Galerie-56.jpg', 'images/fullsize/Galerie-57.jpg', 'images/fullsize/Galerie-58.jpg', 'images/fullsize/Galerie-59.jpg', 'images/fullsize/Galerie-6.jpg', 'images/fullsize/Galerie-60.jpg', 'images/fullsize/Galerie-61.jpg', 'images/fullsize/Galerie-62.jpg', 'images/fullsize/Galerie-63.jpg', 'images/fullsize/Galerie-64.jpg', 'images/fullsize/Galerie-65.jpg', 'images/fullsize/Galerie-66.jpg', 'images/fullsize/Galerie-67.jpg', 'images/fullsize/Galerie-68.jpg', 'images/fullsize/Galerie-69.jpg', 'images/fullsize/Galerie-7.jpg', 'images/fullsize/Galerie-70.jpg', 'images/fullsize/Galerie-71.jpg', 'images/fullsize/Galerie-72.jpg', 'images/fullsize/Galerie-73.jpg', 'images/fullsize/Galerie-74.jpg', 'images/fullsize/Galerie-75.jpg', 'images/fullsize/Galerie-76.jpg', 'images/fullsize/Galerie-77.jpg', 'images/fullsize/Galerie-78.jpg', 'images/fullsize/Galerie-79.jpg', 'images/fullsize/Galerie-8.jpg', 'images/fullsize/Galerie-80.jpg', 'images/fullsize/Galerie-81.jpg', 'images/fullsize/Galerie-82.jpg', 'images/fullsize/Galerie-83.jpg', 'images/fullsize/Galerie-84.jpg', 'images/fullsize/Galerie-85.jpg', 'images/fullsize/Galerie-86.jpg', 'images/fullsize/Galerie-87.jpg', 'images/fullsize/Galerie-88.jpg', 'images/fullsize/Galerie-89.jpg', 'images/fullsize/Galerie-9.jpg', 'images/fullsize/Galerie-90.jpg', 'images/fullsize/Galerie-91.jpg', 'images/fullsize/Galerie-92.jpg', 'images/fullsize/Galerie-93.jpg', 'images/fullsize/Galerie-94.jpg', 'images/fullsize/Galerie-95.jpg', 'images/fullsize/Galerie-96.jpg', 'images/fullsize/Galerie-97.jpg', 'images/fullsize/Galerie-98.jpg', 'images/fullsize/Galerie-99.jpg',
                 'images/passage/fullsize/Photos Passage-1.jpg', 'images/passage/fullsize/Photos Passage-10.jpg', 'images/passage/fullsize/Photos Passage-11.jpg', 'images/passage/fullsize/Photos Passage-12.jpg', 'images/passage/fullsize/Photos Passage-13.jpg', 'images/passage/fullsize/Photos Passage-14.jpg', 'images/passage/fullsize/Photos Passage-2.jpg', 'images/passage/fullsize/Photos Passage-3.jpg', 'images/passage/fullsize/Photos Passage-4.jpg', 'images/passage/fullsize/Photos Passage-5.jpg', 'images/passage/fullsize/Photos Passage-6.jpg', 'images/passage/fullsize/Photos Passage-7.jpg', 'images/passage/fullsize/Photos Passage-8.jpg', 'images/passage/fullsize/Photos Passage-9.jpg'
             ];
 
-            // --- TRANSLATIONS --- MODIFIED
             const translations = {
                 en: {
                     siteTitle: "Marius Jomphe ‧ Photography",
@@ -914,15 +907,15 @@
                     projectPassage: "PASSAGE", 
                     navAbout: "ABOUT",
                     navContact: "CONTACT",
-                    themeToggleDark: "🌓 DARK THEME",
-                    themeToggleLight: "🌓 LIGHT THEME",
-                    languageToggleText: "🌐 FRANÇAIS",
+                    exploreText: "Explore",
+                    themeToggle: "THEME",
+                    languageToggleText: "🌐 FR/EN",
                     footerRights: "All rights reserved.",
                     bookGalleryTitle: "Book Excerpts",
                     metaDescriptionContent: "Discover 'Passage' by Marius Jomphe, a photo book offering a sensitive and poetic exploration of the Gaspé Peninsula's grandiose nature, textures, and light.",
                     ogDescriptionContent: "Explore the Gaspé Peninsula through 'Passage,' a photo book by Marius Jomphe capturing its subtle details and natural beauty.", 
-                    buyButtonMainText: "Get the limited edition book", // New key for main text
-                    buyButtonPriceText: "50 USD ‧ 65 CAD",                   // New key for price
+                    buyButtonMainText: "Get the limited edition book",
+                    buyButtonPriceText: "50 USD ‧ 65 CAD",
                     ogImageAltContent: "Passage Book by Marius Jomphe",
                     bookCoverAltText: "Passage Book Cover",
                     bookCoverAltText2: "Passage Book Cover - Second View" 
@@ -936,25 +929,24 @@
                     projectPassage: "PASSAGE",  
                     navAbout: "À PROPOS",
                     navContact: "CONTACT",
-                    themeToggleDark: "🌓 THÈME SOMBRE",
-                    themeToggleLight: "🌓 THÈME CLAIR",
-                    languageToggleText: "🌐 ENGLISH",
+                    exploreText: "Explorer",
+                    themeToggle: "THÈME",
+                    languageToggleText: "🌐 FR/EN",
                     footerRights: "Tous droits réservés.",
                     bookGalleryTitle: "Extraits du Livre",
                     metaDescriptionContent: "Découvrez 'Passage' de Marius Jomphe, un livre photo proposant une exploration sensible et poétique de la nature grandiose, des textures et des lumières de la Gaspésie.",
                     ogDescriptionContent: "Explorez la Gaspésie à travers 'Passage', un livre photo de Marius Jomphe capturant ses détails subtils et sa beauté naturelle.",
                     ogImageAltContent: "Livre Passage de Marius Jomphe",
-                    buyButtonMainText: "Obtenir le livre en édition limitée", // New key for main text
-                    buyButtonPriceText: "50 USD ‧ 65 CAD",                       // New key for price (adjust if currency/price differs for FR)
+                    buyButtonMainText: "Obtenir le livre en édition limitée",
+                    buyButtonPriceText: "50 USD ‧ 65 CAD",
                     bookCoverAltText: "Couverture du livre Passage",
                     bookCoverAltText2: "Couverture du livre Passage - Deuxième Vue" 
                 }
             };
 
-            // --- ELEMENTS --- MODIFIED
-            const siteLogo = document.querySelector('.logo'); // NEW: For easter egg
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
+            const exploreButton = document.getElementById('exploreButton');
             const galleryContainer = document.getElementById('imageGallery');
             const imageViewerOverlay = document.getElementById('imageViewerOverlay');
             const fullscreenImage = document.getElementById('fullscreenImage');
@@ -965,14 +957,13 @@
             const currentYearSpan = document.getElementById('currentYear');
             const mainBookCoverImage = document.getElementById('mainBookCoverImage');
             const secondaryBookCoverImage = document.getElementById('secondaryBookCoverImage'); 
-            const buyBookButton = document.getElementById('passageBuyButton'); // Get the buy button by its new ID
+            const buyBookButton = document.getElementById('passageBuyButton');
 
 
             let currentImageIndex = 0;
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light';
 
-             // --- NEW: HELPER FUNCTIONS FOR FULLSCREEN ---
             function openFullscreen(element) {
                 if (element.requestFullscreen) {
                     element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
@@ -999,14 +990,11 @@
 
             function handleFullscreenChange() {
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-                
-                // If we exit fullscreen mode (e.g., user pressed ESC), close the viewer.
                 if (!isFullscreen && imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
-                    closeImageViewer(false); // Pass false to avoid a redundant exitFullscreen call
+                    closeImageViewer(false);
                 }
             }
 
-            // --- GALLERY & IMAGE FUNCTIONS ---
             const createImageOnIntersection = (entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1019,8 +1007,7 @@
                         }
 
                         const img = document.createElement('img');
-                        
-                        img.src = thumbPath + filename; // Use thumbPath for gallery items
+                        img.src = thumbPath + filename;
                         const altNamePart = filename.substring(0, filename.lastIndexOf('.'));
                         img.alt = `Thumbnail from Passage book: ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`;
                         img.loading = 'lazy';
@@ -1041,9 +1028,7 @@
 
             function populateGallery() {
                 if (!galleryContainer) return;
-
                 const fragment = document.createDocumentFragment();
-
                 imageFilenames.forEach((filename, index) => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
@@ -1052,27 +1037,14 @@
                     fragment.appendChild(item);
                     imageObserver.observe(item); 
                 });
-
                 galleryContainer.innerHTML = '';
                 galleryContainer.appendChild(fragment);
             }
+
             function applyTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
                 currentTheme = theme;
-                if (themeToggleButton) {
-                    const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
-                    const toggleLightText = themeToggleButton.querySelector('[data-lang-key="themeToggleLight"]');
-                    if (toggleDarkText && toggleLightText) {
-                        if (theme === 'dark') {
-                            toggleDarkText.style.display = 'none';
-                            toggleLightText.style.display = 'inline';
-                        } else {
-                            toggleDarkText.style.display = 'inline';
-                            toggleLightText.style.display = 'none';
-                        }
-                    }
-                }
             }
 
             function applyLanguage(lang) {
@@ -1085,13 +1057,8 @@
                     if (translations[lang] && translations[lang][key]) {
                         if (el.tagName === 'TITLE') {
                             document.title = translations[lang][key];
-                        } else if (el.id === 'themeToggle') {
-                            const darkTextSpan = el.querySelector('[data-lang-key="themeToggleDark"]');
-                            const lightTextSpan = el.querySelector('[data-lang-key="themeToggleLight"]');
-                            if (darkTextSpan) darkTextSpan.textContent = translations[lang]['themeToggleDark'] || 'Dark Mode';
-                            if (lightTextSpan) lightTextSpan.textContent = translations[lang]['themeToggleLight'] || 'Light Mode';
                         } else {
-                            el.textContent = translations[lang][key];
+                            el.innerHTML = translations[lang][key];
                         }
                     }
                 });
@@ -1102,38 +1069,20 @@
                     buyBookButton.href = `mailto:mariusjomphe52@gmail.com?subject=${subjectText}`; 
                 }
 
-
-                if (languageToggleButton) {
-                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
-                }
-
                 const metaDescriptionTag = document.querySelector('meta[name="description"]');
-                if (metaDescriptionTag && translations[lang]?.metaDescriptionContent) {
-                    metaDescriptionTag.setAttribute('content', translations[lang].metaDescriptionContent);
-                }
+                if (metaDescriptionTag) metaDescriptionTag.setAttribute('content', translations[lang]?.metaDescriptionContent);
 
                 const ogDescriptionTag = document.querySelector('meta[property="og:description"]');
-                if (ogDescriptionTag && translations[lang]?.ogDescriptionContent) {
-                    ogDescriptionTag.setAttribute('content', translations[lang].ogDescriptionContent);
-                }
+                if (ogDescriptionTag) ogDescriptionTag.setAttribute('content', translations[lang]?.ogDescriptionContent);
                 
                 const ogImageAltTag = document.querySelector('meta[property="og:image:alt"]');
-                if (ogImageAltTag && translations[lang]?.ogImageAltContent) {
-                    ogImageAltTag.setAttribute('content', translations[lang].ogImageAltContent);
-                }
+                if (ogImageAltTag) ogImageAltTag.setAttribute('content', translations[lang]?.ogImageAltContent);
                 
                 const ogTitleTag = document.querySelector('meta[property="og:title"]');
-                if (ogTitleTag && translations[lang]?.siteTitlePassageLivre) { 
-                     ogTitleTag.setAttribute('content', translations[lang].siteTitlePassageLivre);
-                }
+                if (ogTitleTag) ogTitleTag.setAttribute('content', translations[lang]?.siteTitlePassageLivre);
 
-                if (mainBookCoverImage && translations[lang]?.bookCoverAltText) {
-                    mainBookCoverImage.alt = translations[lang].bookCoverAltText;
-                }
-                if (secondaryBookCoverImage && translations[lang]?.bookCoverAltText2) {
-                    secondaryBookCoverImage.alt = translations[lang].bookCoverAltText2;
-                }
-                applyTheme(currentTheme); 
+                if (mainBookCoverImage) mainBookCoverImage.alt = translations[lang]?.bookCoverAltText;
+                if (secondaryBookCoverImage) secondaryBookCoverImage.alt = translations[lang]?.bookCoverAltText2;
             }
 
 
@@ -1141,25 +1090,14 @@
                 currentYearSpan.textContent = new Date().getFullYear();
             }
 
-            // --- EASTER EGG VIEWER FUNCTIONS ---
-            function openEasterEggImageViewer(imageUrl) {
-                if (!imageViewerOverlay || !fullscreenImage) return;
+            function loadRandomViewerImage(imageUrl) {
+                 if (!fullscreenImage || !imageViewerSpinner) return;
 
-                // Set a data attribute to indicate the mode
-                imageViewerOverlay.dataset.mode = 'easter-egg';
-                
-                imageViewerOverlay.classList.add('active');
-                if (document.body) document.body.style.overflow = 'hidden';
-                openFullscreen(imageViewerOverlay);
-
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-                if (viewerPrevButton) viewerPrevButton.style.display = 'none'; // Hide prev/next buttons
-                if (viewerNextButton) viewerNextButton.style.display = 'flex'; // But show next for random images
-                
+                imageViewerSpinner.style.display = 'block';
                 fullscreenImage.style.transition = 'none';
                 fullscreenImage.style.opacity = 0;
                 fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                fullscreenImage.alt = "Loading secret image...";
+                fullscreenImage.alt = "Loading random image...";
 
                 const tempImg = new Image();
                 tempImg.onload = () => {
@@ -1169,18 +1107,34 @@
                         fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
                         fullscreenImage.style.opacity = 1;
                     });
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    imageViewerSpinner.style.display = 'none';
                 };
                 tempImg.onerror = () => {
-                    console.error("Error loading easter egg image:", imageUrl);
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    closeImageViewer(true); // Close if the image fails to load
+                    console.error("Error loading image in viewer:", imageUrl);
+                    imageViewerSpinner.style.display = 'none';
+                    fullscreenImage.alt = "Error loading image.";
+                    closeImageViewer(true);
                 };
                 tempImg.src = imageUrl;
             }
+            
+            function openRandomImageViewer() {
+                if (!imageViewerOverlay || !fullscreenImage || randomImageViewerPaths.length === 0) return;
+                
+                imageViewerOverlay.dataset.mode = 'random';
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden';
+                openFullscreen(imageViewerOverlay);
+                
+                updateNavButtons();
 
-            function showNextEasterEggImage() {
-                if (easterEggImagePaths.length === 0) return;
+                const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                const randomImageUrl = randomImageViewerPaths[randomIndex];
+                loadRandomViewerImage(randomImageUrl);
+            }
+
+            function showNextRandomImage() {
+                if (randomImageViewerPaths.length === 0) return;
 
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
                 fullscreenImage.style.transition = 'opacity 0.3s ease-in-out';
@@ -1191,55 +1145,28 @@
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         return; 
                     }
-
-                    const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
-                    const imageUrl = easterEggImagePaths[randomIndex];
-                    const altText = "A special random image.";
-
-                    const tempImg = new Image();
-                    tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl;
-                        fullscreenImage.alt = altText;
-                        requestAnimationFrame(() => {
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
-                            fullscreenImage.style.opacity = 1;
-                        });
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    };
-                    tempImg.onerror = () => {
-                        console.error("Error loading image:", imageUrl);
-                        fullscreenImage.alt = "Error loading image";
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    };
-                    tempImg.src = imageUrl;
+                    const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                    loadRandomViewerImage(randomImageViewerPaths[randomIndex]);
                 }, 300);
             }
 
-
-            // --- GALLERY IMAGE VIEWER FUNCTIONS ---
             function preloadAdjacentImages(currentIndex) {
                 if (viewerImageSources.length <= 1) return;
-
                 const nextIndex = (currentIndex + 1) % viewerImageSources.length;
                 const prevIndex = (currentIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
-
-                const nextImg = new Image();
-                nextImg.src = viewerImageSources[nextIndex];
-
-                const prevImg = new Image();
-                prevImg.src = viewerImageSources[prevIndex];
+                (new Image()).src = viewerImageSources[nextIndex];
+                (new Image()).src = viewerImageSources[prevIndex];
             }
+
             function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
                 if (!imageViewerOverlay || !fullscreenImage || viewerImageSources.length === 0) return;
-
-                // Ensure the data-mode is set to 'gallery' when opening from the gallery
+                
                 if (isOpeningCallParam) {
                     imageViewerOverlay.dataset.mode = 'gallery';
                 }
 
                 const proceedToLoadImage = (targetIndex) => {
                     if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-
                     fullscreenImage.style.transition = 'none'; 
                     fullscreenImage.style.opacity = 0;
                     fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
@@ -1262,12 +1189,8 @@
                     };
                     tempImg.onerror = () => {
                         console.error("Error loading image:", imageUrl);
-                        fullscreenImage.alt = "Error loading image";
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
-                        if (isOpeningCallParam && currentImageIndex === targetIndex) {
-                             setTimeout(() => closeImageViewer(true), 1500);
-                        }
                     };
                     tempImg.src = imageUrl;
                 };
@@ -1277,9 +1200,9 @@
                     imageViewerOverlay.classList.add('active');
                     if (document.body) document.body.style.overflow = 'hidden';
                     proceedToLoadImage(currentImageIndex);
-                    openFullscreen(imageViewerOverlay); // Request fullscreen only when opening
+                    openFullscreen(imageViewerOverlay);
                 } else { 
-                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
+                    fullscreenImage.style.transition = 'opacity 0.3s ease-in-out'; 
                     fullscreenImage.style.opacity = 0;
                     setTimeout(() => {
                         if (!imageViewerOverlay.classList.contains('active')) { 
@@ -1288,7 +1211,7 @@
                         }
                         currentImageIndex = newIndex;
                         proceedToLoadImage(currentImageIndex);
-                    }, 500); 
+                    }, 300); 
                 }
             }
 
@@ -1298,15 +1221,12 @@
 
             function closeImageViewer(shouldExitFullscreen) {
                 if (!imageViewerOverlay) return;
-
-                // Exit fullscreen if active, but only if requested (e.g., via close button)
                 if (shouldExitFullscreen) {
                     const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
                     if (isFullscreen) {
                         exitFullscreen();
                     }
                 }
-                
                 imageViewerOverlay.classList.remove('active');
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                 if (document.body) document.body.style.overflow = '';
@@ -1325,39 +1245,28 @@
             }
 
             function updateNavButtons() {
-                 // Check if we are in 'gallery' mode
-                 if (imageViewerOverlay?.dataset.mode === 'gallery') {
-                    if (!viewerPrevButton || !viewerNextButton || viewerImageSources.length <= 1) {
-                        if(viewerPrevButton) viewerPrevButton.style.display = 'none';
-                        if(viewerNextButton) viewerNextButton.style.display = 'none';
-                    } else {
-                        if(viewerPrevButton) viewerPrevButton.style.display = 'flex';
-                        if(viewerNextButton) viewerNextButton.style.display = 'flex';
-                    }
+                 const mode = imageViewerOverlay?.dataset.mode;
+                 if (mode === 'gallery') {
+                    if (viewerPrevButton) viewerPrevButton.style.display = viewerImageSources.length > 1 ? 'flex' : 'none';
+                    if (viewerNextButton) viewerNextButton.style.display = viewerImageSources.length > 1 ? 'flex' : 'none';
+                 } else if (mode === 'random') {
+                     if (viewerPrevButton) viewerPrevButton.style.display = 'none';
+                     if (viewerNextButton) viewerNextButton.style.display = 'flex';
                  } else {
-                     // For 'easter-egg' mode, only show next button
-                     if(viewerPrevButton) viewerPrevButton.style.display = 'none';
-                     if(viewerNextButton) viewerNextButton.style.display = 'flex';
+                     if (viewerPrevButton) viewerPrevButton.style.display = 'none';
+                     if (viewerNextButton) viewerNextButton.style.display = 'none';
                  }
             }
 
-
             // --- EVENT LISTENERS ---
-            if (siteLogo) {
-                siteLogo.addEventListener('click', () => {
-                    if (easterEggImagePaths.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
-                        const randomImageUrl = easterEggImagePaths[randomIndex];
-                        openEasterEggImageViewer(randomImageUrl);
-                    }
-                });
+            if (exploreButton) {
+                exploreButton.addEventListener('click', openRandomImageViewer);
             }
 
             if (themeToggleButton) {
                 themeToggleButton.addEventListener('click', () => {
                     const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                     applyTheme(newTheme);
-                    applyLanguage(currentLanguage);
                 });
             }
 
@@ -1378,63 +1287,34 @@
                     document.querySelectorAll('.main-nav .dropdown-menu.show').forEach(openMenu => {
                         if (openMenu !== dropdownMenu) {
                             openMenu.classList.remove('show');
-                            const otherToggle = openMenu.previousElementSibling;
-                            if (otherToggle) {
-                                otherToggle.setAttribute('aria-expanded', 'false');
-                            }
+                            openMenu.previousElementSibling?.setAttribute('aria-expanded', 'false');
                         }
                     });
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
-                    const currentPath = window.location.pathname;
-                    let isSubPageOfThisToggleActive = false;
-                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a');
-
-                    subMenuLinks.forEach(subLink => {
-                        const subLinkHrefAttribute = subLink.getAttribute('href');
-                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') {
-                            const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
-                            let normalizedCurrentPath = currentPath;
-                            if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
-                                normalizedCurrentPath = normalizedCurrentPath.slice(0, -1);
-                            }
-                            const currentPathLastSegment = normalizedCurrentPath.substring(normalizedCurrentPath.lastIndexOf('/') + 1);
-
-                            if (currentPathLastSegment === subLinkBaseName || currentPathLastSegment === subLinkHrefAttribute) {
-                                isSubPageOfThisToggleActive = true;
-                            }
-                        }
-                    });
-
-                    if (isSubPageOfThisToggleActive) {
-                        this.classList.add('active');
-                    }
                 });
             });
 
             document.addEventListener('click', function(event) {
-                const openDropdowns = document.querySelectorAll('.main-nav .dropdown');
-                openDropdowns.forEach(dropdown => {
-                    const toggle = dropdown.querySelector('a[aria-expanded="true"]');
-                    const menu = dropdown.querySelector('.dropdown-menu.show');
-                    if (menu && toggle && !dropdown.contains(event.target)) {
-                        menu.classList.remove('show');
-                        toggle.setAttribute('aria-expanded', 'false');
+                document.querySelectorAll('.main-nav .dropdown').forEach(dropdown => {
+                    if (!dropdown.contains(event.target)) {
+                        const menu = dropdown.querySelector('.dropdown-menu');
+                        const toggle = dropdown.querySelector('a[aria-expanded="true"]');
+                        if(menu) menu.classList.remove('show');
+                        if(toggle) toggle.setAttribute('aria-expanded', 'false');
                     }
                 });
             });
 
-            // NEW: Click listeners for book covers
             if (mainBookCoverImage) mainBookCoverImage.addEventListener('click', () => openImageViewer(0));
             if (secondaryBookCoverImage) secondaryBookCoverImage.addEventListener('click', () => openImageViewer(1));
 
             if (galleryContainer) {
                 galleryContainer.addEventListener('click', (e) => {
                     const item = e.target.closest('.gallery-item');
-                    if (item) {
-                        // Add 2 to the gallery index to account for the two book covers at the start of the viewer array
-                        const newIndex = parseInt(item.dataset.index) + 2;
+                    if (item && item.dataset.index) {
+                        const newIndex = parseInt(item.dataset.index, 10) + 2;
                         openImageViewer(newIndex);
                     }
                 });
@@ -1443,18 +1323,13 @@
             if (viewerCloseButton) viewerCloseButton.addEventListener('click', () => closeImageViewer(true));
             
             if (viewerPrevButton) viewerPrevButton.addEventListener('click', () => {
-                if (imageViewerOverlay?.dataset.mode === 'gallery') {
-                    showPrevImage();
-                }
+                if (imageViewerOverlay?.dataset.mode === 'gallery') showPrevImage();
             });
 
             if (viewerNextButton) viewerNextButton.addEventListener('click', () => {
                 const mode = imageViewerOverlay?.dataset.mode;
-                if (mode === 'easter-egg') {
-                    showNextEasterEggImage();
-                } else if (mode === 'gallery') {
-                    showNextImage();
-                }
+                if (mode === 'random') showNextRandomImage();
+                else if (mode === 'gallery') showNextImage();
             });
             
             if (imageViewerOverlay) {
@@ -1464,29 +1339,20 @@
             }
 
             document.addEventListener('keydown', (e) => {
-                if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                if (imageViewerOverlay?.classList.contains('active')) {
                     if (e.key === 'Escape') closeImageViewer(true);
                     
-                    const mode = imageViewerOverlay?.dataset.mode;
-                    if (mode === 'easter-egg') {
-                        if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
-                             showNextEasterEggImage();
-                        }
-                    } else if (mode === 'gallery') {
-                        if (e.key === 'ArrowLeft' && viewerPrevButton.style.display !== 'none') {
-                            showPrevImage();
-                        }
-                        if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
-                            showNextImage();
-                        }
+                    const mode = imageViewerOverlay.dataset.mode;
+                    if (mode === 'gallery') {
+                        if (e.key === 'ArrowLeft') showPrevImage();
+                        if (e.key === 'ArrowRight') showNextImage();
+                    } else if (mode === 'random') {
+                        if (e.key === 'ArrowRight') showNextRandomImage();
                     }
                 }
             });
             
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let touchEndX = 0;
-            let touchEndY = 0;
+            let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
             const swipeThreshold = 50; 
 
             if (imageViewerOverlay) {
@@ -1504,49 +1370,40 @@
                     }
                 }, { passive: true });
 
-                imageViewerOverlay.addEventListener('touchend', (e) => {
-                    if (!imageViewerOverlay.classList.contains('active')) return;
-                    
-                    if (touchStartX === 0 || touchEndX === 0) { 
-                        touchStartX = 0; touchStartY = 0; touchEndX = 0; touchEndY = 0;
-                        return;
+                imageViewerOverlay.addEventListener('touchend', () => {
+                    if (!imageViewerOverlay.classList.contains('active') || touchStartX === 0 || touchEndX === 0) { 
+                        touchStartX = touchEndX = touchStartY = touchEndY = 0; return;
                     }
 
                     const deltaX = touchEndX - touchStartX;
                     const deltaY = touchEndY - touchStartY;
-                    const mode = imageViewerOverlay?.dataset.mode;
+                    const mode = imageViewerOverlay.dataset.mode;
 
                     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) { 
-                        if (mode === 'easter-egg') {
-                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') {
-                                showNextEasterEggImage();
-                            }
-                        } else if (mode === 'gallery') {
-                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') {
-                                showNextImage();
-                            } else if (deltaX > 0 && viewerPrevButton.style.display !== 'none') {
-                                showPrevImage();
-                            }
+                        if (mode === 'gallery') {
+                            if (deltaX < 0) showNextImage();
+                            else showPrevImage();
+                        } else if (mode === 'random') {
+                            if (deltaX < 0) showNextRandomImage();
                         }
                     }
-                    touchStartX = touchStartY = touchEndX = touchEndY = 0; 
+                    touchStartX = touchEndX = touchStartY = touchEndY = 0; 
                 });
             }
             
-            // NEW: Fullscreen change listeners
             document.addEventListener('fullscreenchange', handleFullscreenChange);
             document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
             document.addEventListener('mozfullscreenchange', handleFullscreenChange);
             document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
 
-            // --- INITIAL LOAD ---\
+            // --- INITIAL LOAD ---
             populateGallery();
             applyTheme(currentTheme);
             applyLanguage(currentLanguage);
-            updateNavButtons(); // Call this once to set the initial state
+            updateNavButtons();
 
-        })
+        });
     </script>
 </body>
 </html>

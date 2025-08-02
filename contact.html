@@ -67,7 +67,7 @@
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #ffffff;
             --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
-            --loader-color: #007bff;
+            --loader-color: #333; /* Updated to match about.html */
             --base-spacing: 1rem;
             
             /* Email Button Colors for Light Theme (Dark button on light background) */
@@ -88,7 +88,7 @@
             --button-hover-bg-color: #5a5a5a;
             --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Consistent with light theme for viewer */
             --image-viewer-nav-color: #e0e0e0;
-            --loader-color: #58a6ff;
+            --loader-color: #f4f7f6; /* Updated to match about.html */
 
             /* Email Button Colors for Dark Theme (Light button on dark background) */
             --email-button-bg: #f4f7f6; /* White */
@@ -166,17 +166,11 @@
         }
 
         .logo {
-            font-size: clamp(1.5rem, 4vw, 2.2rem); /* Adjusted for better scaling on narrow screens */
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
             font-weight: 100;
             color: var(--text-color);
-            white-space: nowrap; /* Prevent title from wrapping */
-            /* START: Added styles to match index.html */
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            /* END: Added styles */
+            white-space: nowrap;
+            /* Removed cursor and user-select properties to match about.html */
         }
 
         .main-nav ul {
@@ -204,7 +198,7 @@
             width: 100%;
             height: 2px;
             display: block;
-            bottom: 0px; /* FIX: Changed from margin-top: 5px */
+            bottom: 0px;
             left: 0;
             background: var(--text-color);
         }
@@ -232,7 +226,8 @@
             }
         }
 
-        .main-nav a:hover {
+        .main-nav a:hover,
+        .main-nav .dropdown > a:hover { /* Updated to match about.html */
             color: var(--nav-link-hover-color);
             text-decoration: none;
         }
@@ -303,10 +298,11 @@
             position: relative;
             cursor: pointer;
             transition: color 0.2s ease;
-            /* FIX: Added properties to match index.html */
             text-transform: uppercase;
             line-height: inherit;
-            display: inline-block;
+            display: inline-flex; /* Updated */
+            align-items: center; /* Added */
+            gap: 8px; /* Added */
             min-width: auto;
         }
 
@@ -316,7 +312,7 @@
             width: 0;
             height: 2px;
             display: block;
-            margin-top: 5px;
+            bottom: 0; /* Updated to prevent clipping with icon */
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -336,6 +332,19 @@
         .control-button:focus::after {
             width: 0; /* Ensure no underline on click (active) or focus */
         }
+        
+        /* Shuffle icon specific styles (from about.html) */
+        .shuffle-icon {
+            width: 1.1em;
+            height: 1.1em;
+            object-fit: contain;
+        }
+
+        html[data-theme="light"] .shuffle-icon.dark-theme-image,
+        html[data-theme="dark"] .shuffle-icon.light-theme-image {
+            display: none;
+        }
+
 
         [data-theme="dark"] .control-button {
             color: var(--nav-link-color);
@@ -365,9 +374,9 @@
         }
 
         .contact-text {
-             font-size: 1.2rem; /* Changed to match about page paragraph text */
-            margin-bottom: calc(var(--base-spacing) * 2.5); /* Increased bottom margin */
-            text-align: center; /* Justify the text */
+             font-size: 1.2rem;
+            margin-bottom: calc(var(--base-spacing) * 2.5);
+            text-align: center;
 
         }
 
@@ -382,16 +391,16 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            display: inline-flex; /* Use flex to align icon and text */
+            display: inline-flex;
             align-items: center;
-            gap: 0.5rem; /* Space between icon and text */
-            text-decoration: none; /* Remove underline for anchor tag acting as button */
+            gap: 0.5rem;
+            text-decoration: none;
         }
 
         .email-button:hover {
             background-color: var(--email-button-hover-bg);
             transform: translateY(-2px);
-            text-decoration: none; /* Keep no underline on hover */
+            text-decoration: none;
         }
 
         .email-button:active {
@@ -401,30 +410,23 @@
         /* Image Gallery Styles (MODIFIED) */
         .image-gallery {
             display: grid;
-            /* Center the grid items within the available space */
             justify-content: center; 
-            /* Remove padding from here; let the container handle overall margins */
             padding: 0; 
-            /* Limit the max width of the grid itself and center it */
-            max-width: 1800px; /* Adjust this value as desired for overall gallery width */
-            margin: 0 auto; /* Centers the entire grid on the page */
+            max-width: 1800px;
+            margin: 0 auto;
             gap: var(--base-spacing);
         }
 
         .gallery-item {
             position: relative;
             overflow: hidden;
-            /* Remove aspect-ratio to prevent forced empty space */
-            /* aspect-ratio: 1 / 1; */ 
-            background-color: transparent; /* Changed to transparent to remove white bars */
+            background-color: transparent;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             content-visibility: auto;
-            /* Removed contain-intrinsic-size as images will define size within constraints */
-            /* contain-intrinsic-size: 250px 250px; */ 
-            display: flex; /* Added to help center the image */
-            align-items: center; /* Vertically center image within the grid item */
-            justify-content: center; /* Horizontally center image within the grid item */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .gallery-item:hover {
             transform: scale(1.03);
@@ -433,14 +435,13 @@
 
         .gallery-item img {
             max-width: 100%; 
-            /* Crucial: Set max-height to control the "smallness" of the image in the grid */
-            max-height: 250px; /* Adjust this value to control the image height in the grid */
+            max-height: 250px;
             width: auto; 
             height: auto; 
-            object-fit: contain; /* Ensures the entire image is scaled down to fit */
-            opacity: 0; /* Initially hidden for fade-in */
-            transition: opacity 0.5s ease-in-out; /* Smoother fade */
-            display: block; /* Ensure it behaves as a block for correct centering */
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: block;
         }
         .gallery-item img.loaded {
             opacity: 1;
@@ -469,7 +470,6 @@
             transition-delay: 0s;
         }
         
-        /* When in fullscreen, ensure the background is set directly on the element */
         .image-viewer-overlay:fullscreen {
              background-color: var(--image-viewer-bg);
         }
@@ -490,6 +490,7 @@
             animation: spin 1s linear infinite;
             z-index: 2002;
             display: none;
+            opacity: 0.3; /* Added to match about.html */
         }
 
         @keyframes spin {
@@ -515,7 +516,7 @@
             object-fit: contain;
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             border-radius: 3px;
-            opacity: 0; /* Start transparent, JS will handle fade-in */
+            opacity: 0;
         }
 
         .viewer-close-button,
@@ -526,7 +527,7 @@
             border: none;
             font-size: clamp(1.8rem, 3vw, 2.5rem);
             cursor: pointer;
-            padding: calc(var(--base-spacing) * 0.5);
+            padding: 0rem; /* Updated to match about.html */
             transition: background-color 0.2s ease, color 0.2s ease;
             z-index: 2001;
             border-radius: 50%;
@@ -539,22 +540,22 @@
         }
         .viewer-close-button:hover,
         .viewer-nav-button:hover {
-            background-color: transparent; /* Changed from var(--image-viewer-nav-hover-bg) to transparent */
+            background-color: transparent;
         }
 
         .viewer-close-button {
-            top: calc(var(--base-spacing) * 1.5);
-            right: calc(var(--base-spacing) * 1.5);
+            top: 0rem; /* Updated to match about.html */
+            right: 0rem; /* Updated to match about.html */
         }
 
         .viewer-nav-button.prev {
-            left: calc(var(--base-spacing) * 1.5);
+            left: 0rem; /* Updated to match about.html */
             top: 50%;
             transform: translateY(-50%);
         }
 
         .viewer-nav-button.next {
-            right: calc(var(--base-spacing) * 1.5);
+            right: 0.5rem; /* Updated to match about.html */
             top: 50%;
             transform: translateY(-50%);
         }
@@ -585,29 +586,39 @@
             height: auto;
             opacity: 0.4;
             transition: opacity 0.3s ease;
-            display: none; /* Hide all signatures by default */
+            display: none;
         }
 
-        /* Show light signature for light theme */
         html[data-theme="light"] .artist-signature .signature-light {
-            display: block; /* Show the light signature */
+            display: block;
         }
 
-        /* Show dark signature for dark theme */
         html[data-theme="dark"] .artist-signature .signature-dark {
-            display: block; /* Show the dark signature */
+            display: block;
         }
 
         .artist-signature a {
-            text-decoration: none; /* Remove underline from link */
-            display: inline-block; /* Ensures the link wraps the image appropriately */
+            text-decoration: none;
+            display: inline-block;
         }
 
         .artist-signature a:hover {
-            text-decoration: none; /* Ensure no underline on hover */
+            text-decoration: none;
         }
 
         /* Responsive Adjustments */
+        @media (max-width: 767px) { 
+            .main-nav ul {
+                flex-wrap: wrap; 
+                 justify-content: center; 
+            }
+            .main-nav .dropdown-menu { 
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 180px; 
+            }
+        }
+
         @media (max-width: 480px) {
             .site-header .container {
                 flex-direction: column;
@@ -623,27 +634,14 @@
             }
         }
 
-        /* Responsive Adjustments from about.html for dropdown */
-        @media (max-width: 767px) { 
-            .main-nav ul {
-                flex-wrap: wrap; 
-                 justify-content: center; 
-            }
-            .main-nav .dropdown-menu { 
-                left: 50%;
-                transform: translateX(-50%);
-                min-width: 180px; 
-            }
-        }
-
-        /* Gallery Responsive Adjustments (MODIFIED) */
+        /* Gallery Responsive Adjustments */
         @media (min-width: 768px) {
             .image-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly larger min-width for columns */
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
                 gap: calc(var(--base-spacing) * 1.5);
             }
             .gallery-item img {
-                max-height: 280px; /* Adjust max-height for larger screens */
+                max-height: 280px;
             }
         }
 
@@ -652,10 +650,10 @@
                 --base-font-size: 17px;
             }
             .image-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Further increase min-width */
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             }
             .gallery-item img {
-                max-height: 320px; /* Adjust max-height for larger screens */
+                max-height: 320px;
             }
         }
 
@@ -664,11 +662,11 @@
                 --base-font-size: 20px;
             }
             .image-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); /* Even larger min-width */
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
                 gap: calc(var(--base-spacing) * 1.8);
             }
             .gallery-item img {
-                max-height: 380px; /* Adjust max-height for very large screens */
+                max-height: 380px;
             }
             .viewer-close-button,
             .viewer-nav-button {
@@ -677,15 +675,15 @@
                 height: 70px;
             }
             .container {
-                max-width: 2200px; /* Adjusted max-width for the main container on 4K displays */
+                max-width: 2200px;
             }
             .logo {
                 font-size: 2.8rem;
             }
-            .main-nav a, .main-nav .dropdown > a { /* from about.html */
+            .main-nav a, .main-nav .dropdown > a {
                 font-size: 1.4rem;
             }
-            .main-nav .dropdown-menu li a { /* from about.html */
+            .main-nav .dropdown-menu li a {
                  font-size: 1.3rem;
             }
             .control-button {
@@ -716,13 +714,18 @@
             </nav>
             
             <div class="controls">
+                <button id="exploreButton" class="control-button" aria-label="Explore random photos">
+                    <img src="images/shufflelighttheme.png" alt="" class="shuffle-icon light-theme-image">
+                    <img src="images/shuffledarktheme.png" alt="" class="shuffle-icon dark-theme-image">
+                    <span data-lang-key="exploreText">Explore</span>
+                </button>
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
-                    🌓 <span data-lang-key="themeToggleDark">Dark Mode</span>
-                    <span data-lang-key="themeToggleLight" style="display:none;">Light Mode</span>
+                    🌓 <span data-lang-key="themeToggleDark">THEME</span>
+                    <span data-lang-key="themeToggleLight" style="display:none;">THEME</span>
                 </button>
                 
                 <button id="languageToggle" class="control-button" aria-label="Toggle language">
-                    🌐 English
+                    🌐 FR/EN
                 </button>
             </div>
         </div>
@@ -837,15 +840,14 @@
             ];
             const imagePath = 'images/'; // Base path for all images
 
-            // --- EASTER EGG IMAGE PATHS (from index.html) ---
+            // --- EASTER EGG IMAGE PATHS ---
             const randomImageViewerPaths = [
                 'images/bruine/fullsize/1.jpg', 'images/bruine/fullsize/10.jpg', 'images/bruine/fullsize/100.jpg', 'images/bruine/fullsize/101.jpg', 'images/bruine/fullsize/102.jpg', 'images/bruine/fullsize/103.jpg', 'images/bruine/fullsize/104.jpg', 'images/bruine/fullsize/105.jpg', 'images/bruine/fullsize/106.jpg', 'images/bruine/fullsize/107.jpg', 'images/bruine/fullsize/108.jpg', 'images/bruine/fullsize/109.jpg', 'images/bruine/fullsize/11.jpg', 'images/bruine/fullsize/110.jpg', 'images/bruine/fullsize/111.jpg', 'images/bruine/fullsize/112.jpg', 'images/bruine/fullsize/113.jpg', 'images/bruine/fullsize/114.jpg', 'images/bruine/fullsize/115.jpg', 'images/bruine/fullsize/116.jpg', 'images/bruine/fullsize/117.jpg', 'images/bruine/fullsize/12.jpg', 'images/bruine/fullsize/13.jpg', 'images/bruine/fullsize/14.jpg', 'images/bruine/fullsize/15.jpg', 'images/bruine/fullsize/16.jpg', 'images/bruine/fullsize/17.jpg', 'images/bruine/fullsize/18.jpg', 'images/bruine/fullsize/19.jpg', 'images/bruine/fullsize/2.jpg', 'images/bruine/fullsize/20.jpg', 'images/bruine/fullsize/21.jpg', 'images/bruine/fullsize/22.jpg', 'images/bruine/fullsize/23.jpg', 'images/bruine/fullsize/24.jpg', 'images/bruine/fullsize/25.jpg', 'images/bruine/fullsize/26.jpg', 'images/bruine/fullsize/27.jpg', 'images/bruine/fullsize/29.jpg', 'images/bruine/fullsize/3.jpg', 'images/bruine/fullsize/30.jpg', 'images/bruine/fullsize/31.jpg', 'images/bruine/fullsize/32.jpg', 'images/bruine/fullsize/33.jpg', 'images/bruine/fullsize/34.jpg', 'images/bruine/fullsize/36.jpg', 'images/bruine/fullsize/37.jpg', 'images/bruine/fullsize/38.jpg', 'images/bruine/fullsize/39.jpg', 'images/bruine/fullsize/4.jpg', 'images/bruine/fullsize/40.jpg', 'images/bruine/fullsize/41.jpg', 'images/bruine/fullsize/42.jpg', 'images/bruine/fullsize/43.jpg', 'images/bruine/fullsize/44.jpg', 'images/bruine/fullsize/45.jpg', 'images/bruine/fullsize/46.jpg', 'images/bruine/fullsize/47.jpg', 'images/bruine/fullsize/48.jpg', 'images/bruine/fullsize/49.jpg', 'images/bruine/fullsize/5.jpg', 'images/bruine/fullsize/50.jpg', 'images/bruine/fullsize/51.jpg', 'images/bruine/fullsize/54.jpg', 'images/bruine/fullsize/55.jpg', 'images/bruine/fullsize/56.jpg', 'images/bruine/fullsize/57.jpg', 'images/bruine/fullsize/58.jpg', 'images/bruine/fullsize/59.jpg', 'images/bruine/fullsize/6.jpg', 'images/bruine/fullsize/60.jpg', 'images/bruine/fullsize/61.jpg', 'images/bruine/fullsize/62.jpg', 'images/bruine/fullsize/63.jpg', 'images/bruine/fullsize/64.jpg', 'images/bruine/fullsize/65.jpg', 'images/bruine/fullsize/66.jpg', 'images/bruine/fullsize/67.jpg', 'images/bruine/fullsize/68.jpg', 'images/bruine/fullsize/69.jpg', 'images/bruine/fullsize/7.jpg', 'images/bruine/fullsize/70.jpg', 'images/bruine/fullsize/71.jpg', 'images/bruine/fullsize/72.jpg', 'images/bruine/fullsize/73.jpg', 'images/bruine/fullsize/74.jpg', 'images/bruine/fullsize/75.jpg', 'images/bruine/fullsize/76.jpg', 'images/bruine/fullsize/77.jpg', 'images/bruine/fullsize/78.jpg', 'images/bruine/fullsize/8.jpg', 'images/bruine/fullsize/80.jpg', 'images/bruine/fullsize/81.jpg', 'images/bruine/fullsize/82.jpg', 'images/bruine/fullsize/83.jpg', 'images/bruine/fullsize/84.jpg', 'images/bruine/fullsize/85.jpg', 'images/bruine/fullsize/86.jpg', 'images/bruine/fullsize/87.jpg', 'images/bruine/fullsize/88.jpg', 'images/bruine/fullsize/89.jpg', 'images/bruine/fullsize/9.jpg', 'images/bruine/fullsize/90.jpg', 'images/bruine/fullsize/91.jpg', 'images/bruine/fullsize/92.jpg', 'images/bruine/fullsize/93.jpg', 'images/bruine/fullsize/94.jpg', 'images/bruine/fullsize/95.jpg', 'images/bruine/fullsize/96.jpg', 'images/bruine/fullsize/97.jpg', 'images/bruine/fullsize/98.jpg', 'images/bruine/fullsize/99.jpg',
                 'images/fullsize/Galerie-1.jpg', 'images/fullsize/Galerie-10.jpg', 'images/fullsize/Galerie-100.jpg', 'images/fullsize/Galerie-101.jpg', 'images/fullsize/Galerie-102.jpg', 'images/fullsize/Galerie-103.jpg', 'images/fullsize/Galerie-104.jpg', 'images/fullsize/Galerie-105.jpg', 'images/fullsize/Galerie-106.jpg', 'images/fullsize/Galerie-107.jpg', 'images/fullsize/Galerie-108.jpg', 'images/fullsize/Galerie-109.jpg', 'images/fullsize/Galerie-11.jpg', 'images/fullsize/Galerie-110.jpg', 'images/fullsize/Galerie-111.jpg', 'images/fullsize/Galerie-112.jpg', 'images/fullsize/Galerie-113.jpg', 'images/fullsize/Galerie-114.jpg', 'images/fullsize/Galerie-115.jpg', 'images/fullsize/Galerie-116.jpg', 'images/fullsize/Galerie-117.jpg', 'images/fullsize/Galerie-118.jpg', 'images/fullsize/Galerie-119.jpg', 'images/fullsize/Galerie-12.jpg', 'images/fullsize/Galerie-120.jpg', 'images/fullsize/Galerie-121.jpg', 'images/fullsize/Galerie-122.jpg', 'images/fullsize/Galerie-123.jpg', 'images/fullsize/Galerie-124.jpg', 'images/fullsize/Galerie-125.jpg', 'images/fullsize/Galerie-126.jpg', 'images/fullsize/Galerie-127.jpg', 'images/fullsize/Galerie-128.jpg', 'images/fullsize/Galerie-129.jpg', 'images/fullsize/Galerie-13.jpg', 'images/fullsize/Galerie-130.jpg', 'images/fullsize/Galerie-131.jpg', 'images/fullsize/Galerie-132.jpg', 'images/fullsize/Galerie-133.jpg', 'images/fullsize/Galerie-134.jpg', 'images/fullsize/Galerie-135.jpg', 'images/fullsize/Galerie-136.jpg', 'images/fullsize/Galerie-137.jpg', 'images/fullsize/Galerie-138.jpg', 'images/fullsize/Galerie-139.jpg', 'images/fullsize/Galerie-14.jpg', 'images/fullsize/Galerie-140.jpg', 'images/fullsize/Galerie-141.jpg', 'images/fullsize/Galerie-142.jpg', 'images/fullsize/Galerie-143.jpg', 'images/fullsize/Galerie-144.jpg', 'images/fullsize/Galerie-145.jpg', 'images/fullsize/Galerie-15.jpg', 'images/fullsize/Galerie-16.jpg', 'images/fullsize/Galerie-17.jpg', 'images/fullsize/Galerie-18.jpg', 'images/fullsize/Galerie-19.jpg', 'images/fullsize/Galerie-2.jpg', 'images/fullsize/Galerie-20.jpg', 'images/fullsize/Galerie-21.jpg', 'images/fullsize/Galerie-22.jpg', 'images/fullsize/Galerie-23.jpg', 'images/fullsize/Galerie-24.jpg', 'images/fullsize/Galerie-25.jpg', 'images/fullsize/Galerie-26.jpg', 'images/fullsize/Galerie-27.jpg', 'images/fullsize/Galerie-28.jpg', 'images/fullsize/Galerie-29.jpg', 'images/fullsize/Galerie-3.jpg', 'images/fullsize/Galerie-30.jpg', 'images/fullsize/Galerie-31.jpg', 'images/fullsize/Galerie-32.jpg', 'images/fullsize/Galerie-33.jpg', 'images/fullsize/Galerie-34.jpg', 'images/fullsize/Galerie-35.jpg', 'images/fullsize/Galerie-36.jpg', 'images/fullsize/Galerie-37.jpg', 'images/fullsize/Galerie-38.jpg', 'images/fullsize/Galerie-39.jpg', 'images/fullsize/Galerie-4.jpg', 'images/fullsize/Galerie-40.jpg', 'images/fullsize/Galerie-41.jpg', 'images/fullsize/Galerie-42.jpg', 'images/fullsize/Galerie-43.jpg', 'images/fullsize/Galerie-44.jpg', 'images/fullsize/Galerie-45.jpg', 'images/fullsize/Galerie-46.jpg', 'images/fullsize/Galerie-47.jpg', 'images/fullsize/Galerie-48.jpg', 'images/fullsize/Galerie-49.jpg', 'images/fullsize/Galerie-5.jpg', 'images/fullsize/Galerie-50.jpg', 'images/fullsize/Galerie-51.jpg', 'images/fullsize/Galerie-52.jpg', 'images/fullsize/Galerie-53.jpg', 'images/fullsize/Galerie-54.jpg', 'images/fullsize/Galerie-55.jpg', 'images/fullsize/Galerie-56.jpg', 'images/fullsize/Galerie-57.jpg', 'images/fullsize/Galerie-58.jpg', 'images/fullsize/Galerie-59.jpg', 'images/fullsize/Galerie-6.jpg', 'images/fullsize/Galerie-60.jpg', 'images/fullsize/Galerie-61.jpg', 'images/fullsize/Galerie-62.jpg', 'images/fullsize/Galerie-63.jpg', 'images/fullsize/Galerie-64.jpg', 'images/fullsize/Galerie-65.jpg', 'images/fullsize/Galerie-66.jpg', 'images/fullsize/Galerie-67.jpg', 'images/fullsize/Galerie-68.jpg', 'images/fullsize/Galerie-69.jpg', 'images/fullsize/Galerie-7.jpg', 'images/fullsize/Galerie-70.jpg', 'images/fullsize/Galerie-71.jpg', 'images/fullsize/Galerie-72.jpg', 'images/fullsize/Galerie-73.jpg', 'images/fullsize/Galerie-74.jpg', 'images/fullsize/Galerie-75.jpg', 'images/fullsize/Galerie-76.jpg', 'images/fullsize/Galerie-77.jpg', 'images/fullsize/Galerie-78.jpg', 'images/fullsize/Galerie-79.jpg', 'images/fullsize/Galerie-8.jpg', 'images/fullsize/Galerie-80.jpg', 'images/fullsize/Galerie-81.jpg', 'images/fullsize/Galerie-82.jpg', 'images/fullsize/Galerie-83.jpg', 'images/fullsize/Galerie-84.jpg', 'images/fullsize/Galerie-85.jpg', 'images/fullsize/Galerie-86.jpg', 'images/fullsize/Galerie-87.jpg', 'images/fullsize/Galerie-88.jpg', 'images/fullsize/Galerie-89.jpg', 'images/fullsize/Galerie-9.jpg', 'images/fullsize/Galerie-90.jpg', 'images/fullsize/Galerie-91.jpg', 'images/fullsize/Galerie-92.jpg', 'images/fullsize/Galerie-93.jpg', 'images/fullsize/Galerie-94.jpg', 'images/fullsize/Galerie-95.jpg', 'images/fullsize/Galerie-96.jpg', 'images/fullsize/Galerie-97.jpg', 'images/fullsize/Galerie-98.jpg', 'images/fullsize/Galerie-99.jpg',
                 'images/passage/fullsize/Photos Passage-1.jpg', 'images/passage/fullsize/Photos Passage-10.jpg', 'images/passage/fullsize/Photos Passage-11.jpg', 'images/passage/fullsize/Photos Passage-12.jpg', 'images/passage/fullsize/Photos Passage-13.jpg', 'images/passage/fullsize/Photos Passage-14.jpg', 'images/passage/fullsize/Photos Passage-2.jpg', 'images/passage/fullsize/Photos Passage-3.jpg', 'images/passage/fullsize/Photos Passage-4.jpg', 'images/passage/fullsize/Photos Passage-5.jpg', 'images/passage/fullsize/Photos Passage-6.jpg', 'images/passage/fullsize/Photos Passage-7.jpg', 'images/passage/fullsize/Photos Passage-8.jpg', 'images/passage/fullsize/Photos Passage-9.jpg'
             ];
-            // --- END EASTER EGG IMAGE PATHS ---
-
-            // --- TRANSLATIONS ---
+            
+            // --- TRANSLATIONS (Updated to match about.html) ---
             const translations = {
                 en: {
                     siteTitle: "Marius Jomphe ‧ Photography",
@@ -853,12 +855,13 @@
                     navImages: "GALLERY",
                     navAbout: "ABOUT",
                     navProjects: "PROJECTS",
-                    projectBruine: "BRUINE",   // Added
-                    projectPassage: "PASSAGE", // Added
+                    projectBruine: "BRUINE",
+                    projectPassage: "PASSAGE",
                     navContact: "CONTACT",
-                    themeToggleDark: "DARK THEME",
-                    themeToggleLight: "LIGHT THEME",
-                    languageToggleText: "🌐 FRANÇAIS",
+                    exploreText: "Explore",
+                    themeToggleDark: "THEME",
+                    themeToggleLight: "THEME",
+                    languageToggleText: "🌐 FR/EN",
                     footerRights: "All rights reserved.",
                     contactHeading: "Contact",
                     contactText: "For any questions, purchases, collaboration requests, exhibition proposals, or requests to use my work, feel free to contact me directly. I would be happy to talk with you.",
@@ -870,12 +873,13 @@
                     navImages: "GALERIE",
                     navAbout: "À PROPOS",
                     navProjects: "PROJETS",
-                    projectBruine: "BRUINE",    // Added
-                    projectPassage: "PASSAGE",  // Added
+                    projectBruine: "BRUINE",
+                    projectPassage: "PASSAGE",
                     navContact: "CONTACT",
-                    themeToggleDark: "THÈME SOMBRE",
-                    themeToggleLight: "THÈME CLAIR",
-                    languageToggleText: "🌐 ENGLISH",
+                    exploreText: "Explorer",
+                    themeToggleDark: "THÈME",
+                    themeToggleLight: "THÈME",
+                    languageToggleText: "🌐 FR/EN",
                     footerRights: "Tous droits réservés.",
                     contactHeading: "Contact",
                     contactText: "Pour toute question, achat, demande de collaboration, proposition d’exposition ou demande d’utilisation des œuvres, n’hésitez pas à me contacter directement. Je me ferai un plaisir d’échanger avec vous.",
@@ -887,6 +891,8 @@
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
             const currentYearSpan = document.getElementById('currentYear');
+            const exploreButton = document.getElementById('exploreButton'); // Added
+            
             // Gallery and Viewer Elements
             const galleryContainer = document.getElementById('imageGallery');
             const imageViewerOverlay = document.getElementById('imageViewerOverlay');
@@ -895,13 +901,12 @@
             const viewerPrevButton = document.getElementById('viewerPrevButton');
             const viewerNextButton = document.getElementById('viewerNextButton');
             const imageViewerSpinner = document.getElementById('imageViewerSpinner');
-            const siteLogo = document.querySelector('.logo'); // Added for easter egg
             
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light';
             let currentImageIndex = 0;
 
-            // --- HELPER FUNCTIONS FOR FULLSCREEN (Copied from index.html) ---
+            // --- HELPER FUNCTIONS FOR FULLSCREEN ---
             function openFullscreen(element) {
                 if (element.requestFullscreen) {
                     element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
@@ -930,17 +935,14 @@
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
                 
                 if (!isFullscreen) {
-                    // We have exited fullscreen mode (e.g., user pressed ESC).
-                    // Close any active fullscreen overlay.
                     if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
                         closeImageViewer(); 
                     }
                 }
             }
-            // --- END OF HELPER FUNCTIONS ---
 
             function applyTheme(theme) {
-                document.documentElement.setAttribute('data-theme', theme); // Apply to html tag
+                document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
                 if (themeToggleButton) {
                     const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
@@ -960,26 +962,25 @@
             function applyLanguage(lang) {
                 currentLanguage = lang;
                 localStorage.setItem('language', lang);
-                document.documentElement.lang = lang; // Ensure HTML lang attribute is updated
+                document.documentElement.lang = lang;
                 document.querySelectorAll('[data-lang-key]').forEach(el => {
                     const key = el.dataset.langKey;
                     if (translations[lang] && translations[lang][key]) {
                         if (el.tagName === 'TITLE') {
                             document.title = translations[lang][key];
                         } else {
-                            el.textContent = translations[lang][key];
+                            el.innerHTML = translations[lang][key]; // Use innerHTML for potential icons
                         }
                     }
                 });
                 if (languageToggleButton) {
-                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
+                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FR/EN' : '🌐 FR/EN');
                 }
-                // Re-apply theme to ensure any language-dependent theme visuals update correctly
                 applyTheme(currentTheme); 
             }
             
 
-            // --- GALLERY & IMAGE FUNCTIONS (Adapted for contact page) ---
+            // --- GALLERY & IMAGE FUNCTIONS ---
             const createImageOnIntersection = (entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1012,13 +1013,8 @@
                 threshold: 0.01 
             });
 
-            /**
-             * [OPTIMIZED] Populates the gallery using a DocumentFragment to minimize DOM reflows.
-             */
             function populateGallery() {
                 if (!galleryContainer) return;
-
-                // Use a DocumentFragment to batch DOM appends for better performance.
                 const fragment = document.createDocumentFragment();
 
                 contactPageImageFilenames.forEach((fullResFilename, index) => {
@@ -1027,21 +1023,15 @@
                     item.dataset.index = index; 
                     item.dataset.fullresFilename = fullResFilename; 
                     item.dataset.imagePath = imagePath; 
-                    // Append to the fragment instead of the live DOM
                     fragment.appendChild(item);
                     imageObserver.observe(item); 
                 });
 
-                // Clear the container once, then append the entire fragment in a single operation.
                 galleryContainer.innerHTML = '';
                 galleryContainer.appendChild(fragment);
             }
 
-            // --- IMAGE VIEWER FUNCTIONS (Adapted for contact page) ---
-            /**
-             * [OPTIMIZED] Preloads the next and previous images to make navigation feel instant.
-             * @param {number} currentIndex The index of the currently displayed image.
-             */
+            // --- IMAGE VIEWER FUNCTIONS ---
             function preloadAdjacentImages(currentIndex) {
                 if (contactPageImageFilenames.length <= 1) return;
 
@@ -1081,8 +1071,6 @@
 
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
-                        
-                        // [OPTIMIZED] Once the current image is loaded, start preloading the adjacent ones.
                         preloadAdjacentImages(targetIndex);
                     };
 
@@ -1161,19 +1149,11 @@
                 if(viewerNextButton) viewerNextButton.style.display = 'flex';
             }
 
-            // --- RANDOM IMAGE VIEWER FUNCTIONS (Copied from index.html) ---
-            function openRandomImageViewer(imageUrl) {
-                if (!imageViewerOverlay || !fullscreenImage) return;
+            // --- RANDOM IMAGE VIEWER FUNCTIONS (from about.html) ---
+            function loadRandomImageViewerImage(imageUrl) {
+                if (!fullscreenImage || !imageViewerSpinner) return;
 
-                imageViewerOverlay.dataset.mode = 'random';
-                imageViewerOverlay.classList.add('active');
-                if (document.body) document.body.style.overflow = 'hidden';
-                openFullscreen(imageViewerOverlay);
-
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-                if (viewerPrevButton) viewerPrevButton.style.display = 'none';
-                if (viewerNextButton) viewerNextButton.style.display = 'flex';
-                
+                imageViewerSpinner.style.display = 'block';
                 fullscreenImage.style.transition = 'none';
                 fullscreenImage.style.opacity = 0;
                 fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -1187,16 +1167,33 @@
                         fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
                         fullscreenImage.style.opacity = 1;
                     });
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    imageViewerSpinner.style.display = 'none';
                 };
                 tempImg.onerror = () => {
-                    console.error("Error loading random image:", imageUrl);
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    closeImageViewer(); // Close if the image fails to load
+                    console.error("Error loading image in viewer:", imageUrl);
+                    imageViewerSpinner.style.display = 'none';
+                    fullscreenImage.alt = "Error loading image.";
+                    closeImageViewer();
                 };
                 tempImg.src = imageUrl;
             }
+            
+            function openRandomImageViewer() {
+                if (!imageViewerOverlay || !fullscreenImage || randomImageViewerPaths.length === 0) return;
 
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden';
+                openFullscreen(imageViewerOverlay);
+                imageViewerOverlay.dataset.mode = 'random';
+
+                if (viewerPrevButton) viewerPrevButton.style.display = 'none';
+                if (viewerNextButton) viewerNextButton.style.display = 'flex';
+
+                const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                const randomImageUrl = randomImageViewerPaths[randomIndex];
+                loadRandomImageViewerImage(randomImageUrl);
+            }
+            
             function showNextRandomImage() {
                 if (randomImageViewerPaths.length === 0) return;
 
@@ -1212,40 +1209,18 @@
 
                     const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
                     const imageUrl = randomImageViewerPaths[randomIndex];
-                    const altText = "A special random image.";
-
-                    const tempImg = new Image();
-                    tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl;
-                        fullscreenImage.alt = altText;
-                        requestAnimationFrame(() => {
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
-                            fullscreenImage.style.opacity = 1;
-                        });
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    };
-                    tempImg.onerror = () => {
-                        console.error("Error loading image:", imageUrl);
-                        fullscreenImage.alt = "Error loading image";
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    };
-                    tempImg.src = imageUrl;
+                    loadRandomImageViewerImage(imageUrl);
                 }, 300);
             }
-            // --- END RANDOM IMAGE VIEWER FUNCTIONS ---
-
-            // --- INITIALIZATION ON DOMContentLoaded ---
-
-            // Footer Year
+            
+            // --- INITIALIZATION ---
             if (currentYearSpan) {
                 currentYearSpan.textContent = new Date().getFullYear();
             }
 
-            // Apply theme and language based on localStorage after DOM is ready
             applyTheme(currentTheme); 
             applyLanguage(currentLanguage);
             
-            // Initialize gallery for contact page
             populateGallery();
             updateNavButtons();
 
@@ -1254,7 +1229,7 @@
                 themeToggleButton.addEventListener('click', () => {
                     currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                     applyTheme(currentTheme);
-                    applyLanguage(currentLanguage); // Re-apply language to update theme-dependent button text
+                    applyLanguage(currentLanguage);
                 });
             }
 
@@ -1265,14 +1240,8 @@
                 });
             }
 
-            if (siteLogo) {
-                siteLogo.addEventListener('click', () => {
-                    if (randomImageViewerPaths.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
-                        const randomImageUrl = randomImageViewerPaths[randomIndex];
-                        openRandomImageViewer(randomImageUrl);
-                    }
-                });
+            if (exploreButton) {
+                exploreButton.addEventListener('click', openRandomImageViewer);
             }
 
             // Dropdown Menu Logic (from about.html)
@@ -1295,16 +1264,13 @@
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
-                     // --- START: Added logic to ensure parent toggle ("PROJECTS") remains active if a sub-page is current ---
-                    // After toggling, check if this dropdown toggle (e.g., "PROJECTS") should be active
-                    // because one of its sub-menu items matches the current page.
                     const currentPath = window.location.pathname;
                     let isSubPageOfThisToggleActive = false;
-                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a'); // Get <a> from the .dropdown-menu
+                    const subMenuLinks = this.nextElementSibling.querySelectorAll('a');
 
                     subMenuLinks.forEach(subLink => {
                         const subLinkHrefAttribute = subLink.getAttribute('href');
-                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') { // Ensure it's a real link
+                        if (subLinkHrefAttribute && subLinkHrefAttribute !== '#') {
                             const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
                             let normalizedCurrentPath = currentPath;
                             if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
@@ -1319,9 +1285,8 @@
                     });
 
                     if (isSubPageOfThisToggleActive) {
-                        this.classList.add('active'); // Ensure the parent toggle has the active class
+                        this.classList.add('active');
                     }
-                    // --- END: Added logic ---
                 });
             });
 
@@ -1391,7 +1356,7 @@
                 }
             });
 
-            // --- TOUCH GESTURE SUPPORT FOR IMAGE VIEWER (Copied from index.html) ---
+            // --- TOUCH GESTURE SUPPORT FOR IMAGE VIEWER ---
             let touchStartX = 0;
             let touchStartY = 0;
             let touchEndX = 0;
