@@ -930,14 +930,14 @@
                 } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
                     document.webkitExitFullscreen();
                 } else if (document.msExitFullscreen) { /* IE/Edge */
-                    document.msExitFullscreen();
+                    document.msRequestFullscreen();
                 }
             }
 
             function handleFullscreenChange() {
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
                 if (!isFullscreen && imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
-                    closeImageViewer(false);
+                    closeImageViewer();
                 }
             }
 
@@ -1065,13 +1065,14 @@
             function showEasterEggImage(imageUrl) {
                 if (!imageViewerOverlay || !fullscreenImage) return;
 
+                imageViewerOverlay.dataset.mode = 'random'; // Set mode to random
                 imageViewerOverlay.classList.add('active');
                 if (document.body) document.body.style.overflow = 'hidden';
                 openFullscreen(imageViewerOverlay);
 
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-                if (viewerPrevButton) viewerPrevButton.style.display = 'none'; // Hide nav
-                if (viewerNextButton) viewerNextButton.style.display = 'none'; // Hide nav
+                if (viewerPrevButton) viewerPrevButton.style.display = 'none'; // Hide prev nav
+                if (viewerNextButton) viewerNextButton.style.display = 'flex'; // Show next nav
                 
                 fullscreenImage.style.transition = 'none';
                 fullscreenImage.style.opacity = 0;
@@ -1091,9 +1092,45 @@
                 tempImg.onerror = () => {
                     console.error("Error loading easter egg image:", imageUrl);
                     if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    closeImageViewer(true); // Close if the image fails to load
+                    closeImageViewer(); // Close if the image fails to load
                 };
                 tempImg.src = imageUrl;
+            }
+            
+            function showNextRandomImage() {
+                if (easterEggImagePaths.length === 0) return;
+
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                fullscreenImage.style.transition = 'opacity 0.3s ease-in-out';
+                fullscreenImage.style.opacity = 0;
+
+                setTimeout(() => {
+                    if (!imageViewerOverlay.classList.contains('active')) {
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        return; 
+                    }
+
+                    const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
+                    const imageUrl = easterEggImagePaths[randomIndex];
+                    const altText = "A special random image.";
+
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        fullscreenImage.src = imageUrl;
+                        fullscreenImage.alt = altText;
+                        requestAnimationFrame(() => {
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
+                        });
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    };
+                    tempImg.onerror = () => {
+                        console.error("Error loading image:", imageUrl);
+                        fullscreenImage.alt = "Error loading image";
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    };
+                    tempImg.src = imageUrl;
+                }, 300);
             }
 
             // --- EVENT LISTENERS ---
@@ -1169,23 +1206,45 @@
                 });
             }
 
-            if (viewerCloseButton) viewerCloseButton.addEventListener('click', () => closeImageViewer(true));
-            if (viewerPrevButton) viewerPrevButton.addEventListener('click', showPrevImage);
-            if (viewerNextButton) viewerNextButton.addEventListener('click', showNextImage);
+            if (viewerCloseButton) viewerCloseButton.addEventListener('click', () => closeImageViewer());
+
+            if (viewerPrevButton) viewerPrevButton.addEventListener('click', () => {
+                if (imageViewerOverlay.dataset.mode === 'gallery') {
+                    showPrevImage();
+                }
+            });
+
+            if (viewerNextButton) viewerNextButton.addEventListener('click', () => {
+                const mode = imageViewerOverlay.dataset.mode;
+                if (mode === 'random') {
+                    showNextRandomImage();
+                } else if (mode === 'gallery') {
+                    showNextImage();
+                }
+            });
             
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('click', (e) => {
-                    if (e.target === imageViewerOverlay) closeImageViewer(true);
+                    if (e.target === imageViewerOverlay) closeImageViewer();
                 });
             }
 
             document.addEventListener('keydown', (e) => {
                 if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
-                    if (e.key === 'Escape') closeImageViewer(true);
-                    // Only allow arrow navigation if buttons are visible (i.e., not easter egg mode)
-                    if (viewerPrevButton && viewerPrevButton.style.display !== 'none') {
-                        if (e.key === 'ArrowLeft') showPrevImage();
-                        if (e.key === 'ArrowRight') showNextImage();
+                    if (e.key === 'Escape') closeImageViewer();
+                    
+                    const mode = imageViewerOverlay.dataset.mode;
+                    if (mode === 'random') {
+                         if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
+                            showNextRandomImage();
+                        }
+                    } else if (mode === 'gallery') {
+                         if (e.key === 'ArrowLeft' && viewerPrevButton.style.display !== 'none') {
+                            showPrevImage();
+                        }
+                        if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
+                            showNextImage();
+                        }
                     }
                 }
             });
@@ -1211,14 +1270,22 @@
                 imageViewerOverlay.addEventListener('touchend', () => {
                     if (!imageViewerOverlay.classList.contains('active') || touchStartX === 0 || touchEndX === 0) return;
                     
-                    // Only process swipe if it's not the easter egg view
-                    if (viewerPrevButton && viewerPrevButton.style.display === 'none') return;
-                    
                     const deltaX = touchEndX - touchStartX;
                     const deltaY = touchEndY - touchStartY;
+                    const mode = imageViewerOverlay.dataset.mode;
+
                     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) { 
-                        if (deltaX < 0) showNextImage(); 
-                        else showPrevImage(); 
+                        if (mode === 'random') {
+                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') {
+                                showNextRandomImage();
+                            }
+                        } else if (mode === 'gallery') {
+                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') { 
+                                showNextImage();
+                            } else if (deltaX > 0 && viewerPrevButton.style.display !== 'none') { 
+                                showPrevImage(); 
+                            }
+                        }
                     }
                     touchStartX = touchStartY = touchEndX = touchEndY = 0; 
                 });
@@ -1268,13 +1335,14 @@
                         if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
                         if (isOpeningCallParam && currentImageIndex === targetIndex) {
-                             setTimeout(() => closeImageViewer(true), 1500);
+                             setTimeout(() => closeImageViewer(), 1500);
                         }
                     };
                     tempImg.src = imageUrl;
                 };
 
                 if (isOpeningCallParam) { 
+                    imageViewerOverlay.dataset.mode = 'gallery'; // Set mode to gallery
                     currentImageIndex = newIndex;
                     imageViewerOverlay.classList.add('active');
                     if (document.body) document.body.style.overflow = 'hidden';
@@ -1300,13 +1368,11 @@
                 loadAndShowImageInViewer(index, true);
             }
 
-            function closeImageViewer(shouldExitFullscreen) {
+            function closeImageViewer() {
                 if (!imageViewerOverlay) return;
-                if (shouldExitFullscreen) {
-                    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-                    if (isFullscreen) {
-                        exitFullscreen();
-                    }
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                if (isFullscreen) {
+                    exitFullscreen();
                 }
                 imageViewerOverlay.classList.remove('active');
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
@@ -1331,8 +1397,13 @@
                       if(viewerNextButton) viewerNextButton.style.display = 'none';
                       return;
                  }
-                 if(viewerPrevButton) viewerPrevButton.style.display = 'block';
-                 if(viewerNextButton) viewerNextButton.style.display = 'block';
+                 if (imageViewerOverlay.dataset.mode === 'random') {
+                    if(viewerPrevButton) viewerPrevButton.style.display = 'none';
+                    if(viewerNextButton) viewerNextButton.style.display = 'flex';
+                 } else { // gallery mode
+                    if(viewerPrevButton) viewerPrevButton.style.display = 'flex';
+                    if(viewerNextButton) viewerNextButton.style.display = 'flex';
+                 }
             }
 
             // --- INITIAL LOAD ---
