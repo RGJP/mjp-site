@@ -483,7 +483,7 @@
 
        .viewer-close-button {
             top: 0rem;      /* was: calc(var(--base-spacing) * 1.5); */
-            right: 0rem;    /* was: calc(var(--base-spacing) * 1.5); */
+            right: 0rem;     /* was: calc(var(--base-spacing) * 1.5); */
         }
 
 
@@ -494,7 +494,7 @@
         }
 
         .viewer-nav-button.next {
-            right: 0.5rem;      /* was: calc(var(--base-spacing) * 1.5); */
+            right: 0.5rem;     /* was: calc(var(--base-spacing) * 1.5); */
             top: 50%;
             transform: translateY(-50%);
         }
@@ -1007,7 +1007,7 @@
 
             // Easter Egg Elements
             const siteLogo = document.querySelector('.logo');
-            const easterEggImagePaths = [
+            const randomImageViewerPaths = [
                 'images/bruine/fullsize/1.jpg', 'images/bruine/fullsize/10.jpg', 'images/bruine/fullsize/100.jpg', 'images/bruine/fullsize/101.jpg', 'images/bruine/fullsize/102.jpg', 'images/bruine/fullsize/103.jpg', 'images/bruine/fullsize/104.jpg', 'images/bruine/fullsize/105.jpg', 'images/bruine/fullsize/106.jpg', 'images/bruine/fullsize/107.jpg', 'images/bruine/fullsize/108.jpg', 'images/bruine/fullsize/109.jpg', 'images/bruine/fullsize/11.jpg', 'images/bruine/fullsize/110.jpg', 'images/bruine/fullsize/111.jpg', 'images/bruine/fullsize/112.jpg', 'images/bruine/fullsize/113.jpg', 'images/bruine/fullsize/114.jpg', 'images/bruine/fullsize/115.jpg', 'images/bruine/fullsize/116.jpg', 'images/bruine/fullsize/117.jpg', 'images/bruine/fullsize/12.jpg', 'images/bruine/fullsize/13.jpg', 'images/bruine/fullsize/14.jpg', 'images/bruine/fullsize/15.jpg', 'images/bruine/fullsize/16.jpg', 'images/bruine/fullsize/17.jpg', 'images/bruine/fullsize/18.jpg', 'images/bruine/fullsize/19.jpg', 'images/bruine/fullsize/2.jpg', 'images/bruine/fullsize/20.jpg', 'images/bruine/fullsize/21.jpg', 'images/bruine/fullsize/22.jpg', 'images/bruine/fullsize/23.jpg', 'images/bruine/fullsize/24.jpg', 'images/bruine/fullsize/25.jpg', 'images/bruine/fullsize/26.jpg', 'images/bruine/fullsize/27.jpg', 'images/bruine/fullsize/29.jpg', 'images/bruine/fullsize/3.jpg', 'images/bruine/fullsize/30.jpg', 'images/bruine/fullsize/31.jpg', 'images/bruine/fullsize/32.jpg', 'images/bruine/fullsize/33.jpg', 'images/bruine/fullsize/34.jpg', 'images/bruine/fullsize/36.jpg', 'images/bruine/fullsize/37.jpg', 'images/bruine/fullsize/38.jpg', 'images/bruine/fullsize/39.jpg', 'images/bruine/fullsize/4.jpg', 'images/bruine/fullsize/40.jpg', 'images/bruine/fullsize/41.jpg', 'images/bruine/fullsize/42.jpg', 'images/bruine/fullsize/43.jpg', 'images/bruine/fullsize/44.jpg', 'images/bruine/fullsize/45.jpg', 'images/bruine/fullsize/46.jpg', 'images/bruine/fullsize/47.jpg', 'images/bruine/fullsize/48.jpg', 'images/bruine/fullsize/49.jpg', 'images/bruine/fullsize/5.jpg', 'images/bruine/fullsize/50.jpg', 'images/bruine/fullsize/51.jpg', 'images/bruine/fullsize/54.jpg', 'images/bruine/fullsize/55.jpg', 'images/bruine/fullsize/56.jpg', 'images/bruine/fullsize/57.jpg', 'images/bruine/fullsize/58.jpg', 'images/bruine/fullsize/59.jpg', 'images/bruine/fullsize/6.jpg', 'images/bruine/fullsize/60.jpg', 'images/bruine/fullsize/61.jpg', 'images/bruine/fullsize/62.jpg', 'images/bruine/fullsize/63.jpg', 'images/bruine/fullsize/64.jpg', 'images/bruine/fullsize/65.jpg', 'images/bruine/fullsize/66.jpg', 'images/bruine/fullsize/67.jpg', 'images/bruine/fullsize/68.jpg', 'images/bruine/fullsize/69.jpg', 'images/bruine/fullsize/7.jpg', 'images/bruine/fullsize/70.jpg', 'images/bruine/fullsize/71.jpg', 'images/bruine/fullsize/72.jpg', 'images/bruine/fullsize/73.jpg', 'images/bruine/fullsize/74.jpg', 'images/bruine/fullsize/75.jpg', 'images/bruine/fullsize/76.jpg', 'images/bruine/fullsize/77.jpg', 'images/bruine/fullsize/78.jpg', 'images/bruine/fullsize/8.jpg', 'images/bruine/fullsize/80.jpg', 'images/bruine/fullsize/81.jpg', 'images/bruine/fullsize/82.jpg', 'images/bruine/fullsize/83.jpg', 'images/bruine/fullsize/84.jpg', 'images/bruine/fullsize/85.jpg', 'images/bruine/fullsize/86.jpg', 'images/bruine/fullsize/87.jpg', 'images/bruine/fullsize/88.jpg', 'images/bruine/fullsize/89.jpg', 'images/bruine/fullsize/9.jpg', 'images/bruine/fullsize/90.jpg', 'images/bruine/fullsize/91.jpg', 'images/bruine/fullsize/92.jpg', 'images/bruine/fullsize/93.jpg', 'images/bruine/fullsize/94.jpg', 'images/bruine/fullsize/95.jpg', 'images/bruine/fullsize/96.jpg', 'images/bruine/fullsize/97.jpg', 'images/bruine/fullsize/98.jpg', 'images/bruine/fullsize/99.jpg',
                 'images/fullsize/Galerie-1.jpg', 'images/fullsize/Galerie-10.jpg', 'images/fullsize/Galerie-100.jpg', 'images/fullsize/Galerie-101.jpg', 'images/fullsize/Galerie-102.jpg', 'images/fullsize/Galerie-103.jpg', 'images/fullsize/Galerie-104.jpg', 'images/fullsize/Galerie-105.jpg', 'images/fullsize/Galerie-106.jpg', 'images/fullsize/Galerie-107.jpg', 'images/fullsize/Galerie-108.jpg', 'images/fullsize/Galerie-109.jpg', 'images/fullsize/Galerie-11.jpg', 'images/fullsize/Galerie-110.jpg', 'images/fullsize/Galerie-111.jpg', 'images/fullsize/Galerie-112.jpg', 'images/fullsize/Galerie-113.jpg', 'images/fullsize/Galerie-114.jpg', 'images/fullsize/Galerie-115.jpg', 'images/fullsize/Galerie-116.jpg', 'images/fullsize/Galerie-117.jpg', 'images/fullsize/Galerie-118.jpg', 'images/fullsize/Galerie-119.jpg', 'images/fullsize/Galerie-12.jpg', 'images/fullsize/Galerie-120.jpg', 'images/fullsize/Galerie-121.jpg', 'images/fullsize/Galerie-122.jpg', 'images/fullsize/Galerie-123.jpg', 'images/fullsize/Galerie-124.jpg', 'images/fullsize/Galerie-125.jpg', 'images/fullsize/Galerie-126.jpg', 'images/fullsize/Galerie-127.jpg', 'images/fullsize/Galerie-128.jpg', 'images/fullsize/Galerie-129.jpg', 'images/fullsize/Galerie-13.jpg', 'images/fullsize/Galerie-130.jpg', 'images/fullsize/Galerie-131.jpg', 'images/fullsize/Galerie-132.jpg', 'images/fullsize/Galerie-133.jpg', 'images/fullsize/Galerie-134.jpg', 'images/fullsize/Galerie-135.jpg', 'images/fullsize/Galerie-136.jpg', 'images/fullsize/Galerie-137.jpg', 'images/fullsize/Galerie-138.jpg', 'images/fullsize/Galerie-139.jpg', 'images/fullsize/Galerie-14.jpg', 'images/fullsize/Galerie-140.jpg', 'images/fullsize/Galerie-141.jpg', 'images/fullsize/Galerie-142.jpg', 'images/fullsize/Galerie-143.jpg', 'images/fullsize/Galerie-144.jpg', 'images/fullsize/Galerie-145.jpg', 'images/fullsize/Galerie-15.jpg', 'images/fullsize/Galerie-16.jpg', 'images/fullsize/Galerie-17.jpg', 'images/fullsize/Galerie-18.jpg', 'images/fullsize/Galerie-19.jpg', 'images/fullsize/Galerie-2.jpg', 'images/fullsize/Galerie-20.jpg', 'images/fullsize/Galerie-21.jpg', 'images/fullsize/Galerie-22.jpg', 'images/fullsize/Galerie-23.jpg', 'images/fullsize/Galerie-24.jpg', 'images/fullsize/Galerie-25.jpg', 'images/fullsize/Galerie-26.jpg', 'images/fullsize/Galerie-27.jpg', 'images/fullsize/Galerie-28.jpg', 'images/fullsize/Galerie-29.jpg', 'images/fullsize/Galerie-3.jpg', 'images/fullsize/Galerie-30.jpg', 'images/fullsize/Galerie-31.jpg', 'images/fullsize/Galerie-32.jpg', 'images/fullsize/Galerie-33.jpg', 'images/fullsize/Galerie-34.jpg', 'images/fullsize/Galerie-35.jpg', 'images/fullsize/Galerie-36.jpg', 'images/fullsize/Galerie-37.jpg', 'images/fullsize/Galerie-38.jpg', 'images/fullsize/Galerie-39.jpg', 'images/fullsize/Galerie-4.jpg', 'images/fullsize/Galerie-40.jpg', 'images/fullsize/Galerie-41.jpg', 'images/fullsize/Galerie-42.jpg', 'images/fullsize/Galerie-43.jpg', 'images/fullsize/Galerie-44.jpg', 'images/fullsize/Galerie-45.jpg', 'images/fullsize/Galerie-46.jpg', 'images/fullsize/Galerie-47.jpg', 'images/fullsize/Galerie-48.jpg', 'images/fullsize/Galerie-49.jpg', 'images/fullsize/Galerie-5.jpg', 'images/fullsize/Galerie-50.jpg', 'images/fullsize/Galerie-51.jpg', 'images/fullsize/Galerie-52.jpg', 'images/fullsize/Galerie-53.jpg', 'images/fullsize/Galerie-54.jpg', 'images/fullsize/Galerie-55.jpg', 'images/fullsize/Galerie-56.jpg', 'images/fullsize/Galerie-57.jpg', 'images/fullsize/Galerie-58.jpg', 'images/fullsize/Galerie-59.jpg', 'images/fullsize/Galerie-6.jpg', 'images/fullsize/Galerie-60.jpg', 'images/fullsize/Galerie-61.jpg', 'images/fullsize/Galerie-62.jpg', 'images/fullsize/Galerie-63.jpg', 'images/fullsize/Galerie-64.jpg', 'images/fullsize/Galerie-65.jpg', 'images/fullsize/Galerie-66.jpg', 'images/fullsize/Galerie-67.jpg', 'images/fullsize/Galerie-68.jpg', 'images/fullsize/Galerie-69.jpg', 'images/fullsize/Galerie-7.jpg', 'images/fullsize/Galerie-70.jpg', 'images/fullsize/Galerie-71.jpg', 'images/fullsize/Galerie-72.jpg', 'images/fullsize/Galerie-73.jpg', 'images/fullsize/Galerie-74.jpg', 'images/fullsize/Galerie-75.jpg', 'images/fullsize/Galerie-76.jpg', 'images/fullsize/Galerie-77.jpg', 'images/fullsize/Galerie-78.jpg', 'images/fullsize/Galerie-79.jpg', 'images/fullsize/Galerie-8.jpg', 'images/fullsize/Galerie-80.jpg', 'images/fullsize/Galerie-81.jpg', 'images/fullsize/Galerie-82.jpg', 'images/fullsize/Galerie-83.jpg', 'images/fullsize/Galerie-84.jpg', 'images/fullsize/Galerie-85.jpg', 'images/fullsize/Galerie-86.jpg', 'images/fullsize/Galerie-87.jpg', 'images/fullsize/Galerie-88.jpg', 'images/fullsize/Galerie-89.jpg', 'images/fullsize/Galerie-9.jpg', 'images/fullsize/Galerie-90.jpg', 'images/fullsize/Galerie-91.jpg', 'images/fullsize/Galerie-92.jpg', 'images/fullsize/Galerie-93.jpg', 'images/fullsize/Galerie-94.jpg', 'images/fullsize/Galerie-95.jpg', 'images/fullsize/Galerie-96.jpg', 'images/fullsize/Galerie-97.jpg', 'images/fullsize/Galerie-98.jpg', 'images/fullsize/Galerie-99.jpg',
                 'images/passage/fullsize/Photos Passage-1.jpg', 'images/passage/fullsize/Photos Passage-10.jpg', 'images/passage/fullsize/Photos Passage-11.jpg', 'images/passage/fullsize/Photos Passage-12.jpg', 'images/passage/fullsize/Photos Passage-13.jpg', 'images/passage/fullsize/Photos Passage-14.jpg', 'images/passage/fullsize/Photos Passage-2.jpg', 'images/passage/fullsize/Photos Passage-3.jpg', 'images/passage/fullsize/Photos Passage-4.jpg', 'images/passage/fullsize/Photos Passage-5.jpg', 'images/passage/fullsize/Photos Passage-6.jpg', 'images/passage/fullsize/Photos Passage-7.jpg', 'images/passage/fullsize/Photos Passage-8.jpg', 'images/passage/fullsize/Photos Passage-9.jpg'
@@ -1216,6 +1216,7 @@
             
             function openImageViewer(index) {
                 if(imageViewerOverlay) {
+                    imageViewerOverlay.dataset.mode = 'gallery';
                     openFullscreen(imageViewerOverlay);
                 }
                 loadAndShowImageInViewer(index, true); 
@@ -1254,26 +1255,27 @@
                     if(viewerNextButton) viewerNextButton.style.display = 'none';
                     return;
                 }
-                if(viewerPrevButton) viewerPrevButton.style.display = 'block';
-                if(viewerNextButton) viewerNextButton.style.display = 'block';
+                if(viewerPrevButton) viewerPrevButton.style.display = 'flex';
+                if(viewerNextButton) viewerNextButton.style.display = 'flex';
             }
 
-            // --- EASTER EGG FUNCTION ---
-            function showEasterEggImage(imageUrl) {
+            // --- RANDOM IMAGE VIEWER FUNCTIONS ---
+            function openRandomImageViewer(imageUrl) {
                 if (!imageViewerOverlay || !fullscreenImage) return;
 
+                imageViewerOverlay.dataset.mode = 'random';
                 imageViewerOverlay.classList.add('active');
                 if (document.body) document.body.style.overflow = 'hidden';
                 openFullscreen(imageViewerOverlay);
 
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
                 if (viewerPrevButton) viewerPrevButton.style.display = 'none';
-                if (viewerNextButton) viewerNextButton.style.display = 'none';
+                if (viewerNextButton) viewerNextButton.style.display = 'flex';
                 
                 fullscreenImage.style.transition = 'none';
                 fullscreenImage.style.opacity = 0;
                 fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                fullscreenImage.alt = "Loading secret image...";
+                fullscreenImage.alt = "Loading random image...";
 
                 const tempImg = new Image();
                 tempImg.onload = () => {
@@ -1286,11 +1288,47 @@
                     if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                 };
                 tempImg.onerror = () => {
-                    console.error("Error loading easter egg image:", imageUrl);
+                    console.error("Error loading random image:", imageUrl);
                     if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                     closeImageViewer(); // Close if the image fails to load
                 };
                 tempImg.src = imageUrl;
+            }
+
+            function showNextRandomImage() {
+                if (randomImageViewerPaths.length === 0) return;
+
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                fullscreenImage.style.transition = 'opacity 0.3s ease-in-out';
+                fullscreenImage.style.opacity = 0;
+
+                setTimeout(() => {
+                    if (!imageViewerOverlay.classList.contains('active')) {
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        return; 
+                    }
+
+                    const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                    const imageUrl = randomImageViewerPaths[randomIndex];
+                    const altText = "A special random image.";
+
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        fullscreenImage.src = imageUrl;
+                        fullscreenImage.alt = altText;
+                        requestAnimationFrame(() => {
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
+                        });
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    };
+                    tempImg.onerror = () => {
+                        console.error("Error loading image:", imageUrl);
+                        fullscreenImage.alt = "Error loading image";
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    };
+                    tempImg.src = imageUrl;
+                }, 300);
             }
             
             // --- EVENT LISTENERS ---
@@ -1311,10 +1349,10 @@
 
             if (siteLogo) {
                 siteLogo.addEventListener('click', () => {
-                    if (easterEggImagePaths.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
-                        const randomImageUrl = easterEggImagePaths[randomIndex];
-                        showEasterEggImage(randomImageUrl);
+                    if (randomImageViewerPaths.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                        const randomImageUrl = randomImageViewerPaths[randomIndex];
+                        openRandomImageViewer(randomImageUrl);
                     }
                 });
             }
@@ -1388,8 +1426,21 @@
             }
 
             if (viewerCloseButton) viewerCloseButton.addEventListener('click', closeImageViewer);
-            if (viewerPrevButton) viewerPrevButton.addEventListener('click', showPrevImage);
-            if (viewerNextButton) viewerNextButton.addEventListener('click', showNextImage);
+            
+            if (viewerPrevButton) viewerPrevButton.addEventListener('click', () => {
+                if (imageViewerOverlay.dataset.mode === 'gallery') {
+                    showPrevImage();
+                }
+            });
+
+            if (viewerNextButton) viewerNextButton.addEventListener('click', () => {
+                const mode = imageViewerOverlay.dataset.mode;
+                if (mode === 'random') {
+                    showNextRandomImage();
+                } else if (mode === 'gallery') {
+                    showNextImage();
+                }
+            });
             
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('click', (e) => {
@@ -1400,10 +1451,19 @@
             document.addEventListener('keydown', (e) => {
                 if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
                     if (e.key === 'Escape') closeImageViewer();
-                    // Only allow arrow navigation if buttons are visible (i.e., not easter egg mode)
-                    if (viewerPrevButton && viewerPrevButton.style.display !== 'none') {
-                        if (e.key === 'ArrowLeft') showPrevImage();
-                        if (e.key === 'ArrowRight') showNextImage();
+
+                    const mode = imageViewerOverlay.dataset.mode;
+                    if (mode === 'random') {
+                        if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
+                            showNextRandomImage();
+                        }
+                    } else if (mode === 'gallery') {
+                        if (e.key === 'ArrowLeft' && viewerPrevButton.style.display !== 'none') {
+                            showPrevImage();
+                        }
+                        if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
+                            showNextImage();
+                        }
                     }
                 }
             });
@@ -1431,33 +1491,31 @@
 
                 imageViewerOverlay.addEventListener('touchend', (e) => {
                     if (!imageViewerOverlay.classList.contains('active')) return;
-
-                    // Only process swipe if it's not the easter egg view
-                    if (viewerPrevButton && viewerPrevButton.style.display === 'none') return;
                     
                     if (touchStartX === 0 || touchEndX === 0) { 
-                        touchStartX = 0;
-                        touchStartY = 0;
-                        touchEndX = 0;
-                        touchEndY = 0;
+                        touchStartX = 0; touchStartY = 0; touchEndX = 0; touchEndY = 0;
                         return;
                     }
 
                     const deltaX = touchEndX - touchStartX;
                     const deltaY = touchEndY - touchStartY;
+                    const mode = imageViewerOverlay.dataset.mode;
 
                     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
-                        if (deltaX < 0) { 
-                            showNextImage();
-                        } else { 
-                            showPrevImage();
+                        if (mode === 'random') {
+                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') {
+                                showNextRandomImage();
+                            }
+                        } else if (mode === 'gallery') {
+                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') { 
+                                showNextImage();
+                            } else if (deltaX > 0 && viewerPrevButton.style.display !== 'none') { 
+                                showPrevImage();
+                            }
                         }
                     }
                     
-                    touchStartX = 0;
-                    touchStartY = 0;
-                    touchEndX = 0;
-                    touchEndY = 0;
+                    touchStartX = 0; touchStartY = 0; touchEndX = 0; touchEndY = 0;
                 });
             }
 
