@@ -864,7 +864,7 @@
             const artistVideoElement = document.getElementById('artistVideoElement');
             const videoSpinnerElement = document.getElementById('videoSpinner');
             
-            // Easter Egg & Viewer Elements (from index.html)
+            // Easter Egg & Viewer Elements
             const imageViewerOverlay = document.getElementById('imageViewerOverlay');
             const fullscreenImage = document.getElementById('fullscreenImage');
             const viewerCloseButton = document.getElementById('viewerCloseButton');
@@ -881,7 +881,7 @@
             let currentLanguage = localStorage.getItem('language') || 'en';
             let currentTheme = localStorage.getItem('theme') || 'light'; 
 
-            // --- HELPER FUNCTIONS FOR FULLSCREEN (from index.html) ---
+            // --- HELPER FUNCTIONS FOR FULLSCREEN ---
             function openFullscreen(element) {
                 if (element.requestFullscreen) {
                     element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
@@ -915,7 +915,7 @@
                 }
             }
             
-            // --- IMAGE VIEWER & EASTER EGG FUNCTIONS (from index.html) ---
+            // --- IMAGE VIEWER & RANDOM PHOTO FUNCTIONS ---
             function closeImageViewer() {
                 if (!imageViewerOverlay) return;
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
@@ -929,18 +929,14 @@
                 }
             }
 
-            function showEasterEggImage(imageUrl) {
-                if (!imageViewerOverlay || !fullscreenImage) return;
-                imageViewerOverlay.classList.add('active');
-                if (document.body) document.body.style.overflow = 'hidden';
-                openFullscreen(imageViewerOverlay);
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-                if (viewerPrevButton) viewerPrevButton.style.display = 'none';
-                if (viewerNextButton) viewerNextButton.style.display = 'none';
+            // New function to just load an image into the viewer
+            function loadImageViewerImage(imageUrl) {
+                if (!fullscreenImage || !imageViewerSpinner) return;
+
+                imageViewerSpinner.style.display = 'block';
                 fullscreenImage.style.transition = 'none';
                 fullscreenImage.style.opacity = 0;
-                fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                fullscreenImage.alt = "Loading secret image...";
+
                 const tempImg = new Image();
                 tempImg.onload = () => {
                     fullscreenImage.src = imageUrl;
@@ -949,15 +945,34 @@
                         fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
                         fullscreenImage.style.opacity = 1;
                     });
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    imageViewerSpinner.style.display = 'none';
                 };
                 tempImg.onerror = () => {
-                    console.error("Error loading easter egg image:", imageUrl);
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    console.error("Error loading image in viewer:", imageUrl);
+                    imageViewerSpinner.style.display = 'none';
                     closeImageViewer();
                 };
                 tempImg.src = imageUrl;
             }
+            
+            // New function to open the viewer in random mode
+            function openRandomImageViewer() {
+                if (!imageViewerOverlay || !fullscreenImage || easterEggImagePaths.length === 0) return;
+
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden';
+                openFullscreen(imageViewerOverlay);
+
+                // Configure buttons for random mode: hide prev, show next
+                if (viewerPrevButton) viewerPrevButton.style.display = 'none';
+                if (viewerNextButton) viewerNextButton.style.display = 'flex';
+
+                // Load the first random image
+                const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
+                const randomImageUrl = easterEggImagePaths[randomIndex];
+                loadImageViewerImage(randomImageUrl);
+            }
+
 
             // --- INITIALIZATION ---
             function applyTheme(theme) {
@@ -988,7 +1003,7 @@
                         if (el.tagName === 'TITLE') {
                             document.title = translations[lang][key];
                         } else {
-                            el.textContent = translations[lang][key];
+                            el.innerHTML = translations[lang][key];
                         }
                     }
                 });
@@ -1018,12 +1033,21 @@
                 });
             }
 
+            // UPDATED: Site logo now opens the random viewer
             if (siteLogo) {
-                siteLogo.addEventListener('click', () => {
-                    if (easterEggImagePaths.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
-                        const randomImageUrl = easterEggImagePaths[randomIndex];
-                        showEasterEggImage(randomImageUrl);
+                siteLogo.addEventListener('click', openRandomImageViewer);
+            }
+            
+            // NEW: Next button listener for random viewer
+            if (viewerNextButton) {
+                viewerNextButton.addEventListener('click', () => {
+                    // Check if we are in "random photo" mode (where the prev button is hidden)
+                    if (imageViewerOverlay.classList.contains('active') && viewerPrevButton.style.display === 'none') {
+                        if (easterEggImagePaths.length > 0) {
+                            const randomIndex = Math.floor(Math.random() * easterEggImagePaths.length);
+                            const randomImageUrl = easterEggImagePaths[randomIndex];
+                            loadImageViewerImage(randomImageUrl); // Load the next random image
+                        }
                     }
                 });
             }
@@ -1084,7 +1108,7 @@
                 });
             });
 
-            // Image Viewer Event Listeners (from index.html)
+            // Image Viewer Event Listeners
             if (viewerCloseButton) viewerCloseButton.addEventListener('click', closeImageViewer);
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('click', (e) => {
@@ -1094,10 +1118,14 @@
             document.addEventListener('keydown', (e) => {
                 if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
                     if (e.key === 'Escape') closeImageViewer();
+                    // NEW: Allow Right Arrow key to navigate to the next random image
+                    if (e.key === 'ArrowRight' && viewerPrevButton.style.display === 'none') {
+                        viewerNextButton.click();
+                    }
                 }
             });
 
-            // Fullscreen change listeners (from index.html)
+            // Fullscreen change listeners
             document.addEventListener('fullscreenchange', handleFullscreenChange);
             document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
             document.addEventListener('mozfullscreenchange', handleFullscreenChange);
