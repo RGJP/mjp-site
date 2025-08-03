@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBH50G5K56"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-        gtag('config', 'G-XBH50G5K56');
-    </script>
+  gtag('config', 'G-XBH50G5K56');
+</script>
     <script>
         // IMMEDIATE THEME & LANGUAGE APPLICATION
         // This script runs synchronously and applies the theme and language
@@ -29,6 +29,7 @@
             document.documentElement.lang = storedLanguage;
         })();
     </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -46,7 +47,7 @@
     <meta property="og:locale:alternate" content="en_CA">
     <meta property="og:locale:alternate" content="fr_CA">
 
-    <title data-lang-key="pageTitleGallery">Gallery • Marius Jomphe Photography</title>
+    <title data-lang-key="pageTitleContact">Marius Jomphe ‧ Contact</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -63,23 +64,16 @@
             --button-text-color: #1a1a1a;
             --button-hover-bg-color: #c7c7c7;
             --base-font-size: 16px;
-            --base-spacing: 1rem;
-            --video-border-color: #000000; /* Black for light theme video border */
-            --video-spinner-track-color: rgba(0, 0, 0, 0.1); /* Darker track for light theme spinner */
-            /* Added shadow color variable */
-            --video-shadow-color: rgba(0, 0, 0, 0.15); /* Light theme shadow */
-            /* Added from contact.html for image viewer */
             --image-viewer-bg: rgba(0, 0, 0, 0.95);
             --image-viewer-nav-color: #ffffff;
             --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
-            --loader-color: #333; /* For spinner */
-            /* PROMO OVERLAY LIGHT THEME */
-            --promo-overlay-bg: rgba(255, 255, 255, 0.9);
-            --promo-content-bg: #ffffff;
-            --promo-text-color: #1a1a1a;
-            --promo-link-color: #007bff;
-            --promo-button-bg: #007bff;
-            --promo-button-hover-bg: #0056b3;
+            --loader-color: #333; /* Updated to match about.html */
+            --base-spacing: 1rem;
+            
+            /* Email Button Colors for Light Theme (Dark button on light background) */
+            --email-button-bg: #1a1a1a; /* Black */
+            --email-button-text: #f4f7f6; /* White */
+            --email-button-hover-bg: #333333; /* Darker grey on hover */
         }
 
         [data-theme="dark"] {
@@ -92,24 +86,20 @@
             --button-bg-color: #444444;
             --button-text-color: #f4f7f6;
             --button-hover-bg-color: #5a5a5a;
-            --video-border-color: #ffffff; /* White for dark theme video border */
-            --video-spinner-track-color: rgba(255, 255, 255, 0.3); /* Lighter track for dark theme spinner */
-            /* Updated shadow color for dark theme */
-            --video-shadow-color: rgba(0, 0, 0, 0.4); /* Dark theme shadow (slightly darker to stand out on dark bg) */
-            /* Added from contact.html for image viewer */
-            --image-viewer-bg: rgba(0, 0, 0, 0.95);
+            --image-viewer-bg: rgba(0, 0, 0, 0.95); /* Consistent with light theme for viewer */
             --image-viewer-nav-color: #e0e0e0;
-            --loader-color: #f4f7f6; /* For spinner */
-            /* PROMO OVERLAY DARK THEME */
-            --promo-overlay-bg: rgba(26, 26, 26, 0.9);
-            --promo-content-bg: #2c2c2c;
-            --promo-text-color: #f4f7f6;
-            --promo-link-color: #90caf9;
-            --promo-button-bg: #90caf9;
-            --promo-button-hover-bg: #6a95b3;
+            --loader-color: #f4f7f6; /* Updated to match about.html */
+
+            /* Email Button Colors for Dark Theme (Light button on dark background) */
+            --email-button-bg: #f4f7f6; /* White */
+            --email-button-text: #1a1a1a; /* Black */
+            --email-button-hover-bg: #c7c7c7; /* Lighter grey on hover */
         }
 
-        *, *::before, *::after {
+        /* Base Styles */
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -157,6 +147,7 @@
             padding: var(--base-spacing);
         }
 
+        /* Header Styles */
         .site-header {
             background-color: var(--header-bg-color);
             padding: var(--base-spacing) 0;
@@ -179,7 +170,7 @@
             font-weight: 100;
             color: var(--text-color);
             white-space: nowrap;
-            /* Removed cursor: pointer and user-select properties from .logo to match about.html */
+            /* Removed cursor and user-select properties to match about.html */
         }
 
         .main-nav ul {
@@ -200,30 +191,29 @@
             color: var(--text-color);
             font-weight: 700;
         }
-        /* START: Copied from about.html for 1:1 spacing and behavior */
+
         .main-nav a.active::after {
             content: '';
             position: absolute;
             width: 100%;
             height: 2px;
             display: block;
-            bottom: 0px; 
+            bottom: 0px;
             left: 0;
             background: var(--text-color);
         }
 
-        .main-nav a::after { 
+        .main-nav a::after {
             content: '';
             position: absolute;
             width: 0;
             height: 2px;
             display: block;
-            margin-top: 5px; 
+            margin-top: 5px;
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
         }
-        
         .main-nav a:hover::after {
             width: 100%;
             left: 0;
@@ -235,27 +225,26 @@
                 display: none;
             }
         }
-        /* END: Copied from about.html */
 
         .main-nav a:hover,
-        .main-nav .dropdown > a:hover {
+        .main-nav .dropdown > a:hover { /* Updated to match about.html */
             color: var(--nav-link-hover-color);
             text-decoration: none;
         }
 
-        /* Dropdown Menu Styles */
+        /* Dropdown Menu Styles (from about.html) */
         .main-nav .dropdown {
             position: relative;
         }
 
-        .main-nav .dropdown > a {
-            cursor: pointer;
+        .main-nav .dropdown > a { 
+            cursor: pointer; 
         }
         
         .main-nav .dropdown-menu {
             display: none;
             position: absolute;
-            top: calc(100% + 5px);
+            top: calc(100% + 5px); 
             left: 0;
             background-color: var(--header-bg-color);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
@@ -265,7 +254,7 @@
             min-width: 200px;
             z-index: 1100;
             border-radius: 4px;
-            border: 1px solid var(--button-bg-color);
+            border: 1px solid var(--button-bg-color); 
         }
 
         .main-nav .dropdown-menu.show {
@@ -276,10 +265,10 @@
             display: block;
             padding: calc(var(--base-spacing) * 0.6) calc(var(--base-spacing) * 1.2);
             color: var(--nav-link-color);
-            text-transform: none;
+            text-transform: none; 
             font-size: clamp(0.85rem, 1.3vw, 1rem);
-            font-weight: 400;
-            white-space: nowrap;
+            font-weight: 400; 
+            white-space: nowrap; 
         }
 
         .main-nav .dropdown-menu li a:hover {
@@ -292,7 +281,6 @@
         .main-nav .dropdown-menu li a:hover::after {
             display: none; 
         }
-        /* End Dropdown Menu Styles */
 
         .controls {
             display: flex;
@@ -312,9 +300,9 @@
             transition: color 0.2s ease;
             text-transform: uppercase;
             line-height: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            display: inline-flex; /* Updated */
+            align-items: center; /* Added */
+            gap: 8px; /* Added */
             min-width: auto;
         }
 
@@ -324,7 +312,7 @@
             width: 0;
             height: 2px;
             display: block;
-            bottom: 0;
+            bottom: 0; /* Updated to prevent clipping with icon */
             right: 0;
             background: var(--nav-link-hover-color);
             transition: width 0.3s ease;
@@ -342,43 +330,103 @@
 
         .control-button:active::after,
         .control-button:focus::after {
-            width: 0; 
+            width: 0; /* Ensure no underline on click (active) or focus */
         }
-
-        [data-theme="dark"] .control-button {
-            color: var(--nav-link-color);
-        }
-
-        /* Shuffle icon specific styles */
+        
+        /* Shuffle icon specific styles (from about.html) */
         .shuffle-icon {
             width: 1.1em;
             height: 1.1em;
             object-fit: contain;
         }
 
-        /* Hide one image based on theme */
         html[data-theme="light"] .shuffle-icon.dark-theme-image,
         html[data-theme="dark"] .shuffle-icon.light-theme-image {
             display: none;
         }
 
-        /* Image Gallery */
+
+        [data-theme="dark"] .control-button {
+            color: var(--nav-link-color);
+        }
+
+        /* Contact Page Specific Styles */
+        .contact-section .container {
+            padding-top: calc(var(--base-spacing) * 2);
+            padding-bottom: calc(var(--base-spacing) * 0);
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .contact-page-title {
+            text-align: center;
+            margin-bottom: calc(var(--base-spacing) * 2.5);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 400;
+        }
+
+        .contact-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 25vh;
+        }
+
+        .contact-text {
+             font-size: 1.2rem;
+            margin-bottom: calc(var(--base-spacing) * 2.5);
+            text-align: center;
+
+        }
+
+        /* New Email Button Styles */
+        .email-button {
+            background-color: var(--email-button-bg);
+            color: var(--email-button-text);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .email-button:hover {
+            background-color: var(--email-button-hover-bg);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .email-button:active {
+            transform: translateY(0);
+        }
+
+        /* Image Gallery Styles (MODIFIED) */
         .image-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            justify-content: center; 
+            padding: 0; 
+            max-width: 1800px;
+            margin: 0 auto;
             gap: var(--base-spacing);
-            padding: calc(var(--base-spacing) * 2) 0;
         }
 
         .gallery-item {
             position: relative;
             overflow: hidden;
-            aspect-ratio: 1 / 1;
-            background-color: var(--placeholder-bg-color);
+            background-color: transparent;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             content-visibility: auto;
-            contain-intrinsic-size: 250px 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .gallery-item:hover {
             transform: scale(1.03);
@@ -386,17 +434,20 @@
         }
 
         .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
+            max-width: 100%; 
+            max-height: 250px;
+            width: auto; 
+            height: auto; 
+            object-fit: contain;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
+            display: block;
         }
         .gallery-item img.loaded {
             opacity: 1;
         }
 
-        /* Fullscreen Image Viewer */
+        /* Fullscreen Image Viewer Styles */
         .image-viewer-overlay {
             position: fixed;
             top: 0;
@@ -412,19 +463,18 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
         }
-        
-        /* When in fullscreen, ensure the background is set directly on the element */
-        .image-viewer-overlay:fullscreen {
-             background-color: var(--image-viewer-bg);
-        }
-        html[data-theme='dark'] .image-viewer-overlay:fullscreen {
-             background-color: var(--image-viewer-bg);
-        }
 
         .image-viewer-overlay.active {
             opacity: 1;
             visibility: visible;
             transition-delay: 0s;
+        }
+        
+        .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+        html[data-theme='dark'] .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
         }
 
         .image-viewer-spinner {
@@ -440,7 +490,7 @@
             animation: spin 1s linear infinite;
             z-index: 2002;
             display: none;
-            opacity: 0.3;
+            opacity: 0.3; /* Added to match about.html */
         }
 
         @keyframes spin {
@@ -452,7 +502,7 @@
         .image-viewer-content {
             width: 100vw;
             height: 100vh;
-            padding: 5vh 5vw; 
+            padding: 5vh 5vw;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -477,9 +527,9 @@
             border: none;
             font-size: clamp(1.8rem, 3vw, 2.5rem);
             cursor: pointer;
-            padding: 0rem;
+            padding: 0rem; /* Updated to match about.html */
             transition: background-color 0.2s ease, color 0.2s ease;
-            z-index: 2001; 
+            z-index: 2001;
             border-radius: 50%;
             width: clamp(40px, 6vw, 60px);
             height: clamp(40px, 6vw, 60px);
@@ -493,25 +543,24 @@
             background-color: transparent;
         }
 
-       .viewer-close-button {
-            top: 0rem;      /* was: calc(var(--base-spacing) * 1.5); */
-            right: 0rem;      /* was: calc(var(--base-spacing) * 1.5); */
+        .viewer-close-button {
+            top: 0rem; /* Updated to match about.html */
+            right: 0rem; /* Updated to match about.html */
         }
 
-
         .viewer-nav-button.prev {
-            left: 0rem;     /* was: calc(var(--base-spacing) * 1.5); */
+            left: 0rem; /* Updated to match about.html */
             top: 50%;
             transform: translateY(-50%);
         }
 
         .viewer-nav-button.next {
-            right: 0.5rem;      /* was: calc(var(--base-spacing) * 1.5); */
+            right: 0.5rem; /* Updated to match about.html */
             top: 50%;
             transform: translateY(-50%);
         }
 
-        /* Footer */
+        /* Footer Styles */
         .site-footer {
             text-align: center;
             padding: calc(var(--base-spacing) * 1) 0;
@@ -549,19 +598,19 @@
         }
 
         .artist-signature a {
-            text-decoration: none; 
-            display: inline-block; 
+            text-decoration: none;
+            display: inline-block;
         }
 
         .artist-signature a:hover {
-            text-decoration: none; 
+            text-decoration: none;
         }
 
         /* Responsive Adjustments */
         @media (max-width: 767px) { 
             .main-nav ul {
                 flex-wrap: wrap; 
-                justify-content: center; 
+                 justify-content: center; 
             }
             .main-nav .dropdown-menu { 
                 left: 50%;
@@ -585,13 +634,14 @@
             }
         }
 
+        /* Gallery Responsive Adjustments */
         @media (min-width: 768px) {
             .image-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
                 gap: calc(var(--base-spacing) * 1.5);
             }
-            .gallery-item {
-                contain-intrinsic-size: 300px 300px;
+            .gallery-item img {
+                max-height: 280px;
             }
         }
 
@@ -600,10 +650,10 @@
                 --base-font-size: 17px;
             }
             .image-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             }
-            .gallery-item {
-                contain-intrinsic-size: 350px 350px;
+            .gallery-item img {
+                max-height: 320px;
             }
         }
 
@@ -611,15 +661,21 @@
             :root {
                 --base-font-size: 20px;
             }
-            .container {
-                max-width: 2400px;
-            }
             .image-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
                 gap: calc(var(--base-spacing) * 1.8);
             }
-            .gallery-item {
-                contain-intrinsic-size: 400px 400px;
+            .gallery-item img {
+                max-height: 380px;
+            }
+            .viewer-close-button,
+            .viewer-nav-button {
+                font-size: 3rem;
+                width: 70px;
+                height: 70px;
+            }
+            .container {
+                max-width: 2200px;
             }
             .logo {
                 font-size: 2.8rem;
@@ -628,170 +684,23 @@
                 font-size: 1.4rem;
             }
             .main-nav .dropdown-menu li a {
-                font-size: 1.3rem;
+                 font-size: 1.3rem;
             }
             .control-button {
                 padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
                 font-size: 1.2rem;
             }
         }
-
-        /* Promo Overlay styles from the original index.html */
-        .promo-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--promo-overlay-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-        }
-
-        .promo-overlay.active {
-            opacity: 1;
-            visibility: visible;
-            transition-delay: 0s;
-        }
-
-        .promo-content {
-            background-color: var(--promo-content-bg);
-            color: var(--promo-text-color);
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            max-width: 90%;
-            width: 500px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-            transform: translateY(20px);
-            transition: transform 0.3s ease-out;
-        }
-        
-        /* ... remaining promo styles from original index.html ... */
-        .promo-overlay.active .promo-content {
-            transform: translateY(0);
-        }
-
-        .promo-content h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .promo-content p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-
-        .promo-content a {
-            color: var(--promo-link-color);
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .promo-content a:hover {
-            text-decoration: underline;
-        }
-
-        .promo-content video {
-            width: 100%;
-            max-height: 300px;
-            object-fit: contain;
-            background-color: #000;
-            margin-bottom: 1.5rem;
-            display: block; /* Ensures it takes up full width */
-        }
-
-        .video-play-button {
-            background-color: var(--promo-button-bg);
-            color: var(--promo-text-color);
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-        }
-
-        .video-play-button:hover {
-            background-color: var(--promo-button-hover-bg); 
-        }
-
-        .overlay-close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: var(--promo-text-color);
-            cursor: pointer;
-            padding: 5px;
-            line-height: 1;
-            transition: color 0.2s ease;
-        }
-
-        .overlay-close-button:hover {
-            color: #ff0000;
-        }
-
-        .fullscreen-video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            display: none; /* Hidden by default */
-            justify-content: center;
-            align-items: center;
-            z-index: 4000;
-        }
-        
-        .fullscreen-video-overlay:fullscreen {
-            background-color: #000;
-        }
-
-        .fullscreen-video-overlay video {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .fullscreen-video-overlay .close-video-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            z-index: 4001;
-        }
     </style>
 </head>
 <body>
-
     <header class="site-header">
         <div class="container">
             <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
             
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html" class="active" data-lang-key="navImages">IMAGES</a></li>
+                    <li><a href="index.html" data-lang-key="navImages">IMAGES</a></li>
                     <li class="dropdown">
                         <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
                         <ul class="dropdown-menu" aria-label="Projects submenu">
@@ -800,7 +709,7 @@
                         </ul>
                     </li>
                     <li><a href="about.html" data-lang-key="navAbout">ABOUT</a></li>
-                    <li><a href="contact.html" data-lang-key="navContact">CONTACT</a></li>
+                    <li><a href="contact.html" class="active" data-lang-key="navContact">Contact</a></li>
                 </ul>
             </nav>
             
@@ -811,27 +720,38 @@
                     <span data-lang-key="exploreText">Explore</span>
                 </button>
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
-                    🌓 <span data-lang-key="themeToggleDark">DARK MODE</span>
-                    <span data-lang-key="themeToggleLight" style="display:none;">LIGHT MODE</span>
+                    🌓 <span data-lang-key="themeToggleDark">THEME</span>
+                    <span data-lang-key="themeToggleLight" style="display:none;">THEME</span>
                 </button>
                 
                 <button id="languageToggle" class="control-button" aria-label="Toggle language">
-                    🌐 English
+                    🌐 FR/EN
                 </button>
             </div>
         </div>
     </header>
 
     <main>
-        <section class="image-gallery-section">
+        <section class="contact-section">
+            <div class="container">
+                <h1 class="contact-page-title" data-lang-key="contactHeading">Contact</h1>
+                
+                <div class="contact-content">
+                    <p class="contact-text" data-lang-key="contactText">For any questions, purchases, collaboration requests, exhibition proposals, or requests to use my work, feel free to contact me directly. I would be happy to talk with you.</p>
+                    <a href="mailto:mariusjomphe52@gmail.com" class="email-button" data-lang-key="emailButtonText">✉️ Email</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="image-gallery-section" style="margin-top: calc(var(--base-spacing) * 3);">
             <div class="container">
                 <div class="image-gallery" id="imageGallery">
-                </div>
+                    </div>
             </div>
         </section>
     </main>
 
-    <div class="image-viewer-overlay" id="imageViewerOverlay">
+    <div class="image-viewer-overlay" id="imageViewerOverlay" data-mode="gallery">
         <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">×</button>
         <button class="viewer-nav-button prev" id="viewerPrevButton" aria-label="Previous image"><</button>
         <div class="image-viewer-content">
@@ -839,25 +759,6 @@
             <img src="" alt="Enlarged view" id="fullscreenImage">
         </div>
         <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">></button>
-    </div>
-
-    <div class="promo-overlay" id="promoOverlay">
-        <div class="promo-content">
-            <button class="overlay-close-button" id="promoCloseButton" aria-label="Close promotion">×</button>
-            <h2>Lancement du livre "Sonde"<br>21 août, 17h00<br><a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer">Centre d'art de Percé</a>:</h2>
-            <div style="position: relative;">
-                <video id="promoVideo" preload="metadata" muted playsinline>
-                    <source src="images/sonde.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <button class="video-play-button" id="videoPlayButton">▶</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="fullscreen-video-overlay" id="fullscreenVideoOverlay">
-        <button class="close-video-button" id="closeVideoButton">×</button>
-        <video id="fullscreenVideo" controls autoplay playsinline></video>
     </div>
 
     <footer class="site-footer">
@@ -868,7 +769,7 @@
                     <img src="images/signaturedt.png" alt="Artist Signature (Dark Theme)" class="signature-dark" id="signatureDark">
                 </a>
             </div>
-            <p>© <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
+            <p>&copy; <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
         </div>
     </footer>
 
@@ -930,82 +831,69 @@
         // --- END OF UNIFIED ACTIVE LINK SCRIPT ---
 
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- CONFIGURATION ---
-            const imageFilenames = [
-                'Galerie-1.jpg',   'Galerie-2.jpg',   'Galerie-3.jpg',   'Galerie-4.jpg',   'Galerie-5.jpg',
-                'Galerie-6.jpg',   'Galerie-7.jpg',   'Galerie-8.jpg',   'Galerie-9.jpg',   'Galerie-10.jpg',
-                'Galerie-11.jpg',  'Galerie-12.jpg',  'Galerie-13.jpg',  'Galerie-14.jpg',  'Galerie-15.jpg',
-                'Galerie-16.jpg',  'Galerie-17.jpg',  'Galerie-18.jpg',  'Galerie-19.jpg',  'Galerie-20.jpg',
-                'Galerie-21.jpg',  'Galerie-22.jpg',  'Galerie-23.jpg',  'Galerie-24.jpg',  'Galerie-25.jpg',
-                'Galerie-26.jpg',  'Galerie-27.jpg',  'Galerie-28.jpg',  'Galerie-29.jpg',  'Galerie-30.jpg',
-                'Galerie-31.jpg',  'Galerie-32.jpg',  'Galerie-33.jpg',  'Galerie-34.jpg',  'Galerie-35.jpg',
-                'Galerie-36.jpg',  'Galerie-37.jpg',  'Galerie-38.jpg',  'Galerie-39.jpg',  'Galerie-40.jpg',
-                'Galerie-41.jpg',  'Galerie-42.jpg',  'Galerie-43.jpg',  'Galerie-44.jpg',  'Galerie-45.jpg',
-                'Galerie-46.jpg',  'Galerie-47.jpg',  'Galerie-48.jpg',  'Galerie-49.jpg',  'Galerie-50.jpg',
-                'Galerie-51.jpg',  'Galerie-52.jpg',  'Galerie-53.jpg',  'Galerie-54.jpg',  'Galerie-55.jpg',
-                'Galerie-56.jpg',  'Galerie-57.jpg',  'Galerie-58.jpg',  'Galerie-59.jpg',  'Galerie-60.jpg',
-                'Galerie-61.jpg',  'Galerie-62.jpg',  'Galerie-63.jpg',  'Galerie-64.jpg',  'Galerie-65.jpg',
-                'Galerie-66.jpg',  'Galerie-67.jpg',  'Galerie-68.jpg',  'Galerie-69.jpg',  'Galerie-70.jpg',
-                'Galerie-71.jpg',  'Galerie-72.jpg',  'Galerie-73.jpg',  'Galerie-74.jpg',  'Galerie-75.jpg',
-                'Galerie-76.jpg',  'Galerie-77.jpg',  'Galerie-78.jpg',  'Galerie-79.jpg',  'Galerie-80.jpg',
-                'Galerie-81.jpg',  'Galerie-82.jpg',  'Galerie-83.jpg',  'Galerie-84.jpg',  'Galerie-85.jpg',
-                'Galerie-86.jpg',  'Galerie-87.jpg',  'Galerie-88.jpg',  'Galerie-89.jpg',  'Galerie-90.jpg',
-                'Galerie-91.jpg',  'Galerie-92.jpg',  'Galerie-93.jpg',  'Galerie-94.jpg',  'Galerie-95.jpg',
-                'Galerie-96.jpg',  'Galerie-97.jpg',  'Galerie-98.jpg',  'Galerie-99.jpg',  'Galerie-100.jpg',
-                'Galerie-101.jpg', 'Galerie-102.jpg', 'Galerie-103.jpg', 'Galerie-104.jpg', 'Galerie-105.jpg',
-                'Galerie-106.jpg', 'Galerie-107.jpg', 'Galerie-108.jpg', 'Galerie-109.jpg', 'Galerie-110.jpg',
-                'Galerie-111.jpg', 'Galerie-112.jpg', 'Galerie-113.jpg', 'Galerie-114.jpg', 'Galerie-115.jpg',
-                'Galerie-116.jpg', 'Galerie-117.jpg', 'Galerie-118.jpg', 'Galerie-119.jpg', 'Galerie-120.jpg',
-                'Galerie-121.jpg', 'Galerie-122.jpg', 'Galerie-123.jpg', 'Galerie-124.jpg', 'Galerie-125.jpg',
-                'Galerie-126.jpg', 'Galerie-127.jpg', 'Galerie-128.jpg', 'Galerie-129.jpg', 'Galerie-130.jpg',
-                'Galerie-131.jpg', 'Galerie-132.jpg', 'Galerie-133.jpg', 'Galerie-134.jpg', 'Galerie-135.jpg',
-                'Galerie-136.jpg', 'Galerie-137.jpg', 'Galerie-138.jpg', 'Galerie-139.jpg', 'Galerie-140.jpg',
-                'Galerie-141.jpg', 'Galerie-142.jpg', 'Galerie-143.jpg', 'Galerie-144.jpg', 'Galerie-145.jpg'
+            // --- CONFIGURATION FOR CONTACT PAGE GALLERY ---
+            const contactPageImageFilenames = [
+                'contact/contact1.jpg', 
+                'contact/contact2.jpg', 
+                'contact/contact3.jpg', 
+                'contact/contact4.jpg'
             ];
+            const imagePath = 'images/'; // Base path for all images
 
-            const thumbPath = 'images/thumbs/';
-            const fullsizePath = 'images/fullsize/';
-
-            // --- TRANSLATIONS ---
+            // --- EASTER EGG IMAGE PATHS ---
+            const randomImageViewerPaths = [
+                'images/bruine/fullsize/1.jpg', 'images/bruine/fullsize/10.jpg', 'images/bruine/fullsize/100.jpg', 'images/bruine/fullsize/101.jpg', 'images/bruine/fullsize/102.jpg', 'images/bruine/fullsize/103.jpg', 'images/bruine/fullsize/104.jpg', 'images/bruine/fullsize/105.jpg', 'images/bruine/fullsize/106.jpg', 'images/bruine/fullsize/107.jpg', 'images/bruine/fullsize/108.jpg', 'images/bruine/fullsize/109.jpg', 'images/bruine/fullsize/11.jpg', 'images/bruine/fullsize/110.jpg', 'images/bruine/fullsize/111.jpg', 'images/bruine/fullsize/112.jpg', 'images/bruine/fullsize/113.jpg', 'images/bruine/fullsize/114.jpg', 'images/bruine/fullsize/115.jpg', 'images/bruine/fullsize/116.jpg', 'images/bruine/fullsize/117.jpg', 'images/bruine/fullsize/12.jpg', 'images/bruine/fullsize/13.jpg', 'images/bruine/fullsize/14.jpg', 'images/bruine/fullsize/15.jpg', 'images/bruine/fullsize/16.jpg', 'images/bruine/fullsize/17.jpg', 'images/bruine/fullsize/18.jpg', 'images/bruine/fullsize/19.jpg', 'images/bruine/fullsize/2.jpg', 'images/bruine/fullsize/20.jpg', 'images/bruine/fullsize/21.jpg', 'images/bruine/fullsize/22.jpg', 'images/bruine/fullsize/23.jpg', 'images/bruine/fullsize/24.jpg', 'images/bruine/fullsize/25.jpg', 'images/bruine/fullsize/26.jpg', 'images/bruine/fullsize/27.jpg', 'images/bruine/fullsize/29.jpg', 'images/bruine/fullsize/3.jpg', 'images/bruine/fullsize/30.jpg', 'images/bruine/fullsize/31.jpg', 'images/bruine/fullsize/32.jpg', 'images/bruine/fullsize/33.jpg', 'images/bruine/fullsize/34.jpg', 'images/bruine/fullsize/36.jpg', 'images/bruine/fullsize/37.jpg', 'images/bruine/fullsize/38.jpg', 'images/bruine/fullsize/39.jpg', 'images/bruine/fullsize/4.jpg', 'images/bruine/fullsize/40.jpg', 'images/bruine/fullsize/41.jpg', 'images/bruine/fullsize/42.jpg', 'images/bruine/fullsize/43.jpg', 'images/bruine/fullsize/44.jpg', 'images/bruine/fullsize/45.jpg', 'images/bruine/fullsize/46.jpg', 'images/bruine/fullsize/47.jpg', 'images/bruine/fullsize/48.jpg', 'images/bruine/fullsize/49.jpg', 'images/bruine/fullsize/5.jpg', 'images/bruine/fullsize/50.jpg', 'images/bruine/fullsize/51.jpg', 'images/bruine/fullsize/54.jpg', 'images/bruine/fullsize/55.jpg', 'images/bruine/fullsize/56.jpg', 'images/bruine/fullsize/57.jpg', 'images/bruine/fullsize/58.jpg', 'images/bruine/fullsize/59.jpg', 'images/bruine/fullsize/6.jpg', 'images/bruine/fullsize/60.jpg', 'images/bruine/fullsize/61.jpg', 'images/bruine/fullsize/62.jpg', 'images/bruine/fullsize/63.jpg', 'images/bruine/fullsize/64.jpg', 'images/bruine/fullsize/65.jpg', 'images/bruine/fullsize/66.jpg', 'images/bruine/fullsize/67.jpg', 'images/bruine/fullsize/68.jpg', 'images/bruine/fullsize/69.jpg', 'images/bruine/fullsize/7.jpg', 'images/bruine/fullsize/70.jpg', 'images/bruine/fullsize/71.jpg', 'images/bruine/fullsize/72.jpg', 'images/bruine/fullsize/73.jpg', 'images/bruine/fullsize/74.jpg', 'images/bruine/fullsize/75.jpg', 'images/bruine/fullsize/76.jpg', 'images/bruine/fullsize/77.jpg', 'images/bruine/fullsize/78.jpg', 'images/bruine/fullsize/8.jpg', 'images/bruine/fullsize/80.jpg', 'images/bruine/fullsize/81.jpg', 'images/bruine/fullsize/82.jpg', 'images/bruine/fullsize/83.jpg', 'images/bruine/fullsize/84.jpg', 'images/bruine/fullsize/85.jpg', 'images/bruine/fullsize/86.jpg', 'images/bruine/fullsize/87.jpg', 'images/bruine/fullsize/88.jpg', 'images/bruine/fullsize/89.jpg', 'images/bruine/fullsize/9.jpg', 'images/bruine/fullsize/90.jpg', 'images/bruine/fullsize/91.jpg', 'images/bruine/fullsize/92.jpg', 'images/bruine/fullsize/93.jpg', 'images/bruine/fullsize/94.jpg', 'images/bruine/fullsize/95.jpg', 'images/bruine/fullsize/96.jpg', 'images/bruine/fullsize/97.jpg', 'images/bruine/fullsize/98.jpg', 'images/bruine/fullsize/99.jpg',
+                'images/fullsize/Galerie-1.jpg', 'images/fullsize/Galerie-10.jpg', 'images/fullsize/Galerie-100.jpg', 'images/fullsize/Galerie-101.jpg', 'images/fullsize/Galerie-102.jpg', 'images/fullsize/Galerie-103.jpg', 'images/fullsize/Galerie-104.jpg', 'images/fullsize/Galerie-105.jpg', 'images/fullsize/Galerie-106.jpg', 'images/fullsize/Galerie-107.jpg', 'images/fullsize/Galerie-108.jpg', 'images/fullsize/Galerie-109.jpg', 'images/fullsize/Galerie-11.jpg', 'images/fullsize/Galerie-110.jpg', 'images/fullsize/Galerie-111.jpg', 'images/fullsize/Galerie-112.jpg', 'images/fullsize/Galerie-113.jpg', 'images/fullsize/Galerie-114.jpg', 'images/fullsize/Galerie-115.jpg', 'images/fullsize/Galerie-116.jpg', 'images/fullsize/Galerie-117.jpg', 'images/fullsize/Galerie-118.jpg', 'images/fullsize/Galerie-119.jpg', 'images/fullsize/Galerie-12.jpg', 'images/fullsize/Galerie-120.jpg', 'images/fullsize/Galerie-121.jpg', 'images/fullsize/Galerie-122.jpg', 'images/fullsize/Galerie-123.jpg', 'images/fullsize/Galerie-124.jpg', 'images/fullsize/Galerie-125.jpg', 'images/fullsize/Galerie-126.jpg', 'images/fullsize/Galerie-127.jpg', 'images/fullsize/Galerie-128.jpg', 'images/fullsize/Galerie-129.jpg', 'images/fullsize/Galerie-13.jpg', 'images/fullsize/Galerie-130.jpg', 'images/fullsize/Galerie-131.jpg', 'images/fullsize/Galerie-132.jpg', 'images/fullsize/Galerie-133.jpg', 'images/fullsize/Galerie-134.jpg', 'images/fullsize/Galerie-135.jpg', 'images/fullsize/Galerie-136.jpg', 'images/fullsize/Galerie-137.jpg', 'images/fullsize/Galerie-138.jpg', 'images/fullsize/Galerie-139.jpg', 'images/fullsize/Galerie-14.jpg', 'images/fullsize/Galerie-140.jpg', 'images/fullsize/Galerie-141.jpg', 'images/fullsize/Galerie-142.jpg', 'images/fullsize/Galerie-143.jpg', 'images/fullsize/Galerie-144.jpg', 'images/fullsize/Galerie-145.jpg', 'images/fullsize/Galerie-15.jpg', 'images/fullsize/Galerie-16.jpg', 'images/fullsize/Galerie-17.jpg', 'images/fullsize/Galerie-18.jpg', 'images/fullsize/Galerie-19.jpg', 'images/fullsize/Galerie-2.jpg', 'images/fullsize/Galerie-20.jpg', 'images/fullsize/Galerie-21.jpg', 'images/fullsize/Galerie-22.jpg', 'images/fullsize/Galerie-23.jpg', 'images/fullsize/Galerie-24.jpg', 'images/fullsize/Galerie-25.jpg', 'images/fullsize/Galerie-26.jpg', 'images/fullsize/Galerie-27.jpg', 'images/fullsize/Galerie-28.jpg', 'images/fullsize/Galerie-29.jpg', 'images/fullsize/Galerie-3.jpg', 'images/fullsize/Galerie-30.jpg', 'images/fullsize/Galerie-31.jpg', 'images/fullsize/Galerie-32.jpg', 'images/fullsize/Galerie-33.jpg', 'images/fullsize/Galerie-34.jpg', 'images/fullsize/Galerie-35.jpg', 'images/fullsize/Galerie-36.jpg', 'images/fullsize/Galerie-37.jpg', 'images/fullsize/Galerie-38.jpg', 'images/fullsize/Galerie-39.jpg', 'images/fullsize/Galerie-4.jpg', 'images/fullsize/Galerie-40.jpg', 'images/fullsize/Galerie-41.jpg', 'images/fullsize/Galerie-42.jpg', 'images/fullsize/Galerie-43.jpg', 'images/fullsize/Galerie-44.jpg', 'images/fullsize/Galerie-45.jpg', 'images/fullsize/Galerie-46.jpg', 'images/fullsize/Galerie-47.jpg', 'images/fullsize/Galerie-48.jpg', 'images/fullsize/Galerie-49.jpg', 'images/fullsize/Galerie-5.jpg', 'images/fullsize/Galerie-50.jpg', 'images/fullsize/Galerie-51.jpg', 'images/fullsize/Galerie-52.jpg', 'images/fullsize/Galerie-53.jpg', 'images/fullsize/Galerie-54.jpg', 'images/fullsize/Galerie-55.jpg', 'images/fullsize/Galerie-56.jpg', 'images/fullsize/Galerie-57.jpg', 'images/fullsize/Galerie-58.jpg', 'images/fullsize/Galerie-59.jpg', 'images/fullsize/Galerie-6.jpg', 'images/fullsize/Galerie-60.jpg', 'images/fullsize/Galerie-61.jpg', 'images/fullsize/Galerie-62.jpg', 'images/fullsize/Galerie-63.jpg', 'images/fullsize/Galerie-64.jpg', 'images/fullsize/Galerie-65.jpg', 'images/fullsize/Galerie-66.jpg', 'images/fullsize/Galerie-67.jpg', 'images/fullsize/Galerie-68.jpg', 'images/fullsize/Galerie-69.jpg', 'images/fullsize/Galerie-7.jpg', 'images/fullsize/Galerie-70.jpg', 'images/fullsize/Galerie-71.jpg', 'images/fullsize/Galerie-72.jpg', 'images/fullsize/Galerie-73.jpg', 'images/fullsize/Galerie-74.jpg', 'images/fullsize/Galerie-75.jpg', 'images/fullsize/Galerie-76.jpg', 'images/fullsize/Galerie-77.jpg', 'images/fullsize/Galerie-78.jpg', 'images/fullsize/Galerie-79.jpg', 'images/fullsize/Galerie-8.jpg', 'images/fullsize/Galerie-80.jpg', 'images/fullsize/Galerie-81.jpg', 'images/fullsize/Galerie-82.jpg', 'images/fullsize/Galerie-83.jpg', 'images/fullsize/Galerie-84.jpg', 'images/fullsize/Galerie-85.jpg', 'images/fullsize/Galerie-86.jpg', 'images/fullsize/Galerie-87.jpg', 'images/fullsize/Galerie-88.jpg', 'images/fullsize/Galerie-89.jpg', 'images/fullsize/Galerie-9.jpg', 'images/fullsize/Galerie-90.jpg', 'images/fullsize/Galerie-91.jpg', 'images/fullsize/Galerie-92.jpg', 'images/fullsize/Galerie-93.jpg', 'images/fullsize/Galerie-94.jpg', 'images/fullsize/Galerie-95.jpg', 'images/fullsize/Galerie-96.jpg', 'images/fullsize/Galerie-97.jpg', 'images/fullsize/Galerie-98.jpg', 'images/fullsize/Galerie-99.jpg',
+                'images/passage/fullsize/Photos Passage-1.jpg', 'images/passage/fullsize/Photos Passage-10.jpg', 'images/passage/fullsize/Photos Passage-11.jpg', 'images/passage/fullsize/Photos Passage-12.jpg', 'images/passage/fullsize/Photos Passage-13.jpg', 'images/passage/fullsize/Photos Passage-14.jpg', 'images/passage/fullsize/Photos Passage-2.jpg', 'images/passage/fullsize/Photos Passage-3.jpg', 'images/passage/fullsize/Photos Passage-4.jpg', 'images/passage/fullsize/Photos Passage-5.jpg', 'images/passage/fullsize/Photos Passage-6.jpg', 'images/passage/fullsize/Photos Passage-7.jpg', 'images/passage/fullsize/Photos Passage-8.jpg', 'images/passage/fullsize/Photos Passage-9.jpg'
+            ];
+            
+            // --- TRANSLATIONS (Updated to match about.html) ---
             const translations = {
                 en: {
                     siteTitle: "Marius Jomphe ‧ Photography",
-                    pageTitleGallery: "Gallery • Marius Jomphe Photography",
+                    pageTitleContact: "Contact • Marius Jomphe Photography",
                     navImages: "GALLERY",
-                    navProjects: "PROJECTS", 
-                    projectSonde: "SONDE",
+                    navAbout: "ABOUT",
+                    navProjects: "PROJECTS",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
-                    navAbout: "ABOUT",
                     navContact: "CONTACT",
                     exploreText: "Explore",
                     themeToggleDark: "THEME",
                     themeToggleLight: "THEME",
                     languageToggleText: "🌐 FR/EN",
-                    footerRights: "All rights reserved."
+                    footerRights: "All rights reserved.",
+                    contactHeading: "Contact",
+                    contactText: "For any questions, purchases, collaboration requests, exhibition proposals, or requests to use my work, feel free to contact me directly. I would be happy to talk with you.",
+                    emailButtonText: "E-mail"
                 },
                 fr: {
                     siteTitle: "Marius Jomphe ‧ Photographie",
-                    pageTitleGallery: "Galerie • Marius Jomphe Photographie",
+                    pageTitleContact: "Contact • Marius Jomphe Photographie",
                     navImages: "GALERIE",
-                    navProjects: "PROJETS", 
-                    projectSonde: "SONDE",
+                    navAbout: "À PROPOS",
+                    navProjects: "PROJETS",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
-                    navAbout: "À PROPOS",
                     navContact: "CONTACT",
                     exploreText: "Explorer",
                     themeToggleDark: "THÈME",
                     themeToggleLight: "THÈME",
                     languageToggleText: "🌐 FR/EN",
-                    footerRights: "Tous droits réservés."
+                    footerRights: "Tous droits réservés.",
+                    contactHeading: "Contact",
+                    contactText: "Pour toute question, achat, demande de collaboration, proposition d’exposition ou demande d’utilisation des œuvres, n’hésitez pas à me contacter directement. Je me ferai un plaisir d’échanger avec vous.",
+                    emailButtonText: "Courriel"
                 }
             };
 
             // --- ELEMENTS ---
             const themeToggleButton = document.getElementById('themeToggle');
             const languageToggleButton = document.getElementById('languageToggle');
+            const currentYearSpan = document.getElementById('currentYear');
+            const exploreButton = document.getElementById('exploreButton'); // Added
+            
+            // Gallery and Viewer Elements
             const galleryContainer = document.getElementById('imageGallery');
             const imageViewerOverlay = document.getElementById('imageViewerOverlay');
             const fullscreenImage = document.getElementById('fullscreenImage');
@@ -1013,29 +901,10 @@
             const viewerPrevButton = document.getElementById('viewerPrevButton');
             const viewerNextButton = document.getElementById('viewerNextButton');
             const imageViewerSpinner = document.getElementById('imageViewerSpinner');
-            const currentYearSpan = document.getElementById('currentYear');
-
-            // Promo Overlay Elements
-            const promoOverlay = document.getElementById('promoOverlay');
-            const promoCloseButton = document.getElementById('promoCloseButton');
-            const promoVideo = document.getElementById('promoVideo');
-            const videoPlayButton = document.getElementById('videoPlayButton');
-            const fullscreenVideoOverlay = document.getElementById('fullscreenVideoOverlay');
-            const fullscreenVideo = document.getElementById('fullscreenVideo');
-            const closeVideoButton = document.getElementById('closeVideoButton');
-
-            // Easter Egg Elements
-            const siteLogo = document.querySelector('.logo');
-            const exploreButton = document.getElementById('exploreButton');
-            const randomImageViewerPaths = [
-                'images/bruine/fullsize/1.jpg', 'images/bruine/fullsize/10.jpg', 'images/bruine/fullsize/100.jpg', 'images/bruine/fullsize/101.jpg', 'images/bruine/fullsize/102.jpg', 'images/bruine/fullsize/103.jpg', 'images/bruine/fullsize/104.jpg', 'images/bruine/fullsize/105.jpg', 'images/bruine/fullsize/106.jpg', 'images/bruine/fullsize/107.jpg', 'images/bruine/fullsize/108.jpg', 'images/bruine/fullsize/109.jpg', 'images/bruine/fullsize/11.jpg', 'images/bruine/fullsize/110.jpg', 'images/bruine/fullsize/111.jpg', 'images/bruine/fullsize/112.jpg', 'images/bruine/fullsize/113.jpg', 'images/bruine/fullsize/114.jpg', 'images/bruine/fullsize/115.jpg', 'images/bruine/fullsize/116.jpg', 'images/bruine/fullsize/117.jpg', 'images/bruine/fullsize/12.jpg', 'images/bruine/fullsize/13.jpg', 'images/bruine/fullsize/14.jpg', 'images/bruine/fullsize/15.jpg', 'images/bruine/fullsize/16.jpg', 'images/bruine/fullsize/17.jpg', 'images/bruine/fullsize/18.jpg', 'images/bruine/fullsize/19.jpg', 'images/bruine/fullsize/2.jpg', 'images/bruine/fullsize/20.jpg', 'images/bruine/fullsize/21.jpg', 'images/bruine/fullsize/22.jpg', 'images/bruine/fullsize/23.jpg', 'images/bruine/fullsize/24.jpg', 'images/bruine/fullsize/25.jpg', 'images/bruine/fullsize/26.jpg', 'images/bruine/fullsize/27.jpg', 'images/bruine/fullsize/29.jpg', 'images/bruine/fullsize/3.jpg', 'images/bruine/fullsize/30.jpg', 'images/bruine/fullsize/31.jpg', 'images/bruine/fullsize/32.jpg', 'images/bruine/fullsize/33.jpg', 'images/bruine/fullsize/34.jpg', 'images/bruine/fullsize/36.jpg', 'images/bruine/fullsize/37.jpg', 'images/bruine/fullsize/38.jpg', 'images/bruine/fullsize/39.jpg', 'images/bruine/fullsize/4.jpg', 'images/bruine/fullsize/40.jpg', 'images/bruine/fullsize/41.jpg', 'images/bruine/fullsize/42.jpg', 'images/bruine/fullsize/43.jpg', 'images/bruine/fullsize/44.jpg', 'images/bruine/fullsize/45.jpg', 'images/bruine/fullsize/46.jpg', 'images/bruine/fullsize/47.jpg', 'images/bruine/fullsize/48.jpg', 'images/bruine/fullsize/49.jpg', 'images/bruine/fullsize/5.jpg', 'images/bruine/fullsize/50.jpg', 'images/bruine/fullsize/51.jpg', 'images/bruine/fullsize/54.jpg', 'images/bruine/fullsize/55.jpg', 'images/bruine/fullsize/56.jpg', 'images/bruine/fullsize/57.jpg', 'images/bruine/fullsize/58.jpg', 'images/bruine/fullsize/59.jpg', 'images/bruine/fullsize/6.jpg', 'images/bruine/fullsize/60.jpg', 'images/bruine/fullsize/61.jpg', 'images/bruine/fullsize/62.jpg', 'images/bruine/fullsize/63.jpg', 'images/bruine/fullsize/64.jpg', 'images/bruine/fullsize/65.jpg', 'images/bruine/fullsize/66.jpg', 'images/bruine/fullsize/67.jpg', 'images/bruine/fullsize/68.jpg', 'images/bruine/fullsize/69.jpg', 'images/bruine/fullsize/7.jpg', 'images/bruine/fullsize/70.jpg', 'images/bruine/fullsize/71.jpg', 'images/bruine/fullsize/72.jpg', 'images/bruine/fullsize/73.jpg', 'images/bruine/fullsize/74.jpg', 'images/bruine/fullsize/75.jpg', 'images/bruine/fullsize/76.jpg', 'images/bruine/fullsize/77.jpg', 'images/bruine/fullsize/78.jpg', 'images/bruine/fullsize/8.jpg', 'images/bruine/fullsize/80.jpg', 'images/bruine/fullsize/81.jpg', 'images/bruine/fullsize/82.jpg', 'images/bruine/fullsize/83.jpg', 'images/bruine/fullsize/84.jpg', 'images/bruine/fullsize/85.jpg', 'images/bruine/fullsize/86.jpg', 'images/bruine/fullsize/87.jpg', 'images/bruine/fullsize/88.jpg', 'images/bruine/fullsize/89.jpg', 'images/bruine/fullsize/9.jpg', 'images/bruine/fullsize/90.jpg', 'images/bruine/fullsize/91.jpg', 'images/bruine/fullsize/92.jpg', 'images/bruine/fullsize/93.jpg', 'images/bruine/fullsize/94.jpg', 'images/bruine/fullsize/95.jpg', 'images/bruine/fullsize/96.jpg', 'images/bruine/fullsize/97.jpg', 'images/bruine/fullsize/98.jpg', 'images/bruine/fullsize/99.jpg',
-                'images/fullsize/Galerie-1.jpg', 'images/fullsize/Galerie-10.jpg', 'images/fullsize/Galerie-100.jpg', 'images/fullsize/Galerie-101.jpg', 'images/fullsize/Galerie-102.jpg', 'images/fullsize/Galerie-103.jpg', 'images/fullsize/Galerie-104.jpg', 'images/fullsize/Galerie-105.jpg', 'images/fullsize/Galerie-106.jpg', 'images/fullsize/Galerie-107.jpg', 'images/fullsize/Galerie-108.jpg', 'images/fullsize/Galerie-109.jpg', 'images/fullsize/Galerie-11.jpg', 'images/fullsize/Galerie-110.jpg', 'images/fullsize/Galerie-111.jpg', 'images/fullsize/Galerie-112.jpg', 'images/fullsize/Galerie-113.jpg', 'images/fullsize/Galerie-114.jpg', 'images/fullsize/Galerie-115.jpg', 'images/fullsize/Galerie-116.jpg', 'images/fullsize/Galerie-117.jpg', 'images/fullsize/Galerie-118.jpg', 'images/fullsize/Galerie-119.jpg', 'images/fullsize/Galerie-12.jpg', 'images/fullsize/Galerie-120.jpg', 'images/fullsize/Galerie-121.jpg', 'images/fullsize/Galerie-122.jpg', 'images/fullsize/Galerie-123.jpg', 'images/fullsize/Galerie-124.jpg', 'images/fullsize/Galerie-125.jpg', 'images/fullsize/Galerie-126.jpg', 'images/fullsize/Galerie-127.jpg', 'images/fullsize/Galerie-128.jpg', 'images/fullsize/Galerie-129.jpg', 'images/fullsize/Galerie-13.jpg', 'images/fullsize/Galerie-130.jpg', 'images/fullsize/Galerie-131.jpg', 'images/fullsize/Galerie-132.jpg', 'images/fullsize/Galerie-133.jpg', 'images/fullsize/Galerie-134.jpg', 'images/fullsize/Galerie-135.jpg', 'images/fullsize/Galerie-136.jpg', 'images/fullsize/Galerie-137.jpg', 'images/fullsize/Galerie-138.jpg', 'images/fullsize/Galerie-139.jpg', 'images/fullsize/Galerie-14.jpg', 'images/fullsize/Galerie-140.jpg', 'images/fullsize/Galerie-141.jpg', 'images/fullsize/Galerie-142.jpg', 'images/fullsize/Galerie-143.jpg', 'images/fullsize/Galerie-144.jpg', 'images/fullsize/Galerie-145.jpg', 'images/fullsize/Galerie-15.jpg', 'images/fullsize/Galerie-16.jpg', 'images/fullsize/Galerie-17.jpg', 'images/fullsize/Galerie-18.jpg', 'images/fullsize/Galerie-19.jpg', 'images/fullsize/Galerie-2.jpg', 'images/fullsize/Galerie-20.jpg', 'images/fullsize/Galerie-21.jpg', 'images/fullsize/Galerie-22.jpg', 'images/fullsize/Galerie-23.jpg', 'images/fullsize/Galerie-24.jpg', 'images/fullsize/Galerie-25.jpg', 'images/fullsize/Galerie-26.jpg', 'images/fullsize/Galerie-27.jpg', 'images/fullsize/Galerie-28.jpg', 'images/fullsize/Galerie-29.jpg', 'images/fullsize/Galerie-3.jpg', 'images/fullsize/Galerie-30.jpg', 'images/fullsize/Galerie-31.jpg', 'images/fullsize/Galerie-32.jpg', 'images/fullsize/Galerie-33.jpg', 'images/fullsize/Galerie-34.jpg', 'images/fullsize/Galerie-35.jpg', 'images/fullsize/Galerie-36.jpg', 'images/fullsize/Galerie-37.jpg', 'images/fullsize/Galerie-38.jpg', 'images/fullsize/Galerie-39.jpg', 'images/fullsize/Galerie-4.jpg', 'images/fullsize/Galerie-40.jpg', 'images/fullsize/Galerie-41.jpg', 'images/fullsize/Galerie-42.jpg', 'images/fullsize/Galerie-43.jpg', 'images/fullsize/Galerie-44.jpg', 'images/fullsize/Galerie-45.jpg', 'images/fullsize/Galerie-46.jpg', 'images/fullsize/Galerie-47.jpg', 'images/fullsize/Galerie-48.jpg', 'images/fullsize/Galerie-49.jpg', 'images/fullsize/Galerie-5.jpg', 'images/fullsize/Galerie-50.jpg', 'images/fullsize/Galerie-51.jpg', 'images/fullsize/Galerie-52.jpg', 'images/fullsize/Galerie-53.jpg', 'images/fullsize/Galerie-54.jpg', 'images/fullsize/Galerie-55.jpg', 'images/fullsize/Galerie-56.jpg', 'images/fullsize/Galerie-57.jpg', 'images/fullsize/Galerie-58.jpg', 'images/fullsize/Galerie-59.jpg', 'images/fullsize/Galerie-6.jpg', 'images/fullsize/Galerie-60.jpg', 'images/fullsize/Galerie-61.jpg', 'images/fullsize/Galerie-62.jpg', 'images/fullsize/Galerie-63.jpg', 'images/fullsize/Galerie-64.jpg', 'images/fullsize/Galerie-65.jpg', 'images/fullsize/Galerie-66.jpg', 'images/fullsize/Galerie-67.jpg', 'images/fullsize/Galerie-68.jpg', 'images/fullsize/Galerie-69.jpg', 'images/fullsize/Galerie-7.jpg', 'images/fullsize/Galerie-70.jpg', 'images/fullsize/Galerie-71.jpg', 'images/fullsize/Galerie-72.jpg', 'images/fullsize/Galerie-73.jpg', 'images/fullsize/Galerie-74.jpg', 'images/fullsize/Galerie-75.jpg', 'images/fullsize/Galerie-76.jpg', 'images/fullsize/Galerie-77.jpg', 'images/fullsize/Galerie-78.jpg', 'images/fullsize/Galerie-79.jpg', 'images/fullsize/Galerie-8.jpg', 'images/fullsize/Galerie-80.jpg', 'images/fullsize/Galerie-81.jpg', 'images/fullsize/Galerie-82.jpg', 'images/fullsize/Galerie-83.jpg', 'images/fullsize/Galerie-84.jpg', 'images/fullsize/Galerie-85.jpg', 'images/fullsize/Galerie-86.jpg', 'images/fullsize/Galerie-87.jpg', 'images/fullsize/Galerie-88.jpg', 'images/fullsize/Galerie-89.jpg', 'images/fullsize/Galerie-9.jpg', 'images/fullsize/Galerie-90.jpg', 'images/fullsize/Galerie-91.jpg', 'images/fullsize/Galerie-92.jpg', 'images/fullsize/Galerie-93.jpg', 'images/fullsize/Galerie-94.jpg', 'images/fullsize/Galerie-95.jpg', 'images/fullsize/Galerie-96.jpg', 'images/fullsize/Galerie-97.jpg', 'images/fullsize/Galerie-98.jpg', 'images/fullsize/Galerie-99.jpg',
-                'images/passage/fullsize/Photos Passage-1.jpg', 'images/passage/fullsize/Photos Passage-10.jpg', 'images/passage/fullsize/Photos Passage-11.jpg', 'images/passage/fullsize/Photos Passage-12.jpg', 'images/passage/fullsize/Photos Passage-13.jpg', 'images/passage/fullsize/Photos Passage-14.jpg', 'images/passage/fullsize/Photos Passage-2.jpg', 'images/passage/fullsize/Photos Passage-3.jpg', 'images/passage/fullsize/Photos Passage-4.jpg', 'images/passage/fullsize/Photos Passage-5.jpg', 'images/passage/fullsize/Photos Passage-6.jpg', 'images/passage/fullsize/Photos Passage-7.jpg', 'images/passage/fullsize/Photos Passage-8.jpg', 'images/passage/fullsize/Photos Passage-9.jpg'
-            ];
-
+            
+            let currentLanguage = localStorage.getItem('language') || 'en';
+            let currentTheme = localStorage.getItem('theme') || 'light';
             let currentImageIndex = 0;
-            let currentLanguage = localStorage.getItem('language') || 'en'; 
-            let currentTheme = localStorage.getItem('theme') || 'light'; 
 
             // --- HELPER FUNCTIONS FOR FULLSCREEN ---
             function openFullscreen(element) {
@@ -1066,72 +935,19 @@
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
                 
                 if (!isFullscreen) {
-                    // We have exited fullscreen mode (e.g., user pressed ESC).
-                    // Close any active fullscreen overlay.
                     if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
                         closeImageViewer(); 
                     }
-                    if (fullscreenVideoOverlay && fullscreenVideoOverlay.style.display === 'flex') {
-                        closeFullscreenVideo();
-                    }
                 }
-            }
-
-
-            // --- GALLERY & IMAGE FUNCTIONS ---
-            const createImageOnIntersection = (entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const galleryItemDiv = entry.target;
-                        const fullResFilename = galleryItemDiv.dataset.fullresFilename; 
-
-                        if (!fullResFilename || galleryItemDiv.querySelector('img')) {
-                            observer.unobserve(galleryItemDiv);
-                            return;
-                        }
-
-                        const img = document.createElement('img');
-                        img.src = thumbPath + fullResFilename;
-                        const altNamePart = fullResFilename.substring(0, fullResFilename.lastIndexOf('.'));
-                        img.alt = `Thumbnail of ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`;
-                        img.loading = 'lazy';
-                        img.decoding = 'async';
-                        img.addEventListener('load', () => img.classList.add('loaded'));
-                        if (img.complete) img.classList.add('loaded'); 
-
-                        galleryItemDiv.appendChild(img);
-                        observer.unobserve(galleryItemDiv); 
-                    }
-                });
-            };
-
-            const imageObserver = new IntersectionObserver(createImageOnIntersection, {
-                rootMargin: '0px 0px 200px 0px', 
-                threshold: 0.01 
-            });
-
-            function populateGallery() {
-                if (!galleryContainer) return;
-                const fragment = document.createDocumentFragment();
-                imageFilenames.forEach((fullResFilename, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'gallery-item';
-                    item.dataset.index = index; 
-                    item.dataset.fullresFilename = fullResFilename; 
-                    fragment.appendChild(item);
-                    imageObserver.observe(item); 
-                });
-                galleryContainer.innerHTML = ''; 
-                galleryContainer.appendChild(fragment);
             }
 
             function applyTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
-                if (themeToggleButton) { 
+                if (themeToggleButton) {
                     const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
                     const toggleLightText = themeToggleButton.querySelector('[data-lang-key="themeToggleLight"]');
-                    if (toggleDarkText && toggleLightText) { 
+                    if (toggleDarkText && toggleLightText) {
                         if (theme === 'dark') {
                             toggleDarkText.style.display = 'none';
                             toggleLightText.style.display = 'inline';
@@ -1153,56 +969,111 @@
                         if (el.tagName === 'TITLE') {
                             document.title = translations[lang][key];
                         } else {
-                            el.textContent = translations[lang][key];
+                            el.innerHTML = translations[lang][key]; // Use innerHTML for potential icons
                         }
                     }
                 });
                 if (languageToggleButton) {
-                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
+                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FR/EN' : '🌐 FR/EN');
                 }
                 applyTheme(currentTheme); 
             }
+            
 
-            if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear();
+            // --- GALLERY & IMAGE FUNCTIONS ---
+            const createImageOnIntersection = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const galleryItemDiv = entry.target;
+                        const fullResFilename = galleryItemDiv.dataset.fullresFilename;
+                        const currentImagePath = galleryItemDiv.dataset.imagePath; 
+
+                        if (!fullResFilename || galleryItemDiv.querySelector('img')) {
+                            observer.unobserve(galleryItemDiv);
+                            return;
+                        }
+
+                        const img = document.createElement('img');
+                        img.src = currentImagePath + fullResFilename; 
+                        const altNamePart = fullResFilename.substring(0, fullResFilename.lastIndexOf('.'));
+                        img.alt = `Image of ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`; 
+                        img.loading = 'lazy';
+                        img.decoding = 'async';
+                        img.addEventListener('load', () => img.classList.add('loaded'));
+                        if (img.complete) img.classList.add('loaded'); 
+
+                        galleryItemDiv.appendChild(img);
+                        observer.unobserve(galleryItemDiv); 
+                    }
+                });
+            };
+
+            const imageObserver = new IntersectionObserver(createImageOnIntersection, {
+                rootMargin: '0px 0px 200px 0px', 
+                threshold: 0.01 
+            });
+
+            function populateGallery() {
+                if (!galleryContainer) return;
+                const fragment = document.createDocumentFragment();
+
+                contactPageImageFilenames.forEach((fullResFilename, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.dataset.index = index; 
+                    item.dataset.fullresFilename = fullResFilename; 
+                    item.dataset.imagePath = imagePath; 
+                    fragment.appendChild(item);
+                    imageObserver.observe(item); 
+                });
+
+                galleryContainer.innerHTML = '';
+                galleryContainer.appendChild(fragment);
             }
 
+            // --- IMAGE VIEWER FUNCTIONS ---
             function preloadAdjacentImages(currentIndex) {
-                if (imageFilenames.length <= 1) return;
-                const nextIndex = (currentIndex + 1) % imageFilenames.length;
-                const prevIndex = (currentIndex - 1 + imageFilenames.length) % imageFilenames.length;
-                const nextImg = new Image();
-                nextImg.src = fullsizePath + imageFilenames[nextIndex];
-                const prevImg = new Image();
-                prevImg.src = fullsizePath + imageFilenames[prevIndex];
-            }
+                if (contactPageImageFilenames.length <= 1) return;
 
+                const nextIndex = (currentIndex + 1) % contactPageImageFilenames.length;
+                const prevIndex = (currentIndex - 1 + contactPageImageFilenames.length) % contactPageImageFilenames.length;
+
+                const nextImg = new Image();
+                nextImg.src = imagePath + contactPageImageFilenames[nextIndex];
+
+                const prevImg = new Image();
+                prevImg.src = imagePath + contactPageImageFilenames[prevIndex];
+            }
 
             function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
-                if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
+                if (!imageViewerOverlay || !fullscreenImage || contactPageImageFilenames.length === 0) return;
 
                 const proceedToLoadImage = (targetIndex) => {
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block'; 
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+
                     fullscreenImage.style.transition = 'none';
                     fullscreenImage.style.opacity = 0;
                     fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                     fullscreenImage.alt = "";
 
-                    const imageUrl = fullsizePath + imageFilenames[targetIndex];
-                    const altText = `Enlarged view of ${imageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
+                    const imageUrl = imagePath + contactPageImageFilenames[targetIndex];
+                    const altText = `Enlarged view of ${contactPageImageFilenames[targetIndex].replace(/[\W_]+/g, " ")} - Marius Jomphe`;
 
                     const tempImg = new Image();
                     tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl; 
+                        fullscreenImage.src = imageUrl;
                         fullscreenImage.alt = altText;
+
                         requestAnimationFrame(() => {
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
-                            fullscreenImage.style.opacity = 1; 
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
                         });
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
                         preloadAdjacentImages(targetIndex);
                     };
+
                     tempImg.onerror = () => {
                         console.error("Error loading image:", imageUrl);
                         fullscreenImage.alt = "Error loading image";
@@ -1212,65 +1083,64 @@
                             setTimeout(closeImageViewer, 1500);
                         }
                     };
-                    tempImg.src = imageUrl; 
+                    tempImg.src = imageUrl;
                 };
 
                 if (isOpeningCallParam) {
-                    currentImageIndex = newIndex; 
+                    currentImageIndex = newIndex;
                     imageViewerOverlay.classList.add('active');
                     if (document.body) document.body.style.overflow = 'hidden';
-                    proceedToLoadImage(currentImageIndex); 
+                    proceedToLoadImage(currentImageIndex);
                 } else {
-                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
+                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
                     fullscreenImage.style.opacity = 0;
+
                     setTimeout(() => {
                         if (!imageViewerOverlay.classList.contains('active')) {
-                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                             return;
                         }
                         currentImageIndex = newIndex;
-                        proceedToLoadImage(currentImageIndex); 
-                    }, 500); 
+                        proceedToLoadImage(currentImageIndex);
+                    }, 500);
                 }
             }
-            
+
             function openImageViewer(index) {
                 if(imageViewerOverlay) {
                     imageViewerOverlay.dataset.mode = 'gallery';
                     openFullscreen(imageViewerOverlay);
                 }
-                loadAndShowImageInViewer(index, true); 
+                loadAndShowImageInViewer(index, true);
             }
 
             function closeImageViewer() {
                 if (!imageViewerOverlay) return;
-
+                
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
                 if (isFullscreen) {
                     exitFullscreen();
                 }
-                
+
                 imageViewerOverlay.classList.remove('active');
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
-                if (document.body) {
-                    document.body.style.overflow = ''; 
-                }
+                if (document.body) document.body.style.overflow = ''; 
             }
 
             function showPrevImage() {
-                if (imageFilenames.length === 0) return;
-                const newIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); 
+                if (contactPageImageFilenames.length === 0) return;
+                const newIndex = (currentImageIndex - 1 + contactPageImageFilenames.length) % contactPageImageFilenames.length;
+                loadAndShowImageInViewer(newIndex);
             }
 
             function showNextImage() {
-                if (imageFilenames.length === 0) return;
-                const newIndex = (currentImageIndex + 1) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); 
+                if (contactPageImageFilenames.length === 0) return;
+                const newIndex = (currentImageIndex + 1) % contactPageImageFilenames.length;
+                loadAndShowImageInViewer(newIndex);
             }
 
             function updateNavButtons() {
-                if (!viewerPrevButton || !viewerNextButton || imageFilenames.length <= 1) {
+                if (!viewerPrevButton || !viewerNextButton || contactPageImageFilenames.length <= 1) {
                     if(viewerPrevButton) viewerPrevButton.style.display = 'none';
                     if(viewerNextButton) viewerNextButton.style.display = 'none';
                     return;
@@ -1279,19 +1149,11 @@
                 if(viewerNextButton) viewerNextButton.style.display = 'flex';
             }
 
-            // --- RANDOM IMAGE VIEWER FUNCTIONS ---
-            function openRandomImageViewer(imageUrl) {
-                if (!imageViewerOverlay || !fullscreenImage) return;
+            // --- RANDOM IMAGE VIEWER FUNCTIONS (from about.html) ---
+            function loadRandomImageViewerImage(imageUrl) {
+                if (!fullscreenImage || !imageViewerSpinner) return;
 
-                imageViewerOverlay.dataset.mode = 'random';
-                imageViewerOverlay.classList.add('active');
-                if (document.body) document.body.style.overflow = 'hidden';
-                openFullscreen(imageViewerOverlay);
-
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
-                if (viewerPrevButton) viewerPrevButton.style.display = 'none';
-                if (viewerNextButton) viewerNextButton.style.display = 'flex';
-                
+                imageViewerSpinner.style.display = 'block';
                 fullscreenImage.style.transition = 'none';
                 fullscreenImage.style.opacity = 0;
                 fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -1305,16 +1167,33 @@
                         fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
                         fullscreenImage.style.opacity = 1;
                     });
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                    imageViewerSpinner.style.display = 'none';
                 };
                 tempImg.onerror = () => {
-                    console.error("Error loading random image:", imageUrl);
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    closeImageViewer(); // Close if the image fails to load
+                    console.error("Error loading image in viewer:", imageUrl);
+                    imageViewerSpinner.style.display = 'none';
+                    fullscreenImage.alt = "Error loading image.";
+                    closeImageViewer();
                 };
                 tempImg.src = imageUrl;
             }
+            
+            function openRandomImageViewer() {
+                if (!imageViewerOverlay || !fullscreenImage || randomImageViewerPaths.length === 0) return;
 
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden';
+                openFullscreen(imageViewerOverlay);
+                imageViewerOverlay.dataset.mode = 'random';
+
+                if (viewerPrevButton) viewerPrevButton.style.display = 'none';
+                if (viewerNextButton) viewerNextButton.style.display = 'flex';
+
+                const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                const randomImageUrl = randomImageViewerPaths[randomIndex];
+                loadRandomImageViewerImage(randomImageUrl);
+            }
+            
             function showNextRandomImage() {
                 if (randomImageViewerPaths.length === 0) return;
 
@@ -1324,33 +1203,27 @@
 
                 setTimeout(() => {
                     if (!imageViewerOverlay.classList.contains('active')) {
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
-                        return;
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        return; 
                     }
 
                     const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
                     const imageUrl = randomImageViewerPaths[randomIndex];
-                    const altText = "A special random image.";
-
-                    const tempImg = new Image();
-                    tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl;
-                        fullscreenImage.alt = altText;
-                        requestAnimationFrame(() => {
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
-                            fullscreenImage.style.opacity = 1;
-                        });
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    };
-                    tempImg.onerror = () => {
-                        console.error("Error loading image:", imageUrl);
-                        fullscreenImage.alt = "Error loading image";
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
-                    };
-                    tempImg.src = imageUrl;
+                    loadRandomImageViewerImage(imageUrl);
                 }, 300);
             }
             
+            // --- INITIALIZATION ---
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            applyTheme(currentTheme); 
+            applyLanguage(currentLanguage);
+            
+            populateGallery();
+            updateNavButtons();
+
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
                 themeToggleButton.addEventListener('click', () => {
@@ -1367,26 +1240,11 @@
                 });
             }
 
-            if (siteLogo) {
-                siteLogo.addEventListener('click', () => {
-                    if (randomImageViewerPaths.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
-                        const randomImageUrl = randomImageViewerPaths[randomIndex];
-                        openRandomImageViewer(randomImageUrl);
-                    }
-                });
-            }
-
             if (exploreButton) {
-                exploreButton.addEventListener('click', () => {
-                    if (randomImageViewerPaths.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
-                        const randomImageUrl = randomImageViewerPaths[randomIndex];
-                        openRandomImageViewer(randomImageUrl);
-                    }
-                });
+                exploreButton.addEventListener('click', openRandomImageViewer);
             }
 
+            // Dropdown Menu Logic (from about.html)
             const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(event) {
@@ -1406,7 +1264,6 @@
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
-                    
                     const currentPath = window.location.pathname;
                     let isSubPageOfThisToggleActive = false;
                     const subMenuLinks = this.nextElementSibling.querySelectorAll('a');
@@ -1445,6 +1302,7 @@
                 });
             });
 
+            // Gallery Event Listeners
             if (galleryContainer) {
                 galleryContainer.addEventListener('click', (e) => {
                     const item = e.target.closest('.gallery-item');
@@ -1477,7 +1335,7 @@
                     if (e.target === imageViewerOverlay) closeImageViewer();
                 });
             }
-
+            
             document.addEventListener('keydown', (e) => {
                 if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
                     if (e.key === 'Escape') closeImageViewer();
@@ -1497,7 +1355,8 @@
                     }
                 }
             });
-            
+
+            // --- TOUCH GESTURE SUPPORT FOR IMAGE VIEWER ---
             let touchStartX = 0;
             let touchStartY = 0;
             let touchEndX = 0;
@@ -1554,99 +1413,6 @@
             document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
             document.addEventListener('mozfullscreenchange', handleFullscreenChange);
             document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-            // --- PROMO OVERLAY FUNCTIONS ---
-            function openPromoOverlay() {
-                if (promoOverlay) {
-                    promoOverlay.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-
-            function closePromoOverlay() {
-                if (promoOverlay) {
-                    promoOverlay.classList.remove('active');
-                    document.body.style.overflow = '';
-                    if (promoVideo) {
-                        promoVideo.pause();
-                        promoVideo.currentTime = 0;
-                    }
-                    // **MODIFIED**: Set flag that promo was closed today
-                    const today = new Date().toISOString().split('T')[0];
-                    localStorage.setItem('promoClosedDate', today);
-                }
-            }
-
-            function openFullscreenVideo() {
-                if (!promoVideo || !fullscreenVideo || !fullscreenVideoOverlay) return;
-
-                const videoSource = promoVideo.querySelector('source')?.src;
-                if (!videoSource) {
-                    console.error("Promo video source not found.");
-                    return;
-                }
-                
-                fullscreenVideo.src = videoSource;
-                fullscreenVideoOverlay.style.display = 'flex';
-                
-                openFullscreen(fullscreenVideoOverlay);
-
-                fullscreenVideo.load();
-                const playPromise = fullscreenVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.error("Video play failed:", error);
-                    });
-                }
-            }
-
-            function closeFullscreenVideo() {
-                if (!fullscreenVideo || !fullscreenVideoOverlay) return;
-                
-                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-                if (isFullscreen && isFullscreen === fullscreenVideoOverlay) {
-                    exitFullscreen();
-                }
-                
-                fullscreenVideo.pause();
-                fullscreenVideo.currentTime = 0;
-                fullscreenVideoOverlay.style.display = 'none';
-
-                if (promoOverlay && !promoOverlay.classList.contains('active')) {
-                    document.body.style.overflow = '';
-                }
-            }
-
-            if (promoCloseButton) promoCloseButton.addEventListener('click', closePromoOverlay);
-            if (videoPlayButton) videoPlayButton.addEventListener('click', openFullscreenVideo);
-            if (closeVideoButton) closeVideoButton.addEventListener('click', closeFullscreenVideo);
-            if (promoOverlay) promoOverlay.addEventListener('click', (e) => {
-                if (e.target === promoOverlay) closePromoOverlay();
-            });
-            if (fullscreenVideoOverlay) fullscreenVideoOverlay.addEventListener('click', (e) => {
-                if (e.target === fullscreenVideoOverlay || e.target === closeVideoButton) closeFullscreenVideo();
-            });
-            document.addEventListener('keydown', (e) => {
-                if (fullscreenVideoOverlay.style.display === 'flex' && e.key === 'Escape') {
-                    // The 'fullscreenchange' event will handle the closing
-                }
-            });
-
-            // --- INITIAL LOAD ---
-            populateGallery();
-            applyLanguage(currentLanguage); 
-            updateNavButtons(); 
-            
-            // --- PROMO OVERLAY LOGIC ---
-            // **MODIFIED**: Check if the promo overlay should be shown. It should appear on page load
-            // unless it has already been closed on the current day.
-            const promoClosedDate = localStorage.getItem('promoClosedDate');
-            const today = new Date().toISOString().split('T')[0];
-
-            if (promoClosedDate !== today) {
-                // Show after a short delay for a better user experience
-                setTimeout(openPromoOverlay, 500);
-            }
         });
     </script>
 </body>
