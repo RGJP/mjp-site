@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBH50G5K56"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XBH50G5K56');
+    </script>
+    <script>
+        // VER 0605 IMMEDIATE THEME & LANGUAGE APPLICATION
+        (function() {
+            const isFirstVisit = !localStorage.getItem('hasVisited');
+            if (isFirstVisit) {
+                localStorage.setItem('language', 'en'); // Default to English on first visit
+                localStorage.setItem('theme', 'light');  // Default to light theme on first visit
+                localStorage.setItem('hasVisited', 'true');
+            }
+            const storedTheme = localStorage.getItem('theme') || 'light';
+            const storedLanguage = localStorage.getItem('language') || 'en';
+            document.documentElement.setAttribute('data-theme', storedTheme);
+            document.documentElement.lang = storedLanguage; // Ensures HTML lang is set on initial load
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Discover the photo book 'Passage' by Marius Jomphe. A sensitive and poetic exploration of the Gaspé Peninsula.">
+    <meta name="keywords" content="Marius Jomphe, Photo, Photographie, Passage, Gaspésie, Gaspé Peninsula, Québec, Quebec, livre, book, art photographique, fine art photography, nature photography, landscape, textures, coastal photography">
+    <meta name="author" content="Marius Jomphe">
+    <link rel="canonical" href="https://mariusjomphe.com/passage.html">
+    <meta property="og:title" content="Passage - Le Livre | The Book - Marius Jomphe">
+    <meta property="og:description" content="Explore the Gaspé Peninsula through 'Passage,' a photo book by Marius Jomphe capturing its subtle details and natural beauty.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mariusjomphe.com/passage.html">
+    <meta property="og:image" content="https://mariusjomphe.com/images/passage/passage.webp">
+    <meta property="og:image:alt" content="Passage Book by Marius Jomphe">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="en_CA">
+    <meta property="og:locale:alternate" content="fr_CA">
+
+    <title data-lang-key="siteTitlePassageLivre">Passage - The Book | Marius Jomphe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme (Default) */
+            --bg-color: #f4f7f6;
+            --text-color: #1a1a1a;
+            --header-bg-color: #ffffff;
+            --nav-link-color: #333333;
+            --nav-link-hover-color: #000000;
+            --placeholder-bg-color: #ffffff;
+            --button-bg-color: #e0e0e0;
+            --button-text-color: #1a1a1a;
+            --button-hover-bg-color: #c7c7c7;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
+            --image-viewer-nav-color: #ffffff;
+            --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
+            --loader-color: #333; /* For spinner */
+            --base-font-size: 16px;
+            --base-spacing: 1rem;
+
+            /* Email Button Colors for Light Theme (Dark button on light background) */
+            --email-button-bg: #1a1a1a; /* Black */
+            --email-button-text: #f4f7f6; /* White */
+            --email-button-hover-bg: #333333; /* Darker grey on hover */
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f4f7f6;
+            --header-bg-color: #2c2c2c;
+            --nav-link-color: #e0e0e0;
+            --nav-link-hover-color: #ffffff;
+            --placeholder-bg-color: #000000;
+            --button-bg-color: #444444;
+            --button-text-color: #f4f7f6;
+            --button-hover-bg-color: #5a5a5a;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
+            --image-viewer-nav-color: #e0e0e0;
+            --loader-color: #f4f7f6; /* For spinner */
+
+            /* Email Button Colors for Dark Theme (Light button on dark background) */
+            --email-button-bg: #f4f7f6; /* White */
+            --email-button-text: #1a1a1a; /* Black */
+            --email-button-hover-bg: #c7c7c7; /* Lighter grey on hover */
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: var(--base-font-size);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: calc(var(--base-spacing) * 0.75);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: var(--base-spacing);
+        }
+
+        /* Header & Navigation */
+        .site-header {
+            background-color: var(--header-bg-color);
+            padding: var(--base-spacing) 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 100;
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: calc(var(--base-spacing) * 1.5);
+        }
+
+        .main-nav a { 
+            font-weight: 500;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            text-transform: uppercase;
+        }
+        .main-nav a.active {
+            color: var(--text-color); 
+            font-weight: 700;
+        }
+
+        .main-nav a.active::after { 
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            display: block;
+            bottom: 0px; 
+            left: 0;
+            background: var(--text-color); 
+        }
+
+        .main-nav a::after { 
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            bottom: 0px; 
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+        /* Prevent sticky hover underline on dropdown toggles on touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            .main-nav .dropdown > a:hover::after {
+                display: none;
+            }
+        }
+
+        .main-nav a:hover,
+        .main-nav .dropdown > a:hover {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+        }
+
+        /* Dropdown Menu Styles */
+        .main-nav .dropdown {
+            position: relative;
+        }
+
+        .main-nav .dropdown > a { 
+            cursor: pointer; 
+        }
+        
+        .main-nav .dropdown-menu {
+            display: none; 
+            position: absolute;
+            top: calc(100% + 5px); 
+            left: 0;
+            background-color: var(--header-bg-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            list-style: none;
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            margin: 0;
+            min-width: 200px;
+            z-index: 1100;
+            border-radius: 4px;
+            border: 1px solid var(--button-bg-color); 
+        }
+
+        .main-nav .dropdown-menu.show { 
+            display: block;
+        }
+
+        .main-nav .dropdown-menu li a { 
+            display: block;
+            padding: calc(var(--base-spacing) * 0.6) calc(var(--base-spacing) * 1.2);
+            color: var(--nav-link-color);
+            text-transform: none; 
+            font-size: clamp(0.85rem, 1.3vw, 1rem);
+            font-weight: 400; 
+            white-space: nowrap; 
+        }
+
+        .main-nav .dropdown-menu li a:hover {
+            background-color: var(--button-bg-color);
+            color: var(--nav-link-hover-color);
+            text-decoration: none; 
+        }
+
+        .main-nav .dropdown-menu li a::after,
+        .main-nav .dropdown-menu li a:hover::after {
+            display: none; 
+        }
+
+        .main-nav .dropdown-menu li a.active {
+            color: var(--text-color);
+            font-weight: 700;
+            text-decoration-line: underline;
+            text-decoration-color: var(--text-color);
+            text-decoration-thickness: 2px;
+            text-underline-offset: calc(var(--base-spacing) * 0.5);
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 1.5);
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            font-weight: 500;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            text-transform: uppercase;
+            line-height: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: auto;
+        }
+
+        .control-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            bottom: 0;
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+        }
+
+        .control-button:hover {
+            color: var(--nav-link-hover-color);
+        }
+
+        .control-button:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+
+        .control-button:active::after,
+        .control-button:focus::after {
+            width: 0;
+        }
+
+        [data-theme="dark"] .control-button {
+            color: var(--nav-link-color);
+        }
+
+        /* Shuffle icon specific styles */
+        .shuffle-icon {
+            width: 1.1em;
+            height: 1.1em;
+            object-fit: contain;
+        }
+
+        /* Hide one image based on theme */
+        html[data-theme="light"] .shuffle-icon.dark-theme-image,
+        html[data-theme="dark"] .shuffle-icon.light-theme-image {
+            display: none;
+        }
+
+
+        /* Email Button Styles */
+        .email-button {
+            background-color: var(--email-button-bg);
+            color: var(--email-button-text);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 0.2em;
+            text-decoration: none;
+            line-height: 1.2;
+        }
+
+        .email-button .button-main-text {
+            display: block;
+        }
+
+        .email-button .button-price-text {
+            display: block;
+          font-size: clamp(1rem, 1.8vw, 1.2rem);
+              font-weight: 600;
+        }
+
+        .email-button:hover {
+            background-color: var(--email-button-hover-bg);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .email-button:active {
+            transform: translateY(0);
+        }
+
+        /* Image Gallery (reused for book images) */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--base-spacing);
+            padding: calc(var(--base-spacing) * 2) 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1 / 1; 
+            background-color: var(--placeholder-bg-color);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            content-visibility: auto;
+            contain-intrinsic-size: 250px 250px;
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .gallery-item img.loaded {
+            opacity: 1;
+        }
+
+        /* Fullscreen Image Viewer */
+        .image-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--image-viewer-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+        
+        .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+        html[data-theme='dark'] .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+
+        .image-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        .image-viewer-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--image-viewer-nav-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2002;
+            display: none; 
+            opacity: 0.3;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .image-viewer-content {
+            width: 100vw;
+            height: 100vh;
+            padding: 5vh 5vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-viewer-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border-radius: 3px;
+            opacity: 0; 
+        }
+
+        .viewer-close-button,
+        .viewer-nav-button {
+            position: fixed;
+            background: transparent;
+            color: var(--image-viewer-nav-color);
+            border: none;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            cursor: pointer;
+            padding: 0rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            z-index: 2001;
+            border-radius: 50%;
+            width: clamp(40px, 6vw, 60px);
+            height: clamp(40px, 6vw, 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .viewer-close-button:hover,
+        .viewer-nav-button:hover {
+            background-color: transparent;
+        }
+
+        .viewer-close-button {
+            top: 0rem;
+            right: 0rem;
+        }
+
+        .viewer-nav-button.prev {
+            left: 0rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .viewer-nav-button.next {
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: calc(var(--base-spacing) * 1) 0;
+            margin-top: calc(var(--base-spacing) * 2);
+            border-top: 1px solid var(--button-bg-color);
+            font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+        }
+
+        .site-footer .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-signature {
+            margin-top: calc(var(--base-spacing) * 0.5);
+            margin-bottom: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-signature img {
+            max-width: 300px;
+            height: auto;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+            display: none; 
+        }
+
+        html[data-theme="light"] .artist-signature .signature-light {
+            display: block;
+        }
+
+        html[data-theme="dark"] .artist-signature .signature-dark {
+            display: block;
+        }
+
+        .artist-signature a {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .artist-signature a:hover {
+            text-decoration: none;
+        }
+        
+        .book-cover-image {
+            width: clamp(280px, 50vw, 700px); 
+            height: auto; 
+            border: 1px solid var(--button-bg-color);
+            margin: 0 auto; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: block; 
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .book-cover-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+
+        .book-text-container {
+            margin-bottom: 2rem;
+            max-width: 800px; 
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 1rem; 
+        }
+        .book-text-container h2 {
+            font-size: 1.8rem; 
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+         .book-text-container p {
+            margin-bottom: var(--base-spacing);
+            line-height: 1.75;
+            text-align: justify;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .book-text-container > div[lang="fr"],
+        .book-text-container > div[lang="en"] {
+            display: none; 
+        }
+
+        html[lang="fr"] .book-text-container > div[lang="fr"] {
+            display: block; 
+        }
+
+        html[lang="en"] .book-text-container > div[lang="en"] {
+            display: block; 
+        }
+
+        .book-gallery-title {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400; 
+            color: var(--text-color);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .site-header .container {
+                flex-direction: column;
+                gap: calc(var(--base-spacing) * 0.5);
+            }
+            .main-nav ul {
+                gap: var(--base-spacing);
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .controls {
+                margin-top: calc(var(--base-spacing) * 0.5);
+            }
+        }
+        
+        @media (max-width: 767px) { 
+            .main-nav ul {
+                flex-wrap: wrap; 
+                justify-content: center; 
+            }
+            .main-nav .dropdown-menu { 
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 180px; 
+            }
+        }
+
+        @media (min-width: 768px) {
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: calc(var(--base-spacing) * 1.5);
+            }
+            .gallery-item {
+                contain-intrinsic-size: 300px 300px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            :root {
+                --base-font-size: 17px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+            .gallery-item {
+                contain-intrinsic-size: 350px 350px;
+            }
+        }
+
+        @media (min-width: 2000px) {
+            :root {
+                --base-font-size: 20px;
+            }
+            .container {
+                max-width: 2400px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                gap: calc(var(--base-spacing) * 1.8);
+            }
+            .gallery-item {
+                contain-intrinsic-size: 400px 400px;
+            }
+            .logo {
+                font-size: 2.8rem;
+            }
+            .main-nav a, .main-nav .dropdown > a { 
+                font-size: 1.4rem;
+            }
+            .main-nav .dropdown-menu li a { 
+                font-size: 1.3rem;
+            }
+            .control-button {
+                font-size: 1.2rem;
+            }
+            .viewer-close-button,
+            .viewer-nav-button {
+                font-size: 3rem;
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" data-lang-key="navImages">IMAGES</a></li>
+                    <li class="dropdown">
+                        <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
+                        <ul class="dropdown-menu" aria-label="Projects submenu">
+                            <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
+                            <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html" data-lang-key="navAbout">ABOUT</a></li>
+                    <li><a href="contact.html" data-lang-key="navContact">CONTACT</a></li>
+                </ul>
+            </nav>
+            
+            <div class="controls">
+                <button id="exploreButton" class="control-button" aria-label="Explore random photos">
+                    <img src="images/shufflelighttheme.png" alt="" class="shuffle-icon light-theme-image">
+                    <img src="images/shuffledarktheme.png" alt="" class="shuffle-icon dark-theme-image">
+                    <span data-lang-key="exploreText">Explore</span>
+                </button>
+                <button id="themeToggle" class="control-button" aria-label="Toggle theme">
+                    🌓 <span data-lang-key="themeToggle">THEME</span>
+                </button>
+                <button id="languageToggle" class="control-button" aria-label="Toggle language">
+                    <span data-lang-key="languageToggleText">🌐 FR/EN</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="book-cover" style="text-align: center; margin-bottom: 2rem; padding-top: 1rem;">
+                <img src="images/passage/passage.webp" alt="Passage Book Cover" class="book-cover-image" id="mainBookCoverImage">
+                <img src="images/passage/passageF.webp" alt="Passage Book Cover - Second View" class="book-cover-image" id="secondaryBookCoverImage" style="margin-top: 1rem;">
+            </section>
+
+            <section class="book-text-container">
+                <div lang="fr">
+                     <h3 class="book-gallery-title">Livre français 8x10"<br>110 pages</h3>
+                    <p>Dans le livre "Passage", l'artiste nous convie à une exploration sensible et poétique de la Gaspésie, loin des sentiers battus et des clichés touristiques. Son objectif capte l’immanence d’une nature grandiose, révélée dans ses détails les plus subtils : le mouvement éphémère d’une marée descendante, la superposition des strates rocheuses, ou encore les jeux de lumière sur les glaces hivernales.</p>
+                    <p>Ce livre invite à la contemplation et au recueillement. En scrutant les textures, les lignes et les transparences de ce territoire parfois rude, mais profondément inspirant, l'artiste donne naissance à une galerie de tableaux naturels, parfois monumentaux, parfois intimes.</p>
+                    <p>"Passage" est bien plus qu’un simple recueil photographique : c’est une invitation à ralentir, à ressentir, à rêver. Il s’adresse à celles et ceux qui souhaitent poser un regard neuf sur la réalité, et se laisser porter par un voyage intérieur, sensible et mystérieux, né du dialogue entre les mots et les images.</p>
+                </div>
+
+                <div lang="en">
+                     <h3 class="book-gallery-title">8x10" 110-page<br>French book</h3>
+                    <p>In the book "Passage", the artist invites us on a sensitive and poetic exploration of the Gaspé Peninsula, far from beaten paths and tourist clichés. His lens captures the immanence of a grandiose nature, revealed in its most subtle details: the fleeting motion of a receding tide, the layering of rock strata, or the interplay of light on winter ice.</p>
+                    <p>This book is an invitation to contemplation and reflection. By observing the textures, lines, and transparencies of this sometimes harsh but deeply inspiring land, the artist creates a gallery of natural tableaux—at times monumental, at times intimate.</p>
+                    <p>"Passage" is much more than a simple photographic collection: it is an invitation to slow down, to feel, to dream. It speaks to those who seek a fresh perspective on reality and wish to embark on an inner journey—sensitive and mysterious—born of the dialogue between words and images.</p>
+                </div>
+            </section>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <a id="passageBuyButton" href="mailto:mariusjomphe52@gmail.com"
+                   data-subject-en="Purchase%20of%20the%20photo%20book%20PASSAGE"
+                   data-subject-fr="Achat%20du%20livre%20photo%20PASSAGE"
+                   class="email-button">
+                    <span class="button-main-text" data-lang-key="buyButtonMainText">Get the limited edition book</span>
+                    <span class="button-price-text" data-lang-key="buyButtonPriceText">(50 USD)</span>
+                </a>
+            </div>
+            <section class="image-gallery-section book-specific-gallery" style="padding-bottom: 2rem;">
+                 <h3 class="book-gallery-title" data-lang-key="bookGalleryTitle">Extrait du Livre / Book Excerpt</h3>
+                <div class="image-gallery" id="imageGallery">
+                    </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="image-viewer-overlay" id="imageViewerOverlay">
+        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">&times;</button>
+        <button class="viewer-nav-button prev" id="viewerPrevButton" aria-label="Previous image">&lt;</button>
+        <div class="image-viewer-content">
+            <div class="image-viewer-spinner" id="imageViewerSpinner"></div>
+            <img src="" alt="Enlarged view" id="fullscreenImage">
+        </div>
+        <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">&gt;</button>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="artist-signature">
+                <a href="contact.html" aria-label="Contact the artist - signature link">
+                    <img src="images/signaturelt.png" alt="Artist Signature (Light Theme)" class="signature-light" id="signatureLight">
+                    <img src="images/signaturedt.png" alt="Artist Signature (Dark Theme)" class="signature-dark" id="signatureDark">
+                </a>
+            </div>
+            <p>&copy; <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // --- START OF UNIFIED ACTIVE LINK SCRIPT (Place before DOMContentLoaded) ---
+        document.querySelectorAll('.main-nav > ul > li > a').forEach(link => {
+            const currentPath = window.location.pathname;
+            const linkHref = link.getAttribute('href'); 
+
+            link.classList.remove('active'); 
+
+            if (linkHref && linkHref !== '#') { 
+                let isActive = false;
+                if (currentPath.endsWith(linkHref)) {
+                    isActive = true;
+                }
+                if ((currentPath.endsWith('/') || currentPath.endsWith('/index.html')) && linkHref === 'index.html') {
+                    isActive = true;
+                }
+                if (isActive) {
+                    link.classList.add('active');
+                }
+            }
+        });
+        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(subLink => {
+            const currentPath = window.location.pathname;
+            const subLinkHrefAttribute = subLink.getAttribute('href');
+
+            if (subLinkHrefAttribute) {
+                const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
+                let normalizedCurrentPath = currentPath;
+                if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
+                    normalizedCurrentPath = normalizedCurrentPath.slice(0, -1);
+                }
+                const currentPathLastSegment = normalizedCurrentPath.substring(normalizedCurrentPath.lastIndexOf('/') + 1);
+
+                if (currentPathLastSegment === subLinkBaseName || currentPathLastSegment === subLinkHrefAttribute) {
+                    subLink.classList.add('active');
+                    const parentDropdownToggle = subLink.closest('.dropdown')?.querySelector(':scope > a');
+                    if (parentDropdownToggle) {
+                        parentDropdownToggle.classList.add('active');
+                    }
+                } else {
+                    subLink.classList.remove('active');
+                }
+            }
+        });
+        // --- END OF UNIFIED ACTIVE LINK SCRIPT ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- CONFIGURATION FOR THIS PAGE (PASSAGE BOOK IMAGES) ---
+            const imageFilenames = [ 
+                'Photos Passage-1.jpg', 'Photos Passage-2.jpg', 'Photos Passage-3.jpg', 
+                'Photos Passage-4.jpg', 'Photos Passage-5.jpg', 'Photos Passage-6.jpg',
+                'Photos Passage-7.jpg', 'Photos Passage-8.jpg', 'Photos Passage-9.jpg',
+                'Photos Passage-10.jpg', 'Photos Passage-11.jpg', 'Photos Passage-12.jpg',
+                'Photos Passage-13.jpg', 'Photos Passage-14.jpg'
+            ];
+            const thumbPath = 'images/passage/thumbs/';
+            const fullsizePath = 'images/passage/fullsize/';
+
+            const viewerImageSources = [
+                'images/passage/passage.webp',
+                'images/passage/passageF.webp',
+                ...imageFilenames.map(name => fullsizePath + name)
+            ];
+
+            const randomImageViewerPaths = [
+                'images/bruine/fullsize/1.jpg', 'images/bruine/fullsize/10.jpg', 'images/bruine/fullsize/100.jpg', 'images/bruine/fullsize/101.jpg', 'images/bruine/fullsize/102.jpg', 'images/bruine/fullsize/103.jpg', 'images/bruine/fullsize/104.jpg', 'images/bruine/fullsize/105.jpg', 'images/bruine/fullsize/106.jpg', 'images/bruine/fullsize/107.jpg', 'images/bruine/fullsize/108.jpg', 'images/bruine/fullsize/109.jpg', 'images/bruine/fullsize/11.jpg', 'images/bruine/fullsize/110.jpg', 'images/bruine/fullsize/111.jpg', 'images/bruine/fullsize/112.jpg', 'images/bruine/fullsize/113.jpg', 'images/bruine/fullsize/114.jpg', 'images/bruine/fullsize/115.jpg', 'images/bruine/fullsize/116.jpg', 'images/bruine/fullsize/117.jpg', 'images/bruine/fullsize/12.jpg', 'images/bruine/fullsize/13.jpg', 'images/bruine/fullsize/14.jpg', 'images/bruine/fullsize/15.jpg', 'images/bruine/fullsize/16.jpg', 'images/bruine/fullsize/17.jpg', 'images/bruine/fullsize/18.jpg', 'images/bruine/fullsize/19.jpg', 'images/bruine/fullsize/2.jpg', 'images/bruine/fullsize/20.jpg', 'images/bruine/fullsize/21.jpg', 'images/bruine/fullsize/22.jpg', 'images/bruine/fullsize/23.jpg', 'images/bruine/fullsize/24.jpg', 'images/bruine/fullsize/25.jpg', 'images/bruine/fullsize/26.jpg', 'images/bruine/fullsize/27.jpg', 'images/bruine/fullsize/29.jpg', 'images/bruine/fullsize/3.jpg', 'images/bruine/fullsize/30.jpg', 'images/bruine/fullsize/31.jpg', 'images/bruine/fullsize/32.jpg', 'images/bruine/fullsize/33.jpg', 'images/bruine/fullsize/34.jpg', 'images/bruine/fullsize/36.jpg', 'images/bruine/fullsize/37.jpg', 'images/bruine/fullsize/38.jpg', 'images/bruine/fullsize/39.jpg', 'images/bruine/fullsize/4.jpg', 'images/bruine/fullsize/40.jpg', 'images/bruine/fullsize/41.jpg', 'images/bruine/fullsize/42.jpg', 'images/bruine/fullsize/43.jpg', 'images/bruine/fullsize/44.jpg', 'images/bruine/fullsize/45.jpg', 'images/bruine/fullsize/46.jpg', 'images/bruine/fullsize/47.jpg', 'images/bruine/fullsize/48.jpg', 'images/bruine/fullsize/49.jpg', 'images/bruine/fullsize/5.jpg', 'images/bruine/fullsize/50.jpg', 'images/bruine/fullsize/51.jpg', 'images/bruine/fullsize/54.jpg', 'images/bruine/fullsize/55.jpg', 'images/bruine/fullsize/56.jpg', 'images/bruine/fullsize/57.jpg', 'images/bruine/fullsize/58.jpg', 'images/bruine/fullsize/59.jpg', 'images/bruine/fullsize/6.jpg', 'images/bruine/fullsize/60.jpg', 'images/bruine/fullsize/61.jpg', 'images/bruine/fullsize/62.jpg', 'images/bruine/fullsize/63.jpg', 'images/bruine/fullsize/64.jpg', 'images/bruine/fullsize/65.jpg', 'images/bruine/fullsize/66.jpg', 'images/bruine/fullsize/67.jpg', 'images/bruine/fullsize/68.jpg', 'images/bruine/fullsize/69.jpg', 'images/bruine/fullsize/7.jpg', 'images/bruine/fullsize/70.jpg', 'images/bruine/fullsize/71.jpg', 'images/bruine/fullsize/72.jpg', 'images/bruine/fullsize/73.jpg', 'images/bruine/fullsize/74.jpg', 'images/bruine/fullsize/75.jpg', 'images/bruine/fullsize/76.jpg', 'images/bruine/fullsize/77.jpg', 'images/bruine/fullsize/78.jpg', 'images/bruine/fullsize/8.jpg', 'images/bruine/fullsize/80.jpg', 'images/bruine/fullsize/81.jpg', 'images/bruine/fullsize/82.jpg', 'images/bruine/fullsize/83.jpg', 'images/bruine/fullsize/84.jpg', 'images/bruine/fullsize/85.jpg', 'images/bruine/fullsize/86.jpg', 'images/bruine/fullsize/87.jpg', 'images/bruine/fullsize/88.jpg', 'images/bruine/fullsize/89.jpg', 'images/bruine/fullsize/9.jpg', 'images/bruine/fullsize/90.jpg', 'images/bruine/fullsize/91.jpg', 'images/bruine/fullsize/92.jpg', 'images/bruine/fullsize/93.jpg', 'images/bruine/fullsize/94.jpg', 'images/bruine/fullsize/95.jpg', 'images/bruine/fullsize/96.jpg', 'images/bruine/fullsize/97.jpg', 'images/bruine/fullsize/98.jpg', 'images/bruine/fullsize/99.jpg',
+                'images/fullsize/Galerie-1.jpg', 'images/fullsize/Galerie-10.jpg', 'images/fullsize/Galerie-100.jpg', 'images/fullsize/Galerie-101.jpg', 'images/fullsize/Galerie-102.jpg', 'images/fullsize/Galerie-103.jpg', 'images/fullsize/Galerie-104.jpg', 'images/fullsize/Galerie-105.jpg', 'images/fullsize/Galerie-106.jpg', 'images/fullsize/Galerie-107.jpg', 'images/fullsize/Galerie-108.jpg', 'images/fullsize/Galerie-109.jpg', 'images/fullsize/Galerie-11.jpg', 'images/fullsize/Galerie-110.jpg', 'images/fullsize/Galerie-111.jpg', 'images/fullsize/Galerie-112.jpg', 'images/fullsize/Galerie-113.jpg', 'images/fullsize/Galerie-114.jpg', 'images/fullsize/Galerie-115.jpg', 'images/fullsize/Galerie-116.jpg', 'images/fullsize/Galerie-117.jpg', 'images/fullsize/Galerie-118.jpg', 'images/fullsize/Galerie-119.jpg', 'images/fullsize/Galerie-12.jpg', 'images/fullsize/Galerie-120.jpg', 'images/fullsize/Galerie-121.jpg', 'images/fullsize/Galerie-122.jpg', 'images/fullsize/Galerie-123.jpg', 'images/fullsize/Galerie-124.jpg', 'images/fullsize/Galerie-125.jpg', 'images/fullsize/Galerie-126.jpg', 'images/fullsize/Galerie-127.jpg', 'images/fullsize/Galerie-128.jpg', 'images/fullsize/Galerie-129.jpg', 'images/fullsize/Galerie-13.jpg', 'images/fullsize/Galerie-130.jpg', 'images/fullsize/Galerie-131.jpg', 'images/fullsize/Galerie-132.jpg', 'images/fullsize/Galerie-133.jpg', 'images/fullsize/Galerie-134.jpg', 'images/fullsize/Galerie-135.jpg', 'images/fullsize/Galerie-136.jpg', 'images/fullsize/Galerie-137.jpg', 'images/fullsize/Galerie-138.jpg', 'images/fullsize/Galerie-139.jpg', 'images/fullsize/Galerie-14.jpg', 'images/fullsize/Galerie-140.jpg', 'images/fullsize/Galerie-141.jpg', 'images/fullsize/Galerie-142.jpg', 'images/fullsize/Galerie-143.jpg', 'images/fullsize/Galerie-144.jpg', 'images/fullsize/Galerie-145.jpg', 'images/fullsize/Galerie-15.jpg', 'images/fullsize/Galerie-16.jpg', 'images/fullsize/Galerie-17.jpg', 'images/fullsize/Galerie-18.jpg', 'images/fullsize/Galerie-19.jpg', 'images/fullsize/Galerie-2.jpg', 'images/fullsize/Galerie-20.jpg', 'images/fullsize/Galerie-21.jpg', 'images/fullsize/Galerie-22.jpg', 'images/fullsize/Galerie-23.jpg', 'images/fullsize/Galerie-24.jpg', 'images/fullsize/Galerie-25.jpg', 'images/fullsize/Galerie-26.jpg', 'images/fullsize/Galerie-27.jpg', 'images/fullsize/Galerie-28.jpg', 'images/fullsize/Galerie-29.jpg', 'images/fullsize/Galerie-3.jpg', 'images/fullsize/Galerie-30.jpg', 'images/fullsize/Galerie-31.jpg', 'images/fullsize/Galerie-32.jpg', 'images/fullsize/Galerie-33.jpg', 'images/fullsize/Galerie-34.jpg', 'images/fullsize/Galerie-35.jpg', 'images/fullsize/Galerie-36.jpg', 'images/fullsize/Galerie-37.jpg', 'images/fullsize/Galerie-38.jpg', 'images/fullsize/Galerie-39.jpg', 'images/fullsize/Galerie-4.jpg', 'images/fullsize/Galerie-40.jpg', 'images/fullsize/Galerie-41.jpg', 'images/fullsize/Galerie-42.jpg', 'images/fullsize/Galerie-43.jpg', 'images/fullsize/Galerie-44.jpg', 'images/fullsize/Galerie-45.jpg', 'images/fullsize/Galerie-46.jpg', 'images/fullsize/Galerie-47.jpg', 'images/fullsize/Galerie-48.jpg', 'images/fullsize/Galerie-49.jpg', 'images/fullsize/Galerie-5.jpg', 'images/fullsize/Galerie-50.jpg', 'images/fullsize/Galerie-51.jpg', 'images/fullsize/Galerie-52.jpg', 'images/fullsize/Galerie-53.jpg', 'images/fullsize/Galerie-54.jpg', 'images/fullsize/Galerie-55.jpg', 'images/fullsize/Galerie-56.jpg', 'images/fullsize/Galerie-57.jpg', 'images/fullsize/Galerie-58.jpg', 'images/fullsize/Galerie-59.jpg', 'images/fullsize/Galerie-6.jpg', 'images/fullsize/Galerie-60.jpg', 'images/fullsize/Galerie-61.jpg', 'images/fullsize/Galerie-62.jpg', 'images/fullsize/Galerie-63.jpg', 'images/fullsize/Galerie-64.jpg', 'images/fullsize/Galerie-65.jpg', 'images/fullsize/Galerie-66.jpg', 'images/fullsize/Galerie-67.jpg', 'images/fullsize/Galerie-68.jpg', 'images/fullsize/Galerie-69.jpg', 'images/fullsize/Galerie-7.jpg', 'images/fullsize/Galerie-70.jpg', 'images/fullsize/Galerie-71.jpg', 'images/fullsize/Galerie-72.jpg', 'images/fullsize/Galerie-73.jpg', 'images/fullsize/Galerie-74.jpg', 'images/fullsize/Galerie-75.jpg', 'images/fullsize/Galerie-76.jpg', 'images/fullsize/Galerie-77.jpg', 'images/fullsize/Galerie-78.jpg', 'images/fullsize/Galerie-79.jpg', 'images/fullsize/Galerie-8.jpg', 'images/fullsize/Galerie-80.jpg', 'images/fullsize/Galerie-81.jpg', 'images/fullsize/Galerie-82.jpg', 'images/fullsize/Galerie-83.jpg', 'images/fullsize/Galerie-84.jpg', 'images/fullsize/Galerie-85.jpg', 'images/fullsize/Galerie-86.jpg', 'images/fullsize/Galerie-87.jpg', 'images/fullsize/Galerie-88.jpg', 'images/fullsize/Galerie-89.jpg', 'images/fullsize/Galerie-9.jpg', 'images/fullsize/Galerie-90.jpg', 'images/fullsize/Galerie-91.jpg', 'images/fullsize/Galerie-92.jpg', 'images/fullsize/Galerie-93.jpg', 'images/fullsize/Galerie-94.jpg', 'images/fullsize/Galerie-95.jpg', 'images/fullsize/Galerie-96.jpg', 'images/fullsize/Galerie-97.jpg', 'images/fullsize/Galerie-98.jpg', 'images/fullsize/Galerie-99.jpg',
+                'images/passage/fullsize/Photos Passage-1.jpg', 'images/passage/fullsize/Photos Passage-10.jpg', 'images/passage/fullsize/Photos Passage-11.jpg', 'images/passage/fullsize/Photos Passage-12.jpg', 'images/passage/fullsize/Photos Passage-13.jpg', 'images/passage/fullsize/Photos Passage-14.jpg', 'images/passage/fullsize/Photos Passage-2.jpg', 'images/passage/fullsize/Photos Passage-3.jpg', 'images/passage/fullsize/Photos Passage-4.jpg', 'images/passage/fullsize/Photos Passage-5.jpg', 'images/passage/fullsize/Photos Passage-6.jpg', 'images/passage/fullsize/Photos Passage-7.jpg', 'images/passage/fullsize/Photos Passage-8.jpg', 'images/passage/fullsize/Photos Passage-9.jpg'
+            ];
+
+            const translations = {
+                en: {
+                    siteTitle: "Marius Jomphe ‧ Photography",
+                    siteTitlePassageLivre: "Passage (Book) • Marius Jomphe Photography",
+                    navImages: "GALLERY", 
+                    navProjects: "PROJECTS",
+                    projectBruine: "BRUINE", 
+                    projectPassage: "PASSAGE", 
+                    navAbout: "ABOUT",
+                    navContact: "CONTACT",
+                    exploreText: "Explore",
+                    themeToggle: "THEME",
+                    languageToggleText: "🌐 FR/EN",
+                    footerRights: "All rights reserved.",
+                    bookGalleryTitle: "Book Excerpts",
+                    metaDescriptionContent: "Discover 'Passage' by Marius Jomphe, a photo book offering a sensitive and poetic exploration of the Gaspé Peninsula's grandiose nature, textures, and light.",
+                    ogDescriptionContent: "Explore the Gaspé Peninsula through 'Passage,' a photo book by Marius Jomphe capturing its subtle details and natural beauty.", 
+                    buyButtonMainText: "Get the limited edition book",
+                    buyButtonPriceText: "50 USD ‧ 65 CAD",
+                    ogImageAltContent: "Passage Book by Marius Jomphe",
+                    bookCoverAltText: "Passage Book Cover",
+                    bookCoverAltText2: "Passage Book Cover - Second View" 
+                },
+                fr: {
+                    siteTitle: "Marius Jomphe ‧ Photographie",
+                    siteTitlePassageLivre: "Passage (Livre) • Marius Jomphe Photographie",
+                    navImages: "GALERIE", 
+                    navProjects: "PROJETS",
+                    projectBruine: "BRUINE", 
+                    projectPassage: "PASSAGE",  
+                    navAbout: "À PROPOS",
+                    navContact: "CONTACT",
+                    exploreText: "Explorer",
+                    themeToggle: "THÈME",
+                    languageToggleText: "🌐 FR/EN",
+                    footerRights: "Tous droits réservés.",
+                    bookGalleryTitle: "Extraits du Livre",
+                    metaDescriptionContent: "Découvrez 'Passage' de Marius Jomphe, un livre photo proposant une exploration sensible et poétique de la nature grandiose, des textures et des lumières de la Gaspésie.",
+                    ogDescriptionContent: "Explorez la Gaspésie à travers 'Passage', un livre photo de Marius Jomphe capturant ses détails subtils et sa beauté naturelle.",
+                    ogImageAltContent: "Livre Passage de Marius Jomphe",
+                    buyButtonMainText: "Obtenir le livre en édition limitée",
+                    buyButtonPriceText: "50 USD ‧ 65 CAD",
+                    bookCoverAltText: "Couverture du livre Passage",
+                    bookCoverAltText2: "Couverture du livre Passage - Deuxième Vue" 
+                }
+            };
+
+            const themeToggleButton = document.getElementById('themeToggle');
+            const languageToggleButton = document.getElementById('languageToggle');
+            const exploreButton = document.getElementById('exploreButton');
+            const galleryContainer = document.getElementById('imageGallery');
+            const imageViewerOverlay = document.getElementById('imageViewerOverlay');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            const viewerCloseButton = document.getElementById('viewerCloseButton');
+            const viewerPrevButton = document.getElementById('viewerPrevButton');
+            const viewerNextButton = document.getElementById('viewerNextButton');
+            const imageViewerSpinner = document.getElementById('imageViewerSpinner');
+            const currentYearSpan = document.getElementById('currentYear');
+            const mainBookCoverImage = document.getElementById('mainBookCoverImage');
+            const secondaryBookCoverImage = document.getElementById('secondaryBookCoverImage'); 
+            const buyBookButton = document.getElementById('passageBuyButton');
+
+
+            let currentImageIndex = 0;
+            let currentLanguage = localStorage.getItem('language') || 'en';
+            let currentTheme = localStorage.getItem('theme') || 'light';
+
+            function openFullscreen(element) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
+                } else if (element.mozRequestFullScreen) { /* Firefox */
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { /* IE/Edge */
+                    element.msRequestFullscreen();
+                }
+            }
+
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { /* Firefox */
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE/Edge */
+                    document.msExitFullscreen();
+                }
+            }
+
+            function handleFullscreenChange() {
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                if (!isFullscreen && imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                    closeImageViewer(false);
+                }
+            }
+
+            const createImageOnIntersection = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const galleryItemDiv = entry.target;
+                        const filename = galleryItemDiv.dataset.filename;
+
+                        if (!filename || galleryItemDiv.querySelector('img')) {
+                            observer.unobserve(galleryItemDiv);
+                            return;
+                        }
+
+                        const img = document.createElement('img');
+                        img.src = thumbPath + filename;
+                        const altNamePart = filename.substring(0, filename.lastIndexOf('.'));
+                        img.alt = `Thumbnail from Passage book: ${altNamePart.replace(/[\W_]+/g," ")} - Marius Jomphe`;
+                        img.loading = 'lazy';
+                        img.decoding = 'async';
+                        img.addEventListener('load', () => img.classList.add('loaded'));
+                        if (img.complete) img.classList.add('loaded');
+
+                        galleryItemDiv.appendChild(img);
+                        observer.unobserve(galleryItemDiv);
+                    }
+                });
+            };
+
+            const imageObserver = new IntersectionObserver(createImageOnIntersection, {
+                rootMargin: '0px 0px 200px 0px', 
+                threshold: 0.01 
+            });
+
+            function populateGallery() {
+                if (!galleryContainer) return;
+                const fragment = document.createDocumentFragment();
+                imageFilenames.forEach((filename, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.dataset.index = index;
+                    item.dataset.filename = filename;
+                    fragment.appendChild(item);
+                    imageObserver.observe(item); 
+                });
+                galleryContainer.innerHTML = '';
+                galleryContainer.appendChild(fragment);
+            }
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                currentTheme = theme;
+            }
+
+            function applyLanguage(lang) {
+                currentLanguage = lang;
+                localStorage.setItem('language', lang);
+                document.documentElement.lang = lang; 
+
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.dataset.langKey;
+                    if (translations[lang] && translations[lang][key]) {
+                        if (el.tagName === 'TITLE') {
+                            document.title = translations[lang][key];
+                        } else {
+                            el.innerHTML = translations[lang][key];
+                        }
+                    }
+                });
+                
+                if (buyBookButton) {
+                    const subjectKey = lang === 'fr' ? 'data-subject-fr' : 'data-subject-en';
+                    const subjectText = buyBookButton.getAttribute(subjectKey) || "Book Purchase Inquiry";
+                    buyBookButton.href = `mailto:mariusjomphe52@gmail.com?subject=${subjectText}`; 
+                }
+
+                const metaDescriptionTag = document.querySelector('meta[name="description"]');
+                if (metaDescriptionTag) metaDescriptionTag.setAttribute('content', translations[lang]?.metaDescriptionContent);
+
+                const ogDescriptionTag = document.querySelector('meta[property="og:description"]');
+                if (ogDescriptionTag) ogDescriptionTag.setAttribute('content', translations[lang]?.ogDescriptionContent);
+                
+                const ogImageAltTag = document.querySelector('meta[property="og:image:alt"]');
+                if (ogImageAltTag) ogImageAltTag.setAttribute('content', translations[lang]?.ogImageAltContent);
+                
+                const ogTitleTag = document.querySelector('meta[property="og:title"]');
+                if (ogTitleTag) ogTitleTag.setAttribute('content', translations[lang]?.siteTitlePassageLivre);
+
+                if (mainBookCoverImage) mainBookCoverImage.alt = translations[lang]?.bookCoverAltText;
+                if (secondaryBookCoverImage) secondaryBookCoverImage.alt = translations[lang]?.bookCoverAltText2;
+            }
+
+
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            function loadRandomViewerImage(imageUrl) {
+                 if (!fullscreenImage || !imageViewerSpinner) return;
+
+                imageViewerSpinner.style.display = 'block';
+                fullscreenImage.style.transition = 'none';
+                fullscreenImage.style.opacity = 0;
+                fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                fullscreenImage.alt = "Loading random image...";
+
+                const tempImg = new Image();
+                tempImg.onload = () => {
+                    fullscreenImage.src = imageUrl;
+                    fullscreenImage.alt = "A special random image.";
+                    requestAnimationFrame(() => {
+                        fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                        fullscreenImage.style.opacity = 1;
+                    });
+                    imageViewerSpinner.style.display = 'none';
+                };
+                tempImg.onerror = () => {
+                    console.error("Error loading image in viewer:", imageUrl);
+                    imageViewerSpinner.style.display = 'none';
+                    fullscreenImage.alt = "Error loading image.";
+                    closeImageViewer(true);
+                };
+                tempImg.src = imageUrl;
+            }
+            
+            function openRandomImageViewer() {
+                if (!imageViewerOverlay || !fullscreenImage || randomImageViewerPaths.length === 0) return;
+                
+                imageViewerOverlay.dataset.mode = 'random';
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden';
+                openFullscreen(imageViewerOverlay);
+                
+                updateNavButtons();
+
+                const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                const randomImageUrl = randomImageViewerPaths[randomIndex];
+                loadRandomViewerImage(randomImageUrl);
+            }
+
+            function showNextRandomImage() {
+                if (randomImageViewerPaths.length === 0) return;
+
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                fullscreenImage.style.transition = 'opacity 0.3s ease-in-out';
+                fullscreenImage.style.opacity = 0;
+
+                setTimeout(() => {
+                    if (!imageViewerOverlay.classList.contains('active')) {
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        return; 
+                    }
+                    const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                    loadRandomViewerImage(randomImageViewerPaths[randomIndex]);
+                }, 300);
+            }
+
+            function preloadAdjacentImages(currentIndex) {
+                if (viewerImageSources.length <= 1) return;
+                const nextIndex = (currentIndex + 1) % viewerImageSources.length;
+                const prevIndex = (currentIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
+                (new Image()).src = viewerImageSources[nextIndex];
+                (new Image()).src = viewerImageSources[prevIndex];
+            }
+
+            function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
+                if (!imageViewerOverlay || !fullscreenImage || viewerImageSources.length === 0) return;
+                
+                if (isOpeningCallParam) {
+                    imageViewerOverlay.dataset.mode = 'gallery';
+                }
+
+                const proceedToLoadImage = (targetIndex) => {
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                    fullscreenImage.style.transition = 'none'; 
+                    fullscreenImage.style.opacity = 0;
+                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
+                    fullscreenImage.alt = ""; 
+
+                    const imageUrl = viewerImageSources[targetIndex];
+                    const altText = `Enlarged view of image ${targetIndex + 1} - Marius Jomphe`;
+
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        fullscreenImage.src = imageUrl;
+                        fullscreenImage.alt = altText;
+                        requestAnimationFrame(() => { 
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
+                        });
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                        preloadAdjacentImages(targetIndex);
+                    };
+                    tempImg.onerror = () => {
+                        console.error("Error loading image:", imageUrl);
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                    };
+                    tempImg.src = imageUrl;
+                };
+
+                if (isOpeningCallParam) { 
+                    currentImageIndex = newIndex;
+                    imageViewerOverlay.classList.add('active');
+                    if (document.body) document.body.style.overflow = 'hidden';
+                    proceedToLoadImage(currentImageIndex);
+                    openFullscreen(imageViewerOverlay);
+                } else { 
+                    fullscreenImage.style.transition = 'opacity 0.3s ease-in-out'; 
+                    fullscreenImage.style.opacity = 0;
+                    setTimeout(() => {
+                        if (!imageViewerOverlay.classList.contains('active')) { 
+                             if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                             return;
+                        }
+                        currentImageIndex = newIndex;
+                        proceedToLoadImage(currentImageIndex);
+                    }, 300); 
+                }
+            }
+
+            function openImageViewer(index) {
+                loadAndShowImageInViewer(index, true);
+            }
+
+            function closeImageViewer(shouldExitFullscreen) {
+                if (!imageViewerOverlay) return;
+                if (shouldExitFullscreen) {
+                    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                    if (isFullscreen) {
+                        exitFullscreen();
+                    }
+                }
+                imageViewerOverlay.classList.remove('active');
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                if (document.body) document.body.style.overflow = '';
+            }
+
+            function showPrevImage() {
+                if (viewerImageSources.length === 0) return;
+                const newIndex = (currentImageIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function showNextImage() {
+                if (viewerImageSources.length === 0) return;
+                const newIndex = (currentImageIndex + 1) % viewerImageSources.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function updateNavButtons() {
+                 const mode = imageViewerOverlay?.dataset.mode;
+                 if (mode === 'gallery') {
+                    if (viewerPrevButton) viewerPrevButton.style.display = viewerImageSources.length > 1 ? 'flex' : 'none';
+                    if (viewerNextButton) viewerNextButton.style.display = viewerImageSources.length > 1 ? 'flex' : 'none';
+                 } else if (mode === 'random') {
+                     if (viewerPrevButton) viewerPrevButton.style.display = 'none';
+                     if (viewerNextButton) viewerNextButton.style.display = 'flex';
+                 } else {
+                     if (viewerPrevButton) viewerPrevButton.style.display = 'none';
+                     if (viewerNextButton) viewerNextButton.style.display = 'none';
+                 }
+            }
+
+            // --- EVENT LISTENERS ---
+            if (exploreButton) {
+                exploreButton.addEventListener('click', openRandomImageViewer);
+            }
+
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', () => {
+                    const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                });
+            }
+
+            if (languageToggleButton) {
+                languageToggleButton.addEventListener('click', () => {
+                    const newLang = currentLanguage === 'en' ? 'fr' : 'en';
+                    applyLanguage(newLang);
+                });
+            }
+
+            const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    document.querySelectorAll('.main-nav .dropdown-menu.show').forEach(openMenu => {
+                        if (openMenu !== dropdownMenu) {
+                            openMenu.classList.remove('show');
+                            openMenu.previousElementSibling?.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    dropdownMenu.classList.toggle('show');
+                    this.setAttribute('aria-expanded', String(!isExpanded));
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                document.querySelectorAll('.main-nav .dropdown').forEach(dropdown => {
+                    if (!dropdown.contains(event.target)) {
+                        const menu = dropdown.querySelector('.dropdown-menu');
+                        const toggle = dropdown.querySelector('a[aria-expanded="true"]');
+                        if(menu) menu.classList.remove('show');
+                        if(toggle) toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+
+            if (mainBookCoverImage) mainBookCoverImage.addEventListener('click', () => openImageViewer(0));
+            if (secondaryBookCoverImage) secondaryBookCoverImage.addEventListener('click', () => openImageViewer(1));
+
+            if (galleryContainer) {
+                galleryContainer.addEventListener('click', (e) => {
+                    const item = e.target.closest('.gallery-item');
+                    if (item && item.dataset.index) {
+                        const newIndex = parseInt(item.dataset.index, 10) + 2;
+                        openImageViewer(newIndex);
+                    }
+                });
+            }
+
+            if (viewerCloseButton) viewerCloseButton.addEventListener('click', () => closeImageViewer(true));
+            
+            if (viewerPrevButton) viewerPrevButton.addEventListener('click', () => {
+                if (imageViewerOverlay?.dataset.mode === 'gallery') showPrevImage();
+            });
+
+            if (viewerNextButton) viewerNextButton.addEventListener('click', () => {
+                const mode = imageViewerOverlay?.dataset.mode;
+                if (mode === 'random') showNextRandomImage();
+                else if (mode === 'gallery') showNextImage();
+            });
+            
+            if (imageViewerOverlay) {
+                imageViewerOverlay.addEventListener('click', (e) => {
+                    if (e.target === imageViewerOverlay) closeImageViewer(true);
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (imageViewerOverlay?.classList.contains('active')) {
+                    if (e.key === 'Escape') closeImageViewer(true);
+                    
+                    const mode = imageViewerOverlay.dataset.mode;
+                    if (mode === 'gallery') {
+                        if (e.key === 'ArrowLeft') showPrevImage();
+                        if (e.key === 'ArrowRight') showNextImage();
+                    } else if (mode === 'random') {
+                        if (e.key === 'ArrowRight') showNextRandomImage();
+                    }
+                }
+            });
+            
+            let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
+            const swipeThreshold = 50; 
+
+            if (imageViewerOverlay) {
+                imageViewerOverlay.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                    }
+                }, { passive: true });
+
+                imageViewerOverlay.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                        touchEndX = e.touches[0].clientX;
+                        touchEndY = e.touches[0].clientY;
+                    }
+                }, { passive: true });
+
+                imageViewerOverlay.addEventListener('touchend', () => {
+                    if (!imageViewerOverlay.classList.contains('active') || touchStartX === 0 || touchEndX === 0) { 
+                        touchStartX = touchEndX = touchStartY = touchEndY = 0; return;
+                    }
+
+                    const deltaX = touchEndX - touchStartX;
+                    const deltaY = touchEndY - touchStartY;
+                    const mode = imageViewerOverlay.dataset.mode;
+
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) { 
+                        if (mode === 'gallery') {
+                            if (deltaX < 0) showNextImage();
+                            else showPrevImage();
+                        } else if (mode === 'random') {
+                            if (deltaX < 0) showNextRandomImage();
+                        }
+                    }
+                    touchStartX = touchEndX = touchStartY = touchEndY = 0; 
+                });
+            }
+            
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+
+            // --- INITIAL LOAD ---
+            populateGallery();
+            applyTheme(currentTheme);
+            applyLanguage(currentLanguage);
+            updateNavButtons();
+
+        });
+    </script>
+</body>
+</html>
