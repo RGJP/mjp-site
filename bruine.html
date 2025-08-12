@@ -696,6 +696,7 @@
                     <li class="dropdown">
                         <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
                         <ul class="dropdown-menu" aria-label="Projects submenu">
+                            <li><a href="sonde.html" data-lang-key="projectSonde">SONDE</a></li>
                             <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
                             <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
                         </ul>
@@ -754,7 +755,6 @@
             </section>
 
             <section class="image-gallery-section book-specific-gallery" style="padding-bottom: 2rem;">
-                 <h3 class="book-gallery-title" data-lang-key="bookGalleryTitle">Extrait du Livre / Book Excerpt</h3>
                 <div class="image-gallery" id="imageGallery">
                     </div>
             </section>
@@ -862,6 +862,7 @@
                     navImages: "GALLERY",
                     navProjects: "PROJECTS",
                     navAbout: "ABOUT",
+                    projectSonde: "SONDE",
                     projectBruine: "BRUINE",  
                     projectPassage: "PASSAGE",
                     navContact: "CONTACT",
@@ -883,6 +884,7 @@
                     navImages: "GALERIE",
                     navProjects: "PROJETS",
                     navAbout: "À PROPOS",
+                    projectSonde: "SONDE",
                     projectBruine: "BRUINE",    
                     projectPassage: "PASSAGE",  
                     navContact: "CONTACT",
@@ -947,7 +949,7 @@
                 } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
                     document.webkitExitFullscreen();
                 } else if (document.msExitFullscreen) { /* IE/Edge */
-                    document.msRequestFullscreen();
+                    document.msExitFullscreen();
                 }
             }
 

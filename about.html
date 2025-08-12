@@ -510,6 +510,15 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             border-radius: 3px;
             opacity: 0;
+            transform-origin: center center;
+            will-change: transform;
+        }
+        .image-viewer-content img.zoomed {
+            cursor: grab;
+        }
+
+        .image-viewer-content img.zooming {
+            cursor: grabbing;
         }
 
         .viewer-close-button,
@@ -667,6 +676,7 @@
                     <li class="dropdown">
                         <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
                         <ul class="dropdown-menu" aria-label="Projects submenu">
+                            <li><a href="sonde.html" data-lang-key="projectSonde">SONDE</a></li>
                             <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
                             <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
                         </ul>
@@ -961,6 +971,7 @@
             
             function openRandomImageViewer() {
                 if (!imageViewerOverlay || !fullscreenImage || randomImageViewerPaths.length === 0) return;
+                resetZoom();
 
                 imageViewerOverlay.classList.add('active');
                 if (document.body) document.body.style.overflow = 'hidden';
@@ -979,6 +990,7 @@
             
             function showNextRandomImage() {
                 if (randomImageViewerPaths.length === 0) return;
+                resetZoom();
 
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
                 fullscreenImage.style.transition = 'opacity 0.3s ease-in-out';
@@ -998,6 +1010,7 @@
 
             function closeImageViewer() {
                 if (!imageViewerOverlay) return;
+                resetZoom();
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
                 if (isFullscreen) {
                     exitFullscreen();
@@ -1051,6 +1064,136 @@
 
             if (currentYearSpan) {
                 currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            // --- ZOOM & PAN LOGIC ---
+            let scale = 1,
+                panning = false,
+                start = { x: 0, y: 0 },
+                transform = { x: 0, y: 0 };
+
+            function setTransform() {
+                if(fullscreenImage) {
+                    fullscreenImage.style.transform = `translate(${transform.x}px, ${transform.y}px) scale(${scale})`;
+                }
+            }
+
+            function resetZoom() {
+                scale = 1;
+                transform.x = 0;
+                transform.y = 0;
+                if(fullscreenImage) {
+                    setTransform();
+                    fullscreenImage.classList.remove('zoomed', 'zooming');
+                }
+            }
+            
+            if(fullscreenImage){
+                fullscreenImage.addEventListener('wheel', (e) => {
+                    if (!e.ctrlKey) return;
+                    e.preventDefault();
+                    const delta = e.deltaY < 0 ? 1 : -1;
+                    const zoomSpeed = 0.2;
+                    const newScale = Math.max(1, scale + delta * zoomSpeed);
+
+                    if (newScale !== scale) {
+                        const rect = fullscreenImage.getBoundingClientRect();
+                        const point = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+                        
+                        transform.x = (transform.x - point.x) * (newScale / scale) + point.x;
+                        transform.y = (transform.y - point.y) * (newScale / scale) + point.y;
+                        
+                        scale = newScale;
+                        setTransform();
+
+                        if (scale > 1) {
+                            fullscreenImage.classList.add('zoomed');
+                        } else {
+                            resetZoom();
+                        }
+                    }
+                });
+
+                fullscreenImage.addEventListener('pointerdown', (e) => {
+                    if (e.pointerType === 'mouse' && e.button !== 0) return;
+                    if (scale <= 1) return;
+                    e.preventDefault();
+                    panning = true;
+                    start = { x: e.clientX - transform.x, y: e.clientY - transform.y };
+                    fullscreenImage.classList.add('zooming');
+                });
+
+                fullscreenImage.addEventListener('pointermove', (e) => {
+                    if (!panning) return;
+                    e.preventDefault();
+                    transform.x = e.clientX - start.x;
+                    transform.y = e.clientY - start.y;
+                    setTransform();
+                });
+
+                const stopPanning = () => {
+                    if (!panning) return;
+                    panning = false;
+                    fullscreenImage.classList.remove('zooming');
+                };
+
+                fullscreenImage.addEventListener('pointerup', stopPanning);
+                fullscreenImage.addEventListener('pointercancel', stopPanning);
+                fullscreenImage.addEventListener('pointerleave', stopPanning);
+            }
+
+            // Pinch zoom for touch devices
+            let initialDistance = -1;
+
+            if(imageViewerOverlay){
+                imageViewerOverlay.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 2) {
+                        e.preventDefault();
+                        initialDistance = Math.hypot(
+                            e.touches[0].pageX - e.touches[1].pageX,
+                            e.touches[0].pageY - e.touches[1].pageY
+                        );
+                    }
+                });
+
+                imageViewerOverlay.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 2) {
+                        e.preventDefault();
+                        if (initialDistance < 0) return;
+
+                        const newDistance = Math.hypot(
+                            e.touches[0].pageX - e.touches[1].pageX,
+                            e.touches[0].pageY - e.touches[1].pageY
+                        );
+                        
+                        const delta = newDistance - initialDistance;
+                        const newScale = Math.max(1, scale + delta * 0.01);
+
+                        if (newScale !== scale) {
+                            const rect = fullscreenImage.getBoundingClientRect();
+                            const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                            const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                            const point = { x: centerX - rect.left, y: centerY - rect.top };
+
+                            transform.x = (transform.x - point.x) * (newScale / scale) + point.x;
+                            transform.y = (transform.y - point.y) * (newScale / scale) + point.y;
+
+                            scale = newScale;
+                            setTransform();
+                            if (scale > 1) {
+                                fullscreenImage.classList.add('zoomed');
+                            }
+                        }
+                        initialDistance = newDistance;
+                    }
+                });
+
+                imageViewerOverlay.addEventListener('touchend', (e) => {
+                    initialDistance = -1;
+                    if (scale <= 1) {
+                        resetZoom();
+                    }
+                });
             }
 
             // --- EVENT LISTENERS ---

@@ -11,8 +11,6 @@
     </script>
     <script>
         // IMMEDIATE THEME & LANGUAGE APPLICATION
-        // This script runs synchronously and applies the theme and language
-        // before the browser paints the body, preventing FOUC (Flash Of Unstyled Content).
         (function() {
             const isFirstVisit = !localStorage.getItem('hasVisited');
 
@@ -467,6 +465,8 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             border-radius: 3px;
             opacity: 0;
+            transform-origin: center center;
+            will-change: transform; /* Performance hint for zooming */
         }
 
         .viewer-close-button,
@@ -663,6 +663,7 @@
             background-color: var(--promo-content-bg);
             color: var(--promo-text-color);
             padding: 2rem;
+            padding-bottom: 0.5rem;
             border-radius: 8px;
             text-align: center;
             max-width: 90%;
@@ -731,14 +732,14 @@
 
         .overlay-close-button {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 0px;
+            right: 5px;
             background: none;
             border: none;
             font-size: 2rem;
             color: var(--promo-text-color);
             cursor: pointer;
-            padding: 5px;
+            padding: 0px;
             line-height: 1;
             transition: color 0.2s ease;
         }
@@ -781,6 +782,34 @@
             cursor: pointer;
             z-index: 4001;
         }
+
+        .promo-lang-toggle {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: none;
+        border: none;       /* ← removes the button border */
+    outline: none;      /* ← removes the focus outline */
+    box-shadow: none;
+            color: var(--promo-text-color);
+            cursor: pointer;
+            padding: 5px 8px;
+              font-family: 'montserrat', sans-serif; /* ← Roboto font added */
+              letter-spacing: 0.5px;
+            font-size: 1.1rem;
+font-weight: 700;
+
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            opacity: 1;
+
+        }
+
+        .promo-lang-toggle:hover {
+            opacity: 1;
+            background-color: var(--promo-text-color);
+            color: var(--promo-content-bg);
+        }
     </style>
 </head>
 <body>
@@ -788,13 +817,14 @@
     <header class="site-header">
         <div class="container">
             <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
-            
+
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html" class="active" data-lang-key="navImages">IMAGES</a></li>
                     <li class="dropdown">
                         <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
                         <ul class="dropdown-menu" aria-label="Projects submenu">
+                            <li><a href="sonde.html" data-lang-key="projectSonde">SONDE</a></li>
                             <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
                             <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
                         </ul>
@@ -803,7 +833,7 @@
                     <li><a href="contact.html" data-lang-key="navContact">CONTACT</a></li>
                 </ul>
             </nav>
-            
+
             <div class="controls">
                 <button id="exploreButton" class="control-button" aria-label="Explore random photos">
                     <img src="images/shufflelighttheme.png" alt="" class="shuffle-icon light-theme-image">
@@ -814,7 +844,7 @@
                     🌓 <span data-lang-key="themeToggleDark">DARK MODE</span>
                     <span data-lang-key="themeToggleLight" style="display:none;">LIGHT MODE</span>
                 </button>
-                
+
                 <button id="languageToggle" class="control-button" aria-label="Toggle language">
                     🌐 English
                 </button>
@@ -843,8 +873,9 @@
 
     <div class="promo-overlay" id="promoOverlay">
         <div class="promo-content">
+            <button id="promoLangToggle" class="promo-lang-toggle">EN</button>
             <button class="overlay-close-button" id="promoCloseButton" aria-label="Close promotion">×</button>
-            <h2>Lancement du livre "Sonde"<br>21 août, 17h00<br><a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer">Centre d'art de Percé</a>:</h2>
+            <h2 data-promo-lang-key="promoHeading">Lancement du livre "SONDE" <br>21 août 17:00<br><a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer">Centre d'Art de Percé</a></h2>
             <div style="position: relative;">
                 <video id="promoVideo" preload="metadata" muted playsinline>
                     <source src="images/sonde.mp4" type="video/mp4">
@@ -852,6 +883,7 @@
                 </video>
                 <button class="video-play-button" id="videoPlayButton">▶</button>
             </div>
+            <h2 data-promo-lang-key="promoLearnMore"><a href="sonde.html">En savoir plus</a></h2>
         </div>
     </div>
 
@@ -930,7 +962,7 @@
         // --- END OF UNIFIED ACTIVE LINK SCRIPT ---
 
         document.addEventListener('DOMContentLoaded', () => {
-            
+
             // --- CONFIGURATION ---
             const imageFilenames = [
                 'Galerie-1.jpg',   'Galerie-2.jpg',   'Galerie-3.jpg',   'Galerie-4.jpg',   'Galerie-5.jpg',
@@ -973,7 +1005,7 @@
                     siteTitle: "Marius Jomphe ‧ Photography",
                     pageTitleGallery: "Gallery • Marius Jomphe Photography",
                     navImages: "GALLERY",
-                    navProjects: "PROJECTS", 
+                    navProjects: "PROJECTS",
                     projectSonde: "SONDE",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
@@ -989,7 +1021,7 @@
                     siteTitle: "Marius Jomphe ‧ Photographie",
                     pageTitleGallery: "Galerie • Marius Jomphe Photographie",
                     navImages: "GALERIE",
-                    navProjects: "PROJETS", 
+                    navProjects: "PROJETS",
                     projectSonde: "SONDE",
                     projectBruine: "BRUINE",
                     projectPassage: "PASSAGE",
@@ -1018,6 +1050,7 @@
             // Promo Overlay Elements
             const promoOverlay = document.getElementById('promoOverlay');
             const promoCloseButton = document.getElementById('promoCloseButton');
+            const promoLangToggle = document.getElementById('promoLangToggle');
             const promoVideo = document.getElementById('promoVideo');
             const videoPlayButton = document.getElementById('videoPlayButton');
             const fullscreenVideoOverlay = document.getElementById('fullscreenVideoOverlay');
@@ -1034,8 +1067,20 @@
             ];
 
             let currentImageIndex = 0;
-            let currentLanguage = localStorage.getItem('language') || 'en'; 
-            let currentTheme = localStorage.getItem('theme') || 'light'; 
+            let currentLanguage = localStorage.getItem('language') || 'en';
+            let currentTheme = localStorage.getItem('theme') || 'light';
+            let promoLanguage = 'fr';
+
+            const promoTranslations = {
+                en: {
+                    promoHeading: '"SONDE" Book Launch<br>August 21st 5:00 PM<br><a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer">Percé Art Center</a>',
+                    promoLearnMore: '<a href="sonde.html">Learn More</a>'
+                },
+                fr: {
+                    promoHeading: 'Lancement du livre "SONDE" <br>21 août 17:00<br><a href="https://maps.app.goo.gl/mEdxFVXoFsaWC7Gj6" target="_blank" rel="noopener noreferrer">Centre d\'Art de Percé</a>',
+                    promoLearnMore: '<a href="sonde.html">En savoir plus</a>'
+                }
+            };
 
             // --- HELPER FUNCTIONS FOR FULLSCREEN ---
             function openFullscreen(element) {
@@ -1064,12 +1109,12 @@
 
             function handleFullscreenChange() {
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-                
+
                 if (!isFullscreen) {
                     // We have exited fullscreen mode (e.g., user pressed ESC).
                     // Close any active fullscreen overlay.
                     if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
-                        closeImageViewer(); 
+                        closeImageViewer();
                     }
                     if (fullscreenVideoOverlay && fullscreenVideoOverlay.style.display === 'flex') {
                         closeFullscreenVideo();
@@ -1083,7 +1128,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const galleryItemDiv = entry.target;
-                        const fullResFilename = galleryItemDiv.dataset.fullresFilename; 
+                        const fullResFilename = galleryItemDiv.dataset.fullresFilename;
 
                         if (!fullResFilename || galleryItemDiv.querySelector('img')) {
                             observer.unobserve(galleryItemDiv);
@@ -1097,17 +1142,17 @@
                         img.loading = 'lazy';
                         img.decoding = 'async';
                         img.addEventListener('load', () => img.classList.add('loaded'));
-                        if (img.complete) img.classList.add('loaded'); 
+                        if (img.complete) img.classList.add('loaded');
 
                         galleryItemDiv.appendChild(img);
-                        observer.unobserve(galleryItemDiv); 
+                        observer.unobserve(galleryItemDiv);
                     }
                 });
             };
 
             const imageObserver = new IntersectionObserver(createImageOnIntersection, {
-                rootMargin: '0px 0px 200px 0px', 
-                threshold: 0.01 
+                rootMargin: '0px 0px 200px 0px',
+                threshold: 0.01
             });
 
             function populateGallery() {
@@ -1116,22 +1161,22 @@
                 imageFilenames.forEach((fullResFilename, index) => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
-                    item.dataset.index = index; 
-                    item.dataset.fullresFilename = fullResFilename; 
+                    item.dataset.index = index;
+                    item.dataset.fullresFilename = fullResFilename;
                     fragment.appendChild(item);
-                    imageObserver.observe(item); 
+                    imageObserver.observe(item);
                 });
-                galleryContainer.innerHTML = ''; 
+                galleryContainer.innerHTML = '';
                 galleryContainer.appendChild(fragment);
             }
 
             function applyTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
-                if (themeToggleButton) { 
+                if (themeToggleButton) {
                     const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
                     const toggleLightText = themeToggleButton.querySelector('[data-lang-key="themeToggleLight"]');
-                    if (toggleDarkText && toggleLightText) { 
+                    if (toggleDarkText && toggleLightText) {
                         if (theme === 'dark') {
                             toggleDarkText.style.display = 'none';
                             toggleLightText.style.display = 'inline';
@@ -1160,7 +1205,20 @@
                 if (languageToggleButton) {
                     languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
                 }
-                applyTheme(currentTheme); 
+                applyTheme(currentTheme);
+            }
+
+            function applyPromoLanguage(lang) {
+                promoLanguage = lang;
+                document.querySelectorAll('[data-promo-lang-key]').forEach(el => {
+                    const key = el.dataset.promoLangKey;
+                    if (promoTranslations[lang] && promoTranslations[lang][key]) {
+                        el.innerHTML = promoTranslations[lang][key];
+                    }
+                });
+                if (promoLangToggle) {
+                    promoLangToggle.textContent = lang === 'en' ? 'FR' : 'EN';
+                }
             }
 
             if (currentYearSpan) {
@@ -1182,7 +1240,7 @@
                 if (!imageViewerOverlay || !fullscreenImage || imageFilenames.length === 0) return;
 
                 const proceedToLoadImage = (targetIndex) => {
-                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block'; 
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
                     fullscreenImage.style.transition = 'none';
                     fullscreenImage.style.opacity = 0;
                     fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -1193,13 +1251,13 @@
 
                     const tempImg = new Image();
                     tempImg.onload = () => {
-                        fullscreenImage.src = imageUrl; 
+                        fullscreenImage.src = imageUrl;
                         fullscreenImage.alt = altText;
                         requestAnimationFrame(() => {
-                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
-                            fullscreenImage.style.opacity = 1; 
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
                         });
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         updateNavButtons();
                         preloadAdjacentImages(targetIndex);
                     };
@@ -1212,34 +1270,34 @@
                             setTimeout(closeImageViewer, 1500);
                         }
                     };
-                    tempImg.src = imageUrl; 
+                    tempImg.src = imageUrl;
                 };
 
                 if (isOpeningCallParam) {
-                    currentImageIndex = newIndex; 
+                    currentImageIndex = newIndex;
                     imageViewerOverlay.classList.add('active');
                     if (document.body) document.body.style.overflow = 'hidden';
-                    proceedToLoadImage(currentImageIndex); 
+                    proceedToLoadImage(currentImageIndex);
                 } else {
-                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
+                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
                     fullscreenImage.style.opacity = 0;
                     setTimeout(() => {
                         if (!imageViewerOverlay.classList.contains('active')) {
-                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                            if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                             return;
                         }
                         currentImageIndex = newIndex;
-                        proceedToLoadImage(currentImageIndex); 
-                    }, 500); 
+                        proceedToLoadImage(currentImageIndex);
+                    }, 500);
                 }
             }
-            
+
             function openImageViewer(index) {
                 if(imageViewerOverlay) {
                     imageViewerOverlay.dataset.mode = 'gallery';
                     openFullscreen(imageViewerOverlay);
                 }
-                loadAndShowImageInViewer(index, true); 
+                loadAndShowImageInViewer(index, true);
             }
 
             function closeImageViewer() {
@@ -1249,24 +1307,24 @@
                 if (isFullscreen) {
                     exitFullscreen();
                 }
-                
+
                 imageViewerOverlay.classList.remove('active');
-                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                 if (document.body) {
-                    document.body.style.overflow = ''; 
+                    document.body.style.overflow = '';
                 }
             }
 
             function showPrevImage() {
                 if (imageFilenames.length === 0) return;
                 const newIndex = (currentImageIndex - 1 + imageFilenames.length) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); 
+                loadAndShowImageInViewer(newIndex);
             }
 
             function showNextImage() {
                 if (imageFilenames.length === 0) return;
                 const newIndex = (currentImageIndex + 1) % imageFilenames.length;
-                loadAndShowImageInViewer(newIndex); 
+                loadAndShowImageInViewer(newIndex);
             }
 
             function updateNavButtons() {
@@ -1291,7 +1349,7 @@
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
                 if (viewerPrevButton) viewerPrevButton.style.display = 'none';
                 if (viewerNextButton) viewerNextButton.style.display = 'flex';
-                
+
                 fullscreenImage.style.transition = 'none';
                 fullscreenImage.style.opacity = 0;
                 fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -1324,7 +1382,7 @@
 
                 setTimeout(() => {
                     if (!imageViewerOverlay.classList.contains('active')) {
-                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none'; 
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                         return;
                     }
 
@@ -1350,7 +1408,7 @@
                     tempImg.src = imageUrl;
                 }, 300);
             }
-            
+
             // --- EVENT LISTENERS ---
             if (themeToggleButton) {
                 themeToggleButton.addEventListener('click', () => {
@@ -1367,7 +1425,15 @@
                 });
             }
 
-            
+            if (promoLangToggle) {
+                promoLangToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const newLang = promoLanguage === 'en' ? 'fr' : 'en';
+                    applyPromoLanguage(newLang);
+                });
+            }
+
+
             if (exploreButton) {
                 exploreButton.addEventListener('click', () => {
                     if (randomImageViewerPaths.length > 0) {
@@ -1397,7 +1463,7 @@
 
                     dropdownMenu.classList.toggle('show');
                     this.setAttribute('aria-expanded', String(!isExpanded));
-                    
+
                     const currentPath = window.location.pathname;
                     let isSubPageOfThisToggleActive = false;
                     const subMenuLinks = this.nextElementSibling.querySelectorAll('a');
@@ -1447,7 +1513,7 @@
             }
 
             if (viewerCloseButton) viewerCloseButton.addEventListener('click', closeImageViewer);
-            
+
             if (viewerPrevButton) viewerPrevButton.addEventListener('click', () => {
                 if (imageViewerOverlay.dataset.mode === 'gallery') {
                     showPrevImage();
@@ -1462,7 +1528,7 @@
                     showNextImage();
                 }
             });
-            
+
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('click', (e) => {
                     if (e.target === imageViewerOverlay) closeImageViewer();
@@ -1488,12 +1554,12 @@
                     }
                 }
             });
-            
+
             let touchStartX = 0;
             let touchStartY = 0;
             let touchEndX = 0;
             let touchEndY = 0;
-            const swipeThreshold = 50; 
+            const swipeThreshold = 50;
 
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('touchstart', (e) => {
@@ -1501,19 +1567,19 @@
                         touchStartX = e.touches[0].clientX;
                         touchStartY = e.touches[0].clientY;
                     }
-                }, { passive: true }); 
+                }, { passive: true });
 
                 imageViewerOverlay.addEventListener('touchmove', (e) => {
                     if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
                         touchEndX = e.touches[0].clientX;
                         touchEndY = e.touches[0].clientY;
                     }
-                }, { passive: true }); 
+                }, { passive: true });
 
                 imageViewerOverlay.addEventListener('touchend', (e) => {
                     if (!imageViewerOverlay.classList.contains('active')) return;
-                    
-                    if (touchStartX === 0 || touchEndX === 0) { 
+
+                    if (touchStartX === 0 || touchEndX === 0) {
                         touchStartX = 0; touchStartY = 0; touchEndX = 0; touchEndY = 0;
                         return;
                     }
@@ -1528,14 +1594,14 @@
                                 showNextRandomImage();
                             }
                         } else if (mode === 'gallery') {
-                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') { 
+                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') {
                                 showNextImage();
-                            } else if (deltaX > 0 && viewerPrevButton.style.display !== 'none') { 
+                            } else if (deltaX > 0 && viewerPrevButton.style.display !== 'none') {
                                 showPrevImage();
                             }
                         }
                     }
-                    
+
                     touchStartX = 0; touchStartY = 0; touchEndX = 0; touchEndY = 0;
                 });
             }
@@ -1549,6 +1615,7 @@
             // --- PROMO OVERLAY FUNCTIONS ---
             function openPromoOverlay() {
                 if (promoOverlay) {
+                    applyPromoLanguage(currentLanguage);
                     promoOverlay.classList.add('active');
                     document.body.style.overflow = 'hidden';
                 }
@@ -1576,10 +1643,10 @@
                     console.error("Promo video source not found.");
                     return;
                 }
-                
+
                 fullscreenVideo.src = videoSource;
                 fullscreenVideoOverlay.style.display = 'flex';
-                
+
                 openFullscreen(fullscreenVideoOverlay);
 
                 fullscreenVideo.load();
@@ -1593,12 +1660,12 @@
 
             function closeFullscreenVideo() {
                 if (!fullscreenVideo || !fullscreenVideoOverlay) return;
-                
+
                 const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
                 if (isFullscreen && isFullscreen === fullscreenVideoOverlay) {
                     exitFullscreen();
                 }
-                
+
                 fullscreenVideo.pause();
                 fullscreenVideo.currentTime = 0;
                 fullscreenVideoOverlay.style.display = 'none';
@@ -1625,9 +1692,9 @@
 
             // --- INITIAL LOAD ---
             populateGallery();
-            applyLanguage(currentLanguage); 
-            updateNavButtons(); 
-            
+            applyLanguage(currentLanguage);
+            updateNavButtons();
+
             // --- PROMO OVERLAY LOGIC ---
             // **MODIFIED**: Check if the promo overlay should be shown. It should appear on page load
             // unless it has already been closed on the current day.
@@ -1635,8 +1702,8 @@
             const today = new Date().toISOString().split('T')[0];
 
             if (promoClosedDate !== today) {
-                // Show after a short delay for a better user experience
-                setTimeout(openPromoOverlay, 500);
+
+                setTimeout(openPromoOverlay, 0);
             }
         });
     </script>
