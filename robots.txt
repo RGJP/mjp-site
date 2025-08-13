@@ -4,6 +4,7 @@ Allow: /about.html
 Allow: /bruine.html
 Allow: /contact.html
 Allow: /passage.html
+Allow: /sonde.html
 Disallow: /images/
 Disallow: /CNAME
 
