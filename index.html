@@ -635,10 +635,7 @@
                 font-size: 1.2rem;
             }
         }
-
-        #promoOverlay {
-  display: none !important;
-}
+        
         .promo-overlay {
             position: fixed;
             top: 0;
@@ -1631,7 +1628,6 @@ font-weight: 700;
                         promoVideo.pause();
                         promoVideo.currentTime = 0;
                     }
-                    // **MODIFIED**: Set flag that promo was closed today
                     const today = new Date().toISOString().split('T')[0];
                     localStorage.setItem('promoClosedDate', today);
                 }
@@ -1698,15 +1694,8 @@ font-weight: 700;
             updateNavButtons();
 
             // --- PROMO OVERLAY LOGIC ---
-            // **MODIFIED**: Check if the promo overlay should be shown. It should appear on page load
-            // unless it has already been closed on the current day.
-            const promoClosedDate = localStorage.getItem('promoClosedDate');
-            const today = new Date().toISOString().split('T')[0];
-
-            if (promoClosedDate !== today) {
-
-                setTimeout(openPromoOverlay, 0);
-            }
+            // The code that automatically opened the promo overlay has been removed.
+            
         });
     </script>
 </body>
