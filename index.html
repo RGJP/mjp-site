@@ -636,7 +636,9 @@
             }
         }
 
-        /* Promo Overlay styles from the original index.html */
+        #promoOverlay {
+  display: none !important;
+}
         .promo-overlay {
             position: fixed;
             top: 0;
@@ -871,7 +873,7 @@ font-weight: 700;
         <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">></button>
     </div>
 
-    <div class="promo-overlay" id="promoOverlay">
+    <div class="promo-overlay" id="promoOverlay"> 
         <div class="promo-content">
             <button id="promoLangToggle" class="promo-lang-toggle">EN</button>
             <button class="overlay-close-button" id="promoCloseButton" aria-label="Close promotion">×</button>
