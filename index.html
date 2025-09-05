@@ -78,6 +78,11 @@
             --promo-link-color: #007bff;
             --promo-button-bg: #007bff;
             --promo-button-hover-bg: #0056b3;
+            /* POSTER OVERLAY LIGHT THEME */
+      --poster-overlay-bg: rgba(26, 26, 26, 0.95);
+            --poster-content-shadow: rgba(0, 0, 0, 0.2);
+            --poster-close-color: #333333;
+            --poster-close-hover-color: #000000;
         }
 
         [data-theme="dark"] {
@@ -105,6 +110,11 @@
             --promo-link-color: #90caf9;
             --promo-button-bg: #90caf9;
             --promo-button-hover-bg: #6a95b3;
+            /* POSTER OVERLAY DARK THEME */
+            --poster-overlay-bg: rgba(26, 26, 26, 0.95);
+            --poster-content-shadow: rgba(0, 0, 0, 0.5);
+            --poster-close-color: #e0e0e0;
+            --poster-close-hover-color: #ffffff;
         }
 
         *, *::before, *::after {
@@ -495,7 +505,7 @@
 
        .viewer-close-button {
             top: 0rem;      /* was: calc(var(--base-spacing) * 1.5); */
-            right: 0rem;      /* was: calc(var(--base-spacing) * 1.5); */
+            right: 0rem;        /* was: calc(var(--base-spacing) * 1.5); */
         }
 
 
@@ -635,6 +645,74 @@
                 font-size: 1.2rem;
             }
         }
+        
+        /* START: Poster Overlay Styles */
+        .poster-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--poster-overlay-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3500;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+            padding: 2rem;
+        }
+
+        .poster-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        .poster-content {
+            position: relative;
+            max-width: 800px; /* Adjust as needed */
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .poster-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            box-shadow: 0 10px 30px var(--poster-content-shadow);
+        }
+        
+    .poster-close-button {
+    position: absolute;
+    top: 20px;   /* 20 pixels from the top of the overlay */
+    right: 20px; /* 20 pixels from the right of the overlay */
+    width: 40px;
+    height: 40px;
+    background: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--poster-close-color);
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3501; /* Ensure it's above the overlay */
+}
+        
+        .poster-close-button:hover {
+            color: var(--poster-close-hover-color);
+            transform: scale(1.1);
+        }
+        /* END: Poster Overlay Styles */
         
         .promo-overlay {
             position: fixed;
@@ -787,17 +865,16 @@
             top: 5px;
             left: 5px;
             background: none;
-        border: none;       /* ← removes the button border */
-    outline: none;      /* ← removes the focus outline */
-    box-shadow: none;
+            border: none;        /* ← removes the button border */
+            outline: none;     /* ← removes the focus outline */
+            box-shadow: none;
             color: var(--promo-text-color);
             cursor: pointer;
             padding: 5px 8px;
-              font-family: 'montserrat', sans-serif; /* ← Roboto font added */
-              letter-spacing: 0.5px;
+            font-family: 'montserrat', sans-serif; /* ← Roboto font added */
+            letter-spacing: 0.5px;
             font-size: 1.1rem;
-font-weight: 700;
-
+            font-weight: 700;
             border-radius: 4px;
             transition: all 0.2s ease;
             opacity: 1;
@@ -869,6 +946,12 @@ font-weight: 700;
         </div>
         <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">></button>
     </div>
+
+<div class="poster-overlay" id="posterOverlay">
+    <div class="poster-content">
+        <img src="poster.jpg" alt="Upcoming Event Poster" class="poster-image">
+    </div>
+</div>
 
     <div class="promo-overlay" id="promoOverlay"> 
         <div class="promo-content">
@@ -964,7 +1047,7 @@ font-weight: 700;
 
             // --- CONFIGURATION ---
             const imageFilenames = [
-               'a (1).jpg', 'a (2).jpg', 'a (3).jpg', 'a (4).jpg', 'a (5).jpg', 'a (6).jpg', 'a (7).jpg', 'a (8).jpg',
+                'a (1).jpg', 'a (2).jpg', 'a (3).jpg', 'a (4).jpg', 'a (5).jpg', 'a (6).jpg', 'a (7).jpg', 'a (8).jpg',
                 'Galerie-1.jpg',   'Galerie-2.jpg',   'Galerie-3.jpg',   'Galerie-4.jpg',   'Galerie-5.jpg',
                 'Galerie-6.jpg',   'Galerie-7.jpg',   'Galerie-8.jpg',   'Galerie-9.jpg',   'Galerie-10.jpg',
                 'Galerie-11.jpg',  'Galerie-12.jpg',  'Galerie-13.jpg',  'Galerie-14.jpg',  'Galerie-15.jpg',
@@ -1047,6 +1130,10 @@ font-weight: 700;
             const imageViewerSpinner = document.getElementById('imageViewerSpinner');
             const currentYearSpan = document.getElementById('currentYear');
 
+            // Poster Overlay Elements
+            const posterOverlay = document.getElementById('posterOverlay');
+            const posterCloseButton = document.getElementById('posterCloseButton');
+            
             // Promo Overlay Elements
             const promoOverlay = document.getElementById('promoOverlay');
             const promoCloseButton = document.getElementById('promoCloseButton');
@@ -1312,7 +1399,10 @@ font-weight: 700;
                 imageViewerOverlay.classList.remove('active');
                 if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
                 if (document.body) {
-                    document.body.style.overflow = '';
+                    // Only restore scroll if no other overlay is active
+                    if (!posterOverlay.classList.contains('active') && !promoOverlay.classList.contains('active')) {
+                        document.body.style.overflow = '';
+                    }
                 }
             }
 
@@ -1537,7 +1627,14 @@ font-weight: 700;
             }
 
             document.addEventListener('keydown', (e) => {
-                if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                // Check for active poster overlay first
+                if (posterOverlay && posterOverlay.classList.contains('active')) {
+                    if (e.key === 'Escape') {
+                        closePosterOverlay();
+                    }
+                }
+                // Then check for active image viewer
+                else if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
                     if (e.key === 'Escape') closeImageViewer();
 
                     const mode = imageViewerOverlay.dataset.mode;
@@ -1613,6 +1710,18 @@ font-weight: 700;
             document.addEventListener('mozfullscreenchange', handleFullscreenChange);
             document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
+            // --- POSTER OVERLAY FUNCTIONS ---
+            function closePosterOverlay() {
+                if (posterOverlay) {
+                    posterOverlay.classList.remove('active');
+                    // Only restore scroll if no other overlay is active
+                    if (!imageViewerOverlay.classList.contains('active') && !promoOverlay.classList.contains('active')) {
+                       document.body.style.overflow = '';
+                    }
+                    localStorage.setItem('posterOverlayClosed', 'true');
+                }
+            }
+            
             // --- PROMO OVERLAY FUNCTIONS ---
             function openPromoOverlay() {
                 if (promoOverlay) {
@@ -1625,7 +1734,10 @@ font-weight: 700;
             function closePromoOverlay() {
                 if (promoOverlay) {
                     promoOverlay.classList.remove('active');
-                    document.body.style.overflow = '';
+                    // Only restore scroll if no other overlay is active
+                    if (!imageViewerOverlay.classList.contains('active') && !posterOverlay.classList.contains('active')) {
+                       document.body.style.overflow = '';
+                    }
                     if (promoVideo) {
                         promoVideo.pause();
                         promoVideo.currentTime = 0;
@@ -1695,8 +1807,18 @@ font-weight: 700;
             applyLanguage(currentLanguage);
             updateNavButtons();
 
-            // --- PROMO OVERLAY LOGIC ---
-            // The code that automatically opened the promo overlay has been removed.
+            // --- POSTER OVERLAY LOGIC ---
+            // --- POSTER OVERLAY LOGIC ---
+const hasPosterBeenClosed = localStorage.getItem('posterOverlayClosed');
+if (hasPosterBeenClosed && posterOverlay) { // Changed to show only on first visit
+    // A small delay can make it feel less abrupt
+    setTimeout(() => {
+        posterOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }, 500);
+
+    posterOverlay.addEventListener('click', closePosterOverlay);
+}
             
         });
     </script>
