@@ -1807,18 +1807,19 @@
             applyLanguage(currentLanguage);
             updateNavButtons();
 
-            // --- POSTER OVERLAY LOGIC ---
-            // --- POSTER OVERLAY LOGIC ---
-const hasPosterBeenClosed = localStorage.getItem('posterOverlayClosed');
-if (!hasPosterBeenClosed && posterOverlay) { // Changed to show only on first visit
-    // A small delay can make it feel less abrupt
-    setTimeout(() => {
-        posterOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }, 500);
+           // --- POSTER OVERLAY LOGIC ---
+            /*
+            const hasPosterBeenClosed = localStorage.getItem('posterOverlayClosed');
+            if (!hasPosterBeenClosed && posterOverlay) { // Changed to show only on first visit
+                // A small delay can make it feel less abrupt
+                setTimeout(() => {
+                    posterOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }, 500);
 
-    posterOverlay.addEventListener('click', closePosterOverlay);
-}
+                posterOverlay.addEventListener('click', closePosterOverlay);
+            }
+            */
             
         });
     </script>
