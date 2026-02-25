@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en"> <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBH50G5K56"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XBH50G5K56');
+</script>
+    <script>
+        // VER 0605  IMMEDIATE THEME & LANGUAGE APPLICATION
+        (function() {
+            const isFirstVisit = !localStorage.getItem('hasVisited');
+            if (isFirstVisit) {
+                localStorage.setItem('language', 'en');
+                localStorage.setItem('theme', 'light');
+                localStorage.setItem('hasVisited', 'true');
+            }
+            const storedTheme = localStorage.getItem('theme') || 'light';
+            const storedLanguage = localStorage.getItem('language') || 'en';
+            document.documentElement.setAttribute('data-theme', storedTheme);
+            document.documentElement.lang = storedLanguage; // Ensures HTML lang is set on initial load
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Explore Winter, a photo project by Marius Jomphe.">
+    <meta name="keywords" content="Marius Jomphe, Photo, Photographie, Gaspé, Gaspe, Québec, Quebec, livre, book, BRUINE, Pointe de la Gaspésie, Gaspé Peninsula Tip, art photographique, fine art photography">
+    <meta name="author" content="Marius Jomphe">
+    <link rel="canonical" href="https://mariusjomphe.com/hiver.html">
+    <meta property="og:title" content="Hiver | Winter - Marius Jomphe"> <meta property="og:description" content="Explore Winter, a photo project by Marius Jomphe.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mariusjomphe.com/hiver.html">
+    <meta property="og:image" content="https://mariusjomphe.com/images/hiver/Ajouts-1.jpg">
+    <meta property="og:image:alt" content="Hiver project by Marius Jomphe">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="en_CA">
+    <meta property="og:locale:alternate" content="fr_CA">
+
+    <title data-lang-key="siteTitleHiverLivre">Hiver - Winter | Marius Jomphe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme (Default) */
+            --bg-color: #f4f7f6;
+            --text-color: #1a1a1a;
+            --header-bg-color: #ffffff;
+            --nav-link-color: #333333;
+            --nav-link-hover-color: #000000;
+            --placeholder-bg-color: #ffffff;
+            --button-bg-color: #e0e0e0;
+            --button-text-color: #1a1a1a;
+            --button-hover-bg-color: #c7c7c7;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
+            --image-viewer-nav-color: #ffffff;
+            --image-viewer-nav-hover-bg: rgba(255, 255, 255, 0.2);
+            --loader-color: #007bff;
+            --base-font-size: 16px;
+            --base-spacing: 1rem;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f4f7f6;
+            --header-bg-color: #2c2c2c;
+            --nav-link-color: #e0e0e0;
+            --nav-link-hover-color: #ffffff;
+            --placeholder-bg-color: #000000;
+            --button-bg-color: #444444;
+            --button-text-color: #f4f7f6;
+            --button-hover-bg-color: #5a5a5a;
+            --image-viewer-bg: rgba(0, 0, 0, 0.95);
+            --image-viewer-nav-color: #e0e0e0;
+            --loader-color: #58a6ff;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: var(--base-font-size);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: calc(var(--base-spacing) * 0.75);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: var(--base-spacing);
+        }
+
+        /* Header & Navigation */
+        .site-header {
+            background-color: var(--header-bg-color);
+            padding: var(--base-spacing) 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 4vw, 2.2rem); /* Adjusted for better scaling on narrow screens */
+            font-weight: 100;
+            color: var(--text-color);
+            white-space: nowrap; /* Prevent title from wrapping */
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: calc(var(--base-spacing) * 1.5);
+        }
+
+        .main-nav a {
+            font-weight: 500;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            text-transform: uppercase;
+        }
+        .main-nav a.active {
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            display: block;
+            bottom: 0px;
+            left: 0;
+            background: var(--text-color);
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+        /* Prevent sticky hover underline on dropdown toggles on touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            .main-nav .dropdown > a:hover::after {
+                display: none;
+            }
+        }
+
+        .main-nav a:hover {
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+        }
+
+        /* Dropdown Menu Styles */
+        .main-nav .dropdown {
+            position: relative;
+        }
+
+        .main-nav .dropdown > a {
+            cursor: pointer;
+        }
+        
+        .main-nav .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            background-color: var(--header-bg-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            list-style: none;
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            margin: 0;
+            min-width: 200px;
+            z-index: 1100;
+            border-radius: 4px;
+            border: 1px solid var(--button-bg-color);
+        }
+
+        .main-nav .dropdown-menu.show {
+            display: block;
+        }
+
+        .main-nav .dropdown-menu li a {
+            display: block;
+            padding: calc(var(--base-spacing) * 0.6) calc(var(--base-spacing) * 1.2);
+            color: var(--nav-link-color);
+            text-transform: none;
+            font-size: clamp(0.85rem, 1.3vw, 1rem);
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .main-nav .dropdown-menu li a:hover {
+            background-color: var(--button-bg-color);
+            color: var(--nav-link-hover-color);
+            text-decoration: none;
+        }
+
+        .main-nav .dropdown-menu li a::after,
+        .main-nav .dropdown-menu li a:hover::after {
+            display: none;
+        }
+
+        /* Added for active dropdown item underline */
+        .main-nav .dropdown-menu li a.active {
+            color: var(--text-color); /* Match main active link color */
+            font-weight: 700;       /* Match main active link font-weight */
+            text-decoration-line: underline;
+            text-decoration-color: var(--text-color);
+            text-decoration-thickness: 2px; /* Match main active link underline thickness */
+            text-underline-offset: calc(var(--base-spacing) * 0.5);  /* Adjust for pleasant spacing below text, matches main nav */
+                                         /* This also helps it look distinct from a simple hover underline */
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 1.5);
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            font-weight: 500;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--nav-link-color);
+            padding: calc(var(--base-spacing) * 0.5) 0;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            text-transform: uppercase;
+            line-height: inherit;
+            display: inline-flex; /* CHANGED */
+            align-items: center; /* ADDED */
+            gap: 8px; /* ADDED */
+            min-width: auto;
+        }
+
+        .control-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            bottom: 0; /* CHANGED */
+            right: 0;
+            background: var(--nav-link-hover-color);
+            transition: width 0.3s ease;
+        }
+
+        .control-button:hover {
+            color: var(--nav-link-hover-color);
+        }
+
+        .control-button:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--nav-link-hover-color);
+        }
+
+        .control-button:active::after,
+        .control-button:focus::after {
+            width: 0;
+        }
+
+        [data-theme="dark"] .control-button {
+            color: var(--nav-link-color);
+        }
+		
+		/* Shuffle icon specific styles - ADDED */
+        .shuffle-icon {
+            width: 1.1em;
+            height: 1.1em;
+            object-fit: contain;
+        }
+
+        /* Hide one image based on theme - ADDED */
+        html[data-theme="light"] .shuffle-icon.dark-theme-image,
+        html[data-theme="dark"] .shuffle-icon.light-theme-image {
+            display: none;
+        }
+
+        /* Image Gallery (reused for book images) */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--base-spacing);
+            padding: calc(var(--base-spacing) * 2) 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            background-color: var(--button-bg-color);
+            cursor: pointer;
+            transition: transform 0.22s ease, background-color 0.22s ease;
+            content-visibility: auto;
+            contain-intrinsic-size: 250px 250px;
+            contain: layout paint;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out; /* Smoother transition */
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .gallery-item,
+            .gallery-item img {
+                transition: none;
+            }
+        }
+
+        /* Fullscreen Image Viewer (reused) */
+        .image-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--image-viewer-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+        
+        /* When in fullscreen, ensure the background is set directly on the element */
+        .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+        html[data-theme='dark'] .image-viewer-overlay:fullscreen {
+             background-color: var(--image-viewer-bg);
+        }
+
+        .image-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s;
+        }
+
+        .image-viewer-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--image-viewer-nav-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2002;
+            display: none;
+            opacity: 0.3;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .image-viewer-content {
+            width: 100vw;
+            height: 100vh;
+            padding: 5vh 5vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-viewer-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border-radius: 3px;
+            opacity: 0;
+        }
+
+        .viewer-close-button,
+        .viewer-nav-button {
+            position: fixed;
+            background: transparent;
+            color: var(--image-viewer-nav-color);
+            border: none;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            cursor: pointer;
+            padding: 0rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            z-index: 2001;
+            border-radius: 50%;
+            width: clamp(40px, 6vw, 60px);
+            height: clamp(40px, 6vw, 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .viewer-close-button:hover,
+        .viewer-nav-button:hover {
+            background-color: transparent; /* was: var(--image-viewer-nav-hover-bg); */
+        }
+
+        .viewer-close-button {
+            top: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
+            right: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
+        }
+
+        .viewer-nav-button.prev {
+            left: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .viewer-nav-button.next {
+            right: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: calc(var(--base-spacing) * 1) 0;
+            margin-top: calc(var(--base-spacing) * 2);
+            border-top: 1px solid var(--button-bg-color);
+            font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+        }
+
+        .site-footer .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-signature {
+            margin-top: calc(var(--base-spacing) * 0.5);
+            margin-bottom: calc(var(--base-spacing) * 0.5);
+        }
+
+        .artist-signature img {
+            max-width: 300px;
+            height: auto;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+            display: none;
+        }
+
+        html[data-theme="light"] .artist-signature .signature-light {
+            display: block;
+        }
+
+        html[data-theme="dark"] .artist-signature .signature-dark {
+            display: block;
+        }
+
+        .artist-signature a {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .artist-signature a:hover {
+            text-decoration: none;
+        }
+        
+        /* Specific styles for bruine_livre.html content */
+        .book-cover-image {
+            width: clamp(280px, 50vw, 700px);
+            height: auto;
+            border: 1px solid var(--button-bg-color);
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: block;
+            cursor: pointer; /* ADDED: Make book covers clickable */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .book-cover-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+
+        .book-text-container {
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 1rem;
+        }
+        .book-text-container h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+         .book-text-container p {
+            /* Updated to match about.html .artist-bio p */
+            margin-bottom: var(--base-spacing);
+            line-height: 1.75;
+            text-align: justify;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .book-text-container > div[lang="fr"],
+        .book-text-container > div[lang="en"] {
+            display: none;
+        }
+
+        html[lang="fr"] .book-text-container > div[lang="fr"] {
+            display: block;
+        }
+
+        html[lang="en"] .book-text-container > div[lang="en"] {
+            display: block;
+        }
+
+        .bilingual-divider {
+            display: none;
+        }
+
+        .book-gallery-title {
+            text-align: center;
+            font-size: 2.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            color: var(--text-color);
+        }
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .site-header .container {
+                flex-direction: column;
+                gap: calc(var(--base-spacing) * 0.5);
+            }
+            .main-nav ul {
+                gap: var(--base-spacing);
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .controls {
+                margin-top: calc(var(--base-spacing) * 0.5);
+            }
+        }
+
+        @media (max-width: 767px) {
+            .main-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .main-nav .dropdown-menu {
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 180px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: calc(var(--base-spacing) * 1.5);
+            }
+            .gallery-item {
+                contain-intrinsic-size: 300px 300px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            :root {
+                --base-font-size: 17px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+            .gallery-item {
+                contain-intrinsic-size: 350px 350px;
+            }
+        }
+
+        @media (min-width: 2000px) {
+            :root {
+                --base-font-size: 20px;
+            }
+            .container {
+                max-width: 2400px;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                gap: calc(var(--base-spacing) * 1.8);
+            }
+            .gallery-item {
+                contain-intrinsic-size: 400px 400px;
+            }
+            .logo {
+                font-size: 2.8rem;
+            }
+            .main-nav a, .main-nav .dropdown > a {
+                font-size: 1.4rem;
+            }
+            .main-nav .dropdown-menu li a {
+                font-size: 1.3rem;
+            }
+            .control-button {
+                padding: calc(var(--base-spacing) * 0.7) calc(var(--base-spacing) * 1.2);
+                font-size: 1.2rem;
+            }
+            .viewer-close-button,
+            .viewer-nav-button {
+                font-size: 3rem;
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo" data-lang-key="siteTitle">Marius Jomphe</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" data-lang-key="navImages">IMAGES</a></li>
+                    <li class="dropdown">
+                        <a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-lang-key="navProjects">PROJECTS</a>
+                        <ul class="dropdown-menu" aria-label="Projects submenu">
+                            <li><a href="sonde.html" data-lang-key="projectSonde">SONDE</a></li>
+                            <li><a href="passage.html" data-lang-key="projectPassage">PASSAGE</a></li>
+                            <li><a href="bruine.html" data-lang-key="projectBruine">BRUINE</a></li>
+                            <li><a href="hiver.html" data-lang-key="projectHiver">WINTER</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html" data-lang-key="navAbout">ABOUT</a></li>
+                    <li><a href="contact.html" data-lang-key="navContact">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="controls">
+				<button id="exploreButton" class="control-button" aria-label="Explore random photos">
+                    <img src="images/shufflelighttheme.png" alt="" class="shuffle-icon light-theme-image">
+                    <img src="images/shuffledarktheme.png" alt="" class="shuffle-icon dark-theme-image">
+                    <span data-lang-key="exploreText">Explore</span>
+                </button>
+                <button id="themeToggle" class="control-button" aria-label="Toggle theme">
+                    🌓<span data-lang-key="themeToggleDark">Dark Mode</span>
+                    <span data-lang-key="themeToggleLight" style="display:none;">Light Mode</span>
+                </button>
+                <button id="languageToggle" class="control-button" aria-label="Toggle language">
+                    🌐 English
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="book-text-container">
+                <h1 class="book-gallery-title" data-lang-key="pageHeader">Winter</h1>
+            </section>
+
+            <section class="image-gallery-section book-specific-gallery" style="padding-bottom: 2rem;">
+                <div class="image-gallery" id="imageGallery">
+                    </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="image-viewer-overlay" id="imageViewerOverlay">
+        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">&times;</button>
+        <button class="viewer-nav-button prev" id="viewerPrevButton" aria-label="Previous image">&lt;</button>
+        <div class="image-viewer-content">
+            <div class="image-viewer-spinner" id="imageViewerSpinner"></div>
+            <img src="" alt="Enlarged view" id="fullscreenImage">
+        </div>
+        <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">&gt;</button>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="artist-signature">
+                <a href="contact.html" aria-label="Contact the artist - signature link">
+                    <img src="images/signaturelt.png" alt="Artist Signature (Light Theme)" class="signature-light" id="signatureLight">
+                    <img src="images/signaturedt.png" alt="Artist Signature (Dark Theme)" class="signature-dark" id="signatureDark">
+                </a>
+            </div>
+            <p>&copy; <span id="currentYear"></span> - <span data-lang-key="footerRights">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // --- START OF UNIFIED ACTIVE LINK SCRIPT (Place before DOMContentLoaded) ---
+        // Part 1: Handle top-level navigation links
+        document.querySelectorAll('.main-nav > ul > li > a').forEach(link => {
+            const currentPath = window.location.pathname;
+            const linkHref = link.getAttribute('href');
+            link.classList.remove('active');
+            if (linkHref && linkHref !== '#') {
+                let isActive = false;
+                if (currentPath.endsWith(linkHref)) {
+                    isActive = true;
+                }
+                if ((currentPath.endsWith('/') || currentPath.endsWith('/index.html')) && linkHref === 'index.html') {
+                    isActive = true;
+                }
+                if (isActive) {
+                    link.classList.add('active');
+                }
+            }
+        });
+        // Part 2: Handle dropdown sub-links and activate their parent
+        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(subLink => {
+            const currentPath = window.location.pathname;
+            const subLinkHrefAttribute = subLink.getAttribute('href');
+            if (subLinkHrefAttribute) {
+                const subLinkBaseName = subLinkHrefAttribute.replace(/\.html$/, '');
+                let normalizedCurrentPath = currentPath;
+                if (normalizedCurrentPath.endsWith('/') && normalizedCurrentPath.length > 1) {
+                    normalizedCurrentPath = normalizedCurrentPath.slice(0, -1);
+                }
+                const currentPathLastSegment = normalizedCurrentPath.substring(normalizedCurrentPath.lastIndexOf('/') + 1);
+                if (currentPathLastSegment === subLinkBaseName || currentPathLastSegment === subLinkHrefAttribute) {
+                    subLink.classList.add('active');
+                    const parentDropdownToggle = subLink.closest('.dropdown')?.querySelector(':scope > a');
+                    if (parentDropdownToggle) {
+                        parentDropdownToggle.classList.add('active');
+                    }
+                } else {
+                    subLink.classList.remove('active');
+                }
+            }
+        });
+        // --- END OF UNIFIED ACTIVE LINK SCRIPT ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- CONFIGURATION FOR THIS PAGE (HIVER GALLERY IMAGES) ---
+            const removedImageNumbers = new Set([13, 14]);
+            const imageFilenames = Array.from({ length: 74 }, (_, i) => i + 1)
+                .filter(number => !removedImageNumbers.has(number))
+                .map(number => `Ajouts-${number}.jpg`);
+            const insertAfter24Index = imageFilenames.indexOf('Ajouts-24.jpg');
+            if (insertAfter24Index !== -1) {
+                imageFilenames.splice(insertAfter24Index + 1, 0, 'Ajouts-24-d.jpg');
+            }
+            const insertAfter57Index = imageFilenames.indexOf('Ajouts-57.jpg');
+            if (insertAfter57Index !== -1) {
+                imageFilenames.splice(insertAfter57Index + 1, 0, 'Ajouts-57-2.jpg');
+            }
+            const thumbPath = 'images/hiver/thumbs/';
+            const fullsizePath = 'images/hiver/fullsize/';
+            const viewerImageSources = imageFilenames.map(name => fullsizePath + name);
+
+            // --- TRANSLATIONS ---
+            const translations = {
+                en: {
+                    siteTitle: "Marius Jomphe ‧ Photography",
+                    siteTitleHiverLivre: "Winter - Marius Jomphe Photography",
+                    navImages: "GALLERY",
+                    navProjects: "PROJECTS",
+                    navAbout: "ABOUT",
+                    projectSonde: "SONDE",
+                    projectBruine: "BRUINE",  
+                    projectHiver: "WINTER",
+                    projectPassage: "PASSAGE",
+                    navContact: "CONTACT",
+                    exploreText: "Explore", // ADDED
+                    themeToggleDark: "THEME",
+                    themeToggleLight: "THEME",
+                    languageToggleText: "🌐 FR/EN",
+                    footerRights: "All rights reserved.",
+                    bookGalleryTitle: "Gallery",
+                    pageHeader: "Winter",
+                    metaDescriptionContent: "Explore Winter, a photo project by Marius Jomphe.",
+                    ogDescriptionContent: "Explore Winter, a photo project by Marius Jomphe.",
+                    ogImageAltContent: "Hiver project by Marius Jomphe"
+                },
+                fr: {
+                    siteTitle: "Marius Jomphe ‧ Photographie",
+                    siteTitleHiverLivre: "Hiver - Marius Jomphe Photographie",
+                    navImages: "GALERIE",
+                    navProjects: "PROJETS",
+                    navAbout: "À PROPOS",
+                    projectSonde: "SONDE",
+                    projectBruine: "BRUINE",    
+                    projectHiver: "HIVER",
+                    projectPassage: "PASSAGE",  
+                    navContact: "CONTACT",
+                    exploreText: "Explorer", // ADDED
+                    themeToggleDark: "THÈME",
+                    themeToggleLight: "THÈME",
+                    languageToggleText: "🌐 FR/EN",
+                    footerRights: "Tous droits réservés.",
+                    bookGalleryTitle: "Galerie",
+                    pageHeader: "Hiver",
+                    metaDescriptionContent: "Explorez Hiver, un projet photo de Marius Jomphe.",
+                    ogDescriptionContent: "Explorez Hiver, un projet photo de Marius Jomphe.",
+                    ogImageAltContent: "Projet Hiver de Marius Jomphe"
+                }
+            };
+
+            // --- ELEMENTS ---
+            const themeToggleButton = document.getElementById('themeToggle');
+            const languageToggleButton = document.getElementById('languageToggle');
+            const galleryContainer = document.getElementById('imageGallery');
+            const imageViewerOverlay = document.getElementById('imageViewerOverlay');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            const viewerCloseButton = document.getElementById('viewerCloseButton');
+            const viewerPrevButton = document.getElementById('viewerPrevButton');
+            const viewerNextButton = document.getElementById('viewerNextButton');
+            const imageViewerSpinner = document.getElementById('imageViewerSpinner');
+            const currentYearSpan = document.getElementById('currentYear');
+            const mainBookCoverImage = document.getElementById('mainBookCoverImage');
+            const secondaryBookCoverImage = document.getElementById('secondaryBookCoverImage');
+            const exploreButton = document.getElementById('exploreButton'); // ADDED
+
+            // Paths for Random Image Viewer - RENAMED & CONSOLIDATED
+            const randomImageViewerPaths = [
+              'images/fullsize/a (1).jpg', 'images/fullsize/a (2).jpg', 'images/fullsize/a (3).jpg', 'images/fullsize/a (4).jpg', 'images/fullsize/a (5).jpg', 'images/fullsize/a (6).jpg', 'images/fullsize/a (7).jpg', 'images/fullsize/a (8).jpg',
+                'images/bruine/fullsize/1.jpg', 'images/bruine/fullsize/10.jpg', 'images/bruine/fullsize/100.jpg', 'images/bruine/fullsize/101.jpg', 'images/bruine/fullsize/102.jpg', 'images/bruine/fullsize/103.jpg', 'images/bruine/fullsize/104.jpg', 'images/bruine/fullsize/105.jpg', 'images/bruine/fullsize/106.jpg', 'images/bruine/fullsize/107.jpg', 'images/bruine/fullsize/108.jpg', 'images/bruine/fullsize/109.jpg', 'images/bruine/fullsize/11.jpg', 'images/bruine/fullsize/110.jpg', 'images/bruine/fullsize/111.jpg', 'images/bruine/fullsize/112.jpg', 'images/bruine/fullsize/113.jpg', 'images/bruine/fullsize/114.jpg', 'images/bruine/fullsize/115.jpg', 'images/bruine/fullsize/116.jpg', 'images/bruine/fullsize/117.jpg', 'images/bruine/fullsize/12.jpg', 'images/bruine/fullsize/13.jpg', 'images/bruine/fullsize/14.jpg', 'images/bruine/fullsize/15.jpg', 'images/bruine/fullsize/16.jpg', 'images/bruine/fullsize/17.jpg', 'images/bruine/fullsize/18.jpg', 'images/bruine/fullsize/19.jpg', 'images/bruine/fullsize/2.jpg', 'images/bruine/fullsize/20.jpg', 'images/bruine/fullsize/21.jpg', 'images/bruine/fullsize/22.jpg', 'images/bruine/fullsize/23.jpg', 'images/bruine/fullsize/24.jpg', 'images/bruine/fullsize/25.jpg', 'images/bruine/fullsize/26.jpg', 'images/bruine/fullsize/27.jpg', 'images/bruine/fullsize/29.jpg', 'images/bruine/fullsize/3.jpg', 'images/bruine/fullsize/30.jpg', 'images/bruine/fullsize/31.jpg', 'images/bruine/fullsize/32.jpg', 'images/bruine/fullsize/33.jpg', 'images/bruine/fullsize/34.jpg', 'images/bruine/fullsize/36.jpg', 'images/bruine/fullsize/37.jpg', 'images/bruine/fullsize/38.jpg', 'images/bruine/fullsize/39.jpg', 'images/bruine/fullsize/4.jpg', 'images/bruine/fullsize/40.jpg', 'images/bruine/fullsize/41.jpg', 'images/bruine/fullsize/42.jpg', 'images/bruine/fullsize/43.jpg', 'images/bruine/fullsize/44.jpg', 'images/bruine/fullsize/45.jpg', 'images/bruine/fullsize/46.jpg', 'images/bruine/fullsize/47.jpg', 'images/bruine/fullsize/48.jpg', 'images/bruine/fullsize/49.jpg', 'images/bruine/fullsize/5.jpg', 'images/bruine/fullsize/50.jpg', 'images/bruine/fullsize/51.jpg', 'images/bruine/fullsize/54.jpg', 'images/bruine/fullsize/55.jpg', 'images/bruine/fullsize/56.jpg', 'images/bruine/fullsize/57.jpg', 'images/bruine/fullsize/58.jpg', 'images/bruine/fullsize/59.jpg', 'images/bruine/fullsize/6.jpg', 'images/bruine/fullsize/60.jpg', 'images/bruine/fullsize/61.jpg', 'images/bruine/fullsize/62.jpg', 'images/bruine/fullsize/63.jpg', 'images/bruine/fullsize/64.jpg', 'images/bruine/fullsize/65.jpg', 'images/bruine/fullsize/66.jpg', 'images/bruine/fullsize/67.jpg', 'images/bruine/fullsize/68.jpg', 'images/bruine/fullsize/69.jpg', 'images/bruine/fullsize/7.jpg', 'images/bruine/fullsize/70.jpg', 'images/bruine/fullsize/71.jpg', 'images/bruine/fullsize/72.jpg', 'images/bruine/fullsize/73.jpg', 'images/bruine/fullsize/74.jpg', 'images/bruine/fullsize/75.jpg', 'images/bruine/fullsize/76.jpg', 'images/bruine/fullsize/77.jpg', 'images/bruine/fullsize/78.jpg', 'images/bruine/fullsize/8.jpg', 'images/bruine/fullsize/80.jpg', 'images/bruine/fullsize/81.jpg', 'images/bruine/fullsize/82.jpg', 'images/bruine/fullsize/83.jpg', 'images/bruine/fullsize/84.jpg', 'images/bruine/fullsize/85.jpg', 'images/bruine/fullsize/86.jpg', 'images/bruine/fullsize/87.jpg', 'images/bruine/fullsize/88.jpg', 'images/bruine/fullsize/89.jpg', 'images/bruine/fullsize/9.jpg', 'images/bruine/fullsize/90.jpg', 'images/bruine/fullsize/91.jpg', 'images/bruine/fullsize/92.jpg', 'images/bruine/fullsize/93.jpg', 'images/bruine/fullsize/94.jpg', 'images/bruine/fullsize/95.jpg', 'images/bruine/fullsize/96.jpg', 'images/bruine/fullsize/97.jpg', 'images/bruine/fullsize/98.jpg', 'images/bruine/fullsize/99.jpg',
+                'images/fullsize/Galerie-1.jpg', 'images/fullsize/Galerie-10.jpg', 'images/fullsize/Galerie-100.jpg', 'images/fullsize/Galerie-101.jpg', 'images/fullsize/Galerie-102.jpg', 'images/fullsize/Galerie-103.jpg', 'images/fullsize/Galerie-104.jpg', 'images/fullsize/Galerie-105.jpg', 'images/fullsize/Galerie-106.jpg', 'images/fullsize/Galerie-107.jpg', 'images/fullsize/Galerie-108.jpg', 'images/fullsize/Galerie-109.jpg', 'images/fullsize/Galerie-11.jpg', 'images/fullsize/Galerie-110.jpg', 'images/fullsize/Galerie-111.jpg', 'images/fullsize/Galerie-112.jpg', 'images/fullsize/Galerie-113.jpg', 'images/fullsize/Galerie-114.jpg', 'images/fullsize/Galerie-115.jpg', 'images/fullsize/Galerie-116.jpg', 'images/fullsize/Galerie-117.jpg', 'images/fullsize/Galerie-118.jpg', 'images/fullsize/Galerie-119.jpg', 'images/fullsize/Galerie-12.jpg', 'images/fullsize/Galerie-120.jpg', 'images/fullsize/Galerie-121.jpg', 'images/fullsize/Galerie-122.jpg', 'images/fullsize/Galerie-123.jpg', 'images/fullsize/Galerie-124.jpg', 'images/fullsize/Galerie-125.jpg', 'images/fullsize/Galerie-126.jpg', 'images/fullsize/Galerie-127.jpg', 'images/fullsize/Galerie-128.jpg', 'images/fullsize/Galerie-129.jpg', 'images/fullsize/Galerie-13.jpg', 'images/fullsize/Galerie-130.jpg', 'images/fullsize/Galerie-131.jpg', 'images/fullsize/Galerie-132.jpg', 'images/fullsize/Galerie-133.jpg', 'images/fullsize/Galerie-134.jpg', 'images/fullsize/Galerie-135.jpg', 'images/fullsize/Galerie-136.jpg', 'images/fullsize/Galerie-137.jpg', 'images/fullsize/Galerie-138.jpg', 'images/fullsize/Galerie-139.jpg', 'images/fullsize/Galerie-14.jpg', 'images/fullsize/Galerie-140.jpg', 'images/fullsize/Galerie-141.jpg', 'images/fullsize/Galerie-142.jpg', 'images/fullsize/Galerie-143.jpg', 'images/fullsize/Galerie-144.jpg', 'images/fullsize/Galerie-145.jpg', 'images/fullsize/Galerie-15.jpg', 'images/fullsize/Galerie-16.jpg', 'images/fullsize/Galerie-17.jpg', 'images/fullsize/Galerie-18.jpg', 'images/fullsize/Galerie-19.jpg', 'images/fullsize/Galerie-2.jpg', 'images/fullsize/Galerie-20.jpg', 'images/fullsize/Galerie-21.jpg', 'images/fullsize/Galerie-22.jpg', 'images/fullsize/Galerie-23.jpg', 'images/fullsize/Galerie-24.jpg', 'images/fullsize/Galerie-25.jpg', 'images/fullsize/Galerie-26.jpg', 'images/fullsize/Galerie-27.jpg', 'images/fullsize/Galerie-28.jpg', 'images/fullsize/Galerie-29.jpg', 'images/fullsize/Galerie-3.jpg', 'images/fullsize/Galerie-30.jpg', 'images/fullsize/Galerie-31.jpg', 'images/fullsize/Galerie-32.jpg', 'images/fullsize/Galerie-33.jpg', 'images/fullsize/Galerie-34.jpg', 'images/fullsize/Galerie-35.jpg', 'images/fullsize/Galerie-36.jpg', 'images/fullsize/Galerie-37.jpg', 'images/fullsize/Galerie-38.jpg', 'images/fullsize/Galerie-39.jpg', 'images/fullsize/Galerie-4.jpg', 'images/fullsize/Galerie-40.jpg', 'images/fullsize/Galerie-41.jpg', 'images/fullsize/Galerie-42.jpg', 'images/fullsize/Galerie-43.jpg', 'images/fullsize/Galerie-44.jpg', 'images/fullsize/Galerie-45.jpg', 'images/fullsize/Galerie-46.jpg', 'images/fullsize/Galerie-47.jpg', 'images/fullsize/Galerie-48.jpg', 'images/fullsize/Galerie-49.jpg', 'images/fullsize/Galerie-5.jpg', 'images/fullsize/Galerie-50.jpg', 'images/fullsize/Galerie-51.jpg', 'images/fullsize/Galerie-52.jpg', 'images/fullsize/Galerie-53.jpg', 'images/fullsize/Galerie-54.jpg', 'images/fullsize/Galerie-55.jpg', 'images/fullsize/Galerie-56.jpg', 'images/fullsize/Galerie-57.jpg', 'images/fullsize/Galerie-58.jpg', 'images/fullsize/Galerie-59.jpg', 'images/fullsize/Galerie-6.jpg', 'images/fullsize/Galerie-60.jpg', 'images/fullsize/Galerie-61.jpg', 'images/fullsize/Galerie-62.jpg', 'images/fullsize/Galerie-63.jpg', 'images/fullsize/Galerie-64.jpg', 'images/fullsize/Galerie-65.jpg', 'images/fullsize/Galerie-66.jpg', 'images/fullsize/Galerie-67.jpg', 'images/fullsize/Galerie-68.jpg', 'images/fullsize/Galerie-69.jpg', 'images/fullsize/Galerie-7.jpg', 'images/fullsize/Galerie-70.jpg', 'images/fullsize/Galerie-71.jpg', 'images/fullsize/Galerie-72.jpg', 'images/fullsize/Galerie-73.jpg', 'images/fullsize/Galerie-74.jpg', 'images/fullsize/Galerie-75.jpg', 'images/fullsize/Galerie-76.jpg', 'images/fullsize/Galerie-77.jpg', 'images/fullsize/Galerie-78.jpg', 'images/fullsize/Galerie-79.jpg', 'images/fullsize/Galerie-8.jpg', 'images/fullsize/Galerie-80.jpg', 'images/fullsize/Galerie-81.jpg', 'images/fullsize/Galerie-82.jpg', 'images/fullsize/Galerie-83.jpg', 'images/fullsize/Galerie-84.jpg', 'images/fullsize/Galerie-85.jpg', 'images/fullsize/Galerie-86.jpg', 'images/fullsize/Galerie-87.jpg', 'images/fullsize/Galerie-88.jpg', 'images/fullsize/Galerie-89.jpg', 'images/fullsize/Galerie-9.jpg', 'images/fullsize/Galerie-90.jpg', 'images/fullsize/Galerie-91.jpg', 'images/fullsize/Galerie-92.jpg', 'images/fullsize/Galerie-93.jpg', 'images/fullsize/Galerie-94.jpg', 'images/fullsize/Galerie-95.jpg', 'images/fullsize/Galerie-96.jpg', 'images/fullsize/Galerie-97.jpg', 'images/fullsize/Galerie-98.jpg', 'images/fullsize/Galerie-99.jpg',
+                'images/passage/fullsize/Photos Passage-1.jpg', 'images/passage/fullsize/Photos Passage-10.jpg', 'images/passage/fullsize/Photos Passage-11.jpg', 'images/passage/fullsize/Photos Passage-12.jpg', 'images/passage/fullsize/Photos Passage-13.jpg', 'images/passage/fullsize/Photos Passage-14.jpg', 'images/passage/fullsize/Photos Passage-2.jpg', 'images/passage/fullsize/Photos Passage-3.jpg', 'images/passage/fullsize/Photos Passage-4.jpg', 'images/passage/fullsize/Photos Passage-5.jpg', 'images/passage/fullsize/Photos Passage-6.jpg', 'images/passage/fullsize/Photos Passage-7.jpg', 'images/passage/fullsize/Photos Passage-8.jpg', 'images/passage/fullsize/Photos Passage-9.jpg'
+            ];
+
+            let currentImageIndex = 0;
+            let currentLanguage = localStorage.getItem('language') || 'en';
+            let currentTheme = localStorage.getItem('theme') || 'light';
+
+            // --- HELPER FUNCTIONS FOR FULLSCREEN ---
+            function openFullscreen(element) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
+                } else if (element.mozRequestFullScreen) { /* Firefox */
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { /* IE/Edge */
+                    element.msRequestFullscreen();
+                }
+            }
+
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { /* Firefox */
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE/Edge */
+                    document.msExitFullscreen();
+                }
+            }
+
+            function handleFullscreenChange() {
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                if (!isFullscreen && imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                    closeImageViewer();
+                }
+            }
+
+            // --- GALLERY & IMAGE FUNCTIONS ---
+            const pendingGalleryItems = [];
+            let queueScheduled = false;
+
+            function hydrateGalleryItem(galleryItemDiv) {
+                const filename = galleryItemDiv.dataset.fullresFilename;
+                const itemIndex = Number.parseInt(galleryItemDiv.dataset.index || '0', 10);
+
+                if (!filename || galleryItemDiv.querySelector('img')) return;
+
+                const img = document.createElement('img');
+                img.src = thumbPath + filename;
+                const altNamePart = filename.substring(0, filename.lastIndexOf('.'));
+                img.alt = `Thumbnail from Hiver project: ${altNamePart.replace(/[\W_]+/g, " ")} - Marius Jomphe`;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                img.fetchPriority = itemIndex < 6 ? 'high' : 'low';
+                img.addEventListener('load', () => img.classList.add('loaded'));
+                if (img.complete) img.classList.add('loaded');
+                galleryItemDiv.appendChild(img);
+            }
+
+            function processGalleryQueue(deadline) {
+                let processed = 0;
+                const maxPerTick = 4;
+                while (pendingGalleryItems.length > 0) {
+                    if (deadline && deadline.timeRemaining && deadline.timeRemaining() < 4) break;
+                    if (!deadline && processed >= maxPerTick) break;
+                    hydrateGalleryItem(pendingGalleryItems.shift());
+                    processed++;
+                }
+                if (pendingGalleryItems.length > 0) {
+                    scheduleGalleryQueue();
+                } else {
+                    queueScheduled = false;
+                }
+            }
+
+            function scheduleGalleryQueue() {
+                if (queueScheduled) return;
+                queueScheduled = true;
+                if ('requestIdleCallback' in window) {
+                    window.requestIdleCallback(processGalleryQueue, { timeout: 120 });
+                } else {
+                    window.setTimeout(() => processGalleryQueue(), 16);
+                }
+            }
+
+            const createImageOnIntersection = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const galleryItemDiv = entry.target;
+                    observer.unobserve(galleryItemDiv);
+                    pendingGalleryItems.push(galleryItemDiv);
+                });
+                scheduleGalleryQueue();
+            };
+
+            const imageObserver = new IntersectionObserver(createImageOnIntersection, {
+                rootMargin: '0px 0px 300px 0px',
+                threshold: 0.01
+            });
+
+            function populateGallery() {
+                if (!galleryContainer) return;
+                const fragment = document.createDocumentFragment();
+                imageFilenames.forEach((filename, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.dataset.index = index;
+                    item.dataset.fullresFilename = filename;
+                    const img = document.createElement('img');
+                    const altNamePart = filename.substring(0, filename.lastIndexOf('.'));
+                    img.src = thumbPath + filename;
+                    img.alt = `Thumbnail from Hiver project: ${altNamePart.replace(/[\W_]+/g, " ")} - Marius Jomphe`;
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
+                    img.fetchPriority = index < 6 ? 'high' : 'low';
+                    img.addEventListener('load', () => img.classList.add('loaded'));
+                    img.addEventListener('error', () => {
+                        if (!img.dataset.fallbackTried) {
+                            img.dataset.fallbackTried = 'true';
+                            img.src = fullsizePath + filename;
+                            return;
+                        }
+                        img.classList.add('loaded');
+                    });
+                    if (img.complete) img.classList.add('loaded');
+                    item.appendChild(img);
+                    fragment.appendChild(item);
+                });
+                galleryContainer.innerHTML = '';
+                galleryContainer.appendChild(fragment);
+            }
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                currentTheme = theme;
+                if (themeToggleButton) {
+                    const toggleDarkText = themeToggleButton.querySelector('[data-lang-key="themeToggleDark"]');
+                    const toggleLightText = themeToggleButton.querySelector('[data-lang-key="themeToggleLight"]');
+                    if (toggleDarkText && toggleLightText) {
+                        if (theme === 'dark') {
+                            toggleDarkText.style.display = 'none';
+                            toggleLightText.style.display = 'inline';
+                        } else {
+                            toggleDarkText.style.display = 'inline';
+                            toggleLightText.style.display = 'none';
+                        }
+                    }
+                }
+            }
+
+            function applyLanguage(lang) {
+                currentLanguage = lang;
+                localStorage.setItem('language', lang);
+                document.documentElement.lang = lang;
+
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.dataset.langKey;
+                    if (translations[lang] && translations[lang][key]) {
+                        if (el.tagName === 'TITLE') {
+                            document.title = translations[lang][key];
+                        } else if (el.id === 'themeToggle') {
+                            const darkTextSpan = el.querySelector('[data-lang-key="themeToggleDark"]');
+                            const lightTextSpan = el.querySelector('[data-lang-key="themeToggleLight"]');
+                            if (darkTextSpan) darkTextSpan.textContent = translations[lang]['themeToggleDark'];
+                            if (lightTextSpan) lightTextSpan.textContent = translations[lang]['themeToggleLight'];
+                        } else {
+                            el.textContent = translations[lang][key];
+                        }
+                    }
+                });
+
+                if (languageToggleButton) {
+                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
+                }
+                const metaDescriptionTag = document.querySelector('meta[name="description"]');
+                if (metaDescriptionTag && translations[lang]?.metaDescriptionContent) {
+                    metaDescriptionTag.setAttribute('content', translations[lang].metaDescriptionContent);
+                }
+                const ogDescriptionTag = document.querySelector('meta[property="og:description"]');
+                if (ogDescriptionTag && translations[lang]?.ogDescriptionContent) {
+                    ogDescriptionTag.setAttribute('content', translations[lang].ogDescriptionContent);
+                }
+                const ogImageAltTag = document.querySelector('meta[property="og:image:alt"]');
+                if (ogImageAltTag && translations[lang]?.ogImageAltContent) {
+                    ogImageAltTag.setAttribute('content', translations[lang].ogImageAltContent);
+                }
+                const ogTitleTag = document.querySelector('meta[property="og:title"]');
+                if (ogTitleTag && translations[lang]?.siteTitleHiverLivre) {
+                     ogTitleTag.setAttribute('content', translations[lang].siteTitleHiverLivre);
+                }
+                if (mainBookCoverImage && translations[lang]?.bookCoverAltText) {
+                    mainBookCoverImage.alt = translations[lang].bookCoverAltText;
+                }
+                if (secondaryBookCoverImage && translations[lang]?.bookCoverAltText2) {
+                    secondaryBookCoverImage.alt = translations[lang].bookCoverAltText2;
+                }
+                applyTheme(currentTheme);
+            }
+
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            // --- RANDOM IMAGE VIEWER FUNCTIONS (from about.html) ---
+            function loadRandomImageViewerImage(imageUrl) {
+                if (!fullscreenImage || !imageViewerSpinner) return;
+
+                imageViewerSpinner.style.display = 'block';
+                fullscreenImage.style.transition = 'none';
+                fullscreenImage.style.opacity = 0;
+                fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                fullscreenImage.alt = "Loading random image...";
+
+                const tempImg = new Image();
+                tempImg.onload = () => {
+                    fullscreenImage.src = imageUrl;
+                    fullscreenImage.alt = "A special random image.";
+                    requestAnimationFrame(() => {
+                        fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                        fullscreenImage.style.opacity = 1;
+                    });
+                    imageViewerSpinner.style.display = 'none';
+                };
+                tempImg.onerror = () => {
+                    console.error("Error loading image in viewer:", imageUrl);
+                    imageViewerSpinner.style.display = 'none';
+                    fullscreenImage.alt = "Error loading image.";
+                    closeImageViewer();
+                };
+                tempImg.src = imageUrl;
+            }
+
+            function openRandomImageViewer() {
+                if (!imageViewerOverlay || !fullscreenImage || randomImageViewerPaths.length === 0) return;
+
+                imageViewerOverlay.classList.add('active');
+                if (document.body) document.body.style.overflow = 'hidden';
+                openFullscreen(imageViewerOverlay);
+                imageViewerOverlay.dataset.mode = 'random'; 
+
+                updateNavButtons();
+
+                const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                const randomImageUrl = randomImageViewerPaths[randomIndex];
+                loadRandomImageViewerImage(randomImageUrl);
+            }
+
+            function showNextRandomImage() {
+                if (randomImageViewerPaths.length === 0) return;
+
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                fullscreenImage.style.transition = 'opacity 0.3s ease-in-out';
+                fullscreenImage.style.opacity = 0;
+
+                setTimeout(() => {
+                    if (!imageViewerOverlay.classList.contains('active')) {
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        return; 
+                    }
+
+                    const randomIndex = Math.floor(Math.random() * randomImageViewerPaths.length);
+                    const imageUrl = randomImageViewerPaths[randomIndex];
+                    loadRandomImageViewerImage(imageUrl);
+                }, 300);
+            }
+            
+
+            // --- EVENT LISTENERS ---
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', () => {
+                    const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                    applyLanguage(currentLanguage);
+                });
+            }
+
+            if (languageToggleButton) {
+                languageToggleButton.addEventListener('click', () => {
+                    const newLang = currentLanguage === 'en' ? 'fr' : 'en';
+                    applyLanguage(newLang);
+                });
+            }
+
+            if (exploreButton) { // ADDED
+                exploreButton.addEventListener('click', openRandomImageViewer);
+            }
+
+            const dropdownToggles = document.querySelectorAll('.main-nav .dropdown > a');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    document.querySelectorAll('.main-nav .dropdown-menu.show').forEach(openMenu => {
+                        if (openMenu !== dropdownMenu) {
+                            openMenu.classList.remove('show');
+                            const otherToggle = openMenu.previousElementSibling;
+                            if (otherToggle) {
+                                otherToggle.setAttribute('aria-expanded', 'false');
+                            }
+                        }
+                    });
+
+                    dropdownMenu.classList.toggle('show');
+                    this.setAttribute('aria-expanded', String(!isExpanded));
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                const openDropdowns = document.querySelectorAll('.main-nav .dropdown');
+                openDropdowns.forEach(dropdown => {
+                    const toggle = dropdown.querySelector('a[aria-expanded="true"]');
+                    const menu = dropdown.querySelector('.dropdown-menu.show');
+                    if (menu && toggle && !dropdown.contains(event.target)) {
+                        menu.classList.remove('show');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+
+            if (galleryContainer) {
+                galleryContainer.addEventListener('click', (e) => {
+                    const item = e.target.closest('.gallery-item');
+                    if (item) {
+                        currentImageIndex = parseInt(item.dataset.index);
+                        openImageViewer(currentImageIndex);
+                    }
+                });
+            }
+
+            if (viewerCloseButton) viewerCloseButton.addEventListener('click', () => closeImageViewer());
+
+            if (viewerPrevButton) viewerPrevButton.addEventListener('click', () => {
+                if (imageViewerOverlay.dataset.mode === 'gallery') {
+                    showPrevImage();
+                }
+            });
+
+            if (viewerNextButton) viewerNextButton.addEventListener('click', () => {
+                const mode = imageViewerOverlay.dataset.mode;
+                if (mode === 'random') {
+                    showNextRandomImage();
+                } else if (mode === 'gallery') {
+                    showNextImage();
+                }
+            });
+            
+            if (imageViewerOverlay) {
+                imageViewerOverlay.addEventListener('click', (e) => {
+                    if (e.target === imageViewerOverlay) closeImageViewer();
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (imageViewerOverlay && imageViewerOverlay.classList.contains('active')) {
+                    if (e.key === 'Escape') closeImageViewer();
+                    
+                    const mode = imageViewerOverlay.dataset.mode;
+                    if (mode === 'random') {
+                         if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
+                            showNextRandomImage();
+                        }
+                    } else if (mode === 'gallery') {
+                         if (e.key === 'ArrowLeft' && viewerPrevButton.style.display !== 'none') {
+                            showPrevImage();
+                        }
+                        if (e.key === 'ArrowRight' && viewerNextButton.style.display !== 'none') {
+                            showNextImage();
+                        }
+                    }
+                }
+            });
+            
+            let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
+            const swipeThreshold = 50; 
+
+            if (imageViewerOverlay) {
+                imageViewerOverlay.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                    }
+                }, { passive: true });
+
+                imageViewerOverlay.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                        touchEndX = e.touches[0].clientX;
+                        touchEndY = e.touches[0].clientY;
+                    }
+                }, { passive: true });
+
+                imageViewerOverlay.addEventListener('touchend', () => {
+                    if (!imageViewerOverlay.classList.contains('active') || touchStartX === 0 || touchEndX === 0) return;
+                    
+                    const deltaX = touchEndX - touchStartX;
+                    const deltaY = touchEndY - touchStartY;
+                    const mode = imageViewerOverlay.dataset.mode;
+
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) { 
+                        if (mode === 'random') {
+                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') {
+                                showNextRandomImage();
+                            }
+                        } else if (mode === 'gallery') {
+                            if (deltaX < 0 && viewerNextButton.style.display !== 'none') { 
+                                showNextImage();
+                            } else if (deltaX > 0 && viewerPrevButton.style.display !== 'none') { 
+                                showPrevImage(); 
+                            }
+                        }
+                    }
+                    touchStartX = touchStartY = touchEndX = touchEndY = 0; 
+                });
+            }
+            
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+            // --- IMAGE VIEWER FUNCTIONS ---
+            function preloadAdjacentImages(currentIndex) {
+                if (viewerImageSources.length <= 1) return;
+                const nextIndex = (currentIndex + 1) % viewerImageSources.length;
+                const prevIndex = (currentIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
+                new Image().src = viewerImageSources[nextIndex];
+                new Image().src = viewerImageSources[prevIndex];
+            }
+
+            function loadAndShowImageInViewer(newIndex, isOpeningCallParam = false) {
+                if (!imageViewerOverlay || !fullscreenImage || viewerImageSources.length === 0) return;
+
+                const proceedToLoadImage = (targetIndex) => {
+                    if (imageViewerSpinner) imageViewerSpinner.style.display = 'block';
+                    fullscreenImage.style.transition = 'none'; 
+                    fullscreenImage.style.opacity = 0;
+                    fullscreenImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
+                    fullscreenImage.alt = ""; 
+
+                    const imageUrl = viewerImageSources[targetIndex];
+                    const altText = `Enlarged view of image ${targetIndex + 1} - Marius Jomphe`;
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        fullscreenImage.src = imageUrl;
+                        fullscreenImage.alt = altText;
+                        requestAnimationFrame(() => { 
+                            fullscreenImage.style.transition = 'opacity 0.5s ease-in-out';
+                            fullscreenImage.style.opacity = 1;
+                        });
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                        preloadAdjacentImages(targetIndex);
+                    };
+                    tempImg.onerror = () => {
+                        console.error("Error loading image:", imageUrl);
+                        fullscreenImage.alt = "Error loading image";
+                        if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                        updateNavButtons();
+                        if (isOpeningCallParam && currentImageIndex === targetIndex) {
+                             setTimeout(() => closeImageViewer(), 1500);
+                        }
+                    };
+                    tempImg.src = imageUrl;
+                };
+
+                if (isOpeningCallParam) { 
+                    imageViewerOverlay.dataset.mode = 'gallery'; // Set mode to gallery
+                    currentImageIndex = newIndex;
+                    imageViewerOverlay.classList.add('active');
+                    if (document.body) document.body.style.overflow = 'hidden';
+                    proceedToLoadImage(currentImageIndex);
+                } else { 
+                    fullscreenImage.style.transition = 'opacity 0.5s ease-in-out'; 
+                    fullscreenImage.style.opacity = 0;
+                    setTimeout(() => {
+                        if (!imageViewerOverlay.classList.contains('active')) { 
+                             if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                             return;
+                        }
+                        currentImageIndex = newIndex;
+                        proceedToLoadImage(currentImageIndex);
+                    }, 500); 
+                }
+            }
+
+            function openImageViewer(index) {
+                if(imageViewerOverlay) {
+                    openFullscreen(imageViewerOverlay);
+                }
+                loadAndShowImageInViewer(index, true);
+            }
+
+            function closeImageViewer() {
+                if (!imageViewerOverlay) return;
+                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                if (isFullscreen) {
+                    exitFullscreen();
+                }
+                imageViewerOverlay.classList.remove('active');
+                if (imageViewerSpinner) imageViewerSpinner.style.display = 'none';
+                if (document.body) document.body.style.overflow = '';
+            }
+
+            function showPrevImage() {
+                if (viewerImageSources.length === 0) return;
+                const newIndex = (currentImageIndex - 1 + viewerImageSources.length) % viewerImageSources.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function showNextImage() {
+                if (viewerImageSources.length === 0) return;
+                const newIndex = (currentImageIndex + 1) % viewerImageSources.length;
+                loadAndShowImageInViewer(newIndex);
+            }
+
+            function updateNavButtons() {
+                 if (!viewerPrevButton || !viewerNextButton) return;
+                 
+                 const mode = imageViewerOverlay.dataset.mode;
+                 
+                 if (mode === 'random') {
+                    viewerPrevButton.style.display = 'none';
+                    viewerNextButton.style.display = 'flex';
+                 } else { // gallery mode
+                    if (viewerImageSources.length <= 1) {
+                        viewerPrevButton.style.display = 'none';
+                        viewerNextButton.style.display = 'none';
+                    } else {
+                        viewerPrevButton.style.display = 'flex';
+                        viewerNextButton.style.display = 'flex';
+                    }
+                 }
+            }
+
+            // --- INITIAL LOAD ---
+            populateGallery();
+            applyLanguage(currentLanguage);
+            updateNavButtons();
+
+        });
+    </script>
+</body>
+</html>
