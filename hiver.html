@@ -822,6 +822,10 @@
             if (insertAfter57Index !== -1) {
                 imageFilenames.splice(insertAfter57Index + 1, 0, 'Ajouts-57-2.jpg');
             }
+            const insertAfter38Index = imageFilenames.indexOf('Ajouts-38.jpg');
+            if (insertAfter38Index !== -1) {
+                imageFilenames.splice(insertAfter38Index + 1, 0, 'Ajouts-38-2.jpg');
+            }
             const thumbPath = 'images/hiver/thumbs/';
             const fullsizePath = 'images/hiver/fullsize/';
             const viewerImageSources = imageFilenames.map(name => fullsizePath + name);
