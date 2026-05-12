@@ -335,15 +335,23 @@
             width: 0; /* Ensure no underline on click (active) or focus */
         }
         
-        /* Shuffle icon specific styles (from about.html) */
-        .shuffle-icon {
-            width: 1.1em;
-            height: 1.1em;
+        /* Header control icons */
+        .control-icon {
+            width: 1.1rem;
+            height: 1.1rem;
+            flex: 0 0 1.1rem;
             object-fit: contain;
+            filter: brightness(0) saturate(100%);
+            opacity: 0.88;
         }
 
-        html[data-theme="light"] .shuffle-icon.dark-theme-image,
-        html[data-theme="dark"] .shuffle-icon.light-theme-image {
+        [data-theme="dark"] .control-icon {
+            filter: brightness(0) invert(1);
+            opacity: 0.92;
+        }
+
+        html[data-theme="light"] .theme-icon-dark,
+        html[data-theme="dark"] .theme-icon-light {
             display: none;
         }
 
@@ -720,17 +728,18 @@
             
             <div class="controls">
                 <button id="exploreButton" class="control-button" aria-label="Explore random photos">
-                    <img src="images/shufflelighttheme.png" alt="" class="shuffle-icon light-theme-image">
-                    <img src="images/shuffledarktheme.png" alt="" class="shuffle-icon dark-theme-image">
+                    <img src="shuffle.svg" alt="" class="control-icon" aria-hidden="true">
                     <span data-lang-key="exploreText">Explore</span>
                 </button>
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
-                    🌓 <span data-lang-key="themeToggleDark">THEME</span>
+                    <img src="inlight.svg" alt="" class="control-icon theme-icon-light" aria-hidden="true">
+                    <img src="indark.svg" alt="" class="control-icon theme-icon-dark" aria-hidden="true"> <span data-lang-key="themeToggleDark">THEME</span>
                     <span data-lang-key="themeToggleLight" style="display:none;">THEME</span>
                 </button>
                 
                 <button id="languageToggle" class="control-button" aria-label="Toggle language">
-                    🌐 FR/EN
+                    <img src="lang.svg" alt="" class="control-icon" aria-hidden="true">
+                    <span data-lang-key="languageToggleText">FR/EN</span>
                 </button>
             </div>
         </div>
@@ -870,7 +879,7 @@
                     exploreText: "Explore",
                     themeToggleDark: "THEME",
                     themeToggleLight: "THEME",
-                    languageToggleText: "🌐 FR/EN",
+                    languageToggleText: "FR/EN",
                     footerRights: "All rights reserved.",
                     contactHeading: "Contact",
                     contactText: "For any questions, purchases, collaboration requests, exhibition proposals, or requests to use my work, feel free to contact me directly. I would be happy to talk with you.",
@@ -891,7 +900,7 @@
                     exploreText: "Explorer",
                     themeToggleDark: "THÈME",
                     themeToggleLight: "THÈME",
-                    languageToggleText: "🌐 FR/EN",
+                    languageToggleText: "FR/EN",
                     footerRights: "Tous droits réservés.",
                     contactHeading: "Contact",
                     contactText: "Pour toute question, achat, demande de collaboration, proposition d’exposition ou demande d’utilisation des œuvres, n’hésitez pas à me contacter directement. Je me ferai un plaisir d’échanger avec vous.",
@@ -986,7 +995,8 @@
                     }
                 });
                 if (languageToggleButton) {
-                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FR/EN' : '🌐 FR/EN');
+                    const languageToggleText = languageToggleButton.querySelector("[data-lang-key=\"languageToggleText\"]");
+                    if (languageToggleText) languageToggleText.textContent = translations[lang]?.languageToggleText || "FR/EN";
                 }
                 applyTheme(currentTheme); 
             }

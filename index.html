@@ -359,16 +359,23 @@
             color: var(--nav-link-color);
         }
 
-        /* Shuffle icon specific styles */
-        .shuffle-icon {
-            width: 1.1em;
-            height: 1.1em;
+        /* Header control icons */
+        .control-icon {
+            width: 1.1rem;
+            height: 1.1rem;
+            flex: 0 0 1.1rem;
             object-fit: contain;
+            filter: brightness(0) saturate(100%);
+            opacity: 0.88;
         }
 
-        /* Hide one image based on theme */
-        html[data-theme="light"] .shuffle-icon.dark-theme-image,
-        html[data-theme="dark"] .shuffle-icon.light-theme-image {
+        [data-theme="dark"] .control-icon {
+            filter: brightness(0) invert(1);
+            opacity: 0.92;
+        }
+
+        html[data-theme="light"] .theme-icon-dark,
+        html[data-theme="dark"] .theme-icon-light {
             display: none;
         }
 
@@ -916,17 +923,18 @@
 
             <div class="controls">
                 <button id="exploreButton" class="control-button" aria-label="Explore random photos">
-                    <img src="images/shufflelighttheme.png" alt="" class="shuffle-icon light-theme-image">
-                    <img src="images/shuffledarktheme.png" alt="" class="shuffle-icon dark-theme-image">
+                    <img src="shuffle.svg" alt="" class="control-icon" aria-hidden="true">
                     <span data-lang-key="exploreText">Explore</span>
                 </button>
                 <button id="themeToggle" class="control-button" aria-label="Toggle theme">
-                    🌓 <span data-lang-key="themeToggleDark">DARK MODE</span>
+                    <img src="inlight.svg" alt="" class="control-icon theme-icon-light" aria-hidden="true">
+                    <img src="indark.svg" alt="" class="control-icon theme-icon-dark" aria-hidden="true"> <span data-lang-key="themeToggleDark">DARK MODE</span>
                     <span data-lang-key="themeToggleLight" style="display:none;">LIGHT MODE</span>
                 </button>
 
                 <button id="languageToggle" class="control-button" aria-label="Toggle language">
-                    🌐 English
+                    <img src="lang.svg" alt="" class="control-icon" aria-hidden="true">
+                    <span data-lang-key="languageToggleText">FR/EN</span>
                 </button>
             </div>
         </div>
@@ -1107,7 +1115,7 @@
                     exploreText: "Explore",
                     themeToggleDark: "THEME",
                     themeToggleLight: "THEME",
-                    languageToggleText: "🌐 FR/EN",
+                    languageToggleText: "FR/EN",
                     footerRights: "All rights reserved."
                 },
                 fr: {
@@ -1125,7 +1133,7 @@
                     exploreText: "Explorer",
                     themeToggleDark: "THÈME",
                     themeToggleLight: "THÈME",
-                    languageToggleText: "🌐 FR/EN",
+                    languageToggleText: "FR/EN",
                     footerRights: "Tous droits réservés."
                 }
             };
@@ -1303,7 +1311,8 @@
                     }
                 });
                 if (languageToggleButton) {
-                    languageToggleButton.textContent = translations[lang]?.languageToggleText || (lang === 'en' ? '🌐 FRANÇAIS' : '🌐 ENGLISH');
+                    const languageToggleText = languageToggleButton.querySelector("[data-lang-key=\"languageToggleText\"]");
+                    if (languageToggleText) languageToggleText.textContent = translations[lang]?.languageToggleText || "FR/EN";
                 }
                 applyTheme(currentTheme);
             }
