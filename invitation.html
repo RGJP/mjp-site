@@ -27,21 +27,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Discover the photo book 'SONDE' by Marius Jomphe. A deep and textured exploration of the world around us.">
-    <meta name="keywords" content="Marius Jomphe, Photo, Photographie, SONDE, Québec, Quebec, livre, book, art photographique, fine art photography, abstract photography, textures, urban exploration">
+    <meta name="description" content="Discover 'Une invitation', a poetic film exploration of an abandoned house by Marius Jomphe.">
+    <meta name="keywords" content="Marius Jomphe, Une invitation, An invitation, film, photography, abandoned house, poetic exploration">
     <meta name="author" content="Marius Jomphe">
-    <link rel="canonical" href="https://mariusjomphe.com/sonde.html">
-    <meta property="og:title" content="SONDE - Le Livre | The Book - Marius Jomphe">
-    <meta property="og:description" content="Explore the world through 'SONDE,' a photo book by Marius Jomphe capturing hidden beauty and textured details.">
+    <link rel="canonical" href="https://mariusjomphe.com/invitation.html">
+    <meta property="og:title" content="An Invitation - Marius Jomphe">
+    <meta property="og:description" content="A poetic film exploration of an abandoned house by Marius Jomphe.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mariusjomphe.com/sonde.html">
-    <meta property="og:image" content="https://mariusjomphe.com/images/sonde/cover.jpg">
-    <meta property="og:image:alt" content="SONDE Book by Marius Jomphe">
+    <meta property="og:url" content="https://mariusjomphe.com/invitation.html">
+    <meta property="og:image" content="https://mariusjomphe.com/images/uneinvitation.mp4">
+    <meta property="og:image:alt" content="An Invitation - Marius Jomphe">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="en_CA">
     <meta property="og:locale:alternate" content="fr_CA">
 
-    <title data-lang-key="siteTitleSondeLivre">SONDE - The Book | Marius Jomphe</title>
+    <title data-lang-key="siteTitleInvitation">An Invitation - Marius Jomphe</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -411,9 +411,9 @@
         /* Video Player Styles */
         .video-container {
             position: relative;
-            width: clamp(280px, 50vw, 700px);
-            max-width: 100%;
-            margin: 1rem auto 0;
+            width: 100%;
+            max-width: 920px;
+            margin: 0 auto;
             border: 1px solid var(--button-bg-color);
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             cursor: pointer;
@@ -729,7 +729,7 @@
 
         .book-text-container {
             margin-bottom: 2rem;
-            max-width: 800px;  
+            max-width: 920px;  
             margin-left: auto;
             margin-right: auto;
             padding: 0 1rem;  
@@ -745,6 +745,9 @@
             text-align: justify;
             font-size: 1.2rem;
             color: var(--text-color);
+        }
+        .book-text-container p:last-child {
+            margin-bottom: 0;
         }
 
         .book-text-container > div[lang="fr"],
@@ -762,8 +765,9 @@
 
         .book-gallery-title {
             text-align: center;
-            font-size: 1.6rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.3rem;
+            margin-top: 0.9rem;
+            margin-bottom: 0.9rem;
             font-weight: 400;  
             color: var(--text-color);
         }
@@ -895,15 +899,23 @@
 
 <main>
     <div class="container">
-        <section class="book-cover" style="text-align: center; margin-bottom: 2rem; padding-top: 1rem;">
+        <section class="book-text-container">
+            <div lang="fr">
+                <h2 class="book-gallery-title">Une invitation</h2>
+                <p>Fiction sur le thème de la présence, élaborée à partir d’une exploration poétique de l’intérieur d’une maison abandonnée, le film dresse le portrait d’un contexte de vie quotidienne d’où émergent les valeurs, les points d’ancrage d’une ancienne société. Il raconte aussi l’histoire de rencontres hors du temps teintées par la présence d’une jeune fille, Winnifred…</p>
+                <p>Exclusivement réalisé à partir de photographies accompagnées d’une bande sonore originale, le film se veut une plongée au coeur d’un îlot temporel miraculeusement sauvegardé.</p>
+            </div>
 
-            <img src="images/sonde/cover.jpg" alt="SONDE Book Cover" class="book-cover-image" id="mainBookCoverImage" style="margin-top: 2rem;">
-            <img src="images/sonde/ex1.webp" alt="SONDE Book Cover - Second View" class="book-cover-image" id="bookCoverImage2" style="margin-top: 1rem;">
-            <img src="images/sonde/ex2.webp" alt="SONDE Book Cover - Third View" class="book-cover-image" id="bookCoverImage3" style="margin-top: 1rem;">
-            <img src="images/sonde/ex3.webp" alt="SONDE Book Cover - Fourth View" class="book-cover-image" id="bookCoverImage4" style="margin-top: 1rem;">
-            <img src="images/sonde/ex4.webp" alt="SONDE Book Cover - Fifth View" class="book-cover-image" id="bookCoverImage5" style="margin-top: 1rem;">
+            <div lang="en">
+                <h2 class="book-gallery-title">An invitation</h2>
+                <p>Fiction on the theme of presence, developed from a poetic exploration of the interior of an abandoned house, the film portrays a context of everyday life from which the values and points of anchorage of a former society emerge. It also tells the story of timeless encounters touched by the presence of a young girl, Winnifred...</p>
+                <p>Made exclusively from photographs accompanied by an original soundtrack, the film offers an immersion into the heart of a miraculously preserved temporal island.</p>
+            </div>
+        </section>
 
-            <div class="video-container" id="videoContainer">
+        <section class="book-cover" style="text-align: center; margin-bottom: 2rem; padding-top: 0;">
+
+            <div class="video-container" id="videoContainer" style="margin-top: 0;">
                 <button class="video-play-button" aria-label="Play video">
                     <svg viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
@@ -912,31 +924,6 @@
             </div>
 
         </section>
-
-        <section class="book-text-container">
-            <div lang="fr">
-                <h3 class="book-gallery-title">Livre français 9x12"<br>144 pages</h3>
-                <p>SONDE est un voyage photographique le long des rivages de l’estuaire du Saint-Laurent. À l’image de son titre — à la fois instrument de mesure des profondeurs et engin spatial — le livre bascule sans cesse entre l’infiniment petit et l’infiniment grand, entre loupe et satellite, et transforme le littoral en territoire cosmique.
-                    <br></br>L’expérience est physique et méditative. Ces images brouillent nos repères d’échelle, suspendent le temps et ouvrent un espace d’attention rare, où le regard s’absorbe dans la matière jusqu’à toucher l’intemporel.
-                    <br><br>Porté par la disponibilité de l’auteur à la nature proche, SONDE est une alliance sensible entre regard, technique et matière présentant à la fois la biosphère et l’univers. Les textes de Boucar Diouf et de Jean-François Aubé accompagnent ce parcours poétique et philosophique. Explorer le livre SONDE, c’est accepter une dérive douce au-delà de la fiction, où chaque image devient portion d’éternité.</p>
-            </div>
-
-            <div lang="en">
-                <h3 class="book-gallery-title">9x12" 144-page<br>French book</h3>
-                <p>SONDE is a photographic journey along the shores of the St. Lawrence Estuary. Like its title — which means both a probe for measuring depths and a spacecraft — the book constantly oscillates between the infinitely small and the infinitely large, between magnifying glass and satellite, and transforms the coastline into a cosmic territory.
-                    <br><br>The experience is physical and meditative. These images blur our sense of scale, suspend time, and open a rare space for attention, where the gaze is absorbed in the material until it touches the timeless.
-                    <br><br>Driven by the author's openness to the nature around him, SONDE is a sensitive alliance between perspective, technique, and matter, presenting both the biosphere and the universe. Texts by Boucar Diouf and Jean-François Aubé accompany this poetic and philosophical journey. To explore the book SONDE is to accept a gentle drift beyond fiction, where each image becomes a portion of eternity.</p>
-            </div>
-        </section>
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <a id="sondeBuyButton" href="mailto:mariusjomphe52@gmail.com"
-               data-subject-en="Purchase%20of%20the%20photo%20book%20SONDE"
-               data-subject-fr="Achat%20du%20livre%20photo%20SONDE"
-               class="email-button">
-                <span class="button-main-text" data-lang-key="buyButtonMainText">Get the book</span>
-                <span class="button-price-text" data-lang-key="buyButtonPriceText">Hardcover 70 USD ‧ 96 CAD (shipping included) <br> Softcover 55 USD ‧ 76 CAD (shipping included)</span>
-            </a>
-        </div>
     </div>
 </main>
 
@@ -1016,24 +1003,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- CONFIGURATION FOR THIS PAGE (SONDE BOOK IMAGES) ---
-        const imageFilenames = [
-            'Photos Sonde-1.jpg', 'Photos Sonde-2.jpg', 'Photos Sonde-3.jpg',
-            'Photos Sonde-4.jpg', 'Photos Sonde-5.jpg', 'Photos Sonde-6.jpg',
-            'Photos Sonde-7.jpg', 'Photos Sonde-8.jpg', 'Photos Sonde-9.jpg',
-            'Photos Sonde-10.jpg', 'Photos Sonde-11.jpg', 'Photos Sonde-12.jpg',
-            'Photos Sonde-13.jpg', 'Photos Sonde-14.jpg'
-        ];
-        const fullsizePath = 'images/sonde/fullsize/';
-
-        const viewerImageSources = [
-            'images/sonde/cover.jpg',
-            'images/sonde/ex1.webp',
-            'images/sonde/ex2.webp',
-            'images/sonde/ex3.webp',
-            'images/sonde/ex4.webp',
-            ...imageFilenames.map(name => fullsizePath + name)
-        ];
+        const viewerImageSources = [];
 
         const randomImageViewerPaths = [
           'images/fullsize/a (1).jpg', 'images/fullsize/a (2).jpg', 'images/fullsize/a (3).jpg', 'images/fullsize/a (4).jpg', 'images/fullsize/a (5).jpg', 'images/fullsize/a (6).jpg', 'images/fullsize/a (7).jpg', 'images/fullsize/a (8).jpg',
@@ -1045,8 +1015,7 @@
         const translations = {
             en: {
                 siteTitle: "Marius Jomphe ‧ Photography",
-                siteTitleSondeLivre: "SONDE (Book) • Marius Jomphe Photography",
-                siteTitlePassageLivre: "Passage (Book) • Marius Jomphe Photography",
+                siteTitleInvitation: "An Invitation - Marius Jomphe",
                 navImages: "GALLERY",
                 navProjects: "PROJECTS",
                 projectBruine: "BRUINE",
@@ -1060,21 +1029,13 @@
                 themeToggle: "THEME",
                 languageToggleText: "🌐 FR/EN",
                 footerRights: "All rights reserved.",
-                metaDescriptionContent: "Discover 'SONDE' by Marius Jomphe, a photo book offering a deep and textured exploration of abstract forms and weathered surfaces.",
-                ogDescriptionContent: "Explore the world through 'SONDE,' a photo book by Marius Jomphe capturing its hidden beauty and textured details.",
-                buyButtonMainText: "Get the book",
-                buyButtonPriceText: "Hardcover 70 USD ‧ 96 CAD (shipping included) <br> Softcover 55 USD ‧ 76 CAD (shipping included)",
-                ogImageAltContent: "SONDE Book by Marius Jomphe",
-                bookCoverAltText: "SONDE Book Cover",
-                bookCoverAltText2: "SONDE Book Cover - Second View",
-                bookCoverAltText3: "SONDE Book Cover - Third View",
-                bookCoverAltText4: "SONDE Book Cover - Fourth View",
-                bookCoverAltText5: "SONDE Book Cover - Fifth View"
+                metaDescriptionContent: "Discover 'Une invitation', a poetic film exploration of an abandoned house by Marius Jomphe.",
+                ogDescriptionContent: "A poetic film exploration of an abandoned house by Marius Jomphe.",
+                ogImageAltContent: "An Invitation - Marius Jomphe",
             },
             fr: {
                 siteTitle: "Marius Jomphe ‧ Photographie",
-                siteTitleSondeLivre: "SONDE (Livre) • Marius Jomphe Photographie",
-                siteTitlePassageLivre: "Passage (Livre) • Marius Jomphe Photographie",
+                siteTitleInvitation: "Une Invitation - Marius Jomphe",
                 navImages: "GALERIE",
                 navProjects: "PROJETS",
                 projectBruine: "BRUINE",
@@ -1088,16 +1049,9 @@
                 themeToggle: "THÈME",
                 languageToggleText: "🌐 FR/EN",
                 footerRights: "Tous droits réservés.",
-                metaDescriptionContent: "Découvrez 'SONDE' de Marius Jomphe, un livre photo proposant une exploration profonde et texturée de formes abstraites et de surfaces altérées.",
-                ogDescriptionContent: "Explorez le monde à travers 'SONDE', un livre photo de Marius Jomphe capturant sa beauté cachée et ses détails texturés.",
-                ogImageAltContent: "Livre SONDE de Marius Jomphe",
-                buyButtonMainText: "Obtenir le livre",
-                buyButtonPriceText: "Rigide 70 USD ‧ 96 CAD (expédition incluse) <br> Souple 55 USD ‧ 76 CAD (expédition incluse)",
-                bookCoverAltText: "Couverture du livre SONDE",
-                bookCoverAltText2: "Couverture du livre SONDE - Deuxième Vue",
-                bookCoverAltText3: "Couverture du livre SONDE - Troisième Vue",
-                bookCoverAltText4: "Couverture du livre SONDE - Quatrième Vue",
-                bookCoverAltText5: "Couverture du livre SONDE - Cinquième Vue"
+                metaDescriptionContent: "Découvrez 'Une invitation', une exploration cinématographique poétique d'une maison abandonnée par Marius Jomphe.",
+                ogDescriptionContent: "Une exploration cinématographique poétique d'une maison abandonnée par Marius Jomphe.",
+                ogImageAltContent: "Une Invitation - Marius Jomphe",
             }
         };
 
@@ -1111,12 +1065,6 @@
         const viewerNextButton = document.getElementById('viewerNextButton');
         const imageViewerSpinner = document.getElementById('imageViewerSpinner');
         const currentYearSpan = document.getElementById('currentYear');
-        const mainBookCoverImage = document.getElementById('mainBookCoverImage');
-        const bookCoverImage2 = document.getElementById('bookCoverImage2');
-        const bookCoverImage3 = document.getElementById('bookCoverImage3');
-        const bookCoverImage4 = document.getElementById('bookCoverImage4');
-        const bookCoverImage5 = document.getElementById('bookCoverImage5');
-        const buyBookButton = document.getElementById('sondeBuyButton');
 
         // Added video elements
         const videoContainer = document.getElementById('videoContainer');
@@ -1134,6 +1082,8 @@
         function openFullscreen(element) {
             if (element.requestFullscreen) {
                 element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
+            } else if (element.webkitEnterFullscreen) { /* iOS Safari Video */
+                element.webkitEnterFullscreen();
             } else if (element.mozRequestFullScreen) { /* Firefox */
                 element.mozRequestFullScreen();
             } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
@@ -1191,12 +1141,6 @@
                 }
             });
 
-            if (buyBookButton) {
-                const subjectKey = lang === 'fr' ? 'data-subject-fr' : 'data-subject-en';
-                const subjectText = buyBookButton.getAttribute(subjectKey) || "Book Purchase Inquiry";
-                buyBookButton.href = `mailto:mariusjomphe52@gmail.com?subject=${subjectText}`;
-            }
-
             const metaDescriptionTag = document.querySelector('meta[name="description"]');
             if (metaDescriptionTag) metaDescriptionTag.setAttribute('content', translations[lang]?.metaDescriptionContent);
 
@@ -1208,19 +1152,10 @@
 
             const ogTitleTag = document.querySelector('meta[property="og:title"]');
             if (ogTitleTag) {
-                // Determine which book page we are on to set the correct OG title
-                if (window.location.pathname.includes('sonde.html')) {
-                    ogTitleTag.setAttribute('content', translations[lang]?.siteTitleSondeLivre);
-                } else if (window.location.pathname.includes('passage.html')) {
-                    ogTitleTag.setAttribute('content', translations[lang]?.siteTitlePassageLivre);
+                if (window.location.pathname.includes('invitation.html')) {
+                    ogTitleTag.setAttribute('content', translations[lang]?.siteTitleInvitation);
                 }
             }
-
-            if (mainBookCoverImage) mainBookCoverImage.alt = translations[lang]?.bookCoverAltText;
-            if (bookCoverImage2) bookCoverImage2.alt = translations[lang]?.bookCoverAltText2;
-            if (bookCoverImage3) bookCoverImage3.alt = translations[lang]?.bookCoverAltText3;
-            if (bookCoverImage4) bookCoverImage4.alt = translations[lang]?.bookCoverAltText4;
-            if (bookCoverImage5) bookCoverImage5.alt = translations[lang]?.bookCoverAltText5;
         }
 
 
@@ -1413,11 +1348,11 @@
         function openFullscreenVideo() {
             if (!fullscreenVideo || !fullscreenVideoOverlay || !videoContainer) return;
 
-            fullscreenVideo.src = 'images/sonde_rlsd.mp4';
+            fullscreenVideo.src = 'https://github.com/RGJP/mjp-site/releases/download/1.0/uneinvitation.mp4';
             fullscreenVideoOverlay.classList.add('active');
             if (document.body) document.body.style.overflow = 'hidden';
 
-            openFullscreen(fullscreenVideoOverlay);
+            openFullscreen(fullscreenVideo);
 
             fullscreenVideo.load();
             const playPromise = fullscreenVideo.play();
@@ -1493,23 +1428,12 @@
             });
         });
 
-        if (mainBookCoverImage) mainBookCoverImage.addEventListener('click', () => { isBookSequenceActive = true; openImageViewer(0); });
-        if (bookCoverImage2) bookCoverImage2.addEventListener('click', () => { isBookSequenceActive = true; openImageViewer(1); });
-        if (bookCoverImage3) bookCoverImage3.addEventListener('click', () => { isBookSequenceActive = true; openImageViewer(2); });
-        if (bookCoverImage4) bookCoverImage4.addEventListener('click', () => { isBookSequenceActive = true; openImageViewer(3); });
-        if (bookCoverImage5) bookCoverImage5.addEventListener('click', () => { isBookSequenceActive = true; openImageViewer(4); });
+        // Removed sequence click listeners for book images
 
         if (viewerCloseButton) viewerCloseButton.addEventListener('click', () => closeImageViewer(true, false));
 
         if (viewerPrevButton) viewerPrevButton.addEventListener('click', () => {
-            if (isBookSequenceActive) {
-                if (currentImageIndex > 0) {
-                    loadAndShowImageInViewer(currentImageIndex - 1);
-                } else { // At first image, go to video
-                    closeImageViewer(false, true);
-                    openFullscreenVideo();
-                }
-            } else if (imageViewerOverlay?.dataset.mode === 'gallery') {
+            if (imageViewerOverlay?.dataset.mode === 'gallery') {
                 showPrevImage();
             }
         });
@@ -1518,13 +1442,6 @@
             const mode = imageViewerOverlay?.dataset.mode;
             if (mode === 'random') {
                 showNextRandomImage();
-            } else if (isBookSequenceActive) {
-                if (currentImageIndex < 4) { // Images are at indices 0-4
-                    loadAndShowImageInViewer(currentImageIndex + 1);
-                } else { // At last image, go to video
-                    closeImageViewer(false, true);
-                    openFullscreenVideo();
-                }
             } else if (mode === 'gallery') {
                 showNextImage();
             }
@@ -1630,12 +1547,9 @@
             if (fullscreenVideoSpinner) fullscreenVideoSpinner.style.display = 'none';
         });
 
-        // NEW: Video ended listener for sequence looping
+        // NEW: Video ended listener
         fullscreenVideo.addEventListener('ended', () => {
-            if (isBookSequenceActive) {
-                closeFullscreenVideo(true); // Close as part of transition
-                openImageViewer(0); // Go back to first image in sequence
-            }
+            closeFullscreenVideo(false);
         });
 
 
