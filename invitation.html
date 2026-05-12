@@ -1072,6 +1072,7 @@
         const fullscreenVideo = document.getElementById('fullscreenVideo');
         const fullscreenVideoSpinner = document.getElementById('fullscreenVideoSpinner');
         const closeVideoButton = document.getElementById('closeVideoButton');
+        const invitationVideoSrc = 'https://github.com/RGJP/mjp-site/releases/download/1.0/uneinvitation.mp4';
 
 
         let currentImageIndex = 0;
@@ -1348,18 +1349,24 @@
         function openFullscreenVideo() {
             if (!fullscreenVideo || !fullscreenVideoOverlay || !videoContainer) return;
 
-            fullscreenVideo.src = 'https://github.com/RGJP/mjp-site/releases/download/1.0/uneinvitation.mp4';
+            if (fullscreenVideo.src !== invitationVideoSrc) {
+                fullscreenVideo.src = invitationVideoSrc;
+                fullscreenVideo.load();
+            }
+
             fullscreenVideoOverlay.classList.add('active');
             if (document.body) document.body.style.overflow = 'hidden';
 
-            openFullscreen(fullscreenVideo);
-
-            fullscreenVideo.load();
             const playPromise = fullscreenVideo.play();
             if (playPromise !== undefined) {
-                playPromise.catch(error => {
+                playPromise.then(() => {
+                    openFullscreen(fullscreenVideo);
+                }).catch(error => {
                     console.error("Video play failed:", error);
+                    openFullscreen(fullscreenVideo);
                 });
+            } else {
+                openFullscreen(fullscreenVideo);
             }
         }
 
