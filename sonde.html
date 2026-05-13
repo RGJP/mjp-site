@@ -401,6 +401,16 @@
             display: block;
         }
 
+        .email-button .book-button-icon {
+            width: 1.15rem;
+            height: 1.15rem;
+            filter: brightness(0) invert(1);
+        }
+
+        html[data-theme="dark"] .email-button .book-button-icon {
+            filter: none;
+        }
+
         .email-button .button-price-text {
             display: block;
             font-size: clamp(1rem, 1.8vw, 1.2rem);
@@ -1031,8 +1041,9 @@
                data-subject-en="Purchase%20of%20the%20photo%20book%20SONDE"
                data-subject-fr="Achat%20du%20livre%20photo%20SONDE"
                class="email-button">
+                <img src="book.svg" alt="" class="book-button-icon" aria-hidden="true">
                 <span class="button-main-text" data-lang-key="buyButtonMainText">Get the book</span>
-                <span class="button-price-text" data-lang-key="buyButtonPriceText">Hardcover 70 USD ‧ 96 CAD (shipping included) <br> Softcover 55 USD ‧ 76 CAD (shipping included)</span>
+                <span class="button-price-text" data-lang-key="buyButtonPriceText">Hardcover 70 USD ‧ 96 CAD <br> Softcover 55 USD ‧ 76 CAD</span>
             </a>
         </div>
     </div>
@@ -1169,7 +1180,7 @@
                 metaDescriptionContent: "Discover 'SONDE' by Marius Jomphe, a photo book offering a deep and textured exploration of abstract forms and weathered surfaces.",
                 ogDescriptionContent: "Explore the world through 'SONDE,' a photo book by Marius Jomphe capturing its hidden beauty and textured details.",
                 buyButtonMainText: "Get the book",
-                buyButtonPriceText: "Hardcover 70 USD ‧ 96 CAD (shipping included) <br> Softcover 55 USD ‧ 76 CAD (shipping included)",
+                buyButtonPriceText: "Hardcover 70 USD ‧ 96 CAD <br> Softcover 55 USD ‧ 76 CAD",
                 ogImageAltContent: "SONDE Book by Marius Jomphe",
                 bookCoverAltText: "SONDE Book Cover",
                 bookCoverAltText2: "SONDE Book Cover - Second View",
@@ -1198,7 +1209,7 @@
                 ogDescriptionContent: "Explorez le monde à travers 'SONDE', un livre photo de Marius Jomphe capturant sa beauté cachée et ses détails texturés.",
                 ogImageAltContent: "Livre SONDE de Marius Jomphe",
                 buyButtonMainText: "Obtenir le livre",
-                buyButtonPriceText: "Rigide 70 USD ‧ 96 CAD (expédition incluse) <br> Souple 55 USD ‧ 76 CAD (expédition incluse)",
+                buyButtonPriceText: "Rigide 70 USD ‧ 96 CAD <br> Souple 55 USD ‧ 76 CAD",
                 bookCoverAltText: "Couverture du livre SONDE",
                 bookCoverAltText2: "Couverture du livre SONDE - Deuxième Vue",
                 bookCoverAltText3: "Couverture du livre SONDE - Troisième Vue",

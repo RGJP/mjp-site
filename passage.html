@@ -387,6 +387,16 @@
             display: block;
         }
 
+        .email-button .book-button-icon {
+            width: 1.15rem;
+            height: 1.15rem;
+            filter: brightness(0) invert(1);
+        }
+
+        html[data-theme="dark"] .email-button .book-button-icon {
+            filter: none;
+        }
+
         .email-button .button-price-text {
             display: block;
           font-size: clamp(1rem, 1.8vw, 1.2rem);
@@ -893,6 +903,7 @@
                    data-subject-en="Purchase%20of%20the%20photo%20book%20PASSAGE"
                    data-subject-fr="Achat%20du%20livre%20photo%20PASSAGE"
                    class="email-button">
+                    <img src="book.svg" alt="" class="book-button-icon" aria-hidden="true">
                     <span class="button-main-text" data-lang-key="buyButtonMainText">Get the limited edition book</span>
                     <span class="button-price-text" data-lang-key="buyButtonPriceText">(50 USD)</span>
                 </a>
