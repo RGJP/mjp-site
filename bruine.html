@@ -720,6 +720,7 @@
                 right: auto;
                 top: auto;
                 transform: none;
+                margin-left: auto;
             }
         }
 
@@ -1532,7 +1533,7 @@
                 });
 
                 fullscreenImage.addEventListener('wheel', (e) => {
-                    if (!isDesktopImageZoomEnabled() || !e.ctrlKey) return;
+                    if (!isDesktopImageZoomEnabled()) return;
                     e.preventDefault();
                     e.stopPropagation();
                     zoomImageWithWheel(e);
