@@ -368,13 +368,6 @@
             text-align: center;
         }
 
-        .contact-page-title {
-            text-align: center;
-            margin-bottom: calc(var(--base-spacing) * 2.5);
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
-            font-weight: 400;
-        }
-
         .contact-content {
             display: flex;
             flex-direction: column;
@@ -415,6 +408,16 @@
 
         .email-button:active {
             transform: translateY(0);
+        }
+
+        .email-button-icon {
+            width: 1rem;
+            height: 1rem;
+            filter: brightness(0) invert(1);
+        }
+
+        html[data-theme="dark"] .email-button-icon {
+            filter: none;
         }
 
         /* Image Gallery Styles (MODIFIED) */
@@ -836,11 +839,12 @@
     <main>
         <section class="contact-section">
             <div class="container">
-                <h1 class="contact-page-title" data-lang-key="contactHeading">Contact</h1>
-                
                 <div class="contact-content">
                     <p class="contact-text" data-lang-key="contactText">For any questions, purchases, collaboration requests, exhibition proposals, or requests to use my work, feel free to contact me directly. I would be happy to talk with you.</p>
-                    <a href="mailto:mariusjomphe52@gmail.com" class="email-button" data-lang-key="emailButtonText">✉️ Email</a>
+                    <a href="mailto:mariusjomphe52@gmail.com" class="email-button">
+                        <img src="email.svg" alt="" class="email-button-icon" aria-hidden="true">
+                        <span data-lang-key="emailButtonText">Write</span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -977,9 +981,8 @@
                     themeToggleLight: "THEME",
                     languageToggleText: "FR/EN",
                     footerRights: "All rights reserved.",
-                    contactHeading: "Contact",
                     contactText: "For any questions, purchases, collaboration requests, exhibition proposals, or requests to use my work, feel free to contact me directly. I would be happy to talk with you.",
-                    emailButtonText: "E-mail"
+                    emailButtonText: "Write"
                 },
                 fr: {
                     siteTitle: "Marius Jomphe ‧ Photographie",
@@ -998,9 +1001,8 @@
                     themeToggleLight: "THÈME",
                     languageToggleText: "FR/EN",
                     footerRights: "Tous droits réservés.",
-                    contactHeading: "Contact",
                     contactText: "Pour toute question, achat, demande de collaboration, proposition d’exposition ou demande d’utilisation des œuvres, n’hésitez pas à me contacter directement. Je me ferai un plaisir d’échanger avec vous.",
-                    emailButtonText: "️Courriel"
+                    emailButtonText: "Écrire"
                 }
             };
 
