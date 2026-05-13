@@ -403,6 +403,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+            touch-action: pan-x pan-y pinch-zoom;
         }
         
         /* When in fullscreen, ensure the background is set directly on the element */
@@ -448,6 +449,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            touch-action: pan-x pan-y pinch-zoom;
         }
 
         .image-viewer-content img {
@@ -459,6 +461,7 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             border-radius: 3px;
             opacity: 0;
+            touch-action: pan-x pan-y pinch-zoom;
         }
 
         .viewer-close-button,
@@ -919,7 +922,13 @@
             let currentTheme = localStorage.getItem('theme') || 'light';
 
             // --- HELPER FUNCTIONS FOR FULLSCREEN ---
+            function shouldUseBrowserFullscreen() {
+                return !window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+            }
+
             function openFullscreen(element) {
+                if (!shouldUseBrowserFullscreen()) return;
+
                 if (element.requestFullscreen) {
                     element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
                 } else if (element.mozRequestFullScreen) { /* Firefox */
@@ -1290,24 +1299,49 @@
             });
             
             let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
+            let isPinchGesture = false;
             const swipeThreshold = 50; 
 
             if (imageViewerOverlay) {
                 imageViewerOverlay.addEventListener('touchstart', (e) => {
-                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                    if (!imageViewerOverlay.classList.contains('active')) return;
+
+                    if (e.touches.length > 1) {
+                        isPinchGesture = true;
+                        touchStartX = touchStartY = touchEndX = touchEndY = 0;
+                        return;
+                    }
+
+                    if (e.touches.length === 1 && !isPinchGesture) {
                         touchStartX = e.touches[0].clientX;
                         touchStartY = e.touches[0].clientY;
+                        touchEndX = touchStartX;
+                        touchEndY = touchStartY;
                     }
                 }, { passive: true });
 
                 imageViewerOverlay.addEventListener('touchmove', (e) => {
-                    if (e.touches.length === 1 && imageViewerOverlay.classList.contains('active')) {
+                    if (!imageViewerOverlay.classList.contains('active')) return;
+
+                    if (e.touches.length > 1) {
+                        isPinchGesture = true;
+                        touchStartX = touchStartY = touchEndX = touchEndY = 0;
+                        return;
+                    }
+
+                    if (e.touches.length === 1 && !isPinchGesture) {
                         touchEndX = e.touches[0].clientX;
                         touchEndY = e.touches[0].clientY;
                     }
                 }, { passive: true });
 
                 imageViewerOverlay.addEventListener('touchend', () => {
+                    if (isPinchGesture) {
+                        touchStartX = touchStartY = touchEndX = touchEndY = 0;
+                        isPinchGesture = false;
+                        return;
+                    }
+
                     if (!imageViewerOverlay.classList.contains('active') || touchStartX === 0 || touchEndX === 0) return;
                     
                     const deltaX = touchEndX - touchStartX;
