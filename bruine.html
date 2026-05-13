@@ -1048,9 +1048,6 @@
             let imagePanOriginY = 0;
             let imagePanMoved = false;
             let suppressImageClick = false;
-            let lastImageTapTime = 0;
-            let lastImageTapX = 0;
-            let lastImageTapY = 0;
             let imageWheelZoomLevel = 1;
             let imageWheelZoomBaseWidth = 0;
             let imageWheelZoomBaseHeight = 0;
@@ -1062,10 +1059,6 @@
 
             function isDesktopImageZoomEnabled() {
                 return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-            }
-
-            function isMobileImageZoomEnabled() {
-                return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
             }
 
             function getViewerContentRect() {
@@ -1141,7 +1134,6 @@
                 isImagePanning = false;
                 imagePanMoved = false;
                 suppressImageClick = false;
-                lastImageTapTime = 0;
                 imageWheelZoomLevel = 1;
                 imageWheelZoomBaseWidth = 0;
                 imageWheelZoomBaseHeight = 0;
@@ -1186,17 +1178,6 @@
                     resetImageZoom();
                 } else {
                     zoomImageToNaturalSize(event);
-                }
-            }
-
-            function toggleMobileImageZoom(touch) {
-                if (!isMobileImageZoomEnabled() || !imageViewerOverlay || !fullscreenImage) return;
-                if (!imageViewerOverlay.classList.contains('active')) return;
-
-                if (imageViewerOverlay.classList.contains('zoomed')) {
-                    resetImageZoom();
-                } else {
-                    zoomImageToNaturalSize(touch);
                 }
             }
 
@@ -1668,9 +1649,6 @@
                             applyImagePan(imagePanX + touchEndX - touchStartX, imagePanY + touchEndY - touchStartY);
                             touchStartX = touchEndX;
                             touchStartY = touchEndY;
-                            if (Math.abs(touchEndX - touchGestureStartX) > 12 || Math.abs(touchEndY - touchGestureStartY) > 12) {
-                                lastImageTapTime = 0;
-                            }
                             e.preventDefault();
                         }
                     }
@@ -1688,25 +1666,6 @@
                     const deltaX = touchEndX - touchGestureStartX;
                     const deltaY = touchEndY - touchGestureStartY;
                     const mode = imageViewerOverlay.dataset.mode;
-                    const isImageTap = e.target === fullscreenImage && Math.abs(deltaX) < 12 && Math.abs(deltaY) < 12;
-
-                    if (isMobileImageZoomEnabled() && isImageTap && e.changedTouches.length === 1) {
-                        const tap = e.changedTouches[0];
-                        const now = Date.now();
-                        const tapDistance = Math.hypot(tap.clientX - lastImageTapX, tap.clientY - lastImageTapY);
-
-                        if (now - lastImageTapTime < 320 && tapDistance < 40) {
-                            toggleMobileImageZoom(tap);
-                            lastImageTapTime = 0;
-                            touchStartX = touchStartY = touchEndX = touchEndY = touchGestureStartX = touchGestureStartY = 0;
-                            e.preventDefault();
-                            return;
-                        }
-
-                        lastImageTapTime = now;
-                        lastImageTapX = tap.clientX;
-                        lastImageTapY = tap.clientY;
-                    }
 
                     if (imageViewerOverlay.classList.contains('zoomed')) {
                         touchStartX = touchStartY = touchEndX = touchEndY = touchGestureStartX = touchGestureStartY = 0;
