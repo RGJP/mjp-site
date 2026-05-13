@@ -488,6 +488,21 @@
             background-color: transparent; /* was: var(--image-viewer-nav-hover-bg); */
         }
 
+        .viewer-close-icon,
+        .image-viewer-content .viewer-nav-icon {
+            width: 1.6rem;
+            height: 1.6rem;
+            max-width: none;
+            max-height: none;
+            object-fit: contain;
+            opacity: 1;
+            box-shadow: none;
+            border-radius: 0;
+            filter: brightness(0) invert(1);
+            pointer-events: none;
+            touch-action: auto;
+        }
+
         .viewer-close-button {
             top: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
             right: 0rem; /* was: calc(var(--base-spacing) * 1.5); */
@@ -641,6 +656,40 @@
                 transform: translateX(-50%);
                 min-width: 180px;
             }
+            .image-viewer-content {
+                height: 100dvh;
+                padding: 4.5rem 4vw 2rem;
+                flex-direction: column;
+                gap: 0.35rem;
+            }
+            .viewer-close-button {
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+            }
+            .image-viewer-content img {
+                max-height: calc(100% - 3.5rem);
+            }
+            .viewer-mobile-nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                max-width: min(100%, 80vh);
+            }
+            .viewer-nav-button {
+                position: static;
+            }
+            .viewer-nav-button.prev {
+                left: auto;
+                top: auto;
+                transform: none;
+            }
+            .viewer-nav-button.next {
+                right: auto;
+                top: auto;
+                transform: none;
+            }
         }
 
         @media (min-width: 768px) {
@@ -756,13 +805,21 @@
     </main>
 
     <div class="image-viewer-overlay" id="imageViewerOverlay">
-        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">&times;</button>
-        <button class="viewer-nav-button prev" id="viewerPrevButton" aria-label="Previous image">&lt;</button>
+        <button class="viewer-close-button" id="viewerCloseButton" aria-label="Close image viewer">
+            <img src="x-lg.svg" alt="" class="viewer-close-icon" aria-hidden="true">
+        </button>
         <div class="image-viewer-content">
             <div class="image-viewer-spinner" id="imageViewerSpinner"></div>
             <img src="" alt="Enlarged view" id="fullscreenImage">
+            <div class="viewer-mobile-nav">
+                <button class="viewer-nav-button prev" id="viewerPrevButton" aria-label="Previous image">
+                    <img src="arrow-left.svg" alt="" class="viewer-nav-icon" aria-hidden="true">
+                </button>
+                <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">
+                    <img src="arrow-right.svg" alt="" class="viewer-nav-icon" aria-hidden="true">
+                </button>
+            </div>
         </div>
-        <button class="viewer-nav-button next" id="viewerNextButton" aria-label="Next image">&gt;</button>
     </div>
 
     <footer class="site-footer">
