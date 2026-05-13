@@ -1024,6 +1024,9 @@
             let lastImageTapTime = 0;
             let lastImageTapX = 0;
             let lastImageTapY = 0;
+            let imageWheelZoomLevel = 1;
+            let imageWheelZoomBaseWidth = 0;
+            let imageWheelZoomBaseHeight = 0;
 
             // --- HELPER FUNCTIONS FOR FULLSCREEN ---
             function shouldUseBrowserFullscreen() {
@@ -1041,6 +1044,46 @@
             function getViewerContentRect() {
                 const content = fullscreenImage ? fullscreenImage.closest('.image-viewer-content') : null;
                 return content ? content.getBoundingClientRect() : null;
+            }
+
+            function getImageFitSize() {
+                const content = fullscreenImage ? fullscreenImage.closest('.image-viewer-content') : null;
+                const naturalWidth = fullscreenImage?.naturalWidth || fullscreenImage?.offsetWidth || 0;
+                const naturalHeight = fullscreenImage?.naturalHeight || fullscreenImage?.offsetHeight || 0;
+                if (!content || naturalWidth === 0 || naturalHeight === 0) {
+                    return { width: naturalWidth, height: naturalHeight };
+                }
+
+                const style = window.getComputedStyle(content);
+                const horizontalPadding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+                const verticalPadding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+                const availableWidth = Math.max(1, content.clientWidth - horizontalPadding);
+                const availableHeight = Math.max(1, content.clientHeight - verticalPadding);
+                const fitRatio = Math.min(1, availableWidth / naturalWidth, availableHeight / naturalHeight);
+
+                return {
+                    width: naturalWidth * fitRatio,
+                    height: naturalHeight * fitRatio
+                };
+            }
+
+            function prepareWheelZoomBase() {
+                const fitSize = getImageFitSize();
+                imageWheelZoomBaseWidth = fitSize.width || fullscreenImage.offsetWidth || 1;
+                imageWheelZoomBaseHeight = fitSize.height || fullscreenImage.offsetHeight || 1;
+            }
+
+            function getMaxWheelZoomLevel() {
+                const naturalWidth = fullscreenImage?.naturalWidth || imageWheelZoomBaseWidth;
+                const naturalHeight = fullscreenImage?.naturalHeight || imageWheelZoomBaseHeight;
+                if (!imageWheelZoomBaseWidth || !imageWheelZoomBaseHeight) return 1;
+                return Math.max(1, Math.min(naturalWidth / imageWheelZoomBaseWidth, naturalHeight / imageWheelZoomBaseHeight));
+            }
+
+            function setImageZoomDimensions(zoomLevel) {
+                if (!fullscreenImage) return;
+                fullscreenImage.style.width = `${imageWheelZoomBaseWidth * zoomLevel}px`;
+                fullscreenImage.style.height = `${imageWheelZoomBaseHeight * zoomLevel}px`;
             }
 
             function clampImagePan(x, y) {
@@ -1072,12 +1115,17 @@
                 imagePanMoved = false;
                 suppressImageClick = false;
                 lastImageTapTime = 0;
+                imageWheelZoomLevel = 1;
+                imageWheelZoomBaseWidth = 0;
+                imageWheelZoomBaseHeight = 0;
                 if (imageViewerOverlay) {
                     imageViewerOverlay.classList.remove('zoomed', 'is-panning');
                 }
                 if (fullscreenImage) {
                     fullscreenImage.style.setProperty('--pan-x', '0px');
                     fullscreenImage.style.setProperty('--pan-y', '0px');
+                    fullscreenImage.style.width = '';
+                    fullscreenImage.style.height = '';
                 }
             }
 
@@ -1088,7 +1136,10 @@
                 const clickXRatio = imageRect.width > 0 ? (event.clientX - imageRect.left) / imageRect.width : 0.5;
                 const clickYRatio = imageRect.height > 0 ? (event.clientY - imageRect.top) / imageRect.height : 0.5;
 
+                prepareWheelZoomBase();
+                imageWheelZoomLevel = getMaxWheelZoomLevel();
                 imageViewerOverlay.classList.add('zoomed');
+                setImageZoomDimensions(imageWheelZoomLevel);
 
                 requestAnimationFrame(() => {
                     const contentRect = getViewerContentRect();
@@ -1120,6 +1171,42 @@
                 } else {
                     zoomImageToNaturalSize(touch);
                 }
+            }
+
+            function zoomImageWithWheel(event) {
+                if (!isDesktopImageZoomEnabled() || !imageViewerOverlay || !fullscreenImage) return;
+                if (!imageViewerOverlay.classList.contains('active')) return;
+
+                const imageRect = fullscreenImage.getBoundingClientRect();
+                const pointerXRatio = imageRect.width > 0 ? (event.clientX - imageRect.left) / imageRect.width : 0.5;
+                const pointerYRatio = imageRect.height > 0 ? (event.clientY - imageRect.top) / imageRect.height : 0.5;
+
+                if (!imageViewerOverlay.classList.contains('zoomed') || imageWheelZoomBaseWidth === 0 || imageWheelZoomBaseHeight === 0) {
+                    prepareWheelZoomBase();
+                    imageWheelZoomLevel = Math.max(1, Math.min(imageWheelZoomLevel, getMaxWheelZoomLevel()));
+                }
+
+                const zoomStep = 1.12;
+                const nextZoomLevel = event.deltaY < 0 ? imageWheelZoomLevel * zoomStep : imageWheelZoomLevel / zoomStep;
+                const maxZoomLevel = getMaxWheelZoomLevel();
+                imageWheelZoomLevel = Math.max(1, Math.min(maxZoomLevel, nextZoomLevel));
+
+                if (imageWheelZoomLevel <= 1.001) {
+                    resetImageZoom();
+                    return;
+                }
+
+                imageViewerOverlay.classList.add('zoomed');
+                setImageZoomDimensions(imageWheelZoomLevel);
+
+                requestAnimationFrame(() => {
+                    const contentRect = getViewerContentRect();
+                    if (!contentRect) return;
+
+                    const targetX = event.clientX - (contentRect.left + contentRect.width / 2) - (pointerXRatio - 0.5) * fullscreenImage.offsetWidth;
+                    const targetY = event.clientY - (contentRect.top + contentRect.height / 2) - (pointerYRatio - 0.5) * fullscreenImage.offsetHeight;
+                    applyImagePan(targetX, targetY);
+                });
             }
 
             function openFullscreen(element) {
@@ -1479,6 +1566,13 @@
                     }
                     toggleDesktopImageZoom(e);
                 });
+
+                fullscreenImage.addEventListener('wheel', (e) => {
+                    if (!isDesktopImageZoomEnabled() || !e.ctrlKey) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    zoomImageWithWheel(e);
+                }, { passive: false });
 
                 fullscreenImage.addEventListener('pointerdown', (e) => {
                     if (!isDesktopImageZoomEnabled() || e.button !== 0) return;
