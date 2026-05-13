@@ -1213,12 +1213,8 @@
 
         // --- HELPER FUNCTIONS FOR FULLSCREEN ---
         function openFullscreen(element) {
-            if (!shouldUseBrowserFullscreen()) return;
-
             if (element.requestFullscreen) {
                 element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
-            } else if (element.webkitEnterFullscreen) { /* iOS Safari Video */
-                element.webkitEnterFullscreen();
             } else if (element.mozRequestFullScreen) { /* Firefox */
                 element.mozRequestFullScreen();
             } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
@@ -1663,24 +1659,18 @@
         function openFullscreenVideo() {
             if (!fullscreenVideo || !fullscreenVideoOverlay || !videoContainer) return;
 
-            if (fullscreenVideo.src !== invitationVideoSrc) {
-                fullscreenVideo.src = invitationVideoSrc;
-                fullscreenVideo.load();
-            }
-
+            fullscreenVideo.src = invitationVideoSrc;
             fullscreenVideoOverlay.classList.add('active');
             if (document.body) document.body.style.overflow = 'hidden';
 
+            openFullscreen(fullscreenVideoOverlay);
+
+            fullscreenVideo.load();
             const playPromise = fullscreenVideo.play();
             if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    openFullscreen(fullscreenVideo);
-                }).catch(error => {
+                playPromise.catch(error => {
                     console.error("Video play failed:", error);
-                    openFullscreen(fullscreenVideo);
                 });
-            } else {
-                openFullscreen(fullscreenVideo);
             }
         }
 
