@@ -484,10 +484,10 @@
         }
 
         .fullscreen-video-overlay video {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
+            width: 100vw;
+            height: 100vh;
+            max-width: none;
+            max-height: none;
             object-fit: contain;
             display: block;
         }
@@ -1577,10 +1577,7 @@
         let imageWheelZoomBaseWidth = 0;
         let imageWheelZoomBaseHeight = 0;
 
-        // --- HELPER FUNCTIONS FOR FULLSCREEN ---
         function openFullscreen(element) {
-            if (!shouldUseBrowserFullscreen()) return;
-
             if (element.requestFullscreen) {
                 element.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
             } else if (element.mozRequestFullScreen) { /* Firefox */
@@ -1875,7 +1872,7 @@
             imageViewerOverlay.dataset.mode = 'random';
             imageViewerOverlay.classList.add('active');
             if (document.body) document.body.style.overflow = 'hidden';
-            openFullscreen(imageViewerOverlay);
+            if (shouldUseBrowserFullscreen()) openFullscreen(imageViewerOverlay);
 
             if (viewerPrevButton) viewerPrevButton.style.display = 'none';
             if (viewerNextButton) viewerNextButton.style.display = 'flex';
@@ -1959,7 +1956,7 @@
                 imageViewerOverlay.dataset.mode = isBookSequenceActive ? 'sequence' : 'gallery';
                 imageViewerOverlay.classList.add('active');
                 if (document.body) document.body.style.overflow = 'hidden';
-                openFullscreen(imageViewerOverlay);
+                if (shouldUseBrowserFullscreen()) openFullscreen(imageViewerOverlay);
                 currentImageIndex = newIndex;
                 proceedToLoadImage(currentImageIndex);
             } else {
